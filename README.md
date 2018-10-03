@@ -1,2 +1,2 @@
 # friday
-Web programming project - Shopping lists manager
+web programming project - shopping lists manager

@@ -1,0 +1,346 @@
+/*
+Friday - Shopping Lists System
+Copyright (C) 2018 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+@author : Sebastiano Chiari
+
+Colors:
+	Body:      #4A4E5A
+	Headers:   #30323A
+	Primary:   #F8694A
+	Dark:      #30323A
+	Grey:      #DADADA #F6F7F8
+
+Fonts: Hind
+
+Table OF Contents
+-----------------
+1 > GENERAL
+    - typography
+    - buttons
+    - utilities
+2 > HEADER
+3 > NAVIGATION
+4 > BANNERS
+5 > HOME SLIDER
+6 > PRODUCT
+7 > PRODUCTS PAGE
+8 > PRODUCT DETAILS PAGE
+9 > CHECKOUT PAGE
+10 > FOOTER
+11 > RESPONSIVE
+
+*/
+
+/*=========================================================
+	01 -> GENERAL
+===========================================================*/
+
+/* === typography === */
+
+body {
+  font-family: 'Hind', sans-serif;
+  color: #4A4E5A;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #30323A;
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+
+a {
+  color: #30323A;
+  -webkit-transition: 0.3s color;
+  transition: 0.3s color;
+}
+
+a:hover, a:focus {
+  color: #F8694A;
+  text-decoration: none;
+  outline: none;
+}
+
+.primary-color {
+  color: #F8694A;
+}
+
+.white-color {
+  color: #FFF;
+}
+
+.font-weak {
+  font-weight: 400;
+}
+
+strong {
+  color: #30323A;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none
+}
+
+hr {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-color: #DADADA;
+}
+
+/* === buttons === */
+
+.login-btn {
+    width: 10rem;
+    color: #FFFFFF;
+    background-color: #F8694A;
+    border-color: transparent;
+} .login-btn:hover {
+        background-color: rgba(232, 89, 58, 1);
+        border-color: transparent;
+    }
+    .login-btn:active {
+        background-color: #F8694A;
+        border-color: transparent;
+    }
+
+.search-button {
+    background-color: #F6F7F8;
+    background-image: none;
+    border-radius: 0px .25rem .25rem 0px;
+}
+
+.search-button:hover {
+    background-color: #DADADA;
+}
+
+/* === utilities === */
+
+.rm-padding {
+    padding: 0px 0px 0px 0px;
+}
+
+.width-30 {
+    max-width: 30rem;
+}
+
+.auto-size {
+    height: inherit;
+}
+
+.alignCentral {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.displayCenter {
+  display: table;
+  margin: auto;
+}
+
+/*=========================================================
+	02 -> HEADER
+===========================================================*/
+
+/* === top-header === */
+
+.navbar-border {
+    border-bottom: 1px solid #DADADA;
+}
+
+.header-top-links>li {
+    display: inline-block;
+}
+
+.header-top-links>li+li {
+  margin-left: 15px;
+}
+
+.header-top-links>li>a {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+/* === header-logo === */
+
+.header-logo {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.logo {
+    height: 2rem;
+    margin: 10px 5px 10px 5px; /* meglio padding? */
+}
+
+.header-search {
+    display: inline-block;
+    max-width: 500px;
+}
+
+/* === search === */
+
+.search-bar {
+    border-radius: .25rem 0px 0px .25rem;
+    border-right-color: transparent;
+}
+
+/*=========================================================
+	03 -> NAVIGATION
+===========================================================*/
+
+#navigation {
+  background-color: #30323A;
+}
+
+#navigation .container {
+  position: relative;
+}
+
+/* === category-nav === */
+
+.category-nav {
+    float: left;
+    width: 270px;
+}
+
+.category-header {
+    padding: 15px;
+    display: block;
+    text-transform: uppercase;
+    background: #F8694A;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.category-nav .category-header > i {
+    float: right;
+    line-height: 20px;
+}
+
+.menu-nav > li {
+    display: block;
+    text-transform: uppercase;
+}
+
+.menu-nav-link {
+    font-size: 15px;
+    color: #FFFFFF;
+}
+
+.nav-link-icon {
+    margin-right: 5px;
+}
+
+.nav-category {
+    margin-right: 15px;
+    margin-left: 5px;
+}
+
+.nav-search {
+    width: 500px;
+}
+
+.shopping-link {
+    margin-left: 5px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.2rem;
+}
+
+.shopping-icon {
+    font-size: 2rem;
+}
+
+/*=========================================================
+	04 -> BANNERS
+===========================================================*/
+
+/*=========================================================
+	05 -> HOME SLIDER
+===========================================================*/
+
+/*=========================================================
+	06 -> PRODUCT
+===========================================================*/
+
+/*=========================================================
+	07 -> PRODUCTS PAGE
+===========================================================*/
+
+/*=========================================================
+	08 -> PRODUCT DETAILS PAGE
+===========================================================*/
+
+/*=========================================================
+	09 -> CHECKOUT PAGE
+===========================================================*/
+
+/*=========================================================
+	10 -> FOOTER
+===========================================================*/
+
+.footer-info {
+    padding-top: 1rem;
+    font-size: 12px;
+    font-weight: 200;
+}
+
+.footer-logo {
+    height: 1.5rem;
+    opacity: 0.5;
+}
+
+/*=========================================================
+	11 -> RESPONSIVE
+===========================================================*/
+
+@media only screen and (max-width: 991px) {
+    .nav-search{
+        width: 100%;
+    }
+}
+
+.logo-header {
+    height: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.text-link {
+    color: rgba(248, 105, 74, 1);
+}
+.text-link:hover {
+    color: #2755C5;
+    text-decoration: underline;
+}
+
+.form-length {
+    max-width: 500px;
+}
+
+.nav-col {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.cart-toggle::after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
+
+.cart-image {
+    height: 15rem;
+    width: auto;
+    margin: 5px 5px 5px 5px;
+}

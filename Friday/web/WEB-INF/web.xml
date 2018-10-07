@@ -12,6 +12,10 @@
         <servlet-name>CatProdottoServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.project.query.CatProdottoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListaServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.project.query.ListaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnectionServlet</servlet-name>
         <url-pattern>/ConnectionServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>CatProdottoServlet</servlet-name>
         <url-pattern>/CatProdottoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListaServlet</servlet-name>
+        <url-pattern>/ListaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

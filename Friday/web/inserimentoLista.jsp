@@ -60,7 +60,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Crea nuova lista della spesa</h3>
-                    <form method="GET" action="listServlet" enctype="multipart/form-data">
+                    <form method="GET" action="ListaServlet" enctype="multipart/form-data">
                         <div class="row form-group">
                             <div class="col">
                                 <label>Nome della lista</label>

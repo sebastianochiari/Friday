@@ -21,25 +21,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tommi
  */
-public class ProdottoServlet extends HttpServlet {
-    
+public class CatProdottoServlet extends HttpServlet {
+
     protected ConnectionDB database = null;
     protected Connection connection = null;
     protected Statement statement = null;
     protected String command = null;
-    protected int PID = 1;
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    protected int PCID = 1;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -50,10 +39,10 @@ public class ProdottoServlet extends HttpServlet {
             connection = database.getConnection();
             statement = database.getStatement();
             
-            // calcolo del PID dell'ultima entry della tabella prodotti
-            PID = LastEntry();
+            // calcolo del PCID dell'ultima entry della tabella prodotti
+            PCID = LastEntry();
             
-            // query inserimento prodotto
+            // query inserimento categoria prodotto
             ProductInsert(request);
             
             // chisura connessione
@@ -68,16 +57,16 @@ public class ProdottoServlet extends HttpServlet {
                  }
     }
     
-    // metodo calcolo del PID dell'ultima entry della tabella prodotti
+    // metodo calcolo del PCID dell'ultima entry della tabella prodotti
     public int LastEntry(){
         int tmp = 1;
         try {
-            command = "select max(PID) as maxPID from products";
+            command = "select max(PCID) as maxPCID from product_categories";
             statement.execute(command);
             ResultSet risultato = statement.executeQuery(command);
             risultato.next();
-            System.out.println(risultato.getString("maxPID"));
-            tmp = Integer.parseInt(risultato.getString("maxPID"))+1;
+            System.out.println(risultato.getString("maxPCID"));
+            tmp = Integer.parseInt(risultato.getString("maxPCID"))+1;
             statement.close();
         } catch(SQLException e){
             for (Throwable t : e)
@@ -86,17 +75,15 @@ public class ProdottoServlet extends HttpServlet {
         return tmp;
     }
     
-    // metodo per inserimento del prodotto nel database
+    // metodo per inserimento della categoria di prodotto nel database
     public void ProductInsert(HttpServletRequest request){
         try {
             statement = connection.createStatement();
-            String name = request.getParameter("product");
+            String productCategoryName = request.getParameter("productCategoryName");
             String description = request.getParameter("description");
-            String productCategory = request.getParameter("productCategory");
-            String logo = request.getParameter("productLogo");
-            String photo = request.getParameter("productPhoto");
+            String CategoryLogo = request.getParameter("categoryLogo");
             String email = "britney.spears@gmail.com";
-            command = PhotoLogoControl(name, description, productCategory, logo, photo, email);
+            command = LogoControl(productCategoryName, description, CategoryLogo, email);
         
             statement.executeUpdate(command);
         } catch(SQLException e){
@@ -105,17 +92,13 @@ public class ProdottoServlet extends HttpServlet {
         }
     }
     
-    // controllo presenza logo e fotografia
-    public String PhotoLogoControl(String name, String description, String productCategory, String logo, String photo, String email){
-        if (logo != null && !logo.isEmpty() && photo != null && !photo.isEmpty()){
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', '"+logo+"', '"+photo+"', '1', '"+email+"')";
-            } else if((logo != null && !logo.isEmpty()) && !(photo != null && !photo.isEmpty())){
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', '"+logo+"', null, '1', '"+email+"')";
-            } else if(!(logo != null && !logo.isEmpty()) && (photo != null && !photo.isEmpty())){
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', null, '"+photo+"', '1', '"+email+"')";
-            } else {
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', null, null, '1', '"+email+"')";
-            }
+    // controllo presenza logo
+    public String LogoControl(String productCategoryName, String description, String CategoryLogo, String email){
+        if (CategoryLogo != null & !CategoryLogo.isEmpty()){
+            command = "insert into product_categories (PCID, Name, Description, Logo, Email) values  ('"+PCID+"', '"+productCategoryName+"', '"+description+"', '"+CategoryLogo+"', '"+email+"')";
+        } else {
+            command = "insert into product_categories (PCID, Name, Description,Logo, Email) values  ('"+PCID+"', '"+productCategoryName+"', '"+description+"', null, '"+email+"')";
+        }
         
         return command;
     }

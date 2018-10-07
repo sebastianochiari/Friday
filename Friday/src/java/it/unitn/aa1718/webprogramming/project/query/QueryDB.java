@@ -5,7 +5,11 @@
  */
 package it.unitn.aa1718.webprogramming.project.query;
 
+import it.unitn.aa1718.webprogramming.project.connection.ConnectionDB;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *

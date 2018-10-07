@@ -60,7 +60,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Crea nuova categoria di prodotti</h3>
-                    <form method="GET" action="cat-prodottoServlet" enctype="multipart/form-data">
+                    <form method="GET" action=CatProdottoServlet enctype="multipart/form-data">
                         <div class="row form-group">
                             <div class="col">
                                 <label>Nome della categoria</label>

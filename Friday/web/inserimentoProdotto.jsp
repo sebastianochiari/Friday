@@ -4,7 +4,13 @@
     Author     : tommi
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.io.*,java.util.*,java.sql.*"%>
+<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
+
 <!DOCTYPE html>
 <html lang="en">
     
@@ -49,6 +55,8 @@
 
 <body>
     
+     
+    
     <div class="container">
 
         <!-- LOGO Friday -->
@@ -77,24 +85,27 @@
                             <div class="col-sm">
                                 <label for="productCategory">Scegli la categoria di appartenza del prodotto</label>
                                 
-  <!-- Qui abbiamo la versione in JSTL (moooooolto meglio). se si fa così bisogna mettere una sola FridayServletProdotto -->
-                                        <sql:setDataSource var="fridayLocal" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/FridayLocal?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="appa">
+  <!-- Qui abbiamo la versione in JSTL (moooooolto meglio). se si fa così bisogna mettere una sola ProdottoServlet -->
+                                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/FridayLocal?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
       
-                                        </sql:setDataSource>
-  
   <!-- DA SISTEMARE! -->
                                 
-                                    <sql:query dataSource="${fridayLocal}" var="result" sql="SELECT * FROM fridaydb.product_categories;">
+                                    <sql:query dataSource="${snapshot}" var="result">
+                                        SELECT * FROM product_categories;
                                         
                                     </sql:query>
+                                        <c:forEach var="res" items="${result.rows}" >
+                                            <tr>
+                                                <td> <c:out value="${res.Name}"/> </td>
+                                            </tr>
+                                        </c:forEach>
                                     
                                         
                                     <select name="productCategories" class="form-control">
-                                         <option disabled selected value>Seleziona un'opzione</option>
-                                         <c:forEach var="res" items="${result.rows}" begin="0">
-                                             
-                                             <option value="${res.Name}"> <c:out value="${res.Name}"/> </option>
-                                         </c:forEach>
+                                        <option disabled selected value>Seleziona un'opzione</option>
+                                        <c:forEach var="res" items="${result.rows}" >
+                                            <option value="1"> <c:out value="${res.Name}"/> </option>
+                                        </c:forEach>
                                          
                                     </select>
                                 

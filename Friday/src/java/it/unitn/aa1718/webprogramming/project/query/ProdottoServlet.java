@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,6 +29,8 @@ public class ProdottoServlet extends HttpServlet {
     protected Statement statement = null;
     protected String command = null;
     protected int PID = 1;
+    
+    protected QueryDB check = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,22 +53,31 @@ public class ProdottoServlet extends HttpServlet {
             connection = database.getConnection();
             statement = database.getStatement();
             
-            // calcolo del PID dell'ultima entry della tabella prodotti
-            PID = LastEntry();
+            check = new QueryDB();
             
-            // query inserimento prodotto
-            ProductInsert(request);
+            // controllo esistenza prodotto
+            if (check.CheckName(request.getParameter("product"), "products", database, connection, statement)) {
+                response.sendRedirect(request.getContextPath());
+            } else {
             
-            // chisura connessione
-            database.closeConnection();
-            connection.close();
-            database.closeStatement();
-            statement.close();
+                // calcolo del PID dell'ultima entry della tabella prodotti
+                PID = LastEntry();
+
+                // query inserimento prodotto
+                ProductInsert(request);
+
+                // chisura connessione
+                database.closeConnection();
+                connection.close();
+                database.closeStatement();
+                statement.close();
+            }
             
-           } catch(SQLException e){
+        } catch(SQLException e) {
             for (Throwable t : e)
                 t.printStackTrace();
-                 }
+        }
+        
     }
     
     // metodo calcolo del PID dell'ultima entry della tabella prodotti

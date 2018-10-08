@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -23,13 +24,34 @@ public class QueryDB {
         
     }
     
-    public ResultSet Select(){
+    public boolean CheckName(String name, String table, ConnectionDB database, Connection connection, Statement statement) {
         
-        resultSet = null;
+        String command = null;
+        ResultSet risultato = null;
+        boolean res = false;
         
+        try {
+            System.out.println("-------------"+name+"----------------------");
+            command = "SELECT Name FROM "+table+" WHERE Name='"+name+"';";
+            statement.execute(command);
+            risultato = statement.executeQuery(command);
+            risultato.next();
+            statement.close();
+        } catch(SQLException e){
+            for (Throwable t : e)
+                t.printStackTrace();
+        }
         
+        if (risultato==null){
+            res = false;
+            
+        } else {
+            res = true;
+        }
         
-        return resultSet;
+        System.out.println("-------------"+res+"----------------------");
+        
+        return res;
     }
     
 }

@@ -5,6 +5,7 @@
         <group>
             <file>file:/D:/introWeb/progetto/FridayFinal/friday/Friday/web/inserimentoProdotto.jsp</file>
             <file>file:/D:/introWeb/progetto/FridayFinal/friday/Friday/src/java/it/unitn/aa1718/webprogramming/project/connection/ConnectionDB.java</file>
+            <file>file:/D:/introWeb/progetto/FridayFinal/friday/Friday/src/java/it/unitn/aa1718/webprogramming/project/query/QueryDB.java</file>
             <file>file:/D:/introWeb/progetto/FridayFinal/friday/Friday/web/WEB-INF/web.xml</file>
             <file>file:/D:/introWeb/progetto/FridayFinal/friday/Friday/src/java/it/unitn/aa1718/webprogramming/project/query/ProdottoServlet.java</file>
         </group>

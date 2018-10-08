@@ -92,11 +92,11 @@ public class ProdottoServlet extends HttpServlet {
             statement = connection.createStatement();
             String name = request.getParameter("product");
             String description = request.getParameter("description");
-            String productCategory = request.getParameter("productCategory");
+            String PCID = request.getParameter("productCategories");
             String logo = request.getParameter("productLogo");
             String photo = request.getParameter("productPhoto");
             String email = "britney.spears@gmail.com";
-            command = PhotoLogoControl(name, description, productCategory, logo, photo, email);
+            command = PhotoLogoControl(name, description, PCID, logo, photo, email);
         
             statement.executeUpdate(command);
         } catch(SQLException e){
@@ -106,15 +106,15 @@ public class ProdottoServlet extends HttpServlet {
     }
     
     // controllo presenza logo e fotografia
-    public String PhotoLogoControl(String name, String description, String productCategory, String logo, String photo, String email){
+    public String PhotoLogoControl(String name, String description, String PCID, String logo, String photo, String email){
         if (logo != null && !logo.isEmpty() && photo != null && !photo.isEmpty()){
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', '"+logo+"', '"+photo+"', '1', '"+email+"')";
+                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', '"+logo+"', '"+photo+"', '"+PCID+"', '"+email+"')";
             } else if((logo != null && !logo.isEmpty()) && !(photo != null && !photo.isEmpty())){
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', '"+logo+"', null, '1', '"+email+"')";
+                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', '"+logo+"', null, '"+PCID+"', '"+email+"')";
             } else if(!(logo != null && !logo.isEmpty()) && (photo != null && !photo.isEmpty())){
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', null, '"+photo+"', '1', '"+email+"')";
+                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', null, '"+photo+"', '"+PCID+"', '"+email+"')";
             } else {
-                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', null, null, '1', '"+email+"')";
+                command = "insert into products (PID, Name, Note, Logo, Photo, PCID, Email) values  ('"+PID+"', '"+name+"', '"+description+"', null, null, '"+PCID+"', '"+email+"')";
             }
         
         return command;

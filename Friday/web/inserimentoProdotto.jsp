@@ -4,7 +4,7 @@
     Author     : tommi
 --%>
 
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -86,52 +86,18 @@
                                 <label for="productCategory">Scegli la categoria di appartenza del prodotto</label>
                                 
   <!-- Qui abbiamo la versione in JSTL (moooooolto meglio). se si fa così bisogna mettere una sola ProdottoServlet -->
-                                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/FridayLocal?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
-      
-  <!-- DA SISTEMARE! -->
-                                
-                                    <sql:query dataSource="${snapshot}" var="result">
-                                        SELECT * FROM product_categories;
-                                        
+                                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+
+                                    <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
                                     </sql:query>
-                                        <c:forEach var="res" items="${result.rows}" >
-                                            <tr>
-                                                <td> <c:out value="${res.Name}"/> </td>
-                                            </tr>
-                                        </c:forEach>
-                                    
                                         
                                     <select name="productCategories" class="form-control">
                                         <option disabled selected value>Seleziona un'opzione</option>
                                         <c:forEach var="res" items="${result.rows}" >
-                                            <option value="1"> <c:out value="${res.Name}"/> </option>
+                                            <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
                                         </c:forEach>
-                                         
                                     </select>
                                 
-  <!-- Sotto abbiamo la versione spaghetti-code in JSP (meglio evitare) -->
-                                <%--<%
-                                    String[] productCategories = request.getParameterValues("name");
-                                %>
-                                <select name="productCategory" class="form-control">
-                                    <option disabled selected value>Seleziona un'opzione</option>
-                                    
-                                <%
-                                    for (int i = 0; i < productCategories.length; i++){
-                                %> 
- <!-- !!! BISOGNA CONTROLLARE QUESTA COSA DEL SYSTEM.OUT.PRINT !!! -->
-                                        <option value=" <% System.out.print(i); %> "> <% System.out.print(productCategories[i]); %></option>
-                                    <% } %>
-                                    <!--
-                                    <option disabled selected value>Seleziona un'opzione</option>
-                                    <option value="1">Verdure</option>
-                                    <option value="2">Carne</option>
-                                    <option value="3">Prodotti per la casa</option>
-                                    <option value="4">Abbigliamento</option>
-                                    <option value="5">Surgelati</option>
-                                    <option value="6">sdfdsfsd</option>
-                                </select>
---> --%>
                             </div>
                         </div>
                         <div>

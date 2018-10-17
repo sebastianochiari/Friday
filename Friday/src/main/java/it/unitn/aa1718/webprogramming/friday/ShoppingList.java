@@ -69,11 +69,11 @@ public class ShoppingList {
         this.LCID = LCID;       
     }
     
-    public String getList_Owner() {           
+    public String getListOwner() {           
         return list_owner;        
     }        
     
-    public void setList_Owner() {                
+    public void setListOwner() {                
         this.list_owner = list_owner;        
     }
     

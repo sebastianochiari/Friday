@@ -5,9 +5,9 @@
  */
 package it.unitn.aa1718.webprogramming.dao.entities;
 
-import it.unitn.aa1718.webprogramming.connection.*;
-import it.unitn.aa1718.webprogramming.friday.*;
-import it.unitn.aa1718.webprogramming.dao.*;
+import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
+import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
+import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,29 +18,29 @@ import java.util.List;
 
 /**
  *
- * @author tommi
+ * @author leo97
  */
-public class MySQLProductDAOImpl implements ProductDAO {
+public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
-    private static final String Create_Query = "INSERT INTO products (PID, name, note, logo, photo, PCID, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO lists (LID, name, note, image, LCID, list_owner) VALUES (?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID = ?";
+    private static final String Read_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists WHERE LID = ?";
     
-    private static final String Read_Email_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE email = ?";
+    private static final String Read_Email_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists WHERE email = ?";
     
-    private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ?";
+    private static final String Read_LCID_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists WHERE LCID = ?";
     
-    private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products";
+    private static final String Read_All_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists";
     
-    private static final String Update_Query = "UPDATE products SET (PID=?, name=?, note=?, logo=?, photo=?, PCID=?, email=?) WHERE PID = ?)";
+    private static final String Update_Query = "UPDATE lists SET (LID=?, name=?, note=?, image=?, LCID=?, list_owner=?) WHERE LID = ?)";
     
-    private static final String Delete_Query = "DELETE FROM prpducts WHERE PID = ?";
+    private static final String Delete_Query = "DELETE FROM lists WHERE LID = ?";
     
     @Override
-    public List getAllProducts() {
+    public List getAllShoppingLists() {
         
-        List products = new ArrayList();
-        Product product = null;
+        List shoppingLists = new ArrayList();
+        ShoppingList shoppingList = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
@@ -51,8 +51,8 @@ public class MySQLProductDAOImpl implements ProductDAO {
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                product = new Product(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getString(7));
-                products.add(product);
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
+                shoppingLists.add(shoppingList);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,27 +74,27 @@ public class MySQLProductDAOImpl implements ProductDAO {
             }
         }
         
-        return products;
+        return shoppingLists;
     }
     
     @Override
-    public List getProductsByEmail (String email) {
+    public List getShoppingListsByOwner (String email) {
         
-        List products = new ArrayList();
-        Product product = null;
+        List shoppingLists = new ArrayList();
+        ShoppingList shoppingList = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_Email_Query);
-            preparedStatement.setString(7, email);
+            preparedStatement.setString(5, email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                product = new Product(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getString(7));
-                products.add(product);
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
+                shoppingLists.add(shoppingList);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,27 +116,27 @@ public class MySQLProductDAOImpl implements ProductDAO {
             }
         }
         
-        return products;
+        return shoppingLists;
     }
     
     @Override
-    public List getProductsByPCID (int PCID) {
-        
-        List products = new ArrayList();
-        Product product = null;
+    public List getShoppingListsByCategory(int LCID){
+    
+        List shoppingLists = new ArrayList();
+        ShoppingList shoppingList = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_PCID_Query);
-            preparedStatement.setInt(6, PCID);
+            preparedStatement = connection.prepareStatement(Read_LCID_Query);
+            preparedStatement.setInt(5, LCID);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                product = new Product(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getString(7));
-                products.add(product);
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
+                shoppingLists.add(shoppingList);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,25 +158,26 @@ public class MySQLProductDAOImpl implements ProductDAO {
             }
         }
         
-        return products;
-    }
+        return shoppingLists;
     
+    }
+  
     @Override
-    public Product getProduct(int PID) {
+    public ShoppingList getShoppingList(int LID){
 		
-        Product product= null;
+        ShoppingList shoppingList= null;
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
         try {
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Read_Query);
-            preparedStatement.setInt(1, PID);
+            preparedStatement.setInt(1, LID);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
  
             if (result.next() && result != null) {
-                product = new Product(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getString(7));
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
             } 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -198,24 +199,23 @@ public class MySQLProductDAOImpl implements ProductDAO {
             }
         }
  
-        return product;
+        return shoppingList;
     }
     
     @Override
-    public String createProduct(Product product) {
+    public String createShoppingList(ShoppingList shoppingList) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
         try {
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setInt(1, product.getPID());
-            preparedStatement.setString(2, product.getName());
-            preparedStatement.setString(3, product.getNote());
-            preparedStatement.setString(4, product.getLogo());
-            preparedStatement.setString(5, product.getPhoto());
-            preparedStatement.setInt(6, product.getPCID());
-            preparedStatement.setString(7, product.getEmail());
+            preparedStatement.setInt(1, shoppingList.getLID());
+            preparedStatement.setString(2, shoppingList.getName());
+            preparedStatement.setString(3, shoppingList.getNote());
+            preparedStatement.setString(4, shoppingList.getImage());
+            preparedStatement.setInt(5, shoppingList.getLCID());
+            preparedStatement.setString(6, shoppingList.getListOwner());
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
  
@@ -246,22 +246,21 @@ public class MySQLProductDAOImpl implements ProductDAO {
  
         return null;
     }
-    
+
     @Override
-    public boolean updateProduct(Product product) {
+    public boolean updateShoppingList(ShoppingList shoppingList) {
 		
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Update_Query);
-            preparedStatement.setInt(1, product.getPID());
-            preparedStatement.setString(2, product.getName());
-            preparedStatement.setString(3, product.getNote());
-            preparedStatement.setString(4, product.getLogo());
-            preparedStatement.setString(5, product.getPhoto());
-            preparedStatement.setInt(6, product.getPCID());
-            preparedStatement.setString(7, product.getEmail());
+            preparedStatement.setInt(1, shoppingList.getLID());
+            preparedStatement.setString(2, shoppingList.getName());
+            preparedStatement.setString(3, shoppingList.getNote());
+            preparedStatement.setString(4, shoppingList.getImage());
+            preparedStatement.setInt(5, shoppingList.getLCID());
+            preparedStatement.setString(6, shoppingList.getListOwner());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -282,13 +281,13 @@ public class MySQLProductDAOImpl implements ProductDAO {
     }
     
     @Override
-    public boolean deleteProduct(Product product) {
+    public boolean deleteShoppingList(ShoppingList shoppingList) {
 	Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Delete_Query);
-            preparedStatement.setInt(1, product.getPID());
+            preparedStatement.setInt(1, shoppingList.getLID());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -308,5 +307,5 @@ public class MySQLProductDAOImpl implements ProductDAO {
         
         return false;
     }
-
+    
 }

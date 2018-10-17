@@ -32,6 +32,7 @@ public class MySQLUserDAOImpl implements UserDAO {
     
     private static final String Delete_Query = "DELETE FROM users WHERE email = ?";
     
+    @Override
     public List getAllUsers() {
         
         List users = new ArrayList();
@@ -72,6 +73,7 @@ public class MySQLUserDAOImpl implements UserDAO {
         return users;
     }
     
+    @Override
     public User getUser(String email) {
 		
         User user= null;
@@ -110,7 +112,8 @@ public class MySQLUserDAOImpl implements UserDAO {
  
         return user;
     }
-
+    
+    @Override
     public String createUser(User user) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -157,6 +160,7 @@ public class MySQLUserDAOImpl implements UserDAO {
         return null;
     }
 
+    @Override
     public boolean updateUser(User user) {
 		
         Connection conn = null;
@@ -190,6 +194,7 @@ public class MySQLUserDAOImpl implements UserDAO {
         return false;
     }
  
+    @Override
     public boolean deleteUser(User user) {
 	Connection conn = null;
         PreparedStatement preparedStatement = null;

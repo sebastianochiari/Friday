@@ -90,7 +90,7 @@ public class insertProductServlet extends HttpServlet {
         Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
     
         // memorizzazione del nuovo product nel DB
-        productDAO.createProducts(product1);
+        productDAO.createProduct(product1);
         
         // recupero di tutti gli product del DB
         products = productDAO.getAllProducts();

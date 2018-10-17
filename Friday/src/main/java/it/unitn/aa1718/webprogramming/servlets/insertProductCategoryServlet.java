@@ -87,7 +87,7 @@ public class insertProductCategoryServlet extends HttpServlet {
         ProductCategory productCategory1 = new ProductCategory(PCID, name, note, library.ImageControl(logo), email);
     
         // memorizzazione del nuovo productCategory nel DB
-        productCategoryDAO.createProductCategories(productCategory1);
+        productCategoryDAO.createProductCategory(productCategory1);
         
         // recupero di tutti gli productCategory del DB
         productCategories = productCategoryDAO.getAllProductCategories();

@@ -18,12 +18,12 @@ public interface ProductCategoryDAO {
     
     public List getProductCategoriesByEmail(String Email);
     
-    public ProductCategory getProductCategories(int PCID);     
+    public ProductCategory getProductCategory(int PCID);     
     
-    public String createProductCategories(ProductCategory productCategory);
+    public String createProductCategory(ProductCategory productCategory);
     
-    public boolean updateProductCategories(ProductCategory productCategory);
+    public boolean updateProductCategory(ProductCategory productCategory);
     
-    public boolean deleteProductCategories(ProductCategory productCategory);
+    public boolean deleteProductCategory(ProductCategory productCategory);
     
 }

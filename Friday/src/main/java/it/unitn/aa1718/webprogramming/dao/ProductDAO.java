@@ -20,11 +20,11 @@ public interface ProductDAO {
     
     public List getProductsByPCID(int PCID);
     
-    public Product getProducts(int PID);     
+    public Product getProduct(int PID);     
     
-    public String createProducts(Product product);
+    public String createProduct(Product product);
     
-    public boolean updateProducts(Product product);
+    public boolean updateProduct(Product product);
     
-    public boolean deleteProducts(Product product);
+    public boolean deleteProduct(Product product);
 }

@@ -14,16 +14,18 @@ import java.util.List;
  */
 public interface ShoppingListDAO {
     
-    public List getAllList();
+    public List getAllShoppingLists();
     
-    public List getListByOwner(String list_owner);
+    public ShoppingList getShoppingList(int LID);  
     
-    public ShoppingList getShoppingListCategories(int LCID);     
+    public List getShoppingListsByOwner(String list_owner);
     
-    public String createShoppingListCategories(ShoppingList productCategory);
+    public List getShoppingListsByCategory(int LCID);
     
-    public boolean updateShoppingListCategories(ShoppingList productCategory);
+    public String createShoppingList(ShoppingList shoppingList);
     
-    public boolean deleteShoppingListCategories(ShoppingList productCategory);
+    public boolean updateShoppingList(ShoppingList shoppingList);
+    
+    public boolean deleteShoppingList(ShoppingList shoppingList);
     
 }

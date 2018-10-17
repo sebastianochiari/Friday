@@ -34,6 +34,7 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
     
     private static final String Delete_Query = "DELETE FROM product_categories WHERE PCID = ?";
     
+    @Override
     public List getAllProductCategories() {
         
         List productCategories = new ArrayList();
@@ -74,6 +75,7 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return productCategories;
     }
     
+    @Override
     public List getProductCategoriesByEmail (String email) {
         
         List productCategories = new ArrayList();
@@ -115,7 +117,8 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return productCategories;
     }
     
-    public ProductCategory getProductCategories(int PCID) {
+    @Override
+    public ProductCategory getProductCategory(int PCID) {
 		
         ProductCategory productCategory= null;
         Connection conn = null;
@@ -153,8 +156,9 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
  
         return productCategory;
     }
-
-    public String createProductCategories(ProductCategory productCategory) {
+    
+    @Override
+    public String createProductCategory(ProductCategory productCategory) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
@@ -196,8 +200,9 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
  
         return null;
     }
-
-    public boolean updateProductCategories(ProductCategory productCategory) {
+    
+    @Override
+    public boolean updateProductCategory(ProductCategory productCategory) {
 		
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -227,8 +232,9 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         }
         return false;
     }
- 
-    public boolean deleteProductCategories(ProductCategory productCategory) {
+    
+    @Override
+    public boolean deleteProductCategory(ProductCategory productCategory) {
 	Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {

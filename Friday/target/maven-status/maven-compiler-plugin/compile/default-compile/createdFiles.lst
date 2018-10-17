@@ -1,0 +1,13 @@
+it\unitn\aa1718\webprogramming\friday\ProductCategory.class
+it\unitn\aa1718\webprogramming\friday\Product.class
+it\unitn\aa1718\webprogramming\friday\ShoppingList.class
+it\unitn\aa1718\webprogramming\connection\DAOFactory.class
+it\unitn\aa1718\webprogramming\extra\LastEntryTable.class
+it\unitn\aa1718\webprogramming\friday\User.class
+it\unitn\aa1718\webprogramming\dao\ProductCategoryDAO.class
+it\unitn\aa1718\webprogramming\extra\ImageControl.class
+it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.class
+it\unitn\aa1718\webprogramming\dao\UserDAO.class
+it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.class
+it\unitn\aa1718\webprogramming\servlets\insertProductServlet.class
+it\unitn\aa1718\webprogramming\dao\ProductDAO.class

@@ -85,8 +85,8 @@
                             <div class="col-sm">
                                 <label for="PCID">Scegli la categoria di appartenza del prodotto</label>
                                 
-  <!-- Qui abbiamo la versione in JSTL (moooooolto meglio). se si fa così bisogna mettere una sola ProdottoServlet -->
-                                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="appa"/>
+  <!-- Qui abbiamo la versione in JSTL (moooooolto meglio). se si fa così bisogna mettere una sola ProdottoServlet -->                                
+                                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
 
                                     <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
                                     </sql:query>

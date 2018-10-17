@@ -34,7 +34,6 @@ public class Library {
             result = preparedStatement.getResultSet();                    
             
             result.next();
-            System.out.println(result.getString(colTmp));
             tmp = Integer.parseInt(result.getString(colTmp))+1;
             
         } catch (SQLException e) {

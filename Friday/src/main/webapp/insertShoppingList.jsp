@@ -67,11 +67,11 @@
         <div class="width-30 displayCenter">
             <div class="card">
                 <div class="card-body">
-                    <h3>Crea prodotto</h3>
-                    <form method="GET" action="insertListServlet" enctype="multipart/form-data">
+                    <h3>Crea lista della spesa</h3>
+                    <form method="GET" action="insertShoppingListServlet" enctype="multipart/form-data">
                         <div class="row form-group">
                             <div class="col">
-                                <label>Nome della categoria di prodotti</label>
+                                <label>Nome della lista della spesa</label>
                                 <input type="text" class="form-control" name="name">
                             </div>
                         </div>
@@ -81,9 +81,27 @@
                                 <textarea name="note" class="form-control" rows="3"  maxlength="250" id="description"></textarea>
                             </div>
                         </div>
+                        <div>
+                            <div class="col-sm">
+                                <label for="LCID">Scegli la categoria di appartenza della lista della spesa</label>
+                                
+  <!-- Qui abbiamo la versione in JSTL (moooooolto meglio). se si fa così bisogna mettere una sola ProdottoServlet -->                                
+                                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+
+                                    <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM list_categories;">   
+                                    </sql:query>
+                                        
+                                    <select name="LCID" class="form-control">
+                                        <option disabled selected value>Seleziona un'opzione</option>
+                                        <c:forEach var="res" items="${result.rows}" >
+                                            <option value="${res.LCID}"> <c:out value="${res.Name}"/> </option>
+                                        </c:forEach>
+                                    </select>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm">
-                                <label for="logo">Carica il logo della categoria di prodotti</label>
+                                <label for="logo">Carica il logo della lista della spesa</label>
                                 <input type="file" name ="image" accept=".jpg, .jpeg, .png" id="logo">
                             </div>
                         </div>

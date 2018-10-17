@@ -18,10 +18,8 @@ import java.sql.SQLException;
 public class MySQLDAOFactory extends DAOFactory {
  
     public static final String Driver = "com.mysql.cj.jdbc.Driver";
-    
     public static final String DBUrl = "jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String User = "root";
-    //public static final String Pass = "appa";
     public static final String Pass = "root";
     
     public static Connection createConnection() {

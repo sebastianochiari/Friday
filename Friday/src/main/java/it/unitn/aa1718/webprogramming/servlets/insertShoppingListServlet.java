@@ -5,11 +5,11 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
-import it.unitn.aa1718.webprogramming.connection.*;
-import it.unitn.aa1718.webprogramming.dao.*;
-import it.unitn.aa1718.webprogramming.dao.entities.*;
-import it.unitn.aa1718.webprogramming.extra.*;
-import it.unitn.aa1718.webprogramming.friday.*;
+import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
+import it.unitn.aa1718.webprogramming.extra.Library;
+import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author marta
+ * @author leo97
  */
-public class insertProductCategoryServlet extends HttpServlet {
+public class insertShoppingListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class insertProductCategoryServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet insertProductCategoryServlet</title>");            
+            out.println("<title>Servlet insertShoppingListServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet insertProductCategoryServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet insertShoppingListServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,38 +60,38 @@ public class insertProductCategoryServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-        ProductCategoryDAO riverDAO = mySqlFactory.getProductCategoryDAO();
+        ShoppingListDAO riverDAO = mySqlFactory.getShoppingListDAO();
         
-        List productCategories = null;
-        ProductCategory productCategory = null;
+        List shoppingLists = null;
+        ShoppingList shoppingList = null;
         
-        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
         
 //        // cancellazione di product memorizzati sul DB
-//        productCategories = productCategoryDAO.getAllProductCategories();
-//        for (Object u : productCategories) {
-//            productCategoryDAO.deleteProductCategory((ProductCategory) u);
+//        shoppingLists = shoppingListDAO.getAllShoppingLists();
+//        for (Object u : shoppingLists) {
+//            shoppingListDAO.deleteShoppingList((ShoppingList) u);
 //        }
 
-        // creazione di productCategory
+        // creazione di shoppingList
         Library library = new Library();
-        int PCID = library.LastEntryTable("PCID", "product_categories");
-        String email = request.getParameter("email");
+        int LID = library.LastEntryTable("LID", "lists");
         String name = request.getParameter("name");
         String note = request.getParameter("note");
-        String logo = request.getParameter("logo");
+        String image = request.getParameter("image");
+        int LCID = Integer.parseInt(request.getParameter("LCID"));
+        String list_owner = request.getParameter("list_owner");
         
-        ProductCategory productCategory1 = new ProductCategory(PCID, name, note, library.ImageControl(logo), email);
+        ShoppingList shoppingList1 = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner);
     
-        // memorizzazione del nuovo productCategory nel DB
-        productCategoryDAO.createProductCategory(productCategory1);
+        // memorizzazione del nuovo shoppingList nel DB
+        shoppingListDAO.createShoppingList(shoppingList1);
         
-        // recupero di tutti gli productCategory del DB
-        productCategories = productCategoryDAO.getAllProductCategories();
-        
+        // recupero di tutti gli shoppingList del DB
+        shoppingLists = shoppingListDAO.getAllShoppingLists();
     }
 
     /**

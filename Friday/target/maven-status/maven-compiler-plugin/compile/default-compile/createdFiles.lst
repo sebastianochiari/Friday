@@ -17,4 +17,5 @@ it\unitn\aa1718\webprogramming\dao\UserDAO.class
 it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.class
 it\unitn\aa1718\webprogramming\servlets\insertProductServlet.class
 it\unitn\aa1718\webprogramming\dao\ProductDAO.class
+it\unitn\aa1718\webprogramming\servlets\insertShoppingListServlet.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductDAOImpl.class

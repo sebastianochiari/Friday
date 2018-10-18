@@ -20,6 +20,8 @@ public abstract class DAOFactory {
     
     public abstract ShoppingListDAO getShoppingListDAO();
     
+    public abstract ShoppingListCategoryDAO getShoppingListCategoryDAO();
+    
     public static DAOFactory getDAOFactory() {
         return new MySQLDAOFactory();
     }

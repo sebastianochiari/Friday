@@ -37,10 +37,11 @@
 
 <body id="top">
 
-    <nav id="breadcrumb" class="navbar">
+<!--
+    <nav class="navbar navbar-border">
         <div class="container">
             <div class="float-left">
-                <span>Benvenuto su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
+                <span>Benvenuti su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
             </div>
             <div class="float-right">
                 <ul class="header-top-links">
@@ -51,12 +52,13 @@
             </div>
         </div>
     </nav>
+-->
 
     <!-- START: main navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
             <div class="header-logo float-left">
-                <a href="#" alt="logo">
+                <a href="index.html" alt="logo">
                         <img src="images/friday_icon_colored.png" class="logo">
                     </a>
             </div>
@@ -96,6 +98,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
                             <a class="dropdown-item" href="#">Lista #1</a>
                             <a class="dropdown-item" href="#">Lista #2</a>
+                            <a class="dropdown-item" href="#">Liste condivise</a>
                             <a class="dropdown-item" href="#">Gestisci liste</a>
                         </div>
                     </li>
@@ -129,7 +132,7 @@
                     <div class="col-md mt-1 nav-col">
                         <input class="form-control nav-search" type="text" placeholder="Cerca">
                     </div>
-                    </div>
+                </div>
             </form>
         </div>
     </nav>
@@ -137,102 +140,72 @@
 
     <main>
 
-        <div class="container mt-4">
+        <!-- section -->
+        <div class="section">
+    		<!-- container -->
+    		<div class="container">
+    			<!-- row -->
+    			<div class="row">
+    				<!-- ASIDE -->
+    				<div id="aside" class="col-md-3">
+    					<!-- aside widget -->
+    					<div class="aside">
 
-            <!-- START: Carousel -->
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <a href="register.html">
-                        <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="Second slide">
-                    </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                        <img class="d-block w-100" src="images/perdere-tempo.jpg" alt="Second slide">
-                    </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                        <img class="d-block w-100" src="images/backtoschool.jpg" alt="Third slide">
-                    </a>
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-            <!-- END: Carousel -->
+                            <h3 class="aside-title">Le mie liste:</h3>
+                            <ul class="list-links">
+                                <li class="active"><a href="#">Lista #1 (predefinita)</a></li>
+                                <li><a href="#">Lista #2</a></li>
+                                <li><a href="#">Gestisci liste</a></li>
+                            </ul>
 
-            <!-- START: personal shopping cart -->
-            <div id="breadcrumb" class="mt-4">
-                <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    <h5 style="display: inline-block;">La mia lista</h5>
-                    <p style="display: inline-block;"><i>predefinita</i></p>
-                </a>
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
-                        <div class="cart-carousel">
-                            <div>
-                                <img class="cart-image" src="images/prodotti/bic.jpg">
-                                <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                            </div>
-                            <div>
-                                <img class="cart-image" src="images/prodotti/colla.JPG">
-                                <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                            </div>
-                            <div>
-                                <img class="cart-image" src="images/prodotti/evidenziatore.jpg">
-                                <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                            </div>
-                            <div>
-                                <img class="cart-image" src="images/prodotti/forbice.jpg">
-                                <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                            </div>
-                            <div>
-                                <img class="cart-image" src="images/prodotti/pennarelli.jpg">
-                                <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                            </div>
+                            <h3 class="aside-title">Liste condivise:</h3>
+                            <p>Non hai nessuna lista condivisa</p>
+                            <ul class="list-links">
+                                <li><a href="#">Lista #1</a></li>
+                                <li><a href="#">Lista #2</a></li>
+                            </ul>
+
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END: personal shopping cart -->
 
-            <div class="mt-4">
-                <h5>Prodotti scelti per te</h5>
-                <div class="cart-carousel">
-                    <div>
-                        <img class="cart-image" src="images/prodotti/bic.jpg">
-                        <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
                     </div>
-                    <div>
-                        <img class="cart-image" src="images/prodotti/colla.JPG">
-                        <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
+
+                    <!-- START: main -->
+                    <div id="main" class="col-md-9">
+
+                        <!-- START: list -->
+                        <div id="list">
+
+                            <div id="breadcrumb">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>Nome lista <span class="badge badge-friday">Categoria</span></h4>
+                                        <p class="mt-2">Inserire descrizione della lista</p>
+                                    </div>
+                                    <div class="col">
+                                        <img class="list-image displayCenter" src="images/fruttivendolo.jpg">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="breadcrumb" class="list-element">
+                                <div class="row">
+                                </div>
+                                <div class="col-md-1">
+                                    <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
+                                </div>
+                                <div class="col">
+                                    <h4>Nome lista</h4>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- END: list -->
+
                     </div>
-                    <div>
-                        <img class="cart-image" src="images/prodotti/evidenziatore.jpg">
-                        <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                    </div>
-                    <div>
-                        <img class="cart-image" src="images/prodotti/forbice.jpg">
-                        <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                    </div>
-                    <div>
-                        <img class="cart-image" src="images/prodotti/pennarelli.jpg">
-                        <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                    </div>
+                    <!-- END: main -->
+
                 </div>
+
             </div>
 
         </div>
@@ -323,6 +296,6 @@
     <!-- personal JS -->
     <script type="text/javascript" src="js/main.js"></script>
 
-    </body>
+</body>
 
 </html>

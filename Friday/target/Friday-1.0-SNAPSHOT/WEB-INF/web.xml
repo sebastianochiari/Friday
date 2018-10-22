@@ -30,6 +30,10 @@
         <servlet-name>insertShoppingListCategoryServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.insertShoppingListCategoryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.LoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>insertUserServlet</servlet-name>
         <url-pattern>/insertUserServlet</url-pattern>
@@ -50,12 +54,16 @@
         <servlet-name>insertShoppingListCategoryServlet</servlet-name>
         <url-pattern>/insertShoppingListCategoryServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>indexProvvisorio.html</welcome-file>
     </welcome-file-list>
 </web-app>

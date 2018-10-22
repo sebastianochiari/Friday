@@ -36,11 +36,36 @@ public class DBSecurity {
 
 //funzione che alla registrazione dell'utente attraverso salting la encripta   
 public String setSecurePassword(String passwordToHash, String salt){
+      
+    System.out.println("PSW TO HASH: " + passwordToHash);
+    System.out.println("SALTING: " + salt);
+    
+    
+         System.out.println("IN SETSECUREPASSWORD 000000000");
 String generatedPassword = null;
+
+        System.out.println("IN SETSECUREPASSWORD 11111111111111");
+
     try {
-         MessageDigest md = MessageDigest.getInstance("SHA-256");
-         md.update(salt.getBytes(StandardCharsets.UTF_8));
-         byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+         
+        
+        //Creation of MessageDigest for SHA-256 algorithm (?)
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        
+        System.out.println("IN SETSECUREPASSWORD 22222222222");
+        
+        
+        
+        md.update(salt.getBytes(StandardCharsets.UTF_8));
+        
+        System.out.println("IN SETSECUREPASSWORD ");
+        
+        byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+        
+  
+      
+         System.out.println("dopo PASSWORDTOHASH UTF______8 ");
+      
          StringBuilder sb = new StringBuilder();
          for(int i=0; i< bytes.length ;i++){
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
@@ -50,9 +75,25 @@ String generatedPassword = null;
        catch (NoSuchAlgorithmException e){
         e.printStackTrace();
        }
+    
+    if(generatedPassword == null ){
+        System.out.println("LA PSW GENERATA è NULLA! ERRORE IN CRIPTAZIONE");
+    }
+    
+    
     return generatedPassword;
 }
-    
+ 
+
+
+
+
+
+
+//MEGLIO CRIPTARE PRIMA O DOPO INVIO ?????????????????????????????????????????????
+
+
+
 
 //funzione per comparare se le password durante il login coincidono
 public String getSecurePassword (String planePassword, String encryptedPassword){

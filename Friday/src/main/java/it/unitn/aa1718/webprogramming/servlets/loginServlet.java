@@ -12,10 +12,16 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -80,31 +86,33 @@ public class loginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-        UserDAO riverDAO = mySqlFactory.getUserDAO();
+  /*      StringBuilder sb=  new StringBuilder();
+        String email = "CIAOCIAO";
+        String psw = "ciaoIconcina";
+        sb.append(email);
+        sb.append(psw);
+        URL url = new URL("/loginServlet.java");
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();                
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+       connection.setRequestProperty("Content-Length", "" + sb.length());
+*/
         
-        List users = null;
-        User user = null;
-        
-   //SERVLET PER VERIFICARE IL LOGIN DELL'UTENTE, SE LA PASSWORD COINCIDE EFFETTUARE IL LOGIN
-   //SERVE PERò RITORNARE LA CONNESSIONE DALL'UTENTE SPECIFICO -> SERVONO I COOKIE 
-        
-        String line;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(MySQLDAOFactory.getDAOFactory().connection.getInputStream()));
-
-while ((line = reader.readLine()) != null) {
-    System.out.println(line);
-}
-writer.close();
-reader.close(); 
-        
-        Library library = new Library();
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        
-        
-        
-        
+    /*    OutputStreamWriter outputWriter = new OutputStreamWriter(connection.getOutputStream());
+        outputWriter.write(sb.toString());
+        outputWriter.flush();
+        outputWriter.close();
+      */  
+      
+    
+    /*
+    String email = "CIAO@GMAIL.COM";
+    String psw = "ciao";
+    request.setAttribute("email",email);
+    request.setAttribute("password",psw);
+RequestDispatcher rd = request.getRequestDispatcher("/insertUserServlet");
+rd.forward(request,response);
+      */  
         
         
         

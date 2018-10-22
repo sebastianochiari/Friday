@@ -32,10 +32,12 @@ public class Library {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(command);
             preparedStatement.execute();
-            result = preparedStatement.getResultSet();                    
+            result = preparedStatement.getResultSet(); 
             
             result.next();
-            tmp = Integer.parseInt(result.getString(colTmp))+1;
+            if(result.getString(colTmp) != null){
+                tmp = Integer.parseInt(result.getString(colTmp))+1;
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,6 +71,7 @@ public class Library {
         return tmp;
     }
     
+    //con ricordami non attivo
     public void AddCookie(Cookie cookie){
  
         Connection connection = null;
@@ -98,6 +101,7 @@ public class Library {
         }
     }
     
+    //con ricordami attivo
     public void AddCookie(Cookie cookie, String email){
  
         Connection connection = null;

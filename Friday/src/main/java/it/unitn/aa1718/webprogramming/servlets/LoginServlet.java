@@ -83,12 +83,13 @@ public class LoginServlet extends HttpServlet {
         if (myCookie == null) {
             
             int cookievalue = library.LastEntryTable("cookieID", "cookies");
+            System.out.println("cookie = "+cookievalue+"");
             String cookiename = "FridayLogin";
          
             myCookie = new Cookie(cookiename, Integer.toString(cookievalue));
             myCookie.setMaxAge(-1); //Valid only for the current browsing session
             
-            if(ricordami.equals("on")){
+            if(ricordami != null && ricordami.equals("on")){
                 library.AddCookie(myCookie, email);
             }
             else{

@@ -6,6 +6,7 @@ it\unitn\aa1718\webprogramming\dao\entities\MySQLProductCategoryDAOImpl.class
 it\unitn\aa1718\webprogramming\friday\Product.class
 it\unitn\aa1718\webprogramming\friday\ShoppingList.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLUserDAOImpl.class
+it\unitn\aa1718\webprogramming\encrypt\DBSecurity.class
 it\unitn\aa1718\webprogramming\connection\DAOFactory.class
 it\unitn\aa1718\webprogramming\extra\LastEntryTable.class
 it\unitn\aa1718\webprogramming\friday\User.class

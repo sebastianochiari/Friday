@@ -73,7 +73,7 @@ public class insertProductCategoryServlet extends HttpServlet {
 //        // cancellazione di product memorizzati sul DB
 //        productCategories = productCategoryDAO.getAllProductCategories();
 //        for (Object u : productCategories) {
-//            productCategoryDAO.deleteProductCategory((ProductCategory) u);
+//            productCategoryDAO.deleteProductCategory((ProductCategoryCategory) u);
 //        }
 
         // creazione di productCategory

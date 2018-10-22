@@ -8,6 +8,7 @@ package it.unitn.aa1718.webprogramming.servlets;
 import it.unitn.aa1718.webprogramming.connection.*;
 import it.unitn.aa1718.webprogramming.dao.*;
 import it.unitn.aa1718.webprogramming.dao.entities.*;
+import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.friday.*;
 import it.unitn.aa1718.webprogramming.extra.*;
 import java.io.IOException;
@@ -85,7 +86,19 @@ public class insertUserServlet extends HttpServlet {
         String surname = request.getParameter("surname");
         String avatar = request.getParameter("avatar");
         
-        User user1 = new User(email, password, name, surname, library.ImageControl(avatar), false, false);
+        //User user1 = new User(email, password, name, surname, library.ImageControl(avatar), false, false);
+       
+
+        DBSecurity encrypt = new DBSecurity();
+        //private Random RANDOM = new SecureRandom();
+        
+       
+        //String salt = encrypt.getSalt(10); 
+        String pswEncrypted = encrypt.setSecurePassword(password, email);
+        User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false);
+
+  
+
         
         // memorizzazione del nuovo user nel DB
         userDAO.createUser(user1);

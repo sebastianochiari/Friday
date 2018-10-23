@@ -34,8 +34,7 @@ public class insertUserServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
@@ -84,14 +83,17 @@ public class insertUserServlet extends HttpServlet {
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String avatar = request.getParameter("avatar");
+        String originServlet = request.getParameter("originServlet");
+        String registerForm = request.getParameter("registerForm");
         
-        User user1 = new User(email, password, name, surname, library.ImageControl(avatar), false, false);
+        if (userDAO.checkUser(email)) {
+            request.getRequestDispatcher(registerForm).forward(request, response);
+        } else {
+            User user1 = new User(email, password, name, surname, library.ImageControl(avatar), false, false);
         
-        // memorizzazione del nuovo user nel DB
-        userDAO.createUser(user1);
-        
-        // recupero di tutti gli user del DB
-        users = userDAO.getAllUsers();
+            // memorizzazione del nuovo user nel DB
+            userDAO.createUser(user1);
+        }
         
     }
 

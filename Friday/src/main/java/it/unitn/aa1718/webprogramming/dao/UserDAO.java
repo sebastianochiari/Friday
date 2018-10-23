@@ -23,4 +23,6 @@ public interface UserDAO {
     public boolean updateUser(User user);
     
     public boolean deleteUser(User user);
+    
+    public boolean checkUser (String email);
 }

@@ -221,4 +221,42 @@ public class MySQLUserDAOImpl implements UserDAO {
         return false;
     }
 
+    @Override
+    public boolean checkUser (String email) {
+        
+        boolean existance = false;
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Read_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            if (result != null) {
+                existance = true;
+            }
+        } catch (SQLException e) {
+            existance = true;
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        return existance;
+    }
 }

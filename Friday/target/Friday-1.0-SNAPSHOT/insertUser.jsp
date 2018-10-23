@@ -4,6 +4,7 @@
     Author     : tommi
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -43,7 +44,24 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
+           
+        <script type="text/javascript">
+            
+                var stile = "top=10, left=10, width=250, height=200, status=no, menubar=no, toolbar=no scrollbars=no";
+                function mostraMessaggio(email) {
+                    
+                    
+                    <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>;
+                    var query = "SELECT * FROM users WHERE Email = "+email+";";
+                    <sql:query dataSource="${snapshot}" var="result" sql=${query}>
+                    </sql:query>
+                    if (result !== null) {
+                        window.alert("Email già registrata. Esegui il login oppure cambia email di registrazione.");
+                    }
+                    
+                }
+            
+        </script>
     </head>
     <body>
         
@@ -59,29 +77,71 @@
                 <div class="card-body">
                     <h3>Crea nuovo utente</h3>
                     <form method="GET" action="insertUserServlet" enctype="multipart/form-data">
-                        <div class="row form-group">
-                            <div class="col">
-                                <label for="Email">Email</label>
-                                <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it">
+                        <c:set var="servlet" value="${param.originServlet}"></c:set>
+                        <c:if test="${servlet eq null}">
+                            <div>
+                                <div class="form-group">
+                                    <label for="Name">Nome</label>
+                                    <input name="name" type="text" class="form-control" id="name" placeholder="Mario">
+                                </div>
                             </div>
-                        </div>
+                            <div>
+                                <div class="form-group">
+                                    <label for="Surname">Cognome</label>
+                                    <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <input type="hidden" name="originServlet" value="insertUserServlet.java">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="registerForm" value="insertUser.jsp">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col">
+                                    <label for="Email">* Email</label>
+                                    <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true">
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${servlet eq 'insertUserServlet.java'}">
+                            <div>
+                                <div class="form-group">
+                                    <label for="Name">Nome</label>
+                                    <input name="name" type="text" class="form-control" id="name" value="${param.name}">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label for="Surname">Cognome</label>
+                                    <input name="surname" type="text" class="form-control" id="surname" value="${param.surname}">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <input type="hidden" name="originServlet" value="insertUserServlet.java">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="registerForm" value="insertUser.jsp">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col">
+                                    <label for="Email">* Email</label>
+                                    <input name="email" type="text" class="form-control is-invalid" id="email" required="true" value="${param.email}">
+                                    <p class="footer-info"> ATTENZIONE! <c:out value="${param.email}"></c:out> esiste già. Esegui il login oppure cambia indirizzo email. </p>
+                        </c:if>
                         <div>
                             <div class="form-group">
-                                <label for="Password">Password</label>
-                                <input name="password" type="password" class="form-control" id="password">
-                            </div>
+                                <label for="Password">* Password</label>
+                                <input name="password" type="password" class="form-control" id="password" required="true">
+                            <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
                         </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="Name">Nome</label>
-                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="Surname">Cognome</label>
-                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
-                            </div>
+                        <div class="form-group">
+                            <label for="Password1">* Conferma password</label>
+                            <input type="password" class="form-control" id="password1" require="true">
                         </div>
                         <div class="row">
                             <div class="col-sm">
@@ -89,14 +149,25 @@
                                 <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar">
                             </div>
                         </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
+                            <label class="form-check-label" for="exampleCheck1">
+                                * Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. I campi contrassegnati con * sono obbligatori. 
+                            </label>
+                        </div>
                         <div>
                             <br>
                         </div>
                         <div>
                             <div class="col-sm">
-                                <button type="submit" class="btn displayCenter login-btn">Crea Utente</button>
+                                <button type="submit" class="btn displayCenter login-btn" onclick="mostraMessaggio(email)">Registrati</button>
                             </div>
                         </div>
+                            <div class="col-sm mt-1 mb-1">
+                                <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
+                            </div>
+                        </div>
+                        <p class="mt-4">Hai già un account Friday? <a href="login.html" class="text-link">Accedi</a></p>
                     </form>
                 </div>
             </div>

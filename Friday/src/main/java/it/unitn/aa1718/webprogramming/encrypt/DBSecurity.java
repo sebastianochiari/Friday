@@ -37,34 +37,30 @@ public class DBSecurity {
 //funzione che alla registrazione dell'utente attraverso salting la encripta   
 public String setSecurePassword(String passwordToHash, String salt){
       
-    System.out.println("PSW TO HASH: " + passwordToHash);
-    System.out.println("SALTING: " + salt);
+    System.out.println("in DBSECURITY PSW TO HASH: " + passwordToHash);
+    System.out.println("IN DBSECURITY SALTING: " + salt);
     
-    
-         System.out.println("IN SETSECUREPASSWORD 000000000");
 String generatedPassword = null;
 
-        System.out.println("IN SETSECUREPASSWORD 11111111111111");
 
-    try {
+
+
+try {
          
-        
+      
         //Creation of MessageDigest for SHA-256 algorithm (?)
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         
-        System.out.println("IN SETSECUREPASSWORD 22222222222");
+        //QUESTO PRIMA NON ERA COMMENTATO! SERVE PER LA CRIPTAZIONE 
+        //md.update(salt.getBytes(StandardCharsets.UTF_8));
         
-        
-        
-        md.update(salt.getBytes(StandardCharsets.UTF_8));
-        
-        System.out.println("IN SETSECUREPASSWORD ");
+        passwordToHash = " " + passwordToHash + salt;
+        System.out.println("psw + salting (= email) is : " + passwordToHash);
         
         byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
         
   
       
-         System.out.println("dopo PASSWORDTOHASH UTF______8 ");
       
          StringBuilder sb = new StringBuilder();
          for(int i=0; i< bytes.length ;i++){
@@ -80,8 +76,12 @@ String generatedPassword = null;
         System.out.println("LA PSW GENERATA è NULLA! ERRORE IN CRIPTAZIONE");
     }
     
-    
+    System.out.println("IN DBSECURITY LA PASSWORD HASHED:" + generatedPassword);
     return generatedPassword;
+    
+    
+    
+    
 }
  
 

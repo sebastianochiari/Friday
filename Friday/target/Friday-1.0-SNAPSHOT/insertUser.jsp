@@ -5,6 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -58,45 +62,58 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Crea nuovo utente</h3>
-                    <form method="GET" action="insertUserServlet" enctype="multipart/form-data">
+                    <form action="insertUserServlet" method="POST">
                         <div class="row form-group">
                             <div class="col">
-                                <label for="Email">Email</label>
-                                <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it">
+                                <label for="exampleInputEmail1">Nome</label>
+                                <input type="text" class="form-control" name="Name1">
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1">Cognome</label>
+                                <input type="text" class="form-control" name="Surname1">
                             </div>
                         </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="Password">Password</label>
-                                <input name="password" type="password" class="form-control" id="password">
-                            </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">E-mail</label>
+                            <input type="email" class="form-control" name="exampleInputEmail1" aria-describedby="emailHelp">
                         </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="Name">Nome</label>
-                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario">
-                            </div>
+                        <div class="form-group">
+                            
+                            <c:set var="servlet" value="${param.origin}"></c:set>
+                                <c:out value="${servlet}"></c:out>
+                                
+                                <c:if test="${servlet eq 'insertUserServlet'}">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control is-invalid" name="exampleInputPassword1">
+                            
+                            </c:if>
+                                <c:if test="${servlet eq null}">
+                            
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" name="exampleInputPassword1">
+                            </c:if>
+                            
+                            <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e un numero o un carattere speciale</p>
                         </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="Surname">Cognome</label>
-                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
-                            </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Conferma password</label>
+                            <input type="password" class="form-control" name="exampleInputPassword1">
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">
+                                Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">Informativa sulla privacy</a>.
+                            </label>
                         </div>
                         <div class="row">
-                            <div class="col-sm">
-                                <label for="Avatar">Avatar</label>
-                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar">
+                            <div class="col-sm mt-1 mb-1">
+                                <button type="submit" class="btn displayCenter login-btn">Registrati</button>
+                            </div>
+                            <div class="col-sm mt-1 mb-1">
+                                <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
                             </div>
                         </div>
-                        <div>
-                            <br>
-                        </div>
-                        <div>
-                            <div class="col-sm">
-                                <button type="submit" class="btn displayCenter login-btn">Crea Utente</button>
-                            </div>
-                        </div>
+                        <p class="mt-4">Hai già un account Friday? <a href="login.html" class="text-link">Accedi</a></p>
                     </form>
                 </div>
             </div>

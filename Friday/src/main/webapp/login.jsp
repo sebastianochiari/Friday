@@ -47,7 +47,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Accedi</h3>
-                    <form action="insertUserServlet" method="POST">
+                    <form  method="POST" action="loginServlet">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Indirizzo e-mail</label>
                             <input type="email" class="form-control" name="exampleInputEmail1" aria-describedby="emailHelp">

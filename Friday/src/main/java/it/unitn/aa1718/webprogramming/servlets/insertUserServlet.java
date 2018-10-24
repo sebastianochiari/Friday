@@ -44,15 +44,6 @@ public class insertUserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet insertUserServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet insertUserServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
@@ -71,7 +62,6 @@ public class insertUserServlet extends HttpServlet {
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         UserDAO riverDAO = mySqlFactory.getUserDAO();
         List users = null;
-        System.out.println("SONO IN POST METHOD!!!!!!!!!");
         UserDAO userDAO = new MySQLUserDAOImpl();
         
 //        // cancellazione di user memorizzati sul DB
@@ -85,21 +75,20 @@ public class insertUserServlet extends HttpServlet {
         Library library = new Library();
       
         
-      System.out.println("before DB SECURITY");
         DBSecurity encrypt = new DBSecurity();
-        //private Random RANDOM = new SecureRandom();
-      System.out.println("DOPO DB SECURITY");  
+        //private Random RANDOM = new SecureRandom(); 
       
         String email = null;
         String password = null;
+        String passwordcheck = null;
         String name = null;
         String surname = null;
         String avatar = null;
       
         
         
-         StringBuffer sb = new StringBuffer();
-    BufferedReader bufferedReader = null;
+        StringBuffer sb = new StringBuffer();
+        BufferedReader bufferedReader = null;
     
         bufferedReader =  request.getReader() ; //new BufferedReader(new InputStreamReader(inputStream));
         char[] charBuffer = new char[128];
@@ -115,85 +104,67 @@ public class insertUserServlet extends HttpServlet {
                 throw ex;
             }
          }
-        String test = sb.toString() + "$\n"; //concateno \n\n come delimitatori, mi limito al penultimo, così non esco da |Stringa|
+        String test = "%" + sb.toString() + "$"; //concateno \n\n come delimitatori, mi limito al penultimo, così non esco da |Stringa|
 
-        System.out.println("REQUEST BODY DEL FORM = TEST è :" +test);
+        System.out.println("REQUEST BODY DEL FORM = TEST è :" +test); 
+        //Name1=remo&Surname1=zao&exampleInputEmail1=remozao@gmail.com&exampleInputPassword1=ciaone1&exampleInputPassword1=ciaone1$
+
         
         
-         email = test.substring(test.indexOf("=") + 1, test.indexOf("&"));
-         String tmp = test.substring(test.indexOf("&") + 1, test.indexOf("\n")); //  tmp è :      exampleInputPassword1=*passwordScritta*\n
-         System.out.println("TMP IS : " + tmp);
-    //   password = tmp.substring(tmp.indexOf("=") , tmp.indexOf("\n"));
-        
-        System.out.println("Email estratta è :" + email);
-        System.out.println("TMP estratta è :" + tmp);
+        name = test.substring(test.indexOf("=") + 1, test.indexOf("&"));
+        System.out.println("NAME ESTRATTO CORRETTAMENTE è " + name);
         
         
-        
-         password = tmp.substring(tmp.indexOf("=") +1, tmp.indexOf("$"));
-        
-     /* 
-        PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<head>");
-        out.println("</head>");
-        out.println("<body bgcolor=\"white\">");
-        Enumeration paramNames = request.getParameterNames();
-        //We iterate over the list of parameter names
-        while(paramNames.hasMoreElements()){
-            String paramName = (String)paramNames.nextElement();
-            if(paramNames.equals("email")){
-               // email = request.getParameter(paramName);  
-                email = request.getParameter("email");
-            }
-            if(paramNames.equals("password")){
-                password = request.getParameter("password");
-                //password = request.getParameter(paramName);
-     
-                
-            }
-         if(paramNames.equals("name")){
-                out.println("name:   ");
-                name = request.getParameter(paramName);
-            }
-            if(paramNames.equals("surname")){
-                out.println("surname:   ");
-                surname = request.getParameter(paramName);
-            }
-            if(paramNames.equals("avatar")){
-                out.println("avatar:   ");
-                avatar = request.getParameter(paramName);
-            }
-     
-           out.println("<b>" + request.getParameter(paramName) + "</b>");
-           out.println("<br/><br/>");
+        String [] tok = test.split("&");
+        for(int i=0; i<tok.length; i++){
+            System.out.println("token VALE: " + tok[i] + "\n");
             
-        } 
+            //COMMENTATO PER TENTATIVO DI RITORNARE PASSWORD UGUALI per controllo
+            //System.out.println("token VALE: " + tok[i] );
+            tok[i] = tok[i] + "$";
+        }
         
-        out.println("</body>");
-        out.println("</html>");
-        out.close();  
-  */
-       System.out.println("before ENCRYPTION");
-       System.out.println("EMAIL IS :    " + email);
-       System.out.println("password IS :      " + password);
-       
-       
-       
+        surname = tok[1].substring(tok[1].indexOf("=") + 1, tok[1].indexOf("$"));
+        email = tok[2].substring(tok[2].indexOf("=") + 1, tok[2].indexOf("$"));
+        password = tok[3].substring(tok[3].indexOf("=") + 1, tok[3].indexOf("$"));
+        passwordcheck = tok[4].substring(tok[4].indexOf("=") + 1, tok[4].indexOf("$"));
+        
+        System.out.println("email:" + email);
+        System.out.println("surname:" + surname);
+        System.out.println("psw: " + password);
+        System.out.println("pswcheck: " + passwordcheck);
+        
+        //AVATAR ???????
+        
+        boolean isOkay = library.checkString(password);
+        
+        if(!isOkay){
+             //evidenziare di rosso la laber password
+             System.out.println("ERROR!!!!!!");
+             
+             
+             String origin = null;
+             Object servlet = (String)request.getRequestURI();
+             request.setAttribute("origin", "insertUserServlet");
+             request.getRequestDispatcher("insertUser.jsp").forward(request, response);
+        } else{
        
         //String salt = encrypt.getSalt(10); 
         String pswEncrypted = encrypt.setSecurePassword(password, email);
       
-  System.out.println("DOPO ENCRYPTION");
+        System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
         //User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false); NAME CANNOT BE NULL
-        User user1 = new User(email, pswEncrypted, "A", "A", library.ImageControl(avatar), false, false);
+        User user1 = new User( email, pswEncrypted, name, surname , library.ImageControl(avatar), false, false);
   
         // memorizzazione del nuovo user nel DB
         userDAO.createUser(user1);
         
         // recupero di tutti gli user del DB
         users = userDAO.getAllUsers();
-      
+        response.sendRedirect("index.html");
+        
+       
+        }
     }
 
     /**

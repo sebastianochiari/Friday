@@ -5,23 +5,23 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
-import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -86,37 +86,121 @@ public class loginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-  /*      StringBuilder sb=  new StringBuilder();
-        String email = "CIAOCIAO";
-        String psw = "ciaoIconcina";
-        sb.append(email);
-        sb.append(psw);
-        URL url = new URL("/loginServlet.java");
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();                
-        connection.setDoOutput(true);
-        connection.setRequestMethod("POST");
-       connection.setRequestProperty("Content-Length", "" + sb.length());
-*/
-        
-    /*    OutputStreamWriter outputWriter = new OutputStreamWriter(connection.getOutputStream());
-        outputWriter.write(sb.toString());
-        outputWriter.flush();
-        outputWriter.close();
-      */  
+        DBSecurity encrypt = new DBSecurity();
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        UserDAO riverDAO = mySqlFactory.getUserDAO();
+        List users = null;
+        UserDAO userDAO = new MySQLUserDAOImpl();
+
+
+        // creazione di user
+        Library library = new Library();
       
-    
-    /*
-    String email = "CIAO@GMAIL.COM";
-    String psw = "ciao";
-    request.setAttribute("email",email);
-    request.setAttribute("password",psw);
-RequestDispatcher rd = request.getRequestDispatcher("/insertUserServlet");
-rd.forward(request,response);
-      */  
+        String email = null;
+        String password = null;
+      
+        StringBuffer sb = new StringBuffer();
+        BufferedReader bufferedReader = null;
+        bufferedReader =  request.getReader() ; //new BufferedReader(new InputStreamReader(inputStream));
+        char[] charBuffer = new char[128];
+        int bytesRead;
+        while ( (bytesRead = bufferedReader.read(charBuffer)) != -1 ) {
+            sb.append(charBuffer, 0, bytesRead);
+        }
+        if (bufferedReader != null) {
+            try {
+                bufferedReader.close();
+            } catch (IOException ex) {
+                throw ex;
+            }
+         }
+        String test = "%" + sb.toString() + "$"; //concateno \n\n come delimitatori, mi limito al penultimo, così non esco da |Stringa|
+        System.out.println("REQUEST BODY DEL FORM = TEST è :" +test); 
+        
+        email = test.substring(test.indexOf("=") + 1, test.indexOf("&"));
+        System.out.println("EMAIL ESTRATTO CORRETTAMENTE è " + email);
+        String [] tok = test.split("&");
+        for(int i=0; i<tok.length; i++){
+            System.out.println("VALE: " + tok[i] + "\n"); 
+            
+//COMMENTATO PER TENTATIVO DI RITORNARE PASSWORD UGUALI per controllo           
+//System.out.println("VALE: " + tok[i] );
+            tok[i] = tok[i] + "$";
+        }
+        
+        password = tok[1].substring(tok[1].indexOf("=") + 1, tok[1].indexOf("$"));
+        System.out.println("email in LOGINSERVLET:" + email);
+        System.out.println("psw in LOGINSERVLET: " + password);
         
         
         
+        //String salt = encrypt.getSalt(10);
+        
+        
+        
+        String pswencrypted = encrypt.setSecurePassword(password, email);
+        
+        System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
+        
+        Connection connection = MySQLDAOFactory.createConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        String  get_access = "SELECT password FROM users WHERE email = ?";
+        String dbpassword = null;
+        try {
+            preparedStatement = connection.prepareStatement(get_access);
+            preparedStatement.setString(1, email);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();               
+         if (result.next() && result != null) {
+             dbpassword = result.getString("password");
+             System.out.println("IN LOGIN SERVLET, la password che ritorna dal database è : " + dbpassword);
+        } else {
+             if(result == null ){
+                 System.out.println("PASSWORD NON ESISTE! ");
+                 System.err.println("password inserita non è corretts, reinserire -- REDIREZIONA CON POPUP -- o errate ??' ");
+             }
+         }
+         
+         
+         
+         
+          if(pswencrypted.hashCode() == dbpassword.hashCode()){
+                System.out.println("LE PASSWORD SONO CORRETTE!! REDIREZIONO A INDEX.HTML");
+                
+                response.sendRedirect("index.html");
+            }
+        
+         
+         
+         
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+              
+        }
+        
+         
+ 
+ 
     }
+        
+
 
     /**
      * Returns a short description of the servlet.

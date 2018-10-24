@@ -68,4 +68,41 @@ public class Library {
         
         return tmp;
     }
+    
+    
+    
+    
+    public boolean checkString(String str) {
+    char ch;
+    boolean capitalLetter = false;
+    boolean lowerCaseFlag = false;
+    
+    if(str.length() < 6){
+        System.out.println("AT LEAST 6 CHARACTERS!");
+        return false;
+    }
+    else{
+    boolean number = false;
+    for(int i=0;i < str.length();i++) {
+        ch = str.charAt(i);
+        if( Character.isDigit(ch)) {
+            System.out.println("THERE IS A NUMBER");
+            number = true;
+        }
+        else if (Character.isUpperCase(ch)) {
+            System.out.println("THERE IS An UPPERCASE");
+            capitalLetter = true;
+        }
+        if(number && capitalLetter)
+            return true;
+    }
+    return false;
+    }
+}
+    
+    
+    
+    
+    
+    
 }

@@ -22,6 +22,8 @@ public abstract class DAOFactory {
     
     public abstract ShoppingListCategoryDAO getShoppingListCategoryDAO();
     
+    public abstract MyCookieDAO getMyCookieDAO();
+    
     public static DAOFactory getDAOFactory() {
         return new MySQLDAOFactory();
     }

@@ -60,4 +60,9 @@ public class MySQLDAOFactory extends DAOFactory {
     public ShoppingListCategoryDAO getShoppingListCategoryDAO() {
         return new MySQLShoppingListCategoryDAOImpl();
     }
+    
+    @Override
+    public MyCookieDAO getMyCookieDAO() {
+        return new MySQLMyCookieDAOImpl();
+    }
 }

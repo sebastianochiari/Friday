@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -75,73 +76,56 @@
         <div class="width-30 displayCenter">
             <div class="card">
                 <div class="card-body">
-                    <h3>Crea nuovo utente</h3>
-                    <form method="GET" action="insertUserServlet" enctype="multipart/form-data">
+                    <h3>Registrati</h3>
+                    <form method="POST" action="insertUserServlet" enctype="multipart/form-data">
                         <c:set var="servlet" value="${param.originServlet}"></c:set>
-                        <c:if test="${servlet eq null}">
-                            <div>
-                                <div class="form-group">
-                                    <label for="Name">Nome</label>
-                                    <input name="name" type="text" class="form-control" id="name" placeholder="Mario">
-                                </div>
-                            </div>
-                            <div>
-                                <div class="form-group">
-                                    <label for="Surname">Cognome</label>
-                                    <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
-                                </div>
-                            </div>
-                            <div>
-                                <div class="form-group">
-                                    <input type="hidden" name="originServlet" value="insertUserServlet.java">
-                                </div>
-                                <div class="form-group">
-                                    <input type="hidden" name="registerForm" value="insertUser.jsp">
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col">
-                                    <label for="Email">* Email</label>
-                                    <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true">
-                                </div>
-                            </div>
-                        </c:if>
-                        <c:if test="${servlet eq 'insertUserServlet.java'}">
-                            <div>
-                                <div class="form-group">
-                                    <label for="Name">Nome</label>
-                                    <input name="name" type="text" class="form-control" id="name" value="${param.name}">
-                                </div>
-                            </div>
-                            <div>
-                                <div class="form-group">
-                                    <label for="Surname">Cognome</label>
-                                    <input name="surname" type="text" class="form-control" id="surname" value="${param.surname}">
-                                </div>
-                            </div>
-                            <div>
-                                <div class="form-group">
-                                    <input type="hidden" name="originServlet" value="insertUserServlet.java">
-                                </div>
-                                <div class="form-group">
-                                    <input type="hidden" name="registerForm" value="insertUser.jsp">
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col">
-                                    <label for="Email">* Email</label>
-                                    <input name="email" type="text" class="form-control is-invalid" id="email" required="true" value="${param.email}">
-                                    <p class="footer-info"> ATTENZIONE! <c:out value="${param.email}"></c:out> esiste già. Esegui il login oppure cambia indirizzo email. </p>
-                        </c:if>
                         <div>
                             <div class="form-group">
-                                <label for="Password">* Password</label>
-                                <input name="password" type="password" class="form-control" id="password" required="true">
-                            <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
+                                <label for="Name">Nome</label>
+                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="Surname">Cognome</label>
+                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <input type="hidden" name="originServlet" value="insertUserServlet.java">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="registerForm" value="insertUser.jsp">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col">
+                                <label for="Email">* Email</label>
+                                <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp">
+                                <c:if test="${servlet eq 'errEmail'}">
+                                    <div class="invalid-feedback">
+                                        ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
+                                    </div>
+                                </c:if>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Password">* Password</label>
+                            <input name="password" type="password" class="form-control" id="password" required="true">
+                            <c:if test="${servlet eq null}">
+                                <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
+                            </c:if>
+                            <c:if test="${servlet eq 'errPassword'}">
+                                <div class="invalid-feedback">
+                                    ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
+                                </div>
+                            </c:if>
                         </div>
                         <div class="form-group">
                             <label for="Password1">* Conferma password</label>
-                            <input type="password" class="form-control" id="password1" require="true">
+                            <input name ="password1" type="password" class="form-control" id="password1" require="true">
+                            
                         </div>
                         <div class="row">
                             <div class="col-sm">
@@ -163,6 +147,7 @@
                                 <button type="submit" class="btn displayCenter login-btn" onclick="mostraMessaggio(email)">Registrati</button>
                             </div>
                         </div>
+                            
                             <div class="col-sm mt-1 mb-1">
                                 <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
                             </div>

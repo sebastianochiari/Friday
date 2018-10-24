@@ -1,3 +1,10 @@
+<%-- 
+    Document   : login
+    Created on : 19-ott-2018, 9.28.16
+    Author     : marta
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,14 +47,14 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Accedi</h3>
-                    <form>
+                    <form  method="POST" action="loginServlet">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Indirizzo e-mail</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" name="exampleInputEmail1" aria-describedby="emailHelp">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1">
+                            <input type="password" class="form-control" name="exampleInputPassword1">
                         </div>
                         <a href="#" class="text-link">
                             <p>Hai dimenticato la password?</p>
@@ -118,3 +125,4 @@
 </body>
 
 </html>
+

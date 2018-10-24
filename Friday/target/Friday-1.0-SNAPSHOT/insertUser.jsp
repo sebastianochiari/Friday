@@ -6,6 +6,10 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -76,6 +80,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Crea nuovo utente</h3>
+<<<<<<< HEAD
                     <form method="GET" action="insertUserServlet" enctype="multipart/form-data">
                         <c:set var="servlet" value="${param.originServlet}"></c:set>
                         <c:if test="${servlet eq null}">
@@ -142,14 +147,47 @@
                         <div class="form-group">
                             <label for="Password1">* Conferma password</label>
                             <input type="password" class="form-control" id="password1" require="true">
-                        </div>
-                        <div class="row">
-                            <div class="col-sm">
-                                <label for="Avatar">Avatar</label>
-                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar">
+=======
+                    <form action="insertUserServlet" method="POST">
+                        <div class="row form-group">
+                            <div class="col">
+                                <label for="exampleInputEmail1">Nome</label>
+                                <input type="text" class="form-control" name="Name1">
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1">Cognome</label>
+                                <input type="text" class="form-control" name="Surname1">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">E-mail</label>
+                            <input type="email" class="form-control" name="exampleInputEmail1" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group">
+                            
+                            <c:set var="servlet" value="${param.origin}"></c:set>
+                                <c:out value="${servlet}"></c:out>
+                                
+                                <c:if test="${servlet eq 'insertUserServlet'}">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control is-invalid" name="exampleInputPassword1">
+                            
+                            </c:if>
+                                <c:if test="${servlet eq null}">
+                            
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" name="exampleInputPassword1">
+                            </c:if>
+                            
+                            <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e un numero o un carattere speciale</p>
+>>>>>>> m-back-end
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Conferma password</label>
+                            <input type="password" class="form-control" name="exampleInputPassword1">
+                        </div>
                         <div class="form-group form-check">
+<<<<<<< HEAD
                             <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
                             <label class="form-check-label" for="exampleCheck1">
                                 * Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. I campi contrassegnati con * sono obbligatori. 
@@ -163,6 +201,17 @@
                                 <button type="submit" class="btn displayCenter login-btn" onclick="mostraMessaggio(email)">Registrati</button>
                             </div>
                         </div>
+=======
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">
+                                Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">Informativa sulla privacy</a>.
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm mt-1 mb-1">
+                                <button type="submit" class="btn displayCenter login-btn">Registrati</button>
+                            </div>
+>>>>>>> m-back-end
                             <div class="col-sm mt-1 mb-1">
                                 <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
                             </div>

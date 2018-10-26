@@ -234,9 +234,11 @@ public class MySQLUserDAOImpl implements UserDAO {
             preparedStatement.setString(1, email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
-            if (result != null) {
-                existance = true;
-            }
+            while(result.next()){
+                if (result != null) {
+                    existance = true;
+                }
+            }; 
         } catch (SQLException e) {
             existance = true;
             e.printStackTrace();

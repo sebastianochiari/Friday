@@ -46,23 +46,6 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
            
-        <script type="text/javascript">
-            
-                var stile = "top=10, left=10, width=250, height=200, status=no, menubar=no, toolbar=no scrollbars=no";
-                function mostraMessaggio(email) {
-                    
-                    
-                    <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>;
-                    var query = "SELECT * FROM users WHERE Email = "+email+";";
-                    <sql:query dataSource="${snapshot}" var="result" sql=${query}>
-                    </sql:query>
-                    if (result !== null) {
-                        window.alert("Email già registrata. Esegui il login oppure cambia email di registrazione.");
-                    }
-                    
-                }
-            
-        </script>
     </head>
     <body>
         
@@ -77,23 +60,25 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Registrati</h3>
-                    <form method="POST" action="insertUserServlet" enctype="multipart/form-data">
-                        <c:set var="servlet" value="${param.originServlet}"></c:set>
+                    <form method="POST" action="insertUserServlet" enctype="application/x-www-form-urlencoded" >
+                        <c:set var="errorEmail" value="${requestScope.errorEmail}"></c:set>
+                        <c:set var="errorPassword" value="${requestScope.errorPassword}"></c:set>
+                        <c:set var="errorCheckEmail" value="${requestScope.errorCheckPassword}"></c:set>
                         <div>
                             <div class="form-group">
                                 <label for="Name">Nome</label>
-                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario">
+                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario" value="${requestScope.name}">
                             </div>
                         </div>
                         <div>
                             <div class="form-group">
                                 <label for="Surname">Cognome</label>
-                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
+                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi" value="${requestScope.surname}">
                             </div>
                         </div>
                         <div>
                             <div class="form-group">
-                                <input type="hidden" name="originServlet" value="insertUserServlet.java">
+                                <input type="hidden" name="typeError" value="null">
                             </div>
                             <div class="form-group">
                                 <input type="hidden" name="registerForm" value="insertUser.jsp">
@@ -101,9 +86,13 @@
                         </div>
                         <div class="row form-group">
                             <div class="col">
+                                <c:if test="${errorEmail eq null}">
+                                    <label for="Email">* Email</label>
+                                    <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                                </c:if>
+                                <c:if test="${errorEmail eq 'emailError'}">
                                 <label for="Email">* Email</label>
-                                <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp">
-                                <c:if test="${servlet eq 'errEmail'}">
+                                <input name="email" type="text" class="form-control is-invalid" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
                                     </div>
@@ -111,32 +100,43 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="Password">* Password</label>
-                            <input name="password" type="password" class="form-control" id="password" required="true">
-                            <c:if test="${servlet eq null}">
+                            <c:if test="${errorPassword eq null}">
+                                <label for="Password">* Password</label>
+                                <input name="password" type="password" class="form-control" id="password" required="true">
+                            
                                 <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
                             </c:if>
-                            <c:if test="${servlet eq 'errPassword'}">
+                            <c:if test="${errorPassword eq 'errorPassword'}">
+                                <label for="Password">* Password</label>
+                                <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
                                 </div>
                             </c:if>
                         </div>
                         <div class="form-group">
-                            <label for="Password1">* Conferma password</label>
-                            <input name ="password1" type="password" class="form-control" id="password1" require="true">
-                            
+                            <c:if test="${errorCheckPassword eq null}">
+                                <label for="Password1">* Conferma password</label>
+                                <input name ="password1" type="password" class="form-control" id="password1" require="true">
+                            </c:if>
+                            <c:if test="${errorCheckPassword eq 'errorCheckPassword'}">
+                                <label for="Password1">* Conferma password</label>
+                                <input name ="password1" type="password" class="form-control" id="password1" require="true">
+                                <div class="invalid-feedback">
+                                    ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua passoword e fai attenzione nel riscriverla uguale la seconda volta.  
+                                </div>
+                            </c:if>
                         </div>
                         <div class="row">
                             <div class="col-sm">
                                 <label for="Avatar">Avatar</label>
-                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar">
+                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar" value="${requestScope.avatar}">
                             </div>
                         </div>
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
                             <label class="form-check-label" for="exampleCheck1">
-                                * Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. I campi contrassegnati con * sono obbligatori. 
+                                * Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br> I campi contrassegnati con * sono obbligatori. 
                             </label>
                         </div>
                         <div>

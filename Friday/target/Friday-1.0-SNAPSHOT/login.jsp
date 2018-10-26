@@ -47,14 +47,14 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Accedi</h3>
-                    <form  method="POST" action="loginServlet">
+                    <form  method="POST" action="loginServlet" enctype="application/x-www-form-urlencoded">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Indirizzo e-mail</label>
-                            <input type="email" class="form-control" name="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" name="exampleInputPassword1">
+                            <input type="password" class="form-control" name="password">
                         </div>
                         <a href="#" class="text-link">
                             <p>Hai dimenticato la password?</p>

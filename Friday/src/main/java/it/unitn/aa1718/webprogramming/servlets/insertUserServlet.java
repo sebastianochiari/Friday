@@ -16,12 +16,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Scanner;
+import javax.servlet.http.HttpSession;
+import javax.swing.text.StyleConstants;
 
 /**
  *
@@ -77,7 +82,7 @@ public class insertUserServlet extends HttpServlet {
         String originServlet = null;
         String registerForm = null;
       
-        StringBuffer sb = new StringBuffer();
+/*        StringBuffer sb = new StringBuffer();
         BufferedReader bufferedReader = null;
     
         // new BufferedReader(new InputStreamReader(inputStream));
@@ -87,7 +92,8 @@ public class insertUserServlet extends HttpServlet {
         int bytesRead;
 
         while ( (bytesRead = bufferedReader.read(charBuffer)) != -1 ) {
-            sb.append(charBuffer, 0, bytesRead);
+            
+                sb.append(charBuffer, 0, bytesRead);
         }
         
         if (bufferedReader != null) {
@@ -102,10 +108,11 @@ public class insertUserServlet extends HttpServlet {
         String test = "%" + sb.toString() + "$"; 
 
         System.out.println("REQUEST BODY DEL FORM = TEST è :" +test); 
-        //Name1=remo&Surname1=zao&exampleInputEmail1=remozao@gmail.com&exampleInputPassword1=ciaone1&exampleInputPassword1=ciaone1$
         
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<FINE TEST");
+        //Name1=remo&Surname1=zao&exampleInputEmail1=remozao@gmail.com&exampleInputPassword1=ciaone1&exampleInputPassword1=ciaone1$
         name = test.substring(test.indexOf("=") + 1, test.indexOf("&"));
-        System.out.println("NAME ESTRATTO CORRETTAMENTE è " + name);
+        System.out.println("NAME ESTRATTO CORRETTAMENTE è : " + name);
         
         String [] tok = test.split("&");
         for(int i=0; i<tok.length; i++){
@@ -114,51 +121,92 @@ public class insertUserServlet extends HttpServlet {
         }
         
         surname = tok[1].substring(tok[1].indexOf("=") + 1, tok[1].indexOf("$"));
-        email = tok[2].substring(tok[2].indexOf("=") + 1, tok[2].indexOf("$"));
-        password = tok[3].substring(tok[3].indexOf("=") + 1, tok[3].indexOf("$"));
-        passwordcheck = tok[4].substring(tok[4].indexOf("=") + 1, tok[4].indexOf("$"));
-        avatar = tok[5].substring(tok[5].indexOf("=") + 1, tok[5].indexOf("$"));
-        originServlet = tok[6].substring(tok[6].indexOf("=") + 1, tok[6].indexOf("$"));
-        registerForm = tok[7].substring(tok[7].indexOf("=") + 1, tok[7].indexOf("$"));
+        originServlet = tok[2].substring(tok[2].indexOf("=") + 1, tok[2].indexOf("$"));
+        registerForm = tok[3].substring(tok[3].indexOf("=") + 1, tok[3].indexOf("$"));
+        
+        email = tok[4].substring(tok[4].indexOf("=") + 1, tok[4].indexOf("$"));
+        password = tok[5].substring(tok[5].indexOf("=") + 1, tok[5].indexOf("$"));
+        passwordcheck = tok[6].substring(tok[6].indexOf("=") + 1, tok[6].indexOf("$"));
+        avatar = tok[7].substring(tok[7].indexOf("=") + 1, tok[7].indexOf("$"));
+        
+*/
 
-        System.out.println("email:" + email);
+        /*   HttpSession session = request.getSession();
+          if (session.getAttribute("email") != null) {
+              response.setStatus(500);
+          }
+        */
+         email = request.getParameter("email");
+         password = request.getParameter("password");
+         passwordcheck = request.getParameter("password1");
+         name = request.getParameter("name");
+         surname = request.getParameter("surname");
+         avatar = request.getParameter("avatar");
+         registerForm = request.getParameter("registerForm");
+         originServlet = request.getParameter("originServlet");
+         String pswEncrypted = encrypt.setSecurePassword(password, email);
+        
+          //  session.setAttribute("ruolo", rud.getRuoloById(currentUser.getRuoloId()).getRuolo());
+             // session.removeAttribute("signupErrorMessage");
+             // request.getRequestDispatcher("/JSP/successpage.jsp").forward(request, response);
+             
         System.out.println("surname:" + surname);
+        System.out.println("originServlet: " + originServlet);
+        System.out.println("registerForm: " + registerForm);
+        System.out.println("email:" + email);
         System.out.println("psw: " + password);
         System.out.println("pswcheck: " + passwordcheck);
         System.out.println("avatar: " + avatar);
-        System.out.println("originServlet: " + originServlet);
-        System.out.println("registerForm: " + registerForm);
-        
-        // cosa succede se nel nome dell'avatar c'è &?
         
         boolean isOkay = library.checkString(password);
-
         if (userDAO.checkUser(email)) {
-            originServlet = "errEmail";
+            
+            request.setAttribute("originServlet", originServlet);
+            
+            System.out.println("IN USERDAO.CHECKUSER ???");
+            System.out.println("PRIMA DISPATCHER");
             request.getRequestDispatcher(registerForm).forward(request, response);
+            System.out.println("DOPO DISPATCHER");
         } else if(!isOkay) { 
-            originServlet = "errPassword";                 
+            System.out.println("IN !ISOKAY ???");                 
             request.getRequestDispatcher(registerForm).forward(request, response);
 
         } else {
        
+             if (!password.equals(passwordcheck)) {
+             System.out.println( "-----Le password non coicidono");
+           response.sendRedirect("insertUser.jsp");
+         } else {
+             User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false);
+             userDAO.createUser(user1);
+            
+            
+            
             //String salt = encrypt.getSalt(10); 
-            String pswEncrypted = encrypt.setSecurePassword(password, email);
+        //    String pswEncrypted = encrypt.setSecurePassword(password, email);
       
             System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
-            User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false);
+      
+            
+           
+            
+            
+     /*       User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false);
 
+    
             // memorizzazione del nuovo user nel DB
             userDAO.createUser(user1);
         
             // recupero di tutti gli user del DB
             users = userDAO.getAllUsers();
-
+*/
             // ritorno alla pagina iniziale
-            response.sendRedirect("index.html");
+            response.sendRedirect("index.jsp");
         
        
         }
+    }
+       
     }
 
     /**

@@ -36,11 +36,11 @@ public class DBSecurity {
 
 //funzione che alla registrazione dell'utente attraverso salting la encripta   
 public String setSecurePassword(String passwordToHash, String salt){
-      
+      System.out.println("SONO IN SETSECUREPASSWORD");
     System.out.println("in DBSECURITY PSW TO HASH: " + passwordToHash);
     System.out.println("IN DBSECURITY SALTING: " + salt);
     
-String generatedPassword = null;
+    String generatedPassword = null;
 
 
 

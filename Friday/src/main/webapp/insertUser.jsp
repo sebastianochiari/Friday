@@ -77,7 +77,10 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Registrati</h3>
-                    <form method="POST" action="insertUserServlet" enctype="multipart/form-data">
+                    
+                    <!-- enctype="application/x-www-form-urlencoded" -->
+                
+                    <form method="POST" action="insertUserServlet" enctype="application/x-www-form-urlencoded" >
                         <c:set var="servlet" value="${param.originServlet}"></c:set>
                         <div>
                             <div class="form-group">
@@ -91,7 +94,7 @@
                                 <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
                             </div>
                         </div>
-                        <div>
+                         <div>
                             <div class="form-group">
                                 <input type="hidden" name="originServlet" value="insertUserServlet.java">
                             </div>
@@ -99,24 +102,39 @@
                                 <input type="hidden" name="registerForm" value="insertUser.jsp">
                             </div>
                         </div>
+                        
+                       
+                        
                         <div class="row form-group">
                             <div class="col">
+                                
+                             <c:if test="${servlet eq null} ">
                                 <label for="Email">* Email</label>
                                 <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp">
-                                <c:if test="${servlet eq 'errEmail'}">
+                                 </c:if>
+                                <c:if test="${servlet eq 'insertUserServlet.java'}">
+                                     <label for="Email">* Email</label>
+                                <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
                                     </div>
                                 </c:if>
+                     
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="Password">* Password</label>
-                            <input name="password" type="password" class="form-control" id="password" required="true">
+                            
+                            
+                          
+                            
                             <c:if test="${servlet eq null}">
-                                <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
+                                 <label for="Password">* Password</label>
+                            <input name="password" type="password" class="form-control" id="password" required="true">
+                            <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
                             </c:if>
-                            <c:if test="${servlet eq 'errPassword'}">
+                            <c:if test="${servlet eq 'insertUserServlet.java'}">
+                                <label for="Password">* Password</label>
+                            <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
                                 </div>
@@ -130,7 +148,7 @@
                         <div class="row">
                             <div class="col-sm">
                                 <label for="Avatar">Avatar</label>
-                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar">
+                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar"> 
                             </div>
                         </div>
                         <div class="form-group form-check">

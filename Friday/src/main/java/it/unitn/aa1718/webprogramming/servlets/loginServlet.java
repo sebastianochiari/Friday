@@ -99,7 +99,7 @@ public class loginServlet extends HttpServlet {
         String email = null;
         String password = null;
       
-        StringBuffer sb = new StringBuffer();
+/*        StringBuffer sb = new StringBuffer();
         BufferedReader bufferedReader = null;
         bufferedReader =  request.getReader() ; //new BufferedReader(new InputStreamReader(inputStream));
         char[] charBuffer = new char[128];
@@ -129,13 +129,16 @@ public class loginServlet extends HttpServlet {
         password = tok[1].substring(tok[1].indexOf("=") + 1, tok[1].indexOf("$"));
         System.out.println("email in LOGINSERVLET:" + email);
         System.out.println("psw in LOGINSERVLET: " + password);
-        
+*/     
         
         
         //String salt = encrypt.getSalt(10);
         
         
-        
+         email = request.getParameter("email");
+         password = request.getParameter("password");
+
+       System.out.println("EMIL + PASSWORD: " + email + " -- " + password);
         String pswencrypted = encrypt.setSecurePassword(password, email);
         
         System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
@@ -161,13 +164,15 @@ public class loginServlet extends HttpServlet {
          }
          
          
-         
-         
-          if(pswencrypted.hashCode() == dbpassword.hashCode()){
-                System.out.println("LE PASSWORD SONO CORRETTE!! REDIREZIONO A INDEX.HTML");
+          if(pswencrypted.equals(dbpassword)){
+                System.out.println("LE PASSWORD SONO CORRETTE!! REDIREZIONO A INDEX.JSP");
                 
-                response.sendRedirect("index.html");
+                response.sendRedirect("index.jsp");
             }
+          else {
+              System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
+          }
+          
         
          
          

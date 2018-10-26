@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\ShoppingList.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLUserDAOImpl.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\ProductCategory.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\User.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\connection\DAOFactory.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\connection\MySQLDAOFactory.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertShoppingListServlet.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertUserServlet.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductServlet.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLProductCategoryDAOImpl.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\extra\Library.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ProductDAO.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLProductDAOImpl.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\UserDAO.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\Product.java
-D:\introWeb\progetto\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ProductCategoryDAO.java
-=======
 C:\Users\marta\Desktop\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\loginServlet.java
 C:\Users\marta\Desktop\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.java
 C:\Users\marta\Desktop\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\ShoppingList.java
@@ -40,4 +19,3 @@ C:\Users\marta\Desktop\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webpro
 C:\Users\marta\Desktop\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductServlet.java
 C:\Users\marta\Desktop\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.java
 C:\Users\marta\Desktop\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\UserDAO.java
->>>>>>> m-back-end

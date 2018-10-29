@@ -66,9 +66,9 @@ public class LoginServlet extends HttpServlet {
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         MyCookieDAO riverDAO = mySqlFactory.getMyCookieDAO();
         
+        
         // List myCookies = null; da implementare, dovremmo salvarci tutti i cookie del DB
         MyCookie myCookie = null;
-       
         MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
         
         
@@ -87,27 +87,30 @@ public class LoginServlet extends HttpServlet {
         
         if (myCookie == null) {
             
-            int cookievalue = library.LastEntryTable("cookieID", "cookies");
-            String cookiename = "FridayLogin";
-            Cookie cookie = new Cookie(cookiename, Integer.toString(cookievalue));
+            Cookie cookie = new Cookie("FridayLogin", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
             
             //ricordami per 3600 secondi se selezionato, altrimenti cookie valido per la sessione
             if(ricordami != null && ricordami.equals("on")){
-                cookie.setMaxAge(3600);//se ricordami selezionato
+                cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
                 Deadline = timestamp.getTime()+ 60*60*1000;
             }
             else
-                    cookie.setMaxAge(-1);//se ricordami non selezionato
+                    cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
             
             int LID = -1;
-            myCookieDAO.createCookie(new MyCookie(cookievalue, LID, email, Deadline));
+            myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline));
+            (request.getSession()).setAttribute("sessionCookie", myCookieDAO.getCookie(request, email));
             response.addCookie(cookie);
             
             System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
             
         }
-        else
-            System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
+        else{
+                System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
+                (request.getSession()).setAttribute("sessionCookie", myCookie);
+        }
+
+        
 
      
     }

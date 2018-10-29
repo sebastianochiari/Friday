@@ -98,44 +98,11 @@ public class loginServlet extends HttpServlet {
       
         String email = null;
         String password = null;
-      
-        StringBuffer sb = new StringBuffer();
-        BufferedReader bufferedReader = null;
-        bufferedReader =  request.getReader() ; //new BufferedReader(new InputStreamReader(inputStream));
-        char[] charBuffer = new char[128];
-        int bytesRead;
-        while ( (bytesRead = bufferedReader.read(charBuffer)) != -1 ) {
-            sb.append(charBuffer, 0, bytesRead);
-        }
-        if (bufferedReader != null) {
-            try {
-                bufferedReader.close();
-            } catch (IOException ex) {
-                throw ex;
-            }
-         }
-        String test = "%" + sb.toString() + "$"; //concateno \n\n come delimitatori, mi limito al penultimo, così non esco da |Stringa|
-        System.out.println("REQUEST BODY DEL FORM = TEST è :" +test); 
-        
-        email = test.substring(test.indexOf("=") + 1, test.indexOf("&"));
-        System.out.println("EMAIL ESTRATTO CORRETTAMENTE è " + email);
-        String [] tok = test.split("&");
-        
-        for(int i=0; i<tok.length; i++){
-            System.out.println("VALE: " + tok[i] + "\n"); 
-            tok[i] = tok[i] + "$";
-        }
-        
-        password = tok[1].substring(tok[1].indexOf("=") + 1, tok[1].indexOf("$"));
-        System.out.println("email in LOGINSERVLET:" + email);
-        System.out.println("psw in LOGINSERVLET: " + password);
-        
-        
-        
-        //String salt = encrypt.getSalt(10);
-        
-        
-        
+
+        email = request.getParameter("email");
+        password = request.getParameter("password");
+
+        System.out.println("EMIL + PASSWORD: " + email + " -- " + password);
         String pswencrypted = encrypt.setSecurePassword(password, email);
         
         System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
@@ -159,19 +126,13 @@ public class loginServlet extends HttpServlet {
                  System.err.println("password inserita non è corretts, reinserire -- REDIREZIONA CON POPUP -- o errate ??' ");
              }
          }
-         
-         
-         
-         
-          if(pswencrypted.hashCode() == dbpassword.hashCode()){
-                System.out.println("LE PASSWORD SONO CORRETTE!! REDIREZIONO A INDEX.HTML");
-                
-                response.sendRedirect("index.html");
-            }
-        
-         
-         
-         
+         if(pswencrypted.equals(dbpassword)){
+                System.out.println("LE PASSWORD SONO CORRETTE!! REDIREZIONO A INDEX.JSP");
+                response.sendRedirect("index.jsp");
+            } else {
+              System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
+          }
+          
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -192,11 +153,8 @@ public class loginServlet extends HttpServlet {
             }
               
         }
-        
-         
- 
- 
-    }
+
+ }
         
 
 

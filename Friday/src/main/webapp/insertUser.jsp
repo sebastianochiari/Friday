@@ -76,7 +76,7 @@
                                 <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi" value="${requestScope.surname}">
                             </div>
                         </div>
-                        <div>
+                         <div>
                             <div class="form-group">
                                 <input type="hidden" name="typeError" value="null">
                             </div>
@@ -84,6 +84,9 @@
                                 <input type="hidden" name="registerForm" value="insertUser.jsp">
                             </div>
                         </div>
+                        
+                       
+                        
                         <div class="row form-group">
                             <div class="col">
                                 <c:if test="${errorEmail eq null}">
@@ -91,12 +94,13 @@
                                     <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
                                 </c:if>
                                 <c:if test="${errorEmail eq 'emailError'}">
-                                <label for="Email">* Email</label>
-                                <input name="email" type="text" class="form-control is-invalid" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                                    <label for="Email">* Email</label>
+                                    <input name="email" type="text" class="form-control is-invalid" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
                                     </div>
                                 </c:if>
+                     
                             </div>
                         </div>
                         <div class="form-group">
@@ -130,7 +134,7 @@
                         <div class="row">
                             <div class="col-sm">
                                 <label for="Avatar">Avatar</label>
-                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar" value="${requestScope.avatar}">
+                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar"> 
                             </div>
                         </div>
                         <div class="form-group form-check">

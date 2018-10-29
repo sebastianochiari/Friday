@@ -53,7 +53,7 @@
                 <ul class="header-top-links">
                     <li><a href="#">Newsletter</a></li>
                     <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><a href="login.jsp">Login</a></li>
                     <li><a href="insertUser.jsp">Registrati</a></li>
                 </ul>
             </div>

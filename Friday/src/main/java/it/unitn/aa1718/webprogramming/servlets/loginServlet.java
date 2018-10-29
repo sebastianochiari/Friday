@@ -23,7 +23,7 @@ import java.sql.Timestamp;
  *
  * @author leo97
  */
-public class LoginServlet extends HttpServlet {
+public class loginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

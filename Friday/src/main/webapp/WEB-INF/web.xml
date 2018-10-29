@@ -27,9 +27,13 @@
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.insertShoppingListServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>loginServlet</servlet-name>
+    <servlet-name>loginServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.loginServlet</servlet-class>
     </servlet>
+    <servlet-name>insertShoppingListCategoryServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.insertShoppingListCategoryServlet</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>insertUserServlet</servlet-name>
         <url-pattern>/insertUserServlet</url-pattern>
@@ -49,6 +53,10 @@
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
         <url-pattern>/loginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>insertShoppingListCategoryServlet</servlet-name>
+        <url-pattern>/insertShoppingListCategoryServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

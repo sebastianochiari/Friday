@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -31,11 +33,12 @@ public class Library {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(command);
             preparedStatement.execute();
-            result = preparedStatement.getResultSet();                    
+            result = preparedStatement.getResultSet(); 
             
             result.next();
-            System.out.println(result.getString(colTmp));
-            tmp = Integer.parseInt(result.getString(colTmp))+1;
+            if(result.getString(colTmp) != null){
+                tmp = Integer.parseInt(result.getString(colTmp))+1;
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,6 +62,7 @@ public class Library {
         return tmp;
     }
     
+    //controllo della presenza dell'immagine all'inserimento di liste, prodotti ecc
     public String ImageControl(String image) {
         String tmp = null;
         
@@ -69,7 +73,10 @@ public class Library {
         return tmp;
     }
     
+<<<<<<< HEAD
     
  
     
+=======
+>>>>>>> l-back-end
 }

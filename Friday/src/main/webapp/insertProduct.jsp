@@ -134,7 +134,7 @@
 
     </div>
 
-    <br></br>
+    <br>
 
     <div class="footer">
         <!-- Informativa sulla Privacy - Informativa sui Cookie -->
@@ -159,7 +159,7 @@
                 <p class="footer-info">© 2018, Friday.com, Inc o società affiliate</p>
             </div>
         </div>
-        <br></br>
+        <br>
     </div>
 
 </body>

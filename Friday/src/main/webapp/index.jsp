@@ -60,7 +60,8 @@
                     <li><a href="faq.html">FAQ</a></li>
                          
                     <%
-                        (request.getSession()).setAttribute("usersession", null);
+                        (request.getSession()).setAttribute("emailSession", null);
+                        (request.getSession()).setAttribute("cookieIDSession", null);
                         
                         Cookie[] cookies = request.getCookies();
                         Connection connection = null;
@@ -85,8 +86,9 @@
                                     for(int i=0; i<cookies.length; i++){
                                         System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
                                         if((cookies[i].getValue()).equals(result.getString("cookieID"))){
-                                            (request.getSession()).setAttribute("usersession", result.getString("Email"));
-                                            System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("usersession"));
+                                            (request.getSession()).setAttribute("emailSession", result.getString("Email"));
+                                            (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                                            System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
                                         }
                                     }
                                 }
@@ -114,13 +116,17 @@
                         
                     %>
                     
-                    <c:out value=" -${usersession}-"></c:out>
-                    <c:if var="bool" test="${usersession eq null}">
+                    <c:out value=" -${emailSession}-"></c:out>
+                    <c:if var="bool" test="${emailSession eq null}">
                         <li><a href="login.jsp">Login</a></li>
                         <li><a href="insertUser.jsp">Registrati</a></li>
                     </c:if>
-                    <c:if var="bool" test="${usersession ne null}">
-                        <li><a href="logout.jsp">Logout</a></li>
+                    <c:if var="bool" test="${emailSession ne null}">
+                    <li>
+                        <form action="logoutServlet" method="POST">
+                            <button type="submit" class="btn displayCenter login-btn">Logout</button>
+                        </form>
+                    </li>
                     </c:if>
                         
                 </ul>

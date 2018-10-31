@@ -1,4 +1,5 @@
 it\unitn\aa1718\webprogramming\dao\MyCookieDAO.class
+it\unitn\aa1718\webprogramming\servlets\logoutServlet.class
 it\unitn\aa1718\webprogramming\connection\MySQLDAOFactory.class
 it\unitn\aa1718\webprogramming\extra\Library.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductCategoryDAOImpl.class

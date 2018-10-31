@@ -5,12 +5,17 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
+import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -70,7 +75,22 @@ public class logoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        HttpSession session = request.getSession();
+        
+        //cancello eventuale cookie
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+        
+        MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+        myCookieDAO.deleteCookieByCookieID(Integer.parseInt((String)session.getAttribute("cookieIDSession")));
+        
+        session.setAttribute("emailSession", null);
+        session.setAttribute("cookieIDSession", null);
+        session.invalidate();
+        
+        response.sendRedirect("index.jsp");
+        
     }
 
     /**

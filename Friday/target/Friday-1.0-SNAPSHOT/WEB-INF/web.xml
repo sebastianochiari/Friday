@@ -27,17 +27,14 @@
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.insertShoppingListServlet</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>loginServlet</servlet-name>
-=======
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.loginServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>insertShoppingListCategoryServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.insertShoppingListCategoryServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
->>>>>>> l-back-end
-        <servlet-class>it.unitn.aa1718.webprogramming.servlets.loginServlet</servlet-class>
-    </servlet>
+    
     <servlet-mapping>
         <servlet-name>insertUserServlet</servlet-name>
         <url-pattern>/insertUserServlet</url-pattern>
@@ -55,17 +52,12 @@
         <url-pattern>/insertShoppingListServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>loginServlet</servlet-name>
         <url-pattern>/loginServlet</url-pattern>
-=======
-        <servlet-name>insertShoppingListCategoryServlet</servlet-name>
-        <url-pattern>/insertShoppingListCategoryServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/LoginServlet</url-pattern>
->>>>>>> l-back-end
+        <servlet-name>insertShoppingListCategoryServlet</servlet-name>
+        <url-pattern>/insertShoppingListCategoryServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -73,10 +65,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-<<<<<<< HEAD
         <welcome-file>index.jsp</welcome-file>
-=======
-        <welcome-file>indexProvvisorio.html</welcome-file>
->>>>>>> l-back-end
     </welcome-file-list>
 </web-app>

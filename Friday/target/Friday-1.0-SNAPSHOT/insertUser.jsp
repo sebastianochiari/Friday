@@ -60,7 +60,6 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Registrati</h3>
-<<<<<<< HEAD
                     <form method="POST" action="insertUserServlet" enctype="application/x-www-form-urlencoded" >
                         <c:set var="errorEmail" value="${requestScope.errorEmail}"></c:set>
                         <c:set var="errorPassword" value="${requestScope.errorPassword}"></c:set>
@@ -77,44 +76,9 @@
                                 <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi" value="${requestScope.surname}">
                             </div>
                         </div>
-                        <div>
-                            <div class="form-group">
-                                <input type="hidden" name="typeError" value="null">
-                            </div>
-                            <div class="form-group">
-                                <input type="hidden" name="registerForm" value="insertUser.jsp">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col">
-                                <c:if test="${errorEmail eq null}">
-                                    <label for="Email">* Email</label>
-                                    <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
-                                </c:if>
-                                <c:if test="${errorEmail eq 'emailError'}">
-                                <label for="Email">* Email</label>
-                                <input name="email" type="text" class="form-control is-invalid" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
-=======
-                    
-                    <!-- enctype="application/x-www-form-urlencoded" -->
-                
-                    <form method="POST" action="insertUserServlet" enctype="application/x-www-form-urlencoded" >
-                        <c:set var="servlet" value="${param.originServlet}"></c:set>
-                        <div>
-                            <div class="form-group">
-                                <label for="Name">Nome</label>
-                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="Surname">Cognome</label>
-                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi">
-                            </div>
-                        </div>
                          <div>
                             <div class="form-group">
-                                <input type="hidden" name="originServlet" value="insertUserServlet.java">
+                                <input type="hidden" name="typeError" value="null">
                             </div>
                             <div class="form-group">
                                 <input type="hidden" name="registerForm" value="insertUser.jsp">
@@ -125,20 +89,18 @@
                         
                         <div class="row form-group">
                             <div class="col">
-                                
-                             <c:if test="${servlet eq null} ">
-                                <label for="Email">* Email</label>
-                                <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp">
-                                 </c:if>
-                                <c:if test="${servlet eq 'insertUserServlet.java'}">
-                                     <label for="Email">* Email</label>
-                                <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp">
->>>>>>> m-back-end
+                                <c:if test="${errorEmail eq null}">
+                                    <label for="Email">* Email</label>
+                                    <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                                </c:if>
+                                <c:if test="${errorEmail eq 'emailError'}">
+                                    <label for="Email">* Email</label>
+                                    <input name="email" type="text" class="form-control is-invalid" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
                                     </div>
                                 </c:if>
-<<<<<<< HEAD
+                     
                             </div>
                         </div>
                         <div class="form-group">
@@ -151,31 +113,12 @@
                             <c:if test="${errorPassword eq 'errorPassword'}">
                                 <label for="Password">* Password</label>
                                 <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
-=======
-                     
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            
-                            
-                          
-                            
-                            <c:if test="${servlet eq null}">
-                                 <label for="Password">* Password</label>
-                            <input name="password" type="password" class="form-control" id="password" required="true">
-                            <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
-                            </c:if>
-                            <c:if test="${servlet eq 'insertUserServlet.java'}">
-                                <label for="Password">* Password</label>
-                            <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
->>>>>>> m-back-end
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
                                 </div>
                             </c:if>
                         </div>
                         <div class="form-group">
-<<<<<<< HEAD
                             <c:if test="${errorCheckPassword eq null}">
                                 <label for="Password1">* Conferma password</label>
                                 <input name ="password1" type="password" class="form-control" id="password1" require="true">
@@ -187,20 +130,11 @@
                                     ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua passoword e fai attenzione nel riscriverla uguale la seconda volta.  
                                 </div>
                             </c:if>
-=======
-                            <label for="Password1">* Conferma password</label>
-                            <input name ="password1" type="password" class="form-control" id="password1" require="true">
-                            
->>>>>>> m-back-end
                         </div>
                         <div class="row">
                             <div class="col-sm">
                                 <label for="Avatar">Avatar</label>
-<<<<<<< HEAD
-                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar" value="${requestScope.avatar}">
-=======
                                 <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar"> 
->>>>>>> m-back-end
                             </div>
                         </div>
                         <div class="form-group form-check">

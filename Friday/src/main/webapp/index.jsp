@@ -4,7 +4,12 @@
     Author     : tommi
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.sql.*"%>
+<%@page import="java.util.*"%>
+<%@page import="javax.servlet.*"%>
 <!DOCTYPE html>
 <html lang="it">
 
@@ -53,8 +58,71 @@
                 <ul class="header-top-links">
                     <li><a href="#">Newsletter</a></li>
                     <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="login.jsp">Login</a></li>
-                    <li><a href="insertUser.jsp">Registrati</a></li>
+                         
+                    <%
+                        (request.getSession()).setAttribute("usersession", null);
+                        
+                        Cookie[] cookies = request.getCookies();
+                        Connection connection = null;
+                        try {
+                            Class.forName("com.mysql.cj.jdbc.Driver");
+                            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "root");
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        PreparedStatement preparedStatement = null;
+                        ResultSet result = null;
+                        try {
+                            preparedStatement = connection.prepareStatement("SELECT * FROM cookies;");
+                            preparedStatement.execute();
+                            result = preparedStatement.getResultSet();
+
+                            if(cookies != null){
+                                while (result.next()) {
+                                    for(int i=0; i<cookies.length; i++){
+                                        System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
+                                        if((cookies[i].getValue()).equals(result.getString("cookieID"))){
+                                            (request.getSession()).setAttribute("usersession", result.getString("Email"));
+                                            System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("usersession"));
+                                        }
+                                    }
+                                }
+                            }
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                result.close();
+                            } catch (Exception rse) {
+                                rse.printStackTrace();
+                            }
+                            try {
+                                preparedStatement.close();
+                            } catch (Exception sse) {
+                                sse.printStackTrace();
+                            }
+                            try {
+                                connection.close();
+                            } catch (Exception cse) {
+                                cse.printStackTrace();
+                            }
+                        }
+                        
+                    %>
+                    
+                    <c:out value=" -${usersession}-"></c:out>
+                    <c:if var="bool" test="${usersession eq null}">
+                        <li><a href="login.jsp">Login</a></li>
+                        <li><a href="insertUser.jsp">Registrati</a></li>
+                    </c:if>
+                    <c:if var="bool" test="${usersession ne null}">
+                        <li><a href="logout.jsp">Logout</a></li>
+                    </c:if>
+                        
                 </ul>
             </div>
         </div>

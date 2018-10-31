@@ -73,10 +73,4 @@ public class Library {
         return tmp;
     }
     
-<<<<<<< HEAD
-    
- 
-    
-=======
->>>>>>> l-back-end
 }

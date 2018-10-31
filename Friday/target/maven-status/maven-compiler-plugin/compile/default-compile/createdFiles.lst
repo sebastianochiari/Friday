@@ -1,20 +1,13 @@
 it\unitn\aa1718\webprogramming\dao\MyCookieDAO.class
+it\unitn\aa1718\webprogramming\servlets\logoutServlet.class
 it\unitn\aa1718\webprogramming\connection\MySQLDAOFactory.class
 it\unitn\aa1718\webprogramming\extra\Library.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductCategoryDAOImpl.class
 it\unitn\aa1718\webprogramming\friday\Product.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLUserDAOImpl.class
-<<<<<<< HEAD
-it\unitn\aa1718\webprogramming\encrypt\DBSecurity.class
-it\unitn\aa1718\webprogramming\connection\DAOFactory.class
-it\unitn\aa1718\webprogramming\friday\User.class
-it\unitn\aa1718\webprogramming\dao\ProductCategoryDAO.class
-it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.class
-=======
 it\unitn\aa1718\webprogramming\friday\User.class
 it\unitn\aa1718\webprogramming\dao\ProductCategoryDAO.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListCategoryDAOImpl.class
->>>>>>> l-back-end
 it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.class
 it\unitn\aa1718\webprogramming\servlets\insertProductServlet.class
 it\unitn\aa1718\webprogramming\servlets\loginServlet.class
@@ -24,17 +17,13 @@ it\unitn\aa1718\webprogramming\friday\ProductCategory.class
 it\unitn\aa1718\webprogramming\friday\ShoppingListCategory.class
 it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.class
 it\unitn\aa1718\webprogramming\friday\ShoppingList.class
+it\unitn\aa1718\webprogramming\encrypt\DBSecurity.class
 it\unitn\aa1718\webprogramming\connection\DAOFactory.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLMyCookieDAOImpl.class
 it\unitn\aa1718\webprogramming\dao\UserDAO.class
 it\unitn\aa1718\webprogramming\friday\MyCookie.class
 it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.class
-<<<<<<< HEAD
-it\unitn\aa1718\webprogramming\servlets\insertProductServlet.class
-it\unitn\aa1718\webprogramming\servlets\loginServlet.class
-=======
->>>>>>> l-back-end
 it\unitn\aa1718\webprogramming\dao\ProductDAO.class
 it\unitn\aa1718\webprogramming\servlets\insertShoppingListServlet.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductDAOImpl.class

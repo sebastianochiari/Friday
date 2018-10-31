@@ -60,7 +60,7 @@
                             <p>Hai dimenticato la password?</p>
                         </a>
                         <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <input name = "ricordami" type="checkbox" class="form-check-input" id="exampleCheck1">
                             <label class="form-check-label" for="exampleCheck1">Ricordami</label>
                         </div>
                         <div class="row">

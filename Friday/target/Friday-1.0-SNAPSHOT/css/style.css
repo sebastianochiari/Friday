@@ -122,12 +122,12 @@ hr {
     color: #FFFFFF;
     background-color: #F8694A;
     border-color: transparent;
-} .login-btn:hover {
+} .std-button:hover {
         color: #FFFFFF;
         background-color: rgba(232, 89, 58, 1);
         border-color: transparent;
     }
-    .login-btn:active {
+    .std-button:active {
         background-color: #F8694A;
         border-color: transparent;
     }
@@ -703,9 +703,10 @@ hr {
 }
 
 .footer-copyright {
-  margin: 15px 15px 15px 15px;
-  text-transform: uppercase;
-  font-size: 14px;
+    text-align: center;
+    margin: 15px 15px 15px 15px;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
 .footer-logo {
@@ -793,3 +794,38 @@ hr {
     color: #fff;
     background-color: #F8694A;
 }
+
+.qty-input {
+    display: inline-block;
+}
+
+.number-input {
+    width: 5rem;
+    padding: 5px 15px 5px 15px;
+}
+
+.list-product-description {
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.list-icon {
+    font-size: 1.5rem !important;
+    margin: 0px 5px 0px 5px;
+}
+
+.modal-content {
+    border: 0px;
+    border-radius: 0.1rem;
+}
+
+.account-image {
+    height: 150px;
+    width: auto;
+}
+
+.security-form {
+    max-width: 500px;
+}
+
+.johnCena {}

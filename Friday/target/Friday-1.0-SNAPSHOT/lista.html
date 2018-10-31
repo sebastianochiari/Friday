@@ -37,7 +37,7 @@
 
 <body id="top">
 
-<!--
+    <!--
     <nav class="navbar navbar-border">
         <div class="container">
             <div class="float-left">
@@ -87,7 +87,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                             <a class="dropdown-item" href="#">Il mio account</a>
                             <a class="dropdown-item" href="login.html">Login</a>
-                            <a class="dropdown-item" href="register.html">Crea un'account</a>
+                            <a class="dropdown-item" href="register.html">Crea un account</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">
@@ -132,7 +132,7 @@
                     <div class="col-md mt-1 nav-col">
                         <input class="form-control nav-search" type="text" placeholder="Cerca">
                     </div>
-                </div>
+                    </div>
             </form>
         </div>
     </nav>
@@ -142,18 +142,18 @@
 
         <!-- section -->
         <div class="section">
-    		<!-- container -->
-    		<div class="container">
-    			<!-- row -->
-    			<div class="row">
-    				<!-- ASIDE -->
-    				<div id="aside" class="col-md-3">
-    					<!-- aside widget -->
-    					<div class="aside">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- ASIDE -->
+                    <div id="aside" class="col-md-3">
+                        <!-- aside widget -->
+                        <div class="aside">
 
                             <h3 class="aside-title">Le mie liste:</h3>
                             <ul class="list-links">
-                                <li class="active"><a href="#">Lista #1 (predefinita)</a></li>
+                                <li class="active"><a href="#">Lista #1</a></li>
                                 <li><a href="#">Lista #2</a></li>
                                 <li><a href="#">Gestisci liste</a></li>
                             </ul>
@@ -176,39 +176,151 @@
                         <div id="list">
 
                             <div id="breadcrumb">
-                                <div class="row">
-                                    <div class="col">
-                                        <h4>Nome lista <span class="badge badge-friday">Categoria</span></h4>
-                                        <p class="mt-2">Inserire descrizione della lista</p>
+                                <div class="pb-2">
+                                    <div class="clearfix">
+                                        <div class="float-left">
+                                            <p style="text-align: right; margin-bottom: 0.5rem;"><b>proprietario</b>: <span id="proprietario-lista">Tommaso Bosetti</span></p>
+                                        </div>
+                                        <div class="float-right">
+                                            <!-- CONDIVISIONE LISTA -->
+                                            <a href="#" class="shopping-link list-icon" title="Condividi lista" data-toggle="modal" data-target="#shareModal">
+                                                <i class="fas fa-share-alt"></i>
+                                            </a>
+                                            <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content shadow">
+                                                        <div class="modal-body">
+                                                            <h5>Condividi con altri utenti</h5>
+                                                            <br>
+                                                            <label for="exampleFormControlInput1">Persone</label>
+                                                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                                                            <button type="button" class="btn std-button" data-dismiss="modal">Fine</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- ELIMINAZIONE LISTA -->
+                                            <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content shadow">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            <br>
+                                                            <p>Vuoi veramente eliminare questa lista della spesa?</p>
+                                                            <div class="float-right">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                                                                <button type="button" class="btn std-button">Elimina</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <img class="list-image displayCenter" src="images/fruttivendolo.jpg">
-                                    </div>
+                                    <h4>Scuola Giovanni<span class="badge badge-friday ml-2">Scuola</span></h4>
+                                    <p>Da comprare per Giovanni</p>
                                 </div>
                             </div>
 
                             <div id="breadcrumb" class="list-element">
                                 <div class="row">
+                                    <div class="col-md-2">
+                                        <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
+                                    </div>
+                                        <div class="col">
+                                            <h5>Nome prodotto</h5>
+                                            <p class="mt-2 list-product-description">
+                                                Ideale per lavori di artigianato su carta, cartone, foto ed etichette. Senza solvente e PVC.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="displayCenter">
+                                                <div class="qty-input">
+                                                    <span>Quantità: </span>
+                                                    <input class="number-input" type="number" placeholder="1" min="1">
+                                            </div>
+                                                    <a href="#" class="shopping-link">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                                </div>
+                                                <div class="btn-group displayCenter mt-2" role="group">
+                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Sposta nella lista<i class="ml-2 fas fa-angle-down"></i>
+                                            </button>
+                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
+                                                        <a class="dropdown-item" href="#">Dropdown link</a>
+                                                        <a class="dropdown-item" href="#">Dropdown link</a>
+                                                        <div class="create-list">
+                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="breadcrumb" class="list-element">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
+                                    </div>
+                                                <div class="col">
+                                                    <h5>Nome prodotto</h5>
+                                                    <p class="mt-2">Inserire descrizione del prodotto</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="displayCenter">
+                                                        <a href="#" class="shopping-link list-icon" title="Sposta">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </a>
+                                                        <a href="#" class="shopping-link list-icon" title="Condividi lista">
+                                                <i class="fas fa-share"></i>
+                                            </a>
+                                                        <a href="#" class="shopping-link list-icon" title="Rimuovi">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="breadcrumb" class="list-element">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
+                                    </div>
+                                                    <div class="col">
+                                                        <h5>Nome prodotto</h5>
+                                                        <p class="mt-2">Inserire descrizione del prodotto</p>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="qty-input">
+                                                            <span>Quantità: </span>
+                                                            <input class="number-input" type="number" placeholder="1" min="1">
+                                        </div>
+                                                            <a href="#" class="shopping-link">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- END: list -->
+
+                                        </div>
+                                        <!-- END: main -->
+
+                                    </div>
+
                                 </div>
-                                <div class="col-md-1">
-                                    <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
-                                </div>
-                                <div class="col">
-                                    <h4>Nome lista</h4>
-                                </div>
+
                             </div>
-
-                        </div>
-                        <!-- END: list -->
-
-                    </div>
-                    <!-- END: main -->
-
-                </div>
-
-            </div>
-
-        </div>
 
     </main>
 

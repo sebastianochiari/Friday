@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,13 +50,40 @@
                     <h3>Accedi</h3>
                     <form  method="POST" action="loginServlet" enctype="application/x-www-form-urlencoded">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Indirizzo e-mail</label>
-                            <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+                            
+                            <c:if test="${errorEmail eq null}">
+                                    <label for="Email"> Indirizzo e-mail </label>
+                                    <input name="email" type="text" class="form-control" id="email"  required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                                </c:if>
+                            
+                           
+                        <c:if test="${errorEmail eq 'emailError'}">
+                                    <label for="Email"> Indirizzo e-mail </label>
+                                    <input name="email" type="text" class="form-control is-invalid" id="email"  required="true" aria-describedby="emailHelp" >
+                                    <div class="invalid-feedback">
+                                        ATTENZIONE! Se non sei già presente su Friday registrati
+                                    </div>
+                        </c:if>
                         </div>
+                        
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
+                            
+                             <c:if test="${errorPassword eq null}">
+                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" class="form-control" name="password">
+                           </c:if>
+                            
+                            <c:if test="${errorPassword eq 'errorPassword'}">
+                                <label for="Password">* Password</label>
+                                <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
+                                <div class="invalid-feedback">
+                                    ATTENZIONE! La password è errata. 
+                                </div>
+                                     </c:if>
+                                         
                         </div>
+                                    
+                                    
                         <a href="#" class="text-link">
                             <p>Hai dimenticato la password?</p>
                         </a>
@@ -71,6 +99,27 @@
                                 <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
                             </div>
                         </div>
+                        
+                        <div>
+                            <div class="form-group">
+                                <input type="hidden" name="typeError" value="null">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="registerForm" value="login.jsp">
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <!-- controllo email contorno rosso come in register --> 
+                        
+                       
+                        
+                        
+                        
+                        
+                        
+                        
                         <br>
                         <p>Sei nuovo su Friday? <a href="register.html" class="text-link">Registrati</a></p>
                     </form>

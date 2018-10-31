@@ -11,17 +11,11 @@ import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
-import it.unitn.aa1718.webprogramming.friday.User;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -105,81 +99,119 @@ public class loginServlet extends HttpServlet {
 
         List users = null;
         UserDAO userDAO = new MySQLUserDAOImpl();
-
-        // creazione di user
         Library library = new Library();
       
         String email = null;
         String password = null;
         String ricordami = null;
-
+        
+        String typeError = null;
+        String registerForm = null;
         email = request.getParameter("email");
         password = request.getParameter("password");
         ricordami = request.getParameter("ricordami");
+        typeError = request.getParameter("typeError");
+        registerForm = request.getParameter("registerForm");
 
-        System.out.println("EMIL + PASSWORD: " + email + " -- " + password);
+        System.out.println("email:" + email);
+        System.out.println("psw:" + password);
+        System.out.println("ricordami:" + ricordami);
+        
+        System.out.println("typeError: " + typeError);
+        System.out.println("registerForm: " + registerForm);
+        
+        System.out.println("EMIL + PASSWORD + ricordami : " + email + password);
+        
+        request.setAttribute("email", email);
+        
+        //ritorna false se non esiste una mail nel database 
+        if (!userDAO.checkUser(email)) {
+             System.out.println("questa email non esiste nel database");
+            String error = "emailError";
+            typeError = error;
+            request.setAttribute("errorEmail", typeError);
+            request.getRequestDispatcher(registerForm).forward(request, response);
+            
+        } else {
+                
+            
         String pswencrypted = encrypt.setSecurePassword(password, email);
-        
         System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
-
-        //elimina cookie scaduti
-        myCookieDAO.deleteDBExpiredCookies();
         
-        //associa cookie se esistente
-        myCookie = myCookieDAO.getCookie(request, email);
-        Long Deadline = (long)0;
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                Connection connection = MySQLDAOFactory.createConnection();
+                PreparedStatement preparedStatement = null;
+                ResultSet result = null;
+                String  get_access = "SELECT password FROM users WHERE email = ?";
+                String dbpassword = null;
         
-        Connection connection = MySQLDAOFactory.createConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet result = null;
-        String  get_access = "SELECT password FROM users WHERE email = ?";
-        String dbpassword = null;
-
-        if (myCookie == null) {
-            
-            Cookie cookie = new Cookie("FridayLogin", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
-            
-            //ricordami per 3600 secondi se selezionato, altrimenti cookie valido per la sessione
-            if(ricordami != null && ricordami.equals("on")){
-                cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
-                Deadline = timestamp.getTime()+ 60*60*1000;
-            } else {
-                    cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
-            }
-            
-            int LID = -1;
-            myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline));
-            (request.getSession()).setAttribute("sessionCookie", myCookieDAO.getCookie(request, email));
-            response.addCookie(cookie);
-            
-            System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
-            
-        } else {
-                System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
-                (request.getSession()).setAttribute("sessionCookie", myCookie);
-        }
-
         try {
-            preparedStatement = connection.prepareStatement(get_access);
-            preparedStatement.setString(1, email);
-            preparedStatement.execute();
-            result = preparedStatement.getResultSet();               
-         if (result.next() && result != null) {
-            dbpassword = result.getString("password");
-            System.out.println("IN LOGIN SERVLET, la password che ritorna dal database è : " + dbpassword);
-        } else {
-             if(result == null ){
-                 System.out.println("PASSWORD NON ESISTE! ");
-                 System.err.println("password inserita non è corretts, reinserire -- REDIREZIONA CON POPUP -- o errate ??' ");
-             }
-         }
-         if(pswencrypted.equals(dbpassword)){
-                System.out.println("LE PASSWORD SONO CORRETTE!! REDIREZIONO A INDEX.JSP");
+                    preparedStatement = connection.prepareStatement(get_access);
+                    preparedStatement.setString(1, email);
+                    preparedStatement.execute();
+                    result = preparedStatement.getResultSet();               
+                 if (result.next() && result != null) {
+                    dbpassword = result.getString("password");
+                    System.out.println("IN LOGIN SERVLET, la password che ritorna dal database è : " + dbpassword);
+                } else {
+                     if(result == null ){
+                         System.out.println("PASSWORD NON ESISTE! ");
+                         System.err.println("password inserita non è corretts, reinserire -- REDIREZIONA CON POPUP -- o errate ??' ");
+
+
+                         //redireziona IN LOGIN.JSP SE PASSWORD NON ESISITE !!!!!!!!!!!!!!
+
+                     }
+                 }
+                if(pswencrypted.equals(dbpassword)){
+
+                   System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
+                   //elimina cookie scaduti
+                   myCookieDAO.deleteDBExpiredCookies();
+
+                   //associa cookie se esistente
+                   myCookie = myCookieDAO.getCookie(request, email);
+                   Long Deadline = (long)0;
+                   Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+                if (myCookie == null) {
+                    Cookie cookie = new Cookie("FridayLogin", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
+                    //ricordami per 3600 secondi se selezionato, altrimenti cookie valido per la sessione
+                    if(ricordami != null && ricordami.equals("on")){
+                        cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
+                        Deadline = timestamp.getTime()+ 60*60*1000;
+                    } else {
+                            cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
+                    }
+
+                    int LID = -1;
+                    myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline));
+                    (request.getSession()).setAttribute("sessionCookie", myCookieDAO.getCookie(request, email));
+                    response.addCookie(cookie);
+                    System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+
+                } else {
+                
+                    System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
+                    (request.getSession()).setAttribute("sessionCookie", myCookie);
+
+                
+                    }
+                
                 response.sendRedirect("index.jsp");
+         
             } else {
               System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
-          }
+              
+              System.out.println("la password non corrisponde all'email inserita ");
+            String error = "errorPassword";
+            typeError = error;
+            request.setAttribute("errorPassword", typeError);
+            request.getRequestDispatcher(registerForm).forward(request, response);
+            
+              
+            }
+                
+        
           
         } catch (SQLException e) {
             e.printStackTrace();
@@ -201,6 +233,8 @@ public class loginServlet extends HttpServlet {
             }
               
         }
+        
+    }  
 
  }
         
@@ -217,3 +251,45 @@ public class loginServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

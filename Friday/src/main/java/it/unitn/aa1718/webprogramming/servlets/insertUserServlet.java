@@ -151,7 +151,7 @@ public class insertUserServlet extends HttpServlet {
         }
     }
        
-}
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

@@ -103,7 +103,9 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         if(cookies != null){
             while (lengthArrayCookies < cookies.length && myCookie == null) {
                 Cookie tmpcookie = cookies[lengthArrayCookies];
+                if(tmpcookie.getName().equals("FridayLogin")){
                 myCookie = getTHECookie(myCookies, Integer.parseInt(tmpcookie.getValue()));
+                }
                 lengthArrayCookies++;
             }
         }

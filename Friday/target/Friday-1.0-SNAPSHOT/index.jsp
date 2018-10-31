@@ -92,7 +92,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                             <a class="dropdown-item" href="#">Il mio account</a>
-                            <a class="dropdown-item" href="login.html">Login</a>
+                            <a class="dropdown-item" href="login.jsp">Login</a>
                             <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
                         </div>
                     </li>
@@ -156,7 +156,7 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <a href="register.html">
+                        <a href="insertUser.jsp">
                         <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="Second slide">
                     </a>
                     </div>
@@ -277,7 +277,7 @@
                         <ul class="list-links">
                             <li><a href="#">Il mio account</a></li>
                             <li><a href="#">Le mie liste</a></li>
-                            <li><a href="login.html">Login</a></li>
+                            <li><a href="login.jsp">Login</a></li>
                         </ul>
                     </div>
                 </div>

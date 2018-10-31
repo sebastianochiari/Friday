@@ -115,13 +115,14 @@
                         }
                         
                     %>
-                    
-                    <c:out value=" -${emailSession}-"></c:out>
-                    <c:if var="bool" test="${emailSession eq null}">
+                    <li>
+                        <c:out value=" ${emailSession}"></c:out>
+                    </li>
+                    <c:if test="${emailSession eq null}">
                         <li><a href="login.jsp">Login</a></li>
                         <li><a href="insertUser.jsp">Registrati</a></li>
                     </c:if>
-                    <c:if var="bool" test="${emailSession ne null}">
+                    <c:if test="${emailSession ne null}">
                     <li>
                         <form action="logoutServlet" method="POST">
                             <button type="submit" class="btn displayCenter login-btn">Logout</button>
@@ -166,8 +167,15 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                             <a class="dropdown-item" href="#">Il mio account</a>
-                            <a class="dropdown-item" href="login.jsp">Login</a>
-                            <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            <c:if test="${emailSession eq null}">
+                                <a class="dropdown-item" href="login.jsp">Login</a>
+                                <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            </c:if>
+                            <c:if test="${emailSession ne null}">
+                                <a class="dropdown-item">
+                                    <c:out value="${emailSession}"></c:out>
+                                </a>
+                            </c:if>
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">

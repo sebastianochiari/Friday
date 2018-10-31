@@ -85,8 +85,6 @@
                             </div>
                         </div>
                         
-                       
-                        
                         <div class="row form-group">
                             <div class="col">
                                 <c:if test="${errorEmail eq null}">
@@ -125,9 +123,9 @@
                             </c:if>
                             <c:if test="${errorCheckPassword eq 'errorCheckPassword'}">
                                 <label for="Password1">* Conferma password</label>
-                                <input name ="password1" type="password" class="form-control" id="password1" require="true">
+                                <input name ="password1" type="password" class="form-control is-invalid" id="password1" require="true">
                                 <div class="invalid-feedback">
-                                    ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua passoword e fai attenzione nel riscriverla uguale la seconda volta.  
+                                    ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.  
                                 </div>
                             </c:if>
                         </div>
@@ -140,7 +138,7 @@
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
                             <label class="form-check-label" for="exampleCheck1">
-                                * Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br> I campi contrassegnati con * sono obbligatori. 
+                                * Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br><br> I campi contrassegnati con * sono obbligatori. 
                             </label>
                         </div>
                         <div>

@@ -261,4 +261,46 @@ public class MySQLUserDAOImpl implements UserDAO {
         }
         return existance;
     }
+    
+    @Override
+    public String getPasswordByUserEmail(String email){
+    
+        String password = null;
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Read_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+ 
+            if (result.next()) {
+                password = result.getString("Password");
+                System.out.println("IN GETPASSWORDBYUSEREMAIL, la password che ritorna dal database è : " + password);
+            } 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+ 
+        return password;
+    
+    }
 }

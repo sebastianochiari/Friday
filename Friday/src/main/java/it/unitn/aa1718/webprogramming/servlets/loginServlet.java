@@ -139,60 +139,47 @@ public class loginServlet extends HttpServlet {
             String pswencrypted = encrypt.setSecurePassword(password, email);
             System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
         
-            Connection connection = MySQLDAOFactory.createConnection();
-            PreparedStatement preparedStatement = null;
-            ResultSet result = null;
-            String  get_access = "SELECT password FROM users WHERE email = ?";
-            String dbpassword = null;
+            String dbpassword = userDAO.getPasswordByUserEmail(email);
         
-            try {
-                preparedStatement = connection.prepareStatement(get_access);
-                preparedStatement.setString(1, email);
-                preparedStatement.execute();
-                result = preparedStatement.getResultSet();               
-                if (result.next()) {
-                    dbpassword = result.getString("password");
-                    System.out.println("IN LOGIN SERVLET, la password che ritorna dal database è : " + dbpassword);
-                } 
+            if (pswencrypted.equals(dbpassword)) {
 
-                if (pswencrypted.equals(dbpassword)) {
+                System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
+                //elimina cookie scaduti
+                myCookieDAO.deleteDBExpiredCookies();
 
-                   System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
-                   //elimina cookie scaduti
-                   myCookieDAO.deleteDBExpiredCookies();
+                //associa cookie se esistente
+                myCookie = myCookieDAO.getCookie(request, email);
+                Long Deadline = (long)0;
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-                   //associa cookie se esistente
-                   myCookie = myCookieDAO.getCookie(request, email);
-                   Long Deadline = (long)0;
-                   Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                if (myCookie == null) {
 
-                    if (myCookie == null) {
+                    Cookie cookie = new Cookie("FridayLogin", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
+                    //ricordami per 3600 secondi se selezionato, altrimenti cookie valido per la sessione
 
-                        Cookie cookie = new Cookie("FridayLogin", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
-                        //ricordami per 3600 secondi se selezionato, altrimenti cookie valido per la sessione
-                        
-                        if(ricordami != null && ricordami.equals("on")) {
+                    if(ricordami != null && ricordami.equals("on")) {
 
-                            cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
-                            Deadline = timestamp.getTime()+ 60*60*1000;
+                        cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
+                        Deadline = timestamp.getTime()+ 60*60*1000;
 
-                        } else {
-                            cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
-                        }
+                    } else {
 
-                        int LID = -1;
-                        myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline));
-                        (request.getSession()).setAttribute("sessionCookie", myCookieDAO.getCookie(request, email));
-                        response.addCookie(cookie);
-                        System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+                        cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
+                    }
+
+                    int LID = -1;
+                    myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline));
+                    (request.getSession()).setAttribute("sessionCookie", myCookieDAO.getCookie(request, email));
+                    response.addCookie(cookie);
+                    System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
 
                 } else {
-                
+
                     System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
                     (request.getSession()).setAttribute("sessionCookie", myCookie);
 
                 }
-                
+
                 response.sendRedirect("index.jsp");
          
             } else {
@@ -205,31 +192,10 @@ public class loginServlet extends HttpServlet {
                 request.getRequestDispatcher(registerForm).forward(request, response);
             
             }
-                
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                result.close();
-            } catch (Exception rse) {
-                rse.printStackTrace();
-            }
-            try {
-                preparedStatement.close();
-            } catch (Exception sse) {
-                sse.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (Exception cse) {
-                cse.printStackTrace();
-            }
-              
-        }
-        
-    }  
+            
+        }  
 
- }
+    }
         
 
 

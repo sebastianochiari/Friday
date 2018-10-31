@@ -25,4 +25,6 @@ public interface UserDAO {
     public boolean deleteUser(User user);
     
     public boolean checkUser (String email);
+    
+    public String getPasswordByUserEmail (String email);
 }

@@ -38,7 +38,7 @@
     <div class="container">
 
         <!-- LOGO Friday -->
-        <a href="index.html">
+        <a href="index.jsp">
             <div class="logo-header">
                 <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
             </div>
@@ -74,7 +74,7 @@
                            </c:if>
                             
                             <c:if test="${errorPassword eq 'errorPassword'}">
-                                <label for="Password">* Password</label>
+                                <label for="Password">Password</label>
                                 <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password è errata. 

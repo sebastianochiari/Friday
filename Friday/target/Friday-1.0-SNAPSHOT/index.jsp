@@ -48,20 +48,11 @@
 </head>
 
 <body id="top">
-
-    <nav id="breadcrumb" class="navbar">
-        <div class="container">
-            <div class="float-left">
-                <span>Benvenuto su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
-            </div>
-            <div class="float-right">
-                <ul class="header-top-links">
-                    <li><a href="#">Newsletter</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                         
+                
                     <%
                         (request.getSession()).setAttribute("emailSession", null);
                         (request.getSession()).setAttribute("cookieIDSession", null);
+                        (request.getSession()).setAttribute("nameUserSession", null);
                         
                         Cookie[] cookies = request.getCookies();
                         Connection connection = null;
@@ -82,17 +73,33 @@
                             result = preparedStatement.getResultSet();
 
                             if(cookies != null){
+                                
                                 while (result.next()) {
+                                    
                                     for(int i=0; i<cookies.length; i++){
+                                        
                                         System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
                                         if((cookies[i].getValue()).equals(result.getString("cookieID"))){
+                                            
                                             (request.getSession()).setAttribute("emailSession", result.getString("Email"));
                                             (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
                                             System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
+                                            
                                         }
                                     }
                                 }
+                                
+                                preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE Email = ?;");
+                                preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
+                                preparedStatement.execute();
+                                result = preparedStatement.getResultSet();
+                                
+                                while (result.next()) {
+                                    (request.getSession()).setAttribute("nameUserSession", result.getString("Name"));
+                                }
                             }
+                            
+                            
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -115,15 +122,30 @@
                         }
                         
                     %>
-                    <li>
-                        <c:out value=" ${emailSession}"></c:out>
-                    </li>
+                    
+    <nav id="breadcrumb" class="navbar">
+        <div class="container">
+            <div class="float-left">
+                <c:if test="${emailSession eq null}">
+                    <span>Benvenuto su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
+                </c:if>
+                <c:if test="${emailSession ne null}"> 
+                    <span>Bentonato su <b>Friday</b> <c:out value="${nameUserSession}"></c:out>, l'innovativo gestore di <b>liste della spesa</b></span>
+                </c:if>
+            </div>
+            <div class="float-right">
+                <ul class="header-top-links">
+                    <li><a href="#">Newsletter</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
                     <c:if test="${emailSession eq null}">
                         <li><a href="login.jsp">Login</a></li>
                         <li><a href="insertUser.jsp">Registrati</a></li>
                     </c:if>
                     <c:if test="${emailSession ne null}">
                     <li>
+                        <div>
+                            <c:out value=" ${emailSession}"></c:out>
+                        </div>
                         <form action="logoutServlet" method="POST">
                             <button type="submit" class="btn displayCenter login-btn">Logout</button>
                         </form>
@@ -166,14 +188,15 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                            <a class="dropdown-item" href="#">Il mio account</a>
+                            <a class="dropdown-item" href="myaccount.html">Il mio account</a>
                             <c:if test="${emailSession eq null}">
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
                             </c:if>
                             <c:if test="${emailSession ne null}">
                                 <a class="dropdown-item">
-                                    <c:out value="${emailSession}"></c:out>
+                                    <div><small class="text-muted">Logged as</small></div>
+                                    <div><c:out value="${emailSession}"></c:out></div>
                                 </a>
                             </c:if>
                         </div>

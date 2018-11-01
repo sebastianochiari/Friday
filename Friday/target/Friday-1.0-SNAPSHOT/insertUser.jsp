@@ -52,9 +52,11 @@
         <div class="container">
 
         <!-- LOGO Friday -->
-        <div class="logo-header">
-            <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
-        </div>
+        <a href="index.jsp">
+            <div class="logo-header">
+                <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
+            </div>
+        </a>
 
         <div class="width-30 displayCenter">
             <div class="card">
@@ -88,11 +90,11 @@
                         <div class="row form-group">
                             <div class="col">
                                 <c:if test="${errorEmail eq null}">
-                                    <label for="Email">* Email</label>
+                                    <label for="Email"><strong>*</strong> Email</label>
                                     <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
                                 </c:if>
                                 <c:if test="${errorEmail eq 'emailError'}">
-                                    <label for="Email">* Email</label>
+                                    <label for="Email"><strong>*</strong> Email</label>
                                     <input name="email" type="text" class="form-control is-invalid" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
@@ -103,13 +105,13 @@
                         </div>
                         <div class="form-group">
                             <c:if test="${errorPassword eq null}">
-                                <label for="Password">* Password</label>
+                                <label for="Password"><strong>*</strong> Password</label>
                                 <input name="password" type="password" class="form-control" id="password" required="true">
                             
-                                <p class="footer-info">La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</p>
+                                <p class="footer-info"><small>La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</small></p>
                             </c:if>
                             <c:if test="${errorPassword eq 'errorPassword'}">
-                                <label for="Password">* Password</label>
+                                <label for="Password"><strong>*</strong> Password</label>
                                 <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
@@ -118,11 +120,11 @@
                         </div>
                         <div class="form-group">
                             <c:if test="${errorCheckPassword eq null}">
-                                <label for="Password1">* Conferma password</label>
+                                <label for="Password1"><strong>*</strong> Conferma password</label>
                                 <input name ="password1" type="password" class="form-control" id="password1" require="true">
                             </c:if>
                             <c:if test="${errorCheckPassword eq 'errorCheckPassword'}">
-                                <label for="Password1">* Conferma password</label>
+                                <label for="Password1"><strong>*</strong> Conferma password</label>
                                 <input name ="password1" type="password" class="form-control is-invalid" id="password1" require="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.  
@@ -138,7 +140,7 @@
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
                             <label class="form-check-label" for="exampleCheck1">
-                                * Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br><br> I campi contrassegnati con * sono obbligatori. 
+                                <strong>*</strong> <small> Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br><br> <strong> I campi contrassegnati con * sono obbligatori. </strong></small>
                             </label>
                         </div>
                         <div>
@@ -148,13 +150,11 @@
                             <div class="col-sm">
                                 <button type="submit" class="btn displayCenter login-btn" onclick="mostraMessaggio(email)">Registrati</button>
                             </div>
-                        </div>
-                            
                             <div class="col-sm mt-1 mb-1">
                                 <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
                             </div>
                         </div>
-                        <p class="mt-4">Hai già un account Friday? <a href="login.html" class="text-link">Accedi</a></p>
+                        <p class="mt-4">Hai già un account Friday? <a href="login.jsp" class="text-link">Accedi</a></p>
                     </form>
                 </div>
             </div>

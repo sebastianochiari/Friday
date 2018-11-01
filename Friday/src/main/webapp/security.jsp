@@ -72,8 +72,16 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                             <a class="dropdown-item" href="myaccount.html">Il mio account</a>
-                            <a class="dropdown-item" href="login.html">Login</a>
-                            <a class="dropdown-item" href="register.html">Crea un account</a>
+                            <c:if test="${emailSession eq null}">
+                                <a class="dropdown-item" href="login.jsp">Login</a>
+                                <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            </c:if>
+                            <c:if test="${emailSession ne null}">
+                                <a class="dropdown-item">
+                                    <div><small class="text-muted">Logged as</small></div>
+                                    <div><c:out value="${emailSession}"></c:out></div>
+                                </a>
+                            </c:if>
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">
@@ -118,13 +126,17 @@
                     <div class="col-md mt-1 nav-col">
                         <input class="form-control nav-search" type="text" placeholder="Cerca">
                     </div>
-                    <div>
-                        <c:if test="${emailSession ne null}">
-                            <a class="dropdown-item">
-                                <div><small class="text-muted">Logged as</small></div>
-                                <div><c:out value="${emailSession}"></c:out></div>
-                            </a>
-                        </c:if>
+                    <div class="col-md mt-1 nav-col">
+                        <div class="float-right">
+                            <c:if test="${emailSession ne null}">
+                                <div class="float-right">
+                                    <c:out value=" ${emailSession}"></c:out>
+                                    <form action="logoutServlet" method="POST">
+                                        <button type="submit" class="btn displayCenter login-btn">Logout</button>
+                                    </form>
+                                </div>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -288,7 +300,17 @@
                         <ul class="list-links">
                             <li><a href="#">Il mio account</a></li>
                             <li><a href="#">Le mie liste</a></li>
-                            <li><a href="login.html">Login</a></li>
+                            <li>
+                                <c:if test="${emailSession eq null}">
+                                    <a class="dropdown-item" href="login.jsp">Login</a>
+                                </c:if>
+                                <c:if test="${emailSession ne null}">
+                                    <a class="dropdown-item">
+                                        <div><small class="text-muted">Logged as</small></div>
+                                        <div><c:out value="${emailSession}"></c:out></div>
+                                    </a>
+                                </c:if>
+                            </li>
                         </ul>
                     </div>
                 </div>

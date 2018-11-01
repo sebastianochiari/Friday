@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -114,6 +117,14 @@
                     </div>
                     <div class="col-md mt-1 nav-col">
                         <input class="form-control nav-search" type="text" placeholder="Cerca">
+                    </div>
+                    <div>
+                        <c:if test="${emailSession ne null}">
+                            <a class="dropdown-item">
+                                <div><small class="text-muted">Logged as</small></div>
+                                <div><c:out value="${emailSession}"></c:out></div>
+                            </a>
+                        </c:if>
                     </div>
                 </div>
             </form>

@@ -108,20 +108,8 @@
                                 <input type="hidden" name="registerForm" value="login.jsp">
                             </div>
                         </div>
-                        
-                        
-                        
-                        <!-- controllo email contorno rosso come in register --> 
-                        
-                       
-                        
-                        
-                        
-                        
-                        
-                        
                         <br>
-                        <p>Sei nuovo su Friday? <a href="register.html" class="text-link">Registrati</a></p>
+                        <p>Sei nuovo su Friday? <a href="insertUser.jsp" class="text-link">Registrati</a></p>
                     </form>
                 </div>
             </div>

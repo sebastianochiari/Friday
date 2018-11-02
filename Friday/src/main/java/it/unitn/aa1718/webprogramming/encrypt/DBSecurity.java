@@ -61,20 +61,16 @@ public class DBSecurity {
         System.out.println("IN DBSECURITY LA PASSWORD HASHED:" + generatedPassword);
         return generatedPassword;
 
-}
+    }
  
 
-//funzione per comparare se le password durante il login coincidono
-public String getSecurePassword (String planePassword, String encryptedPassword){
+    //funzione per comparare se le password durante il login coincidono
+    public String getSecurePassword (String planePassword, String encryptedPassword){
 
-    
+        return null;
 
+    }
     
-    return null;
-    
-}
-    
-
     public boolean checkString(String str) {
         char ch;
         boolean capitalLetter = false;

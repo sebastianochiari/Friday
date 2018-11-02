@@ -27,16 +27,16 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
         <!-- Slick -->
-        <!-- <link type="text/css" rel="stylesheet" href="css/slick.css" />
-        <link type="text/css" rel="stylesheet" href="css/slick-theme.css" /> -->
+        <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+        <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
 
         <!-- nouislider -->
         <!-- <link type="text/css" rel="stylesheet" href="css/nouislider.min.css" /> -->
 
         <!-- Font Awesome Icon -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-        <!-- Personal stylesheet -->
+        <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -62,7 +62,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Registrati</h3>
-                    <form method="POST" action="insertUserServlet" enctype="application/x-www-form-urlencoded" >
+                    <form method="POST" action="insertUserServlet" enctype="application/x-www-form-urlencoded">
                         <c:set var="errorEmail" value="${requestScope.errorEmail}"></c:set>
                         <c:set var="errorPassword" value="${requestScope.errorPassword}"></c:set>
                         <c:set var="errorCheckEmail" value="${requestScope.errorCheckPassword}"></c:set>
@@ -78,7 +78,7 @@
                                 <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi" value="${requestScope.surname}">
                             </div>
                         </div>
-                         <div>
+                        <div>
                             <div class="form-group">
                                 <input type="hidden" name="typeError" value="null">
                             </div>
@@ -105,13 +105,13 @@
                         </div>
                         <div class="form-group">
                             <c:if test="${errorPassword eq null}">
-                                <label for="Password"><strong>*</strong> Password</label>
-                                <input name="password" type="password" class="form-control" id="password" required="true">
+                                <label for="password"><strong>*</strong> Password</label>
+                                <input name="password" type="password" class="form-control security-form johnCena" id="password" required="true" aria-describedby="passwordHelpInline">
                             
                                 <p class="footer-info"><small>La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</small></p>
                             </c:if>
                             <c:if test="${errorPassword eq 'errorPassword'}">
-                                <label for="Password"><strong>*</strong> Password</label>
+                                <label for="password"><strong>*</strong> Password</label>
                                 <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
@@ -120,17 +120,23 @@
                         </div>
                         <div class="form-group">
                             <c:if test="${errorCheckPassword eq null}">
-                                <label for="Password1"><strong>*</strong> Conferma password</label>
-                                <input name ="password1" type="password" class="form-control" id="password1" require="true">
+                                <label for="password1"><strong>*</strong> Conferma password</label>
+                                <input name ="password1" type="password" class="form-control security-form johnCena" id="password1" require="true" aria-describedby="passwordHelpInline">
                             </c:if>
                             <c:if test="${errorCheckPassword eq 'errorCheckPassword'}">
-                                <label for="Password1"><strong>*</strong> Conferma password</label>
+                                <label for="password1"><strong>*</strong> Conferma password</label>
                                 <input name ="password1" type="password" class="form-control is-invalid" id="password1" require="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.  
                                 </div>
                             </c:if>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" onclick="revealPsw()">
+                                Mostra password
+                            </div>
                         </div>
+                            
+                            
                         <div class="row">
                             <div class="col-sm">
                                 <label for="Avatar">Avatar</label>

@@ -11,22 +11,13 @@ import it.unitn.aa1718.webprogramming.dao.entities.*;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.friday.*;
 import it.unitn.aa1718.webprogramming.extra.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Scanner;
-import javax.servlet.http.HttpSession;
-import javax.swing.text.StyleConstants;
 
 /**
  *

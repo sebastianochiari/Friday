@@ -96,6 +96,10 @@
                                 
                                 while (result.next()) {
                                     (request.getSession()).setAttribute("nameUserSession", result.getString("Name"));
+                                    (request.getSession()).setAttribute("surnameUserSession", result.getString("Surname"));
+                                    (request.getSession()).setAttribute("avatarUserSession", result.getString("Avatar"));
+                                    (request.getSession()).setAttribute("adminUserSession", result.getBoolean("Admin"));
+                                    (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                                 }
                             }
                             
@@ -188,7 +192,7 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                            <a class="dropdown-item" href="myaccount.html">Il mio account</a>
+                            <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                             <c:if test="${emailSession eq null}">
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>

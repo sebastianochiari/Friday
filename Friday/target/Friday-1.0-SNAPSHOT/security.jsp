@@ -44,9 +44,11 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
             <div class="header-logo float-left">
-                <a href="index.html" alt="logo">
-                        <img src="images/friday_icon_colored.png" class="logo">
-                    </a>
+                <a href="index.jsp">
+                    <div class="logo-header">
+                        <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
+                    </div>
+                </a>
             </div>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +161,7 @@
 
                             <h3 class="aside-title">Il mio account:</h3>
                             <ul class="list-links">
-                                <li><a href="myaccount.html">Il mio account</a></li>
+                                <li><a href="myaccount.jsp">Il mio account</a></li>
                                 <li class="active"><a href="#">Impostazioni di sicurezza</a></li>
                             </ul>
 
@@ -231,25 +233,71 @@
                                 </a>
                                 <div class="collapse pb-4" id="collapsePsw">
                                   <p>Tramite questa finestra di dialogo, potrai modificare la tua password</p>
-                                <form>
+                                <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
+                                    
+                                    <c:set var="errorPreviousPassword" value="${requestScope.errorPreviousPassword}"></c:set>
+                                    <c:set var="errorInputPassword" value="${requestScope.errorInputPassword}"></c:set>
+                                    <c:set var="errorConfirmPassword" value="${requestScope.errorConfirmPassword}"></c:set>
+                                    
                                     <div class="form-group">
-                                        <label for="previousPassword">Inserisci la tua precendente password</label>
-                                        <input type="password" id="previousPassword" class="form-control security-form johnCena" aria-describedby="passwordHelpInline">
+                                        
+                                        <c:if test="${errorPreviousPassword eq null}">
+                                            <label for="previousPassword">Inserisci la tua precendente password</label>
+                                            <input name="previousPassword" type="password" class="form-control security-form johnCena" id="previousPassword" required="true" aria-describedby="passwordHelpInline">
+                                        </c:if>
+                                        <c:if test="${errorPreviousPassword eq 'errorPreviousPassword'}">
+                                            <label for="previousPassword">Inserisci la tua precendente password</label>
+                                            <input name="previousPassword" type="password" class="form-control is-invalid" id="previousPassword" required="true" aria-describedby="passwordHelpInline">
+                                            <div class="invalid-feedback">
+                                                ATTENZIONE! La password inserita non è quella attualmente in uso. Riprovare con la password corretta. 
+                                            </div>
+                                        </c:if>
                                         <a href="#" class="text-link">
                                             <p>Hai dimenticato la password?</p>
                                         </a>
+                                            
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputNewPassword">Inserisci la nuova password</label>
-                                        <input type="password" id="inputNewPassword" class="form-control security-form johnCena" aria-describedby="passwordHelpInline">
+                                        
+                                        <c:if test="${errorInputPassword eq null}">
+                                            <label for="inputNewPassword">Inserisci la tua precendente password</label>
+                                            <input name="inputNewPassword" type="password" class="form-control security-form johnCena" id="inputNewPassword" required="true" aria-describedby="passwordHelpInline">
+                                            <p class="footer-info"><small>La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</small></p>
+                                        </c:if>
+                                            
+                                        <c:if test="${errorInputPassword eq 'errorInputPassword'}">
+                                            <label for="inputNewPassword">Inserisci la tua precendente password</label>
+                                            <input name="inputNewPassword" type="password" class="form-control is-invalid" id="inputNewPassword" required="true" aria-describedby="passwordHelpInline">
+                                            <div class="invalid-feedback">
+                                                ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
+                                            </div>
+                                        </c:if>
+                                        
                                     </div>
                                     <div class="form-group">
-                                        <label for="confirmPassword">Inserisci nuovamente la password</label>
-                                        <input type="password" id="confirmPassword" class="form-control security-form johnCena" aria-describedby="passwordHelpInline">
+                                        
+                                        <c:if test="${errorConfirmPassword eq null}">
+                                            <label for="confirmPassword">Inserisci nuovamente la password</label>
+                                            <input name="confirmPassword" type="password" class="form-control security-form johnCena" id="confirmPassword" required="true" aria-describedby="passwordHelpInline">
+                                        </c:if>
+                                            
+                                        <c:if test="${errorConfirmPassword eq 'errorConfirmPassword'}">
+                                            <label for="confirmPassword">Inserisci nuovamente la password</label>
+                                            <input name="confirmPassword" type="password" class="form-control is-invalid" id="confirmPassword" required="true" aria-describedby="passwordHelpInline">
+                                            <div class="invalid-feedback">
+                                                ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.
+                                            </div>
+                                        </c:if>
                                     </div>
                                     <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" onclick="revealPsw()">
                                         Mostra password
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="typeError" value="null">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="changePassword" value="security.jsp">
                                     </div>
                                     <button type="submit" class="btn std-button">Conferma</button>
                                 </form>

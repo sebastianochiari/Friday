@@ -68,18 +68,18 @@
                         
                         <div class="form-group">
                             
-                             <c:if test="${errorPassword eq null}">
-                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" name="password">
-                           </c:if>
+                            <c:if test="${errorPassword eq null}">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control security-form johnCena" name="password">
+                            </c:if>
                             
                             <c:if test="${errorPassword eq 'errorPassword'}">
                                 <label for="Password">Password</label>
-                                <input name="password" type="password" class="form-control is-invalid" id="password" required="true">
+                                <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password è errata. 
                                 </div>
-                                     </c:if>
+                            </c:if>
                                          
                         </div>
                                     

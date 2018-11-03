@@ -6,7 +6,9 @@
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
@@ -84,12 +86,26 @@ public class securityServlet extends HttpServlet {
         Library library = new Library();
         DBSecurity encrypt = new DBSecurity();
         
+        String typeChange = request.getParameter("typeChange");
+        
         String email = (String) (request.getSession()).getAttribute("emailSession");
+        String password = userDAO.getPasswordByUserEmail(email);
         String name = (String) (request.getSession()).getAttribute("nameUserSession");
         String surname = (String) (request.getSession()).getAttribute("surnameUserSession");
         String avatar = (String) (request.getSession()).getAttribute("avatarUserSession");
         boolean admin = (boolean) (request.getSession()).getAttribute("adminUserSession");
         boolean list_owner = (boolean) (request.getSession()).getAttribute("list_OwnerUserSession");
+        
+        switch (typeChange) {
+            case "password": changePassword(request, response, encrypt, library, userDAO, email, name, surname, avatar, admin, list_owner); break;
+            case "email": changeEmail(request, response, encrypt, library, userDAO, password, name, surname, avatar, admin, list_owner); break;
+            //case "personal": changePersonal(request, response, encrypt, library, userDAO, email, name, surname, avatar, admin, list_owner); break;
+        }
+        
+    }
+    
+    protected void changePassword (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
+        
         String previousPassword = request.getParameter("previousPassword");
         String inputNewPassword = request.getParameter("inputNewPassword");
         String confirmPassword = request.getParameter("confirmPassword");
@@ -136,10 +152,47 @@ public class securityServlet extends HttpServlet {
             
             response.sendRedirect("myaccount.jsp");
         }
+    }
+    
+    protected void changeEmail (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String password, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
         
+        String inputNewEmail = request.getParameter("inputNewEmail");
+        String confirmEmail = request.getParameter("confirmEmail");
+        String typeError = request.getParameter("typeError");
+        String changeEmail = request.getParameter("changeEmail");
+        request.setAttribute("inputEmail", inputNewEmail);
+        
+        if (userDAO.checkUser(inputNewEmail)) {
+            
+            String error = "errorInputEmail";
+            typeError = error;
+            request.setAttribute("errorInputEmail", typeError);
+            request.setAttribute("inputEmail", inputNewEmail);
+            request.getRequestDispatcher(changeEmail).forward(request, response);
+            
+        } else if (!inputNewEmail.equals(confirmEmail)) {       
+
+            String error = "errorConfirmEmail";
+            typeError = error;
+            request.setAttribute("errorConfirmEmail", typeError);
+            
+            System.out.println( "-----Le email non coicidono");
+            request.getRequestDispatcher(changeEmail).forward(request, response);
+
+        } else {
+            
+            User user1 = new User(inputNewEmail, password, name, surname, library.ImageControl(avatar), admin, list_owner);
+            userDAO.updateUser(user1);
+            
+            //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
+            
+            System.out.println("ho cambiato la email correttamente");
+            
+            response.sendRedirect("myaccount.jsp");
+        }
         
     }
-
+        
     /**
      * Returns a short description of the servlet.
      *

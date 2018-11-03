@@ -213,16 +213,52 @@
                                 </a>
                                 <div class="collapse pb-4" id="collapseEmail">
                                     <p>Tramite questa finestra di dialogo, potrai modificare la tua e-mail</p>
-                                <form>
+                                <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
+                                    
+                                    <c:set var="errorInputEmail" value="${requestScope.errorInputEmail}"></c:set>
+                                    <c:set var="errorConfirmEmail" value="${requestScope.errorConfirmEmail}"></c:set>
+                                    <c:set var="inputEmail" value="${requestScope.inputEmail}"></c:set>
+                                    
                                     <div class="form-group">
-                                        <label for="inputNewEmail">Inserisci la nuova e-mail</label>
-                                        <input id="inputNewEmail" class="form-control security-form" aria-describedby="passwordHelpInline">
+                                        
+                                        <c:if test="${errorInputEmail eq null}">
+                                            <label for="inputNewEmail">Inserisci la nuova e-mail</label>
+                                            <input name="inputNewEmail" id="inputNewEmail" class="form-control security-form" aria-describedby="passwordHelpInline" placeholder="mario.rossi@gmail.com" value="${inputEmail}">
+                                        </c:if>
+                                        <c:if test="${errorInputEmail eq 'errorInputEmail'}">
+                                            <label for="inputNewEmail">Inserisci la nuova e-mail</label>
+                                            <input name="inputNewEmail" id="inputNewEmail" class="form-control is-invalid security-form" aria-describedby="passwordHelpInline" value="${inputEmail}">
+                                            <div class="invalid-feedback">
+                                                ATTENZIONE! L'email inserita è attualmente in uso. Riprovare con un'altra email. 
+                                            </div>
+                                        </c:if>
+                                        
                                     </div>
                                     <div class="form-group">
-                                        <label for="confirmEmail">Conferma la nuova e-mail</label>
-                                        <input id="confirmEmail" class="form-control security-form" aria-describedby="passwordHelpInline">
+                                        
+                                        <c:if test="${errorConfirmEmail eq null}">
+                                            <label for="confirmEmail">Conferma la nuova e-mail</label>
+                                            <input name="confirmEmail" id="confirmEmail" class="form-control security-form" aria-describedby="passwordHelpInline">
+                                        </c:if>
+                                        <c:if test="${errorConfirmEmail eq 'errorConfirmEmail'}">
+                                            <label for="confirmEmail">Conferma la nuova e-mail</label>
+                                            <input name="confirmEmail" id="confirmEmail" class="form-control is-invalid security-form" aria-describedby="passwordHelpInline">
+                                            <div class="invalid-feedback">
+                                                ATTENZIONE! Le email inserite non combaciano. Fai attenzione a copiare correttamente l'email inserito qui sopra.  
+                                            </div>
+                                        </c:if>
+                                            
                                     </div>
                                     <button type="submit" class="btn std-button">Conferma</button>
+                                    <div class="form-group">
+                                        <input type="hidden" name="typeError" value="null">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="changeEmail" value="security.jsp">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="typeChange" value="email">
+                                    </div>
                                 </form>
                                 </div>
                             </div>
@@ -231,8 +267,9 @@
                                 <a class="cart-toggle" data-toggle="collapse" href="#collapsePsw" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <h5 style="display: inline-block;">Modifica password</h5>
                                 </a>
+                                
                                 <div class="collapse pb-4" id="collapsePsw">
-                                  <p>Tramite questa finestra di dialogo, potrai modificare la tua password</p>
+                                    <p>Tramite questa finestra di dialogo, potrai modificare la tua password</p>
                                 <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
                                     
                                     <c:set var="errorPreviousPassword" value="${requestScope.errorPreviousPassword}"></c:set>
@@ -290,14 +327,17 @@
                                         </c:if>
                                     </div>
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" onclick="revealPsw()">
-                                        Mostra password
+                                        <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInput">
+                                        <label class="form-check-label" for="showInput">Mostra password</label>
                                     </div>
                                     <div class="form-group">
                                         <input type="hidden" name="typeError" value="null">
                                     </div>
                                     <div class="form-group">
                                         <input type="hidden" name="changePassword" value="security.jsp">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="typeChange" value="password">
                                     </div>
                                     <button type="submit" class="btn std-button">Conferma</button>
                                 </form>

@@ -83,7 +83,12 @@
                                             
                                             (request.getSession()).setAttribute("emailSession", result.getString("Email"));
                                             (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                                            (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
+                                            //(request.getSession()).setAttribute("LIDSession", result.getString("LID"));
                                             System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
+                                            
+                                            System.out.println("+++++++ "+(request.getSession()).getAttribute("deadlineSession"));
+                                            //System.out.println("+-+-+-+-+-+-+- "+(request.getSession()).getAttribute("LIDSession"));
                                             
                                         }
                                     }

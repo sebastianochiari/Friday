@@ -20,7 +20,9 @@ public interface UserDAO {
     
     public String createUser(User user);
     
-    public boolean updateUser(User user);
+    public boolean updateUserByEmail(User user);
+    
+    public boolean updateUserByPassword(User user);
     
     public boolean deleteUser(User user);
     

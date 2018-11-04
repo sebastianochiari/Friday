@@ -91,7 +91,6 @@ public class loginServlet extends HttpServlet {
         MyCookie myCookie = null;
         MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
 
-
         List users = null;
         UserDAO userDAO = new MySQLUserDAOImpl();
         Library library = new Library();

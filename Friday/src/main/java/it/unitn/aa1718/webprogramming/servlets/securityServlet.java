@@ -12,6 +12,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
+import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -146,7 +147,7 @@ public class securityServlet extends HttpServlet {
         } else {
             
             User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner);
-            userDAO.updateUser(user1);
+            userDAO.updateUserByEmail(user1);
             
             System.out.println("ho cambiato la password correttamente");
             
@@ -161,6 +162,7 @@ public class securityServlet extends HttpServlet {
         String typeError = request.getParameter("typeError");
         String changeEmail = request.getParameter("changeEmail");
         request.setAttribute("inputEmail", inputNewEmail);
+        MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
         
         if (userDAO.checkUser(inputNewEmail)) {
             
@@ -181,8 +183,21 @@ public class securityServlet extends HttpServlet {
 
         } else {
             
+            Long deadlineSession = Long.parseLong((String) request.getSession().getAttribute("deadlineSession"));
+            int CookieIDSession = Integer.parseInt((String) request.getSession().getAttribute("cookieIDSession"));
+            int LIDSession = -1;
+            //LIDSession = Integer.parseInt((String) request.getSession().getAttribute("LIDSession"));
+            
+            // fare update sul campo LID della tabella cookies genera errore sql perchè è una foreign key e non si può cambiare così a caso. 
+            // un'opzione potrebbe essere che quando si fa l'update della tabella per cambiare l'email si ignora il campo LID nella query di update.
+            MyCookie myCookieTmp = new MyCookie(CookieIDSession, LIDSession, inputNewEmail, deadlineSession);
+            
+            (request.getSession()).setAttribute("emailSession", inputNewEmail);
+            
+            myCookieDAO.updateCookie(myCookieTmp);
+            
             User user1 = new User(inputNewEmail, password, name, surname, library.ImageControl(avatar), admin, list_owner);
-            userDAO.updateUser(user1);
+            userDAO.updateUserByPassword(user1);
             
             //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
             

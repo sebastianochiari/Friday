@@ -28,7 +28,9 @@ public class MySQLUserDAOImpl implements UserDAO {
     
     private static final String Read_All_Query = "SELECT email, password, name, surname, avatar, admin, list_owner FROM users";
     
-    private static final String Update_Query = "UPDATE users SET email=?, password=?, name=?, surname=?, avatar=?, admin=?, list_owner=? WHERE (email = ?)";
+    private static final String Update_Query_By_Email = "UPDATE users SET email=?, password=?, name=?, surname=?, avatar=?, admin=?, list_owner=? WHERE (email = ?)";
+    
+    private static final String Update_Query_By_Password = "UPDATE users SET email=?, password=?, name=?, surname=?, avatar=?, admin=?, list_owner=? WHERE (Password = ?)";
     
     private static final String Delete_Query = "DELETE FROM users WHERE email = ?";
     
@@ -161,13 +163,13 @@ public class MySQLUserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUserByEmail(User user) {
 		
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
             conn = MySQLDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(Update_Query);
+            preparedStatement = conn.prepareStatement(Update_Query_By_Email);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getName());
@@ -176,6 +178,41 @@ public class MySQLUserDAOImpl implements UserDAO {
             preparedStatement.setBoolean(6, user.getAdmin());
             preparedStatement.setBoolean(7, user.getListOwner());
             preparedStatement.setString(8, user.getEmail());
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean updateUserByPassword(User user) {
+		
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Update_Query_By_Password);
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getName());
+            preparedStatement.setString(4, user.getSurname());
+            preparedStatement.setString(5, user.getAvatar());
+            preparedStatement.setBoolean(6, user.getAdmin());
+            preparedStatement.setBoolean(7, user.getListOwner());
+            preparedStatement.setString(8, user.getPassword());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

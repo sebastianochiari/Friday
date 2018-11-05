@@ -131,8 +131,8 @@
                                 </div>
                             </c:if>
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" onclick="revealPsw()">
-                                Mostra password
+                                <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInput">
+                                <label class="form-check-label" for="showInput">Mostra password</label>
                             </div>
                         </div>
                             
@@ -154,7 +154,7 @@
                         </div>
                         <div>
                             <div class="col-sm">
-                                <button type="submit" class="btn displayCenter login-btn" onclick="mostraMessaggio(email)">Registrati</button>
+                                <button type="submit" class="btn displayCenter login-btn">Registrati</button>
                             </div>
                             <div class="col-sm mt-1 mb-1">
                                 <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
@@ -195,6 +195,6 @@
             </div>
         </div>
         <br></br>
-    </div>
+    </div>  
     </body>
 </html>

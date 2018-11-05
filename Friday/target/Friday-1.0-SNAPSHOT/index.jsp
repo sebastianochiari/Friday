@@ -389,9 +389,21 @@
                     <div class="footer">
                         <h6 class="footer-header">IL MIO ACCOUNT</h6>
                         <ul class="list-links">
-                            <li><a href="#">Il mio account</a></li>
+                            <li><a href="myaccount.jsp">Il mio account</a></li>
                             <li><a href="#">Le mie liste</a></li>
-                            <li><a href="login.jsp">Login</a></li>
+                            <li>
+                               
+                                <c:if test="${emailSession eq null}">
+                                    <a class="dropdown-item" href="login.jsp">Login</a>
+                                </c:if>
+                                <c:if test="${emailSession ne null}">
+                                    <a class="dropdown-item">
+                                        <div><small class="text-muted">Logged as</small></div>
+                                        <div><c:out value="${emailSession}"></c:out></div>
+                                    </a>
+                                </c:if>
+                            
+                            </li>
                         </ul>
                     </div>
                 </div>

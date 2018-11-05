@@ -187,23 +187,38 @@
                                 </a>
                                 <div class="collapse pb-4" id="collapsePersonalInfo">
                                     <p>Tramite questa finestra di dialogo, potrai modificare la tua informazioni personali</p>
-                                <form>
-                                    <div class="form-group">
-                                        <div class="row">
-                                        <div class="col">
-                                            <input type="text" class="form-control" placeholder="Nome">
+                                    
+                                    <c:set var="oldName" value="${nameUserSession}"></c:set>
+                                    <c:set var="oldSurname" value="${surnameUserSession}"></c:set>
+                                    
+                                    <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="newName">Nome</label>
+                                                    <input name="newName" type="text" class="form-control" id="newName" placeholder="Mario" value="${oldName}">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="newSurname">Cognome</label>
+                                                    <input name="newSurname" type="text" class="form-control" id="newSurname" placeholder="Rossi" value="${oldSurname}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="hidden" name="typeError" value="null">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="hidden" name="changePersonal" value="security.jsp">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="hidden" name="typeChange" value="personal">
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <input type="text" class="form-control" placeholder="Cognome">
+                                        <div class="form-group">
+                                            <label for="newAvatar">Aggiorna il tuo avatar</label>
+                                            <input type="file" name ="newAvatar" accept=".jpg, .jpeg, .png" id="newAvatar">
                                         </div>
-                                    </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="photo">Aggiorna il tuo avatar</label>
-                                        <input type="file" name ="photo" accept=".jpg, .jpeg, .png" id="photo">
-                                    </div>
-                                    <button type="submit" class="btn std-button">Conferma</button>
-                                </form>
+                                        <button type="submit" class="btn std-button">Conferma</button>
+                                    </form>
                                 </div>
                             </div>
                             

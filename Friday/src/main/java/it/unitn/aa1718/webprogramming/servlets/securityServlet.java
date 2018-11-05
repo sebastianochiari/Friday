@@ -91,6 +91,7 @@ public class securityServlet extends HttpServlet {
         
         String email = (String) (request.getSession()).getAttribute("emailSession");
         String password = userDAO.getPasswordByUserEmail(email);
+        // forse per recuperare tutti i dati qua sotto dell'utente loggate aveva più senso fare come per la password invece che far passare tutto tramite la sessione. 
         String name = (String) (request.getSession()).getAttribute("nameUserSession");
         String surname = (String) (request.getSession()).getAttribute("surnameUserSession");
         String avatar = (String) (request.getSession()).getAttribute("avatarUserSession");
@@ -100,8 +101,11 @@ public class securityServlet extends HttpServlet {
         switch (typeChange) {
             case "password": changePassword(request, response, encrypt, library, userDAO, email, name, surname, avatar, admin, list_owner); break;
             case "email": changeEmail(request, response, encrypt, library, userDAO, password, name, surname, avatar, admin, list_owner); break;
-            //case "personal": changePersonal(request, response, encrypt, library, userDAO, email, name, surname, avatar, admin, list_owner); break;
+            case "personal": changePersonal(request, response, encrypt, library, userDAO, email, password, name, surname, avatar, admin, list_owner); break;
+            default: response.sendRedirect("myaccount.jsp");
         }
+        
+        response.sendRedirect("myaccount.jsp");
         
     }
     
@@ -151,7 +155,7 @@ public class securityServlet extends HttpServlet {
             
             System.out.println("ho cambiato la password correttamente");
             
-            response.sendRedirect("myaccount.jsp");
+            
         }
     }
     
@@ -203,11 +207,42 @@ public class securityServlet extends HttpServlet {
             
             System.out.println("ho cambiato la email correttamente");
             
-            response.sendRedirect("myaccount.jsp");
+            
         }
         
     }
         
+    protected void changePersonal (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String password, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
+        
+        String newName = request.getParameter("newName");
+        String newSurname = request.getParameter("newSurname");
+        String newAvatar = request.getParameter("newAvatar");
+        String typeError = request.getParameter("typeError");
+        String changePersonal = request.getParameter("changePersonal");
+        
+        if (newName.isEmpty()) {
+            String error = "nameError";
+            typeError = error;
+            request.setAttribute("nameError", typeError);
+            request.getRequestDispatcher(changePersonal).forward(request, response);
+        } else if (newSurname.isEmpty()) {
+            String error = "surnameError";
+            typeError = error;
+            request.setAttribute("surnameError", typeError);
+            request.getRequestDispatcher(changePersonal).forward(request, response);
+        } else {
+            // se avatar è null che si fa? bisogna per forza sceglierne uno oppure si può anche lasciarlo vuoto?
+            (request.getSession()).setAttribute("nameUserSession", newName);
+            (request.getSession()).setAttribute("surnameUserSession", newSurname);
+            (request.getSession()).setAttribute("avatarUserSession", newAvatar);
+            
+            User user1 = new User(email, password, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner);
+            userDAO.updateUserByEmail(user1);
+            
+            System.out.println("name e surname e avatar aggiornati.");
+        }
+        
+    }
     /**
      * Returns a short description of the servlet.
      *

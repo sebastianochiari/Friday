@@ -178,10 +178,31 @@
                             <div id="breadcrumb">
                                 <div class="pb-2">
                                     <div class="clearfix">
-                                        <div class="float-left">
-                                            <p style="text-align: right; margin-bottom: 0.5rem;"><b>proprietario</b>: <span id="proprietario-lista">Tommaso Bosetti</span></p>
-                                        </div>
                                         <div class="float-right">
+                                            
+                                            <!-- INFORMAZIONI LISTA -->
+                                            <a href="#" class="shopping-link list-icon" title="Info" data-toggle="modal" data-target="#infoModal">
+                                                <i class="fas fa-info-circle"></i>
+                                            </a>
+                                            <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content shadow">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Info sulla lista</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><b>proprietario: </b>Tommaso Bosetti</p>
+                                                            <p><b>condiviso con: </b>Marta Toniolli, Leonardo Remondini, Sebastiano Chiari</p>
+                                                            <p><b>immagine lista:</b></p>
+                                                            <img src="images/fruttivendolo.jpg" style="width: 100%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                             <!-- CONDIVISIONE LISTA -->
                                             <a href="#" class="shopping-link list-icon" title="Condividi lista" data-toggle="modal" data-target="#shareModal">
                                                 <i class="fas fa-share-alt"></i>
@@ -189,16 +210,23 @@
                                             <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content shadow">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Condividi con altri utenti</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
                                                         <div class="modal-body">
-                                                            <h5>Condividi con altri utenti</h5>
-                                                            <br>
                                                             <label for="exampleFormControlInput1">Persone</label>
                                                             <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                                                        </div>
+                                                        <div class="modal-footer">
                                                             <button type="button" class="btn std-button" data-dismiss="modal">Fine</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <!-- ELIMINAZIONE LISTA -->
                                             <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
                                                 <i class="fas fa-trash"></i>
@@ -206,24 +234,28 @@
                                             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content shadow">
-                                                        <div class="modal-body">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Elimina questa lista</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
-                                                            <br>
+                                                        </div>
+                                                        <div class="modal-body">
                                                             <p>Vuoi veramente eliminare questa lista della spesa?</p>
-                                                            <div class="float-right">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                                                                <button type="button" class="btn std-button">Elimina</button>
-                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                                                            <button type="button" class="btn std-button">Elimina</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <h4>Scuola Giovanni<span class="badge badge-friday ml-2">Scuola</span></h4>
                                     <p>Da comprare per Giovanni</p>
+                                    
                                 </div>
                             </div>
 
@@ -232,95 +264,93 @@
                                     <div class="col-md-2">
                                         <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
                                     </div>
-                                        <div class="col">
-                                            <h5>Nome prodotto</h5>
-                                            <p class="mt-2 list-product-description">
-                                                Ideale per lavori di artigianato su carta, cartone, foto ed etichette. Senza solvente e PVC.
-                                            </p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="displayCenter">
-                                                <div class="qty-input">
-                                                    <span>Quantità: </span>
-                                                    <input class="number-input" type="number" placeholder="1" min="1">
-                                            </div>
-                                                    <a href="#" class="shopping-link">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                                </div>
-                                                <div class="btn-group displayCenter mt-2" role="group">
-                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Sposta nella lista<i class="ml-2 fas fa-angle-down"></i>
-                                            </button>
-                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <div class="create-list">
-                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="col">
+                                        <h5>Nome prodotto</h5>
+                                        <p class="mt-2 list-product-description">
+                                            Ideale per lavori di artigianato su carta, cartone, foto ed etichette. Senza solvente e PVC.
+                                            <br>
+                                            <a class="text-link" href="#">Sposta nella lista</a>
+                                        </p>
                                     </div>
-
-                                    <div id="breadcrumb" class="list-element">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
-                                    </div>
-                                                <div class="col">
-                                                    <h5>Nome prodotto</h5>
-                                                    <p class="mt-2">Inserire descrizione del prodotto</p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="displayCenter">
-                                                        <a href="#" class="shopping-link list-icon" title="Sposta">
-                                                <i class="fas fa-exchange-alt"></i>
-                                            </a>
-                                                        <a href="#" class="shopping-link list-icon" title="Condividi lista">
-                                                <i class="fas fa-share"></i>
-                                            </a>
-                                                        <a href="#" class="shopping-link list-icon" title="Rimuovi">
+                                    <div class="col-md-4">
+                                        <div class="float-right">
+                                            <div class="qty-input">
+                                                <span>Quantità: </span>
+                                                <input class="number-input" type="number" placeholder="1" min="1">
+                                            </div>
+                                            <a href="#" class="shopping-link">
                                                 <i class="fas fa-trash"></i>
                                             </a>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
-
-                                        <div id="breadcrumb" class="list-element">
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
                                     </div>
-                                                    <div class="col">
-                                                        <h5>Nome prodotto</h5>
-                                                        <p class="mt-2">Inserire descrizione del prodotto</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="qty-input">
-                                                            <span>Quantità: </span>
-                                                            <input class="number-input" type="number" placeholder="1" min="1">
-                                        </div>
-                                                            <a href="#" class="shopping-link">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <!-- END: list -->
-
-                                        </div>
-                                        <!-- END: main -->
-
-                                    </div>
-
                                 </div>
-
                             </div>
+                            
+                            <div id="breadcrumb" class="list-element">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
+                                    </div>
+                                    <div class="col">
+                                        <h5>Nome prodotto</h5>
+                                        <p class="mt-2 list-product-description">
+                                            Ideale per lavori di artigianato su carta, cartone, foto ed etichette. Senza solvente e PVC.
+                                            <br>
+                                            <a class="text-link" href="#">Sposta nella lista</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="float-right">
+                                            <div class="qty-input">
+                                                <span>Quantità: </span>
+                                                <input class="number-input" type="number" placeholder="1" min="1">
+                                            </div>
+                                            <a href="#" class="shopping-link">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="breadcrumb" class="list-element">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img class="list-image displayCenter" src="images/prodotti/colla.jpg">
+                                    </div>
+                                    <div class="col">
+                                        <h5>Nome prodotto</h5>
+                                        <p class="mt-2 list-product-description">
+                                            Ideale per lavori di artigianato su carta, cartone, foto ed etichette. Senza solvente e PVC.
+                                            <br>
+                                            <a class="text-link" href="#">Sposta nella lista</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="float-right">
+                                            <div class="qty-input">
+                                                <span>Quantità: </span>
+                                                <input class="number-input" type="number" placeholder="1" min="1">
+                                            </div>
+                                            <a href="#" class="shopping-link">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <!-- END: list -->
+                    
+                    </div>
+                    <!-- END: main -->
+                
+                </div>
+            
+            </div>
+        
+        </div>
 
     </main>
 

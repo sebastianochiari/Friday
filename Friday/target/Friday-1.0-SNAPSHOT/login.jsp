@@ -52,29 +52,57 @@
                         <div class="form-group">
                             
                             <c:if test="${errorEmail eq null}">
-                                    <label for="Email"> Indirizzo e-mail </label>
-                                    <input name="email" type="text" class="form-control" id="email"  required="true" aria-describedby="emailHelp" value="${requestScope.email}">
-                                </c:if>
+                                <div class="col-md mt-1 nav-col">
+                                    <div class="row">
+                                        <div class="col-md mt-1 nav-col">
+                                            <label for="Email"> Indirizzo e-mail </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input name="email" type="text" class="form-control" id="email"  required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                            </c:if>
                             
                            
                         <c:if test="${errorEmail eq 'emailError'}">
-                                    <label for="Email"> Indirizzo e-mail </label>
-                                    <input name="email" type="text" class="form-control is-invalid" id="email"  required="true" aria-describedby="emailHelp" >
-                                    <div class="invalid-feedback">
-                                        ATTENZIONE! Se non sei già presente su Friday registrati
-                                    </div>
+                            <label for="Email"> Indirizzo e-mail </label>
+                            <input name="email" type="text" class="form-control is-invalid" id="email"  required="true" aria-describedby="emailHelp" >
+                            <div class="invalid-feedback">
+                                ATTENZIONE! Se non sei già presente su Friday registrati
+                            </div>
                         </c:if>
                         </div>
                         
                         <div class="form-group">
                             
                             <c:if test="${errorPassword eq null}">
-                                <label for="exampleInputPassword1">Password</label>
+                                <div class="col-md mt-1 nav-col">
+                                    <div class="row">
+                                        <div class="col-md mt-1 nav-col">
+                                            <label for="exampleInputPassword1">Password</label>
+                                        </div>
+                                        <div class="col-ms mt-1 nav-col">
+                                            <a href="#" class="text-link">
+                                                <p class="footer-info"><small>Hai dimenticato la password?</small></p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <input type="password" class="form-control security-form johnCena" name="password">
                             </c:if>
                             
                             <c:if test="${errorPassword eq 'errorPassword'}">
-                                <label for="Password">Password</label>
+                                <div class="col-md mt-1 nav-col">
+                                    <div class="row">
+                                        <div class="col-md mt-1 nav-col">
+                                            <label for="exampleInputPassword1">Password</label>
+                                        </div>
+                                        <div class="col-ms mt-1 nav-col">
+                                            <a href="#" class="text-link">
+                                                <p class="footer-info"><small>Hai dimenticato la password?</small></p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password è errata. 
@@ -82,14 +110,20 @@
                             </c:if>
                                          
                         </div>
-                                    
-                                    
-                        <a href="#" class="text-link">
-                            <p>Hai dimenticato la password?</p>
-                        </a>
                         <div class="form-group form-check">
-                            <input name = "ricordami" type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Ricordami</label>
+                            <div class="col-md mt-1 nav-col">
+                                <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInput">
+                                <label class="form-check-label" for="showInput">Mostra password</label>
+                            </div> 
+                        </div>
+                                    
+                        
+                        <div class="form-group form-check">
+                            <div class="col-md mt-1 nav-col">
+                                <input name = "ricordami" type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Ricordami</label>
+                            </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-sm mt-1 mb-1">

@@ -89,8 +89,8 @@ public class securityServlet extends HttpServlet {
         
         String typeChange = request.getParameter("typeChange");
         
-        String email = (String) (request.getSession()).getAttribute("emailSession");
-        String password = userDAO.getPasswordByUserEmail(email);
+        String emailSession = (String) (request.getSession()).getAttribute("emailSession");
+        String dbpassword = userDAO.getPasswordByUserEmail(emailSession);
         // forse per recuperare tutti i dati qua sotto dell'utente loggate aveva più senso fare come per la password invece che far passare tutto tramite la sessione. 
         String name = (String) (request.getSession()).getAttribute("nameUserSession");
         String surname = (String) (request.getSession()).getAttribute("surnameUserSession");
@@ -99,9 +99,9 @@ public class securityServlet extends HttpServlet {
         boolean list_owner = (boolean) (request.getSession()).getAttribute("list_OwnerUserSession");
         
         switch (typeChange) {
-            case "password": changePassword(request, response, encrypt, library, userDAO, email, name, surname, avatar, admin, list_owner); break;
-            case "email": changeEmail(request, response, encrypt, library, userDAO, password, name, surname, avatar, admin, list_owner); break;
-            case "personal": changePersonal(request, response, encrypt, library, userDAO, email, password, name, surname, avatar, admin, list_owner); break;
+            case "password": changePassword(request, response, encrypt, library, userDAO, emailSession, name, surname, avatar, admin, list_owner); break;
+            case "email": changeEmail(request, response, encrypt, library, userDAO, dbpassword, name, surname, avatar, admin, list_owner); break;
+            case "personal": changePersonal(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, admin, list_owner); break;
             default: response.sendRedirect("myaccount.jsp");
         }
         
@@ -159,16 +159,27 @@ public class securityServlet extends HttpServlet {
         }
     }
     
-    protected void changeEmail (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String password, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
+    protected void changeEmail (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String dbpassword, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
         
+        String oldEmail = request.getParameter("oldEmail");
         String inputNewEmail = request.getParameter("inputNewEmail");
         String confirmEmail = request.getParameter("confirmEmail");
         String typeError = request.getParameter("typeError");
         String changeEmail = request.getParameter("changeEmail");
+        String password = request.getParameter("password");
+        dbpassword = userDAO.getPasswordByUserEmail(oldEmail);
         request.setAttribute("inputEmail", inputNewEmail);
         MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
         
-        if (userDAO.checkUser(inputNewEmail)) {
+        if (!userDAO.checkUser(oldEmail)) {
+            
+            System.out.println("questa email non esiste nel database");
+            String error = "errorOldEmail";
+            typeError = error;
+            request.setAttribute("errorOldEmail", typeError);
+            request.getRequestDispatcher(changeEmail).forward(request, response);
+            
+        } else if (userDAO.checkUser(inputNewEmail)) {
             
             String error = "errorInputEmail";
             typeError = error;
@@ -187,32 +198,39 @@ public class securityServlet extends HttpServlet {
 
         } else {
             
-            Long deadlineSession = Long.parseLong((String) request.getSession().getAttribute("deadlineSession"));
-            int CookieIDSession = Integer.parseInt((String) request.getSession().getAttribute("cookieIDSession"));
-            int LIDSession = -1;
-            //LIDSession = Integer.parseInt((String) request.getSession().getAttribute("LIDSession"));
+            String pswencrypted = encrypt.setSecurePassword(password, oldEmail);
             
-            // fare update sul campo LID della tabella cookies genera errore sql perchè è una foreign key e non si può cambiare così a caso. 
-            // un'opzione potrebbe essere che quando si fa l'update della tabella per cambiare l'email si ignora il campo LID nella query di update.
-            MyCookie myCookieTmp = new MyCookie(CookieIDSession, LIDSession, inputNewEmail, deadlineSession);
+            if (pswencrypted.equals(dbpassword)) {
+                
+                String newpswencrypted = encrypt.setSecurePassword(password, inputNewEmail);
+
+                (request.getSession()).setAttribute("emailSession", inputNewEmail);
+
+                User userPassword = new User(inputNewEmail, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner);
+                userDAO.updateUserByPassword(userPassword);
+                User userEmail = new User(inputNewEmail, newpswencrypted, name, surname, library.ImageControl(avatar), admin, list_owner);
+                userDAO.updateUserByEmail(userEmail);
+
+                //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
+
+                System.out.println("ho cambiato la email correttamente");
             
-            (request.getSession()).setAttribute("emailSession", inputNewEmail);
+            } else {
             
-            myCookieDAO.updateCookie(myCookieTmp);
+                System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
+                System.out.println("la password non corrisponde all'email inserita ");
+                String error = "errorPassword";
+                typeError = error;
+                request.setAttribute("errorPassword", typeError);
+                request.getRequestDispatcher(changeEmail).forward(request, response);
             
-            User user1 = new User(inputNewEmail, password, name, surname, library.ImageControl(avatar), admin, list_owner);
-            userDAO.updateUserByPassword(user1);
-            
-            //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
-            
-            System.out.println("ho cambiato la email correttamente");
-            
+            }
             
         }
         
     }
         
-    protected void changePersonal (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String password, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
+    protected void changePersonal (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String dbpassword, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
         
         String newName = request.getParameter("newName");
         String newSurname = request.getParameter("newSurname");
@@ -236,7 +254,7 @@ public class securityServlet extends HttpServlet {
             (request.getSession()).setAttribute("surnameUserSession", newSurname);
             (request.getSession()).setAttribute("avatarUserSession", newAvatar);
             
-            User user1 = new User(email, password, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner);
+            User user1 = new User(email, dbpassword, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner);
             userDAO.updateUserByEmail(user1);
             
             System.out.println("name e surname e avatar aggiornati.");

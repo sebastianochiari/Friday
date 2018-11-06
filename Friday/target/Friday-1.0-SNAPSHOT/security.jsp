@@ -128,20 +128,16 @@
                     <div class="col-md mt-1 nav-col">
                         <input class="form-control nav-search" type="text" placeholder="Cerca">
                     </div>
-                    <div class="col-md mt-1 nav-col">
-                        <div class="float-right">
-                            <c:if test="${emailSession ne null}">
-                                <div class="float-right">
-                                    <c:out value=" ${emailSession}"></c:out>
-                                    <form action="logoutServlet" method="POST">
-                                        <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                                    </form>
-                                </div>
-                            </c:if>
-                        </div>
-                    </div>
                 </div>
             </form>
+            <c:if test="${emailSession ne null}">
+                <div>
+                    <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
+                </div>
+                <form action="logoutServlet" method="POST">
+                    <button type="submit" class="btn displayCenter login-btn">Logout</button>
+                </form>
+            </c:if>
         </div>
     </nav>
     <!-- END: search navbar -->
@@ -230,10 +226,28 @@
                                     <p>Tramite questa finestra di dialogo, potrai modificare la tua e-mail</p>
                                 <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
                                     
+                                    <c:set var="errorOldEmail" value="${requestScope.errorOldEmail}"></c:set>
                                     <c:set var="errorInputEmail" value="${requestScope.errorInputEmail}"></c:set>
                                     <c:set var="errorConfirmEmail" value="${requestScope.errorConfirmEmail}"></c:set>
                                     <c:set var="inputEmail" value="${requestScope.inputEmail}"></c:set>
+                                    <c:set var="oldEmail" value="${requestScope.oldEmail}"></c:set>
+                                    <c:set var="errorPassword" value="${requestScope.errorPassword}"></c:set>
                                     
+                                    <div class="form-group">
+                                        
+                                        <c:if test="${errorOldEmail eq null}">
+                                            <label for="oldEmail">Inserisci l'email attuale</label>
+                                            <input name="oldEmail" id="oldEmail" class="form-control security-form" aria-describedby="passwordHelpInline" placeholder="mario.rossi@gmail.com">
+                                        </c:if>
+                                        <c:if test="${errorOldEmail eq 'errorOldEmail'}">
+                                            <label for="oldEmail">Inserisci l'email attuale</label>
+                                            <input name="oldEmail" id="oldEmail" class="form-control is-invalid security-form" aria-describedby="passwordHelpInline" placeholder="mario.rossi@gmail.com" value="${oldEmail}">
+                                            <div class="invalid-feedback">
+                                                ATTENZIONE! L'email inserita non è quella attualmente in uso. Riprovare con l'email corretta. 
+                                            </div>
+                                        </c:if>
+                                            
+                                    </div>
                                     <div class="form-group">
                                         
                                         <c:if test="${errorInputEmail eq null}">
@@ -263,6 +277,28 @@
                                             </div>
                                         </c:if>
                                             
+                                    </div>
+                                    <div class="form-group">
+                                        
+                                        <c:if test="${errorPassword eq null}">
+                                            <label for="password">Inserisci la tua password</label>
+                                            <input name="password" type="password" class="form-control security-form johnCena" id="password" required="true" aria-describedby="passwordHelpInline">
+                                        </c:if>
+                                        <c:if test="${errorPassword eq 'errorPassword'}">
+                                            <label for="password">Inserisci la tua precendente password</label>
+                                            <input name="password" type="password" class="form-control is-invalid" id="password" required="true" aria-describedby="passwordHelpInline">
+                                            <div class="invalid-feedback">
+                                                ATTENZIONE! La password inserita non è quella attualmente in uso. Riprovare con la password corretta. 
+                                            </div>
+                                        </c:if>
+                                        <a href="#" class="text-link">
+                                            <p>Hai dimenticato la password?</p>
+                                        </a>
+                                            
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInput">
+                                        <label class="form-check-label" for="showInput">Mostra password</label>
                                     </div>
                                     <button type="submit" class="btn std-button">Conferma</button>
                                     <div class="form-group">

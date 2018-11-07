@@ -104,7 +104,10 @@ public class insertUserServlet extends HttpServlet {
         request.setAttribute("surname", surname);
         request.setAttribute("email", email);
 
-        if (userDAO.checkUser(email)) {
+        if(!userDAO.checkEmail(email)){
+            System.out.println("ERRORE EMAIL NON VALIDA ------------------------------------");
+            response.sendRedirect("index.jsp");
+        } else if (userDAO.checkUser(email)) {
 
             String error = "emailError";
             typeError = error;

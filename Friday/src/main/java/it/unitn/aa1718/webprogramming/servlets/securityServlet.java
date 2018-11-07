@@ -179,14 +179,20 @@ public class securityServlet extends HttpServlet {
         request.setAttribute("errorPresentEmail", errorPresentEmail);
         
         if (!userDAO.checkUser(oldEmail)) {
-            
             System.out.println("questa email non esiste nel database");
             String error = "errorOldEmail";
             typeError = error;
             request.setAttribute("errorOldEmail", typeError);
             request.getRequestDispatcher(changeEmail).forward(request, response);
             
-        } else if (userDAO.checkUser(inputNewEmail)) {
+        } else if(!userDAO.checkEmail(inputNewEmail)){
+            System.out.println("IL FORMATO DI QUESTA EMAIL NON è CORRETTO ");
+            String error = "errorOldEmail";
+            typeError = error;
+            request.setAttribute("errorOldEmail", typeError);
+            request.getRequestDispatcher(changeEmail).forward(request, response);
+        }
+        else if (userDAO.checkUser(inputNewEmail)) {
             
             String error = "errorInputEmail";
             typeError = error;

@@ -249,14 +249,10 @@
                             <li><a href="#">Il mio account</a></li>
                             <li><a href="#">Le mie liste</a></li>
                             <li>
-                                <c:if test="${emailSession eq null}">
-                                    <a class="dropdown-item" href="login.jsp">Login</a>
-                                </c:if>
                                 <c:if test="${emailSession ne null}">
-                                    <a class="dropdown-item">
-                                        <div><small class="text-muted">Logged as</small></div>
-                                        <div><c:out value="${emailSession}"></c:out></div>
-                                    </a>
+                                    <form action="logoutServlet" method="POST">
+                                        <button type="submit" class="btn displayCenter login-btn">Logout</button>
+                                    </form>
                                 </c:if>
                             </li>
                         </ul>

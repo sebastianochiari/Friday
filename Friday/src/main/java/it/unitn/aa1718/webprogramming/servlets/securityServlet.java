@@ -12,7 +12,6 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
-import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -105,8 +104,6 @@ public class securityServlet extends HttpServlet {
             default: response.sendRedirect("myaccount.jsp");
         }
         
-        response.sendRedirect("myaccount.jsp");
-        
     }
     
     protected void changePassword (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String name, String surname, String avatar, boolean admin, boolean list_owner) throws ServletException, IOException {
@@ -124,6 +121,9 @@ public class securityServlet extends HttpServlet {
         
         System.out.println(userDAO.getPasswordByUserEmail(email));
         System.out.println(previousPasswordEncrypted);
+        
+        String errorPresentPassword = "errorPresentPassword";
+        request.setAttribute("errorPresentPassword", errorPresentPassword);
         
         if (!userDAO.getPasswordByUserEmail(email).equals(previousPasswordEncrypted)) {
             
@@ -150,10 +150,14 @@ public class securityServlet extends HttpServlet {
 
         } else {
             
+            request.setAttribute("errorPresentPassword", null);
+            
             User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner);
             userDAO.updateUserByEmail(user1);
             
             System.out.println("ho cambiato la password correttamente");
+            
+            response.sendRedirect("myaccount.jsp");
             
             
         }
@@ -170,6 +174,9 @@ public class securityServlet extends HttpServlet {
         dbpassword = userDAO.getPasswordByUserEmail(oldEmail);
         request.setAttribute("inputEmail", inputNewEmail);
         MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+        
+        String errorPresentEmail = "errorPresentEmail";        
+        request.setAttribute("errorPresentEmail", errorPresentEmail);
         
         if (!userDAO.checkUser(oldEmail)) {
             System.out.println("questa email non esiste nel database");
@@ -191,6 +198,7 @@ public class securityServlet extends HttpServlet {
             typeError = error;
             request.setAttribute("errorInputEmail", typeError);
             request.setAttribute("inputEmail", inputNewEmail);
+            
             request.getRequestDispatcher(changeEmail).forward(request, response);
             
         } else if (!inputNewEmail.equals(confirmEmail)) {       
@@ -208,6 +216,8 @@ public class securityServlet extends HttpServlet {
             
             if (pswencrypted.equals(dbpassword)) {
                 
+                request.setAttribute("errorPresentEmail", null);
+                
                 String newpswencrypted = encrypt.setSecurePassword(password, inputNewEmail);
 
                 (request.getSession()).setAttribute("emailSession", inputNewEmail);
@@ -220,6 +230,8 @@ public class securityServlet extends HttpServlet {
                 //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
 
                 System.out.println("ho cambiato la email correttamente");
+                
+                response.sendRedirect("myaccount.jsp");
             
             } else {
             
@@ -244,6 +256,9 @@ public class securityServlet extends HttpServlet {
         String typeError = request.getParameter("typeError");
         String changePersonal = request.getParameter("changePersonal");
         
+        String errorPresentPersonal = "errorPresentPersonal";
+        request.setAttribute("errorPresentPersonal", errorPresentPersonal);
+        
         if (newName.isEmpty()) {
             String error = "nameError";
             typeError = error;
@@ -259,11 +274,14 @@ public class securityServlet extends HttpServlet {
             (request.getSession()).setAttribute("nameUserSession", newName);
             (request.getSession()).setAttribute("surnameUserSession", newSurname);
             (request.getSession()).setAttribute("avatarUserSession", newAvatar);
+            request.setAttribute("errorPresentPersonal", null);
             
             User user1 = new User(email, dbpassword, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner);
             userDAO.updateUserByEmail(user1);
             
             System.out.println("name e surname e avatar aggiornati.");
+            
+            response.sendRedirect("myaccount.jsp");
         }
         
     }

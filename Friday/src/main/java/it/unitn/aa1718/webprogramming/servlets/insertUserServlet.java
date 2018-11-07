@@ -18,6 +18,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
+import javax.swing.text.StyleConstants;
 
 /**
  *
@@ -136,6 +142,13 @@ public class insertUserServlet extends HttpServlet {
 
             User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false);
             userDAO.createUser(user1);
+            
+            //dobbiamo trovare un host che funzioni
+            try {
+                library.sendMail(email, name, surname);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
             
             System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
             

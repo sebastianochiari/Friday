@@ -13,6 +13,10 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.util.*;
 
 /**
  *
@@ -22,6 +26,7 @@ public class Library {
     
     // metodo calcolo del PID dell'ultima entry della tabella prodotti
     public int LastEntryTable(String col, String table) {
+        
         int tmp = 1;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -65,6 +70,7 @@ public class Library {
     
     //controllo della presenza dell'immagine all'inserimento di liste, prodotti ecc
     public String ImageControl(String image) {
+        
         String tmp = null;
         
         if (image != null && !image.isEmpty()){
@@ -74,4 +80,37 @@ public class Library {
         return tmp;
     }
     
+    public static void sendMail (String email, String name, String surname) throws AddressException,MessagingException {
+        
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+	props.put("mail.smtp.auth", "true");
+	props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication("donotreplyfriday@gmail.com","progettoweb2018");
+                        }
+                });
+
+        try {
+
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("donotreplyfriday@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO,
+                                InternetAddress.parse(email));
+                message.setSubject("Benvenuto in Friday!");
+                message.setText(name+" "+surname+", Benvenuto in Friday!"+
+                                "\n\n cazzo ridi ti sto hackerando");
+
+                Transport.send(message);
+
+        } catch (MessagingException e) {
+                throw new RuntimeException(e);
+        }
+    }
+        
 }

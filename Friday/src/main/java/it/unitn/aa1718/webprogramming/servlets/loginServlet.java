@@ -27,6 +27,7 @@ import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import java.sql.Timestamp;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -91,6 +92,7 @@ public class loginServlet extends HttpServlet {
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         UserDAO riverUserDAO = mySqlFactory.getUserDAO();
         MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+        HttpSession session = request.getSession();
 
         // List myCookies = null; da implementare, dovremmo salvarci tutti i cookie del DB
         MyCookie myCookie = null;
@@ -165,19 +167,19 @@ public class loginServlet extends HttpServlet {
                     } else {
 
                         cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
+                        Deadline = timestamp.getTime();
                     }
 
                     int LID = -1;
-                    myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline));
-                    (request.getSession()).setAttribute("sessionCookie", myCookieDAO.getCookie(request, email));
+                    System.out.println("COOKIE ID = "+library.LastEntryTable("cookieID", "cookies")+"+ LID = "+LID+" EMAIL = "+email+" DEADLINE = "+Deadline);
+                    MyCookie myNewCookie = new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline); 
+                    myCookieDAO.createCookie(myNewCookie);
                     response.addCookie(cookie);
+                    session.setAttribute("cookieIDSession", myNewCookie.getCookieID());
                     System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
 
                 } else {
-
                     System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
-                    (request.getSession()).setAttribute("sessionCookie", myCookie);
-
                 }
 
                 response.sendRedirect("index.jsp");

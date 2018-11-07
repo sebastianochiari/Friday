@@ -17,6 +17,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import it.unitn.aa1718.webprogramming.friday.MyCookie;
+import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import java.sql.Timestamp;
+import javax.servlet.http.Cookie;
 
 /**
  *
@@ -60,21 +67,16 @@ public class insertShoppingListServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         ShoppingListDAO riverDAO = mySqlFactory.getShoppingListDAO();
+        HttpSession session = request.getSession();
         
         List shoppingLists = null;
         ShoppingList shoppingList = null;
         
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-        
-//        // cancellazione di product memorizzati sul DB
-//        shoppingLists = shoppingListDAO.getAllShoppingLists();
-//        for (Object u : shoppingLists) {
-//            shoppingListDAO.deleteShoppingList((ShoppingList) u);
-//        }
 
         // creazione di shoppingList
         Library library = new Library();
@@ -83,9 +85,35 @@ public class insertShoppingListServlet extends HttpServlet {
         String note = request.getParameter("note");
         String image = request.getParameter("image");
         int LCID = Integer.parseInt(request.getParameter("LCID"));
-        String list_owner = request.getParameter("list_owner");
+        String list_owner = (String)session.getAttribute("emailSession");
+        int cookieID = -1;
         
-        ShoppingList shoppingList1 = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner);
+        //associo cookie anonimo se non loggato
+        if(list_owner == null){
+
+            MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+            MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+            
+            //cancello eventuali cookie scaduti
+            myCookieDAO.deleteDBExpiredCookies();
+            
+            //Creo cookie
+            Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
+            cookie.setMaxAge(-1);
+            cookieID = Integer.parseInt((String)cookie.getValue());
+       
+            Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
+            
+            myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, list_owner, Deadline));
+            System.out.println("zao zao il nuovo tuo cookie anonimo è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+            session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
+            response.addCookie(cookie);
+        
+        }
+        else
+           cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+        
+        ShoppingList shoppingList1 = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
     
         // memorizzazione del nuovo shoppingList nel DB
         shoppingListDAO.createShoppingList(shoppingList1);

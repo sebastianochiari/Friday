@@ -30,6 +30,10 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ?";
     
+    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE %?%";
+    
+    private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?));";
+    
     private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products";
     
     private static final String Update_Query = "UPDATE products SET (PID=?, name=?, note=?, logo=?, photo=?, PCID=?, email=?) WHERE PID = ?)";
@@ -307,6 +311,89 @@ public class MySQLProductDAOImpl implements ProductDAO {
         }
         
         return false;
+    }
+
+    @Override
+    public List getProductsByName(String name) {
+        List products = new ArrayList();
+        Product product = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_Name_Query);
+            preparedStatement.setString(1, name);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                product = new Product(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getString(7));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return products;
+    }
+
+    @Override
+    public List getProductsByNameAndPCID(int PCID, String name) {
+        List products = new ArrayList();
+        Product product = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_NameAndPCID_Query);
+            preparedStatement.setString(1, "%"+name+"%");
+            preparedStatement.setInt(2, PCID);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                product = new Product(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getString(7));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return products;
     }
 
 }

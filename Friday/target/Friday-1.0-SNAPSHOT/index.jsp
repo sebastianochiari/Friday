@@ -1,15 +1,16 @@
 <%-- 
     Document   : index
     Created on : 19-ott-2018, 10.35.28
-    Author     : tommi
+    Author     : marta & remo
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.sql.*"%>
 <%@page import="java.util.*"%>
 <%@page import="javax.servlet.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
 <html lang="it">
 
@@ -238,18 +239,33 @@
     <!-- START: search navbar -->
     <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
         <div class="container mb-1">
-            <form>
+            <form action="searchServlet" method="GET">
                 <div class="row">
                     <div class="col mt-1 nav-col">
-                        <select class="form-control">
-                            <option>Tutte le categorie</option>
-                            <option>Alimentari</option>
-                            <option>Ferramenta</option>
-                            <option>Alcolici</option>
-                        </select>
+                        <div class="col-sm">
+                   
+                                    <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+
+                                    <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
+                                    </sql:query>
+                                        
+                                    <select name="inputCategory" class="form-control">
+                                        <option disabled selected value>Tutte le Categorie</option>
+                                        <c:forEach var="res" items="${result.rows}" >
+                                            <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
+                                        </c:forEach>
+                                    </select>
+                                
+                            </div>
                     </div>
+                                    
+                            
                     <div class="col-md mt-1 nav-col">
-                        <input class="form-control nav-search" type="text" placeholder="Cerca">
+                            <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
+                    </div>
+                    <div>
+                            <button type="submit" class="btn displayCenter login-btn">Search</button>
+                        
                     </div>
                     </div>
             </form>

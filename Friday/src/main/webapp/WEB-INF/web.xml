@@ -42,6 +42,10 @@
         <servlet-name>securityServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.securityServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>searchServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.searchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>insertUserServlet</servlet-name>
         <url-pattern>/insertUserServlet</url-pattern>
@@ -73,6 +77,10 @@
     <servlet-mapping>
         <servlet-name>securityServlet</servlet-name>
         <url-pattern>/securityServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchServlet</servlet-name>
+        <url-pattern>/searchServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

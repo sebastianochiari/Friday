@@ -20,6 +20,10 @@ public interface ProductDAO {
     
     public List getProductsByPCID(int PCID);
     
+    public List getProductsByName(String name);
+    
+    public List getProductsByNameAndPCID(int PCID, String name);
+    
     public Product getProduct(int PID);     
     
     public String createProduct(Product product);

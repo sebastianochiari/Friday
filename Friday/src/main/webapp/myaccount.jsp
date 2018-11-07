@@ -78,12 +78,6 @@
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
                             </c:if>
-                            <c:if test="${emailSession ne null}">
-                                <a class="dropdown-item">
-                                    <div><small class="text-muted">Logged as</small></div>
-                                    <div><c:out value="${emailSession}"></c:out></div>
-                                </a>
-                            </c:if>
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">

@@ -69,13 +69,13 @@
                         <div>
                             <div class="form-group">
                                 <label for="Name">Nome</label>
-                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario" value="${requestScope.name}">
+                                <input name="name" type="text" class="form-control" id="name" placeholder="Mario" value="${requestScope.name}"  required="true">
                             </div>
                         </div>
                         <div>
                             <div class="form-group">
                                 <label for="Surname">Cognome</label>
-                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi" value="${requestScope.surname}">
+                                <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi" value="${requestScope.surname}" required="true">
                             </div>
                         </div>
                         <div>
@@ -91,11 +91,11 @@
                             <div class="col">
                                 <c:if test="${errorEmail eq null}">
                                     <label for="Email"><strong>*</strong> Email</label>
-                                    <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                                    <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                                 </c:if>
                                 <c:if test="${errorEmail eq 'emailError'}">
                                     <label for="Email"><strong>*</strong> Email</label>
-                                    <input name="email" type="text" class="form-control is-invalid security-form johnCena" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                                    <input name="email" type="text" class="form-control is-invalid security-form johnCena" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
                                     </div>
@@ -106,13 +106,13 @@
                         <div class="form-group">
                             <c:if test="${errorPassword eq null}">
                                 <label for="password"><strong>*</strong> Password</label>
-                                <input name="password" type="password" class="form-control security-form johnCena" id="password" required="true" aria-describedby="passwordHelpInline">
+                                <input name="password" type="password" class="form-control security-form johnCena" id="password" required="true" aria-describedby="passwordHelpInline"  required="true">
                             
                                 <p class="footer-info"><small>La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</small></p>
                             </c:if>
                             <c:if test="${errorPassword eq 'errorPassword'}">
                                 <label for="password"><strong>*</strong> Password</label>
-                                <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true">
+                                <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
                                 </div>
@@ -121,11 +121,11 @@
                         <div class="form-group">
                             <c:if test="${errorCheckPassword eq null}">
                                 <label for="password1"><strong>*</strong> Conferma password</label>
-                                <input name ="password1" type="password" class="form-control security-form johnCena" id="password1" require="true" aria-describedby="passwordHelpInline">
+                                <input name ="password1" type="password" class="form-control security-form johnCena" id="password1" require="true" aria-describedby="passwordHelpInline" required="true">
                             </c:if>
                             <c:if test="${errorCheckPassword eq 'errorCheckPassword'}">
                                 <label for="password1"><strong>*</strong> Conferma password</label>
-                                <input name ="password1" type="password" class="form-control is-invalid security-form johnCena" id="password1" require="true">
+                                <input name ="password1" type="password" class="form-control is-invalid security-form johnCena" id="password1" require="true" required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.  
                                 </div>

@@ -59,13 +59,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input name="email" type="text" class="form-control" id="email"  required="true" aria-describedby="emailHelp" value="${requestScope.email}">
+                                <input name="email" type="text" class="form-control" id="email"  required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                             </c:if>
                             
                            
                         <c:if test="${errorEmail eq 'emailError'}">
-                            <label for="Email"> Indirizzo e-mail </label>
-                            <input name="email" type="text" class="form-control is-invalid" id="email"  required="true" aria-describedby="emailHelp" >
+                            <div class="col-md mt-1 nav-col">
+                                <div class="row">
+                                    <div class="col-md mt-1 nav-col">
+                                        <label for="Email"> Indirizzo e-mail </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input name="email" type="text" class="form-control is-invalid" id="email"  required="true" aria-describedby="emailHelp"  required="true">
                             <div class="invalid-feedback">
                                 ATTENZIONE! Se non sei già presente su Friday registrati
                             </div>
@@ -87,7 +93,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="password" class="form-control security-form johnCena" name="password">
+                                <input type="password" class="form-control security-form johnCena" name="password"  required="true">
                             </c:if>
                             
                             <c:if test="${errorPassword eq 'errorPassword'}">
@@ -103,7 +109,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true">
+                                <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true"  required="true">
                                 <div class="invalid-feedback">
                                     ATTENZIONE! La password è errata. 
                                 </div>

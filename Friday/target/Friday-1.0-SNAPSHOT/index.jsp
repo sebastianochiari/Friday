@@ -155,6 +155,8 @@
                         <div>
                             <c:out value=" ${emailSession}"></c:out>
                         </div>
+                    </li>
+                    <li>
                         <form action="logoutServlet" method="POST">
                             <button type="submit" class="btn displayCenter login-btn">Logout</button>
                         </form>

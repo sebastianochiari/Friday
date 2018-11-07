@@ -29,7 +29,7 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     
     private static final String Read_All_Query = "SELECT cookieID, LID, email, deadline FROM cookies";
     
-    private static final String Update_Query = "UPDATE cookies SET cookieID=?, LID=?, email=?, deadline=? WHERE (cookieID = ?)";
+    private static final String Update_Query = "UPDATE cookies SET cookieID=?, LID=?, email=?, deadline=? WHERE email = ?";
     
     private static final String Delete_Query_By_Email = "DELETE FROM cookies WHERE email = ?";
     
@@ -109,6 +109,7 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
                 lengthArrayCookies++;
             }
         }
+        
         return myCookie;
     }
 

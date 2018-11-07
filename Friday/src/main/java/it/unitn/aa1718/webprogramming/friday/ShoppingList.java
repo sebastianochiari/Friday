@@ -18,8 +18,9 @@ public class ShoppingList {
     private String image = null;
     private int LCID;
     private String list_owner = null;
+    private int cookieID;
     
-    public ShoppingList(int LID, String name, String note, String image, int LCID, String list_owner) {
+    public ShoppingList(int LID, String name, String note, String image, int LCID, String list_owner, int cookieID) {
         super();
         this.LID = LID;
         this.name = name;
@@ -27,6 +28,7 @@ public class ShoppingList {
         this.image = image;
         this.LCID = LCID;
         this.list_owner = list_owner;
+        this.cookieID = cookieID;
     }
     
     public int getLID() {           
@@ -75,6 +77,14 @@ public class ShoppingList {
     
     public void setListOwner() {                
         this.list_owner = list_owner;        
+    }
+    
+    public int getCookieID() {           
+        return cookieID;        
+    }        
+    
+    public void setCookieID() {              
+        this.cookieID = cookieID;       
     }
     
 }

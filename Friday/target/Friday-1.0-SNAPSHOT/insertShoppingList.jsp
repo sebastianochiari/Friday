@@ -67,12 +67,18 @@
         <div class="width-30 displayCenter">
             <div class="card">
                 <div class="card-body">
-                    <h3>Crea prodotto</h3>
-                    <form method="GET" action="insertListServlet" enctype="multipart/form-data">
+                    <h3>Crea Lista della Spesa</h3>
+                    <form method="GET" action="insertShoppingListServlet" enctype="multipart/form-data">
                         <div class="row form-group">
                             <div class="col">
-                                <label>Nome della categoria di prodotti</label>
+                                <label>Nome della lista</label>
                                 <input type="text" class="form-control" name="name">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col">
+                                <label>Nome della categoria di lista</label>
+                                <input type="text" class="form-control" name="LCID">
                             </div>
                         </div>
                         <div>

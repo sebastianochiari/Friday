@@ -177,32 +177,37 @@ public class securityServlet extends HttpServlet {
         
         String errorPresentEmail = "errorPresentEmail";        
         request.setAttribute("errorPresentEmail", errorPresentEmail);
+        String errorInputEmailFormat = "noErrorInputEmailFormat";        
+        request.setAttribute("errorInputEmailFormat", errorInputEmailFormat);
+        String errorInputEmail = "errorInputEmail";
+        request.setAttribute("errorInputEmail", null);
         
         if (!userDAO.checkUser(oldEmail)) {
+            
             System.out.println("questa email non esiste nel database");
             String error = "errorOldEmail";
             typeError = error;
             request.setAttribute("errorOldEmail", typeError);
             request.getRequestDispatcher(changeEmail).forward(request, response);
             
-        } else if(!userDAO.checkEmail(inputNewEmail)){
-            System.out.println("IL FORMATO DI QUESTA EMAIL NON è CORRETTO ");
-            String error = "errorOldEmail";
-            typeError = error;
-            request.setAttribute("errorOldEmail", typeError);
-            request.getRequestDispatcher(changeEmail).forward(request, response);
-        }
-        else if (userDAO.checkUser(inputNewEmail)) {
+        } else if(!userDAO.checkEmail(inputNewEmail)) {
             
-            String error = "errorInputEmail";
-            typeError = error;
-            request.setAttribute("errorInputEmail", typeError);
+            System.out.println("IL FORMATO DI QUESTA EMAIL NON è CORRETTO ");
+            errorInputEmailFormat = "errorInputEmailFormat";
+            typeError = errorInputEmailFormat;
+            request.setAttribute("errorInputEmail", errorInputEmail);
+            request.setAttribute("errorInputEmailFormat", typeError);
+            request.getRequestDispatcher(changeEmail).forward(request, response);
+            
+        } else if (userDAO.checkUser(inputNewEmail)) {
+            
+            request.setAttribute("errorInputEmail", errorInputEmail);
             request.setAttribute("inputEmail", inputNewEmail);
             
             request.getRequestDispatcher(changeEmail).forward(request, response);
             
-        } else if (!inputNewEmail.equals(confirmEmail)) {       
-
+        } else if (!inputNewEmail.equals(confirmEmail)) {   
+            
             String error = "errorConfirmEmail";
             typeError = error;
             request.setAttribute("errorConfirmEmail", typeError);
@@ -215,6 +220,7 @@ public class securityServlet extends HttpServlet {
             String pswencrypted = encrypt.setSecurePassword(password, oldEmail);
             
             if (pswencrypted.equals(dbpassword)) {
+                
                 
                 request.setAttribute("errorPresentEmail", null);
                 

@@ -18,12 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpSession;
-import javax.swing.text.StyleConstants;
 
 /**
  *

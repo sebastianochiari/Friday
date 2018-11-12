@@ -13,16 +13,17 @@
 <%@taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
     
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
-    
+<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />    
     
     <!-- START: main navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
             <div class="header-logo float-left">
-                <a href="index.html" alt="logo">
-                        <img src="images/friday_icon_colored.png" class="logo">
-                    </a>
+                <a href="index.jsp">
+                    <div class="logo-header">
+                        <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
+                    </div>
+                </a>
             </div>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +48,11 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                            <a class="dropdown-item" href="#">Il mio account</a>
-                            <a class="dropdown-item" href="login.html">Login</a>
-                            <a class="dropdown-item" href="register.html">Crea un account</a>
+                            <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
+                            <c:if test="${boolEmailSessionTrue}">
+                                <a class="dropdown-item" href="login.jsp">Login</a>
+                                <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            </c:if>
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">
@@ -96,6 +99,14 @@
                     </div>
                 </div>
             </form>
+            <c:if test="${emailSession ne null}">
+                <div>
+                    <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
+                </div>
+                <form action="logoutServlet" method="POST">
+                    <button type="submit" class="btn displayCenter login-btn">Logout</button>
+                </form>
+            </c:if>
         </div>
     </nav>
     <!-- END: search navbar -->

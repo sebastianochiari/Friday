@@ -101,6 +101,7 @@ public class securityServlet extends HttpServlet {
             case "password": changePassword(request, response, encrypt, library, userDAO, emailSession, name, surname, avatar, admin, list_owner); break;
             case "email": changeEmail(request, response, encrypt, library, userDAO, dbpassword, name, surname, avatar, admin, list_owner); break;
             case "personal": changePersonal(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, admin, list_owner); break;
+            case "admin": changeAdmin(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, list_owner); break;
             default: response.sendRedirect("myaccount.jsp");
         }
         
@@ -291,6 +292,22 @@ public class securityServlet extends HttpServlet {
         }
         
     }
+    
+    protected void changeAdmin (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String dbpassword, String name, String surname, String avatar, boolean list_owner) throws ServletException, IOException {
+        
+        boolean admin = true;
+        
+        request.getSession().setAttribute("adminUserSession", admin);
+        
+        User user1 = new User(email, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner);
+        userDAO.updateUserByEmail(user1);
+
+        System.out.println("utente è ora amministratore");
+
+        response.sendRedirect("adminSection.jsp");
+        
+    }
+    
     /**
      * Returns a short description of the servlet.
      *

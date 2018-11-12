@@ -96,7 +96,7 @@ public class insertShoppingListCategoryServlet extends HttpServlet {
         String name = request.getParameter("name");
         String note = request.getParameter("note");
         String image = request.getParameter("image");
-        String email = request.getParameter("email");
+        String email = (String) (request.getSession()).getAttribute("emailSession");
         
         ShoppingListCategory shoppingListCategory1 = new ShoppingListCategory(LCID, name, note, library.ImageControl(image), email);
     
@@ -105,6 +105,10 @@ public class insertShoppingListCategoryServlet extends HttpServlet {
         
         // recupero di tutti gli shoppingListCategory del DB
         shoppingListCategories = shoppingListCategoryDAO.getAllShoppingListCategories();
+        
+        request.setAttribute("goodInsertShoppingListCategory", "true");
+        response.sendRedirect("adminSection.jsp");
+        
     }
 
     /**

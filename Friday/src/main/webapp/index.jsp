@@ -74,9 +74,9 @@
                 result = preparedStatement.getResultSet();
 
                 if(cookies != null){
-
+                    
                     while (result.next()) {
-
+                        
                         for(int i=0; i<cookies.length; i++){
 
                             System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
@@ -109,8 +109,6 @@
                     }
                 }
 
-
-
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -130,7 +128,6 @@
                     cse.printStackTrace();
                 }
             }
-
         %>
 
         <!-- START: header -->
@@ -250,7 +247,7 @@
                                 </sql:query>
                                         
                                 <select name="inputCategory" class="form-control">
-                                    <option disabled selected value>Tutte le Categorie</option>
+                                    <option value="-1">Tutte le Categorie</option>
                                     <c:forEach var="res" items="${result.rows}" >
                                         <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
                                     </c:forEach>

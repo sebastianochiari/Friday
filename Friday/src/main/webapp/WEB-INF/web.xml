@@ -46,6 +46,10 @@
         <servlet-name>searchServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.searchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>confirmRegistrationServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.confirmRegistrationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>insertUserServlet</servlet-name>
         <url-pattern>/insertUserServlet</url-pattern>
@@ -81,6 +85,10 @@
     <servlet-mapping>
         <servlet-name>searchServlet</servlet-name>
         <url-pattern>/searchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>confirmRegistrationServlet</servlet-name>
+        <url-pattern>/confirmRegistrationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

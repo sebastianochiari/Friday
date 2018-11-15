@@ -74,9 +74,9 @@
                 result = preparedStatement.getResultSet();
 
                 if(cookies != null){
-
+                    
                     while (result.next()) {
-
+                        
                         for(int i=0; i<cookies.length; i++){
 
                             System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
@@ -109,8 +109,6 @@
                     }
                 }
 
-
-
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -130,7 +128,6 @@
                     cse.printStackTrace();
                 }
             }
-
         %>
 
         <!-- START: header -->
@@ -239,18 +236,32 @@
         <!-- START: search navbar -->
         <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
             <div class="container mb-1">
-                <form>
+                <form action="searchServlet" method="GET">
                     <div class="row">
                         <div class="col mt-1 nav-col">
-                            <select class="form-control">
-                                <option>Tutte le categorie</option>
-                                <option>Alimentari</option>
-                                <option>Ferramenta</option>
-                                <option>Alcolici</option>
-                            </select>
+                            <div class="col-sm">
+                   
+                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+
+                                <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
+                                </sql:query>
+                                        
+                                <select name="inputCategory" class="form-control">
+                                    <option value="-1">Tutte le Categorie</option>
+                                    <c:forEach var="res" items="${result.rows}" >
+                                        <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
+                                    </c:forEach>
+                                </select>
+                                
+                            </div>
                         </div>
+                                    
                         <div class="col-md mt-1 nav-col">
-                            <input class="form-control nav-search" type="text" placeholder="Cerca">
+                            <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn displayCenter login-btn">Search</button>
+                        
                         </div>
                         </div>
                 </form>
@@ -262,7 +273,7 @@
         <main>
 
             <div class="container mt-4">
-
+    
                 <!-- START: Carousel -->
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
@@ -286,77 +297,6 @@
                             <img class="d-block w-100" src="images/backtoschool.jpg" alt="Third slide">
                         </a>
                         </div>
-<<<<<<< HEAD
-                    </li>
-                </ul>
-                <div>
-                    <a href="#" class="shopping-link" style="margin-right: 5px;">
-                        <i class="fas fa-envelope shopping-icon"></i>
-                    </a>
-                    <a href="#" class="shopping-link">
-                        <i class="fas fa-shopping-cart shopping-icon"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- END: main navbar -->
-
-    <!-- START: search navbar -->
-    <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
-        <div class="container mb-1">
-            <form action="searchServlet" method="GET">
-                <div class="row">
-                    <div class="col mt-1 nav-col">
-                        <div class="col-sm">
-                   
-                                    <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
-
-                                    <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
-                                    </sql:query>
-                                        
-                                    <select name="inputCategory" class="form-control">
-                                        <option disabled selected value>Tutte le Categorie</option>
-                                        <c:forEach var="res" items="${result.rows}" >
-                                            <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
-                                        </c:forEach>
-                                    </select>
-                                
-                            </div>
-                    </div>
-                                    
-                            
-                    <div class="col-md mt-1 nav-col">
-                            <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
-                    </div>
-                    <div>
-                            <button type="submit" class="btn displayCenter login-btn">Search</button>
-                        
-                    </div>
-                    </div>
-            </form>
-        </div>
-    </nav>
-    <!-- END: search navbar -->
-
-    <main>
-
-        <div class="container mt-4">
-
-            <!-- START: Carousel -->
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <a href="insertUser.jsp">
-                        <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="Second slide">
-                    </a>
-=======
->>>>>>> t-back-end
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>

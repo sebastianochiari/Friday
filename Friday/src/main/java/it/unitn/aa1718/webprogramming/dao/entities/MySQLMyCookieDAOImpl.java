@@ -8,11 +8,14 @@ package it.unitn.aa1718.webprogramming.dao.entities;
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
+import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +30,15 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     
     private static final String Read_Query_By_Email = "SELECT cookieID, LID, email, deadline FROM cookies WHERE email = ?";
     
+    private static final String Read_Query_By_CookieID = "SELECT cookieID, LID, email, deadline FROM cookies WHERE cookieID = ?";
+    
     private static final String Read_All_Query = "SELECT cookieID, LID, email, deadline FROM cookies";
     
-    private static final String Update_Query = "UPDATE cookies SET cookieID=?, LID=?, email=?, deadline=? WHERE email = ?";
+    private static final String Update_Query = "UPDATE cookies SET cookieID = ?, LID=?, email=?, deadline=? WHERE email = ?";
+    
+    private static final String Update_LID_Query = "UPDATE cookies SET LID = ? WHERE cookieID = ?";
+    
+    private static final String Update_Email_Query = "UPDATE cookies SET email = ? WHERE cookieID = ?";
     
     private static final String Delete_Query_By_Email = "DELETE FROM cookies WHERE email = ?";
     
@@ -147,6 +156,7 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
 
     @Override
     public void updateCookie(MyCookie myCookie){
+        
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -256,6 +266,104 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
                 cse.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void updateLIDCookie(int cookieID, int LID) {
+        
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Update_LID_Query);
+            preparedStatement.setInt(1, LID);
+            preparedStatement.setInt(2, cookieID);
+            preparedStatement.execute();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void updateEmailCookie(int cookieID, String email) {
+        
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Update_Email_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setInt(2, cookieID);
+            preparedStatement.execute();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+    }
+
+    @Override
+    public int getLIDbyCookieID(int cookieID) {
+        
+        int LID = -1;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_Query_By_CookieID);
+            preparedStatement.setInt(1, cookieID);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                LID = result.getInt(2);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return LID;
+        
     }
     
 }

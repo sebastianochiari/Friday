@@ -36,6 +36,8 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
     private static final String Update_Query = "UPDATE lists SET LID=?, name=?, note=?, image=?, LCID=?, list_owner=?, cookieID=? WHERE LID = ?";
     
+    private static final String Update_Email_Query = "UPDATE lists SET list_owner = ? WHERE LID = ?";
+    
     private static final String Delete_Query = "DELETE FROM lists WHERE LID = ?";
     
     @Override
@@ -320,6 +322,35 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         }
         
         return false;
+    }
+
+    @Override
+    public void updateEmailShoppingList(int LID, String email) {
+        
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Update_Email_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setInt(2, LID);
+            preparedStatement.execute();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
     }
     
 }

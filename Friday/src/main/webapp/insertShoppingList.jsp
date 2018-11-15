@@ -75,11 +75,22 @@
                                 <input type="text" class="form-control" name="name">
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <div class="col">
-                                <label>Nome della categoria di lista</label>
-                                <input type="text" class="form-control" name="LCID">
-                            </div>
+                        <div class="form-group">
+                                <label for="LCID">Scegli la categoria di appartenza del prodotto</label>
+                                
+                                    <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+
+
+                                    <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM list_categories;">   
+                                    </sql:query>
+                                        
+                                    <select name="LCID" class="form-control">
+                                        <option disabled value>Seleziona un'opzione</option>
+                                        <c:forEach var="res" items="${result.rows}" >
+                                            <option value="${res.LCID}"> <c:out value="${res.Name}"/> </option>
+                                        </c:forEach>
+                                    </select>
+                                
                         </div>
                         <div>
                             <div class="form-group">

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -56,7 +57,7 @@ public class insertUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-        UserDAO riverDAO = mySqlFactory.getUserDAO();
+        UserDAO riverUserDAO = mySqlFactory.getUserDAO();
         List users = null;
         UserDAO userDAO = new MySQLUserDAOImpl();        
         Library library = new Library();
@@ -85,19 +86,22 @@ public class insertUserServlet extends HttpServlet {
         avatar = request.getParameter("avatar");
         typeError = request.getParameter("typeError");
         registerForm = request.getParameter("registerForm");
+        
+        
         String pswEncrypted = encrypt.setSecurePassword(password, email);
+        HttpSession session = request.getSession();
         
           //  session.setAttribute("ruolo", rud.getRuoloById(currentUser.getRuoloId()).getRuolo());
              // session.removeAttribute("signupErrorMessage");
              // request.getRequestDispatcher("/JSP/successpage.jsp").forward(request, response);
              
-        System.out.println("surname:" + surname);
-        System.out.println("typeError: " + typeError);
-        System.out.println("registerForm: " + registerForm);
-        System.out.println("email:" + email);
-        System.out.println("psw: " + password);
-        System.out.println("pswcheck: " + passwordcheck);
-        System.out.println("avatar: " + avatar);
+        //System.out.println("surname:" + surname);
+        //System.out.println("typeError: " + typeError);
+        //System.out.println("registerForm: " + registerForm);
+        //System.out.println("email:" + email);
+        //System.out.println("psw: " + password);
+        //System.out.println("pswcheck: " + passwordcheck);
+        //System.out.println("avatar: " + avatar);
         
         boolean isOkay = encrypt.checkString(password);
 
@@ -106,8 +110,10 @@ public class insertUserServlet extends HttpServlet {
         request.setAttribute("email", email);
 
         if(!userDAO.checkEmail(email)){
-            System.out.println("ERRORE EMAIL NON VALIDA ------------------------------------");
+            
+            //System.out.println("ERRORE EMAIL NON VALIDA ------------------------------------");
             response.sendRedirect("index.jsp");
+            
         } else if (userDAO.checkUser(email)) {
 
             String error = "emailError";
@@ -128,15 +134,33 @@ public class insertUserServlet extends HttpServlet {
             typeError = error;
             request.setAttribute("errorCheckPassword", typeError);
             
-            System.out.println( "-----Le password non coicidono");
+            //System.out.println( "-----Le password non coicidono");
             //da sistemare il ritorno al insertUser.jsp
             request.getRequestDispatcher(registerForm).forward(request, response);
             //response.sendRedirect("insertUser.jsp");
 
          } else {
 
-            User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false);
+            User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false, false);
             userDAO.createUser(user1);
+            
+            //aggiorno email cookie e lista se precedentemente era un cookie anonimo
+            if(session.getAttribute("cookieIDSession") != null){
+               
+                MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+                MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+                
+                ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
+                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+                
+                int cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+                int cookieLID =  myCookieDAO.getLIDbyCookieID(cookieID);
+                System.out.println("cookie LID = "+cookieLID);
+                shoppingListDAO.updateEmailShoppingList(cookieLID, email);
+                myCookieDAO.updateEmailCookie(cookieID, email);
+            
+            }
+          
             
             //dobbiamo trovare un host che funzioni
             try {
@@ -145,10 +169,9 @@ public class insertUserServlet extends HttpServlet {
                 e.printStackTrace();
             }
             
-            System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
-            
+            //System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
             // ritorno alla pagina iniziale
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("confirmRegistration.jsp");
         
         }
     }

@@ -104,7 +104,7 @@ public class Library {
                                 InternetAddress.parse(email));
                 message.setSubject("Benvenuto in Friday!");
                 message.setText(name+" "+surname+", Benvenuto in Friday!"+
-                                "\n\n cazzo ridi ti sto hackerando");
+                                "\n\n link di conferma : http://localhost:8080/Friday/confirmRegistrationServlet?email="+email);
 
                 Transport.send(message);
 

@@ -22,15 +22,17 @@ import java.util.List;
  */
 public class MySQLUserDAOImpl implements UserDAO {
     
-    private static final String Create_Query = "INSERT INTO users (email, password, name, surname, avatar, admin, list_owner) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO users (email, password, name, surname, avatar, admin, list_owner, confirmed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT email, password, name, surname, avatar, admin, list_owner FROM users WHERE email = ?";
+    private static final String Read_Query = "SELECT email, password, name, surname, avatar, admin, list_owner, confirmed FROM users WHERE email = ?";
     
-    private static final String Read_All_Query = "SELECT email, password, name, surname, avatar, admin, list_owner FROM users";
+    private static final String Read_All_Query = "SELECT email, password, name, surname, avatar, admin, list_owner, confirmed FROM users";
     
-    private static final String Update_Query_By_Email = "UPDATE users SET email=?, password=?, name=?, surname=?, avatar=?, admin=?, list_owner=? WHERE (email = ?)";
+    private static final String Update_Query_By_Email = "UPDATE users SET email=?, password=?, name=?, surname=?, avatar=?, admin=?, list_owner=?, confirmed=? WHERE (email = ?)";
     
-    private static final String Update_Query_By_Password = "UPDATE users SET email=?, password=?, name=?, surname=?, avatar=?, admin=?, list_owner=? WHERE (Password = ?)";
+    private static final String Update_Query_By_Password = "UPDATE users SET email=?, password=?, name=?, surname=?, avatar=?, admin=?, list_owner=?, confirmed=? WHERE (Password = ?)";
+    
+    private static final String Confirmed_Query = "UPDATE users SET confirmed = 1 WHERE (email = ?)";
     
     private static final String Delete_Query = "DELETE FROM users WHERE email = ?";
     
@@ -49,7 +51,7 @@ public class MySQLUserDAOImpl implements UserDAO {
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                user = new User(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getBoolean(6), result.getBoolean(7));
+                user = new User(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getBoolean(6), result.getBoolean(7), result.getBoolean(8));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -90,7 +92,7 @@ public class MySQLUserDAOImpl implements UserDAO {
             result = preparedStatement.getResultSet();
  
             if (result.next() && result != null) {
-                user = new User(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getBoolean(6), result.getBoolean(7));
+                user = new User(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getBoolean(6), result.getBoolean(7), result.getBoolean(8));
             } 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -131,6 +133,7 @@ public class MySQLUserDAOImpl implements UserDAO {
             preparedStatement.setString(5, user.getAvatar());
             preparedStatement.setBoolean(6, user.getAdmin());
             preparedStatement.setBoolean(7, user.getListOwner());
+            preparedStatement.setBoolean(8, user.getConfirmed());
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
  
@@ -163,7 +166,7 @@ public class MySQLUserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean updateUserByEmail(User user) {
+    public void updateUserByEmail(User user) {
 		
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -177,9 +180,10 @@ public class MySQLUserDAOImpl implements UserDAO {
             preparedStatement.setString(5, user.getAvatar());
             preparedStatement.setBoolean(6, user.getAdmin());
             preparedStatement.setBoolean(7, user.getListOwner());
-            preparedStatement.setString(8, user.getEmail());
+            preparedStatement.setBoolean(8, user.getConfirmed());
+            preparedStatement.setString(9, user.getEmail());
             preparedStatement.execute();
-            return true;
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -194,11 +198,10 @@ public class MySQLUserDAOImpl implements UserDAO {
                 cse.printStackTrace();
             }
         }
-        return false;
     }
     
     @Override
-    public boolean updateUserByPassword(User user) {
+    public void updateUserByPassword(User user) {
 		
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -211,10 +214,10 @@ public class MySQLUserDAOImpl implements UserDAO {
             preparedStatement.setString(4, user.getSurname());
             preparedStatement.setString(5, user.getAvatar());
             preparedStatement.setBoolean(6, user.getAdmin());
-            preparedStatement.setBoolean(7, user.getListOwner());
-            preparedStatement.setString(8, user.getPassword());
+            preparedStatement.setBoolean(8, user.getConfirmed());
+            preparedStatement.setString(9, user.getPassword());
             preparedStatement.execute();
-            return true;
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -229,11 +232,10 @@ public class MySQLUserDAOImpl implements UserDAO {
                 cse.printStackTrace();
             }
         }
-        return false;
     }
  
     @Override
-    public boolean deleteUser(User user) {
+    public void deleteUser(User user) {
 	Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -241,7 +243,7 @@ public class MySQLUserDAOImpl implements UserDAO {
             preparedStatement = conn.prepareStatement(Delete_Query);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.execute();
-            return true;
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -256,11 +258,11 @@ public class MySQLUserDAOImpl implements UserDAO {
                 cse.printStackTrace();
             }
         }
-        return false;
+
     }
 
     @Override
-    public boolean checkUser (String email) {
+    public Boolean checkUser (String email) {
         
         boolean existance = false;
         Connection conn = null;
@@ -342,16 +344,38 @@ public class MySQLUserDAOImpl implements UserDAO {
     
     }
     
-  
-
-    
-    public boolean checkEmail (String email){
+    public Boolean checkEmail (String email){
             //Bisogna capire come funziona 
            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
            java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
            java.util.regex.Matcher m = p.matcher(email);
            return m.matches();
-    
+    }
+
+    @Override
+    public void confirmedUser(String email) {
+        
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Confirmed_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
     }
     
     

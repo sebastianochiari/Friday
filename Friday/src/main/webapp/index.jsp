@@ -74,9 +74,9 @@
                 result = preparedStatement.getResultSet();
 
                 if(cookies != null){
-
+                    
                     while (result.next()) {
-
+                        
                         for(int i=0; i<cookies.length; i++){
 
                             System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
@@ -128,7 +128,6 @@
                     cse.printStackTrace();
                 }
             }
-
         %>
 
         <!-- START: topHeader -->

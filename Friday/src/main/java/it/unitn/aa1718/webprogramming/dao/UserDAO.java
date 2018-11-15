@@ -20,15 +20,18 @@ public interface UserDAO {
     
     public String createUser(User user);
     
-    public boolean updateUserByEmail(User user);
+    public void updateUserByEmail(User user);
     
-    public boolean updateUserByPassword(User user);
+    public void updateUserByPassword(User user);
     
-    public boolean deleteUser(User user);
+    public void confirmedUser(String email);
     
-    public boolean checkUser (String email);
+    public void deleteUser(User user);
     
-    public boolean checkEmail (String email);
+    public Boolean checkUser (String email);
+    
+    public Boolean checkEmail (String email);
     
     public String getPasswordByUserEmail (String email);
+  
 }

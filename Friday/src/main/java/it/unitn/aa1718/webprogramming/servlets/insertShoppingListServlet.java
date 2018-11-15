@@ -71,15 +71,14 @@ public class insertShoppingListServlet extends HttpServlet {
         
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         ShoppingListDAO riverDAO = mySqlFactory.getShoppingListDAO();
-        HttpSession session = request.getSession();
-        
         List shoppingLists = null;
         ShoppingList shoppingList = null;
-        
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        
+        HttpSession session = request.getSession();
+        Library library = new Library();
 
         // creazione di shoppingList
-        Library library = new Library();
         int LID = library.LastEntryTable("LID", "lists");
         String name = request.getParameter("name");
         String note = request.getParameter("note");
@@ -105,18 +104,22 @@ public class insertShoppingListServlet extends HttpServlet {
             Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
             
             myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, list_owner, Deadline));
-            System.out.println("zao zao il nuovo tuo cookie anonimo è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+            //System.out.println("zao zao il nuovo tuo cookie anonimo è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
             session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
             response.addCookie(cookie);
+            
+            shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
+            shoppingListDAO.createShoppingList(shoppingList);
+            
+            //aggiungo LID al cookie anonimo
+            myCookieDAO.updateLIDCookie(cookieID, LID);
         
+        } else {
+            
+            cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+            shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
+            shoppingListDAO.createShoppingList(shoppingList);
         }
-        else
-           cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
-        
-        ShoppingList shoppingList1 = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
-    
-        // memorizzazione del nuovo shoppingList nel DB
-        shoppingListDAO.createShoppingList(shoppingList1);
         
         // recupero di tutti gli shoppingList del DB
         shoppingLists = shoppingListDAO.getAllShoppingLists();

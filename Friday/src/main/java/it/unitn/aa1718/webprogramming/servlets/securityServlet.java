@@ -153,7 +153,7 @@ public class securityServlet extends HttpServlet {
             
             request.setAttribute("errorPresentPassword", null);
             
-            User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner);
+            User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
             userDAO.updateUserByEmail(user1);
             
             System.out.println("ho cambiato la password correttamente");
@@ -229,9 +229,9 @@ public class securityServlet extends HttpServlet {
 
                 (request.getSession()).setAttribute("emailSession", inputNewEmail);
 
-                User userPassword = new User(inputNewEmail, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner);
+                User userPassword = new User(inputNewEmail, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner, true);
                 userDAO.updateUserByPassword(userPassword);
-                User userEmail = new User(inputNewEmail, newpswencrypted, name, surname, library.ImageControl(avatar), admin, list_owner);
+                User userEmail = new User(inputNewEmail, newpswencrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
                 userDAO.updateUserByEmail(userEmail);
 
                 //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
@@ -283,7 +283,7 @@ public class securityServlet extends HttpServlet {
             (request.getSession()).setAttribute("avatarUserSession", newAvatar);
             request.setAttribute("errorPresentPersonal", null);
             
-            User user1 = new User(email, dbpassword, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner);
+            User user1 = new User(email, dbpassword, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner, true);
             userDAO.updateUserByEmail(user1);
             
             System.out.println("name e surname e avatar aggiornati.");

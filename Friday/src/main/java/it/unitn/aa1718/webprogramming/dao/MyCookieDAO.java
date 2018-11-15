@@ -22,6 +22,8 @@ public interface MyCookieDAO {
     
     public MyCookie getCookie(HttpServletRequest request, String email);
     
+    public int getLIDbyCookieID(int cookieID);
+    
     public void createCookie(MyCookie myCookie);
     
     public void updateCookie(MyCookie myCookie);
@@ -31,5 +33,9 @@ public interface MyCookieDAO {
     public void deleteCookieByEmail(String email);
     
     public void deleteDBExpiredCookies();
+    
+    public void updateLIDCookie(int cookieID, int LID);
+    
+    public void updateEmailCookie(int cookieID, String email);
     
 }

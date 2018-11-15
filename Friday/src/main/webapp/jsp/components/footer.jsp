@@ -28,7 +28,7 @@
                             <li><a href="https://www.youtube.com/watch?v=pi00ykRg_5c" target="_blank"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="https://www.youtube.com/watch?v=kfVsfOSbJY0" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             <li><a href="https://www.youtube.com/watch?v=pi00ykRg_5c" target="_blank"><i class="fab fa-google-plus-g"></i></a></li>
-                            <li><a href="https://www.youtube.com/watch?v=kfVsfOSbJY0" target="_blank"><i class="fab fa-pinterest-p"></i></a></li>
+                            <li><a href="https://www.youtube.com/watch?v=kfVsfOSbJY0" target="_blank"><i class="fab fa-pinterest-p" ></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -39,12 +39,18 @@
                         <ul class="list-links">
                             
                             <!-- se l'utente non è ancora loggato, questa rimanda alla pagina di login, altrimenti ai rispettivi link -->
-                            <li><a href="#">Il mio account</a></li>
+                            <li><a href="myaccount.jsp">Il mio account</a></li>
                             
                             <li><a href="#">Le mie liste</a></li>
                             
                             <!-- se l'utente è già loggato, questo non deve comparire -->
-                            <li><a href="login.html">Login</a></li>
+                            <li>
+                                <c:if test="${!boolEmailSessionTrue}">
+                                    <form action="logoutServlet" method="POST">
+                                        <button type="submit" class="btn displayCenter login-btn">Logout</button>
+                                    </form>
+                                </c:if>
+                            </li>
                         </ul>
                     </div>
                 </div>

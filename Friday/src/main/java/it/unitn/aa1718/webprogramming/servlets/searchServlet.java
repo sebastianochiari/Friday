@@ -65,26 +65,73 @@ public class searchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String input = request.getParameter("inputSearch");
-        int inputCategory = Integer.parseInt(request.getParameter("inputCategory"));
-        
-        
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         ProductDAO riverDAO = mySqlFactory.getProductDAO();
         List products = null;
         ProductDAO productDAO = new MySQLProductDAOImpl();        
         Library library = new Library();
         
-        products = productDAO.getProductsByNameAndPCID(inputCategory, input);
         
-        for(int i=0; i<products.size(); i++){
+        String input = null;
+        input = request.getParameter("inputSearch");
+       
+        String inputClick = request.getParameter("selectedPCategory");
+        if(inputClick != null){
+            //int inputClickInteger = Integer.parseInt(inputClick);
+            System.out.println(" selected category in generale vale: " + inputClick);
+            response.sendRedirect("faq.html");
+        } 
         
-            System.out.println(((Product)products.get(i)).getName());
+        else {
+        //SE NON HO SELEZIONATO NULLA NELLE CATEGORIE GENERICHE 
+        System.out.println("NON HAI SELEZIONATO LE CATEGORIE DI PRODOTTO GENERICHE. PASSO CONTROLLO A DROPDOWN LIST CON INPUT");
+        
+        
+        if(input != null ){
+        int inputCategory = Integer.parseInt(request.getParameter("inputCategory"));
+        
+   //    String selectedCategory = request.getParameter("navbarDropdownMenuLink1"); //prendo categoria selezionata da drop down list
+        
+        
+        System.out.println("---inputCategory A SX VALE: " + inputCategory);
+        
+        if(inputCategory == -1) {
+            
+            products = productDAO.getProductsByName(input);
+            for(int i=0; i<products.size(); i++){
+                System.out.println(((Product)products.get(i)).getName()); //se nessuna selezione a SX stampa i tutti i prodotti
+            }
+            response.sendRedirect("index.jsp"); //MODIFICA REDIREZIONAMENTO
+         } else {
+            products = productDAO.getProductsByNameAndPCID(inputCategory, input); 
+                        //se ho inserito un input nella search bar, ritorna i prodotti in base alla ricerca con filtro categoria di SX
+      
+        
+            if(products.size() == 0){
+                System.out.println("NESSUN PRODOTTO CORRISPONDE ALLA PRODUCT_CATEGORIES E PRODOTTO CERCATO");
+                response.sendRedirect("index.jsp");
+            } else {
+            
+                for(int i=0; i<products.size(); i++){
+                    System.out.println(((Product)products.get(i)).getName()); 
+                }
+                response.sendRedirect("index.jsp"); //MODIFICA REDIREZIONAMENTO
+            }
+         
+        }  
+        } else {
+          
+        String reqParam = request.getParameter("selectedPCategory");
+        System.out.println("----------------------Selected category vale :  " + reqParam);
+        
+        
+     //   products = productDAO.getProductsByPCID()
+        
+        response.sendRedirect("index.jsp");
+        
         }
         
-        
-        
-        
+        }
         
     }
 
@@ -112,4 +159,14 @@ public class searchServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    
+    
+    protected void SelectedProductCategory (){
+        
+        
+        
+        
+    }
+    
 }

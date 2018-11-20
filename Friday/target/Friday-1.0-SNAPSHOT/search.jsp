@@ -1,7 +1,7 @@
 <%-- 
     Document   : search
     Created on : 7-nov-2018, 16.04.34
-    Author     : marta & remo 
+    Author     : marta & remo & tommi
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -65,11 +65,10 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
             <div class="header-logo float-left">
-                <a href="index.html" alt="logo">
+                <a href="index.jsp" alt="logo">
                         <img src="images/friday_icon_colored.png" class="logo">
                     </a>
             </div>
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

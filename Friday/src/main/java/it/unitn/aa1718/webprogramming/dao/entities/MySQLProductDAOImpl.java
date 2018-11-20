@@ -30,7 +30,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ?";
     
-    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE %?%";
+    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ?";
     
     private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?));";
     
@@ -39,6 +39,8 @@ public class MySQLProductDAOImpl implements ProductDAO {
     private static final String Update_Query = "UPDATE products SET (PID=?, name=?, note=?, logo=?, photo=?, PCID=?, email=?) WHERE PID = ?)";
     
     private static final String Delete_Query = "DELETE FROM prpducts WHERE PID = ?";
+    
+    
     
     @Override
     public List getAllProducts() {
@@ -323,7 +325,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_Name_Query);
-            preparedStatement.setString(1, name);
+            preparedStatement.setString(1, "%" + name + "%");
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
@@ -361,6 +363,8 @@ public class MySQLProductDAOImpl implements ProductDAO {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
+       
+        
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_NameAndPCID_Query);
@@ -395,5 +399,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
         
         return products;
     }
-
+    
+    
+  
 }

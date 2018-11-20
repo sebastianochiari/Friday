@@ -15,6 +15,7 @@ it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.class
 it\unitn\aa1718\webprogramming\servlets\securityServlet.class
 it\unitn\aa1718\webprogramming\servlets\insertProductServlet.class
 it\unitn\aa1718\webprogramming\servlets\loginServlet.class
+.netbeans_automatic_build
 it\unitn\aa1718\webprogramming\dao\ShoppingListCategoryDAO.class
 it\unitn\aa1718\webprogramming\servlets\insertUserServlet.class
 it\unitn\aa1718\webprogramming\friday\ProductCategory.class

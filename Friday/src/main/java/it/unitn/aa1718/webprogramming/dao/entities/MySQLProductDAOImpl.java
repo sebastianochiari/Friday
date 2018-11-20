@@ -26,22 +26,24 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Read_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID = ?";
     
-    private static final String Read_Email_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE email = ?";
+    private static final String Read_Email_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE email = ? ORDER BY name";
     
-    private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ?";
+    private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ? ORDER BY name";
     
-    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ?";
+    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY name";
     
-    private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?));";
+    private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?)) ORDER BY Name;";
     
-    private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products";
+    private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products ORDER BY name";
+    
+    private static final String Read_All_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products ORDER BY PCID, name";
     
     private static final String Update_Query = "UPDATE products SET (PID=?, name=?, note=?, logo=?, photo=?, PCID=?, email=?) WHERE PID = ?)";
     
     private static final String Delete_Query = "DELETE FROM prpducts WHERE PID = ?";
     
     @Override
-    public List getAllProducts() {
+    public List getAllProducts(String order) {
         
         List products = new ArrayList();
         Product product = null;
@@ -50,7 +52,10 @@ public class MySQLProductDAOImpl implements ProductDAO {
         ResultSet result = null;
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_All_Query);
+            if(order == "per categoria")
+                preparedStatement = connection.prepareStatement(Read_All_Query_Order_By_PCID);
+            else
+                preparedStatement = connection.prepareStatement(Read_All_Query);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             

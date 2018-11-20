@@ -6,12 +6,15 @@
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
 import it.unitn.aa1718.webprogramming.friday.Product;
+import it.unitn.aa1718.webprogramming.friday.ProductCategory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -19,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -65,27 +69,44 @@ public class searchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        int PCID = -1;
+        HttpSession session = request.getSession();
         String input = request.getParameter("inputSearch");
-        int inputCategory = Integer.parseInt(request.getParameter("inputCategory"));
+        if(request.getParameter("inputCategory") != null)
+            PCID = Integer.parseInt(request.getParameter("inputCategory"));
         
         
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-        ProductDAO riverDAO = mySqlFactory.getProductDAO();
-        List products = null;
-        ProductDAO productDAO = new MySQLProductDAOImpl();        
+        ProductDAO ProductriverDAO = mySqlFactory.getProductDAO();
+        ProductDAO productDAO = new MySQLProductDAOImpl();
+        ProductDAO ProductCategoryriverDAO = mySqlFactory.getProductDAO();
+        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
         Library library = new Library();
         
-        products = productDAO.getProductsByNameAndPCID(inputCategory, input);
+        List products = null;
+        if(PCID > 0){
+            products = productDAO.getProductsByNameAndPCID(PCID, input);
+        } else if (request.getParameter("exampleFormControlSelect1") == "per categoria"){ 
+            products = productDAO.getAllProducts("per categoria");
+        } else {
+            products = productDAO.getAllProducts("alfabicamente");
+        }
+        String[][] searchProductResult = new String[products.size()][7];
         
         for(int i=0; i<products.size(); i++){
-        
-            System.out.println(((Product)products.get(i)).getName());
+            
+            searchProductResult[i][0] = Integer.toString(((Product)(products.get(i))).getPID());
+            searchProductResult[i][1] = ((Product)(products.get(i))).getName();
+            searchProductResult[i][2] = ((Product)(products.get(i))).getNote();
+            searchProductResult[i][3] = ((Product)(products.get(i))).getLogo();
+            searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
+            searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
+            searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
+            
         }
         
-        
-        
-        
-        
+        session.setAttribute("resultSearch", searchProductResult);
+        response.sendRedirect("search.jsp");
     }
 
     /**

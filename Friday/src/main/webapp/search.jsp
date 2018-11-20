@@ -5,8 +5,13 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.sql.*"%>
+<%@page import="java.util.*"%>
+<%@page import="javax.servlet.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -195,102 +200,38 @@
 -->
 
                             <div class="row">
-
-                                <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <div class="product product-single">
-                                        <div class="product-thumb">
-                                            <div class="product-label">
-                                                <span>Scuola</span>
+                                
+                                <c:forEach items="${resultSearch}" var="prodotto">
+                                    <div class="col-md-4 col-sm-6 col-xs-6">
+                                        <div class="product product-single">
+                                            <div class="product-thumb">
+                                                <div class="product-label">
+                                                    <span>${prodotto[5]}</span>
+                                                </div>
+                                                <img src="images/prodotti/${prodotto[4]}" alt="">
                                             </div>
-                                            <img src="images/prodotti/colla.JPG" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h2 class="product-name">Pritt, colla stick</h2>
-                                            <p class="product-description">Ideale per lavori di artigianato su carta, cartone, foto ed etichette. Senza solvente e PVC. </p>
-                                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
-                                                <div class="btn-group" role="group">
-                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-angle-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
+                                            <div class="product-body">
+                                                <h2 class="product-name">${prodotto[1]}</h2>
+                                                <p class="product-description">${prodotto[2]}</p>
+                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                                    <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
+                                                    <div class="btn-group" role="group">
+                                                        <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-angle-down"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
                                                         <a class="dropdown-item" href="#">Dropdown link</a>
                                                         <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <div class="create-list">
-                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
+                                                            <div class="create-list">
+                                                                <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <div class="product product-single">
-                                        <div class="product-thumb">
-                                            <div class="product-label">
-                                                <span>Scuola</span>
-                                            </div>
-                                            <img src="images/prodotti/forbice.jpg" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h2 class="product-name">Forbice</h2>
-                                            <p class="product-description">Forbice con impugnatura morbida e lame in titanio, 20 cm</p>
-                                            <div class="btn-group mt-auto" role="group" aria-label="Button group with nested dropdown">
-                                                <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
-                                                <div class="btn-group" role="group">
-                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-angle-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <div class="create-list">
-                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <div class="product product-single">
-                                        <div class="product-thumb">
-                                            <div class="product-label">
-                                                <span>Scuola</span>
-                                            </div>
-                                            <img src="images/prodotti/bic.jpg" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h2 class="product-name">Bic Crystal Original</h2>
-                                            <p class="product-description">
-                                                Punta ad ago 0.7 mm
-                                                <br>
-                                                Inchiostro blu, nero e rosso
-                                                <br>
-                                                Tratto da 0.30 mm
-                                            </p>
-                                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
-                                                <div class="btn-group" role="group">
-                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-angle-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <div class="create-list">
-                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </c:forEach>
 
                             </div>
 

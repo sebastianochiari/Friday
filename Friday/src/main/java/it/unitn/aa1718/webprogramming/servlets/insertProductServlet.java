@@ -92,9 +92,6 @@ public class insertProductServlet extends HttpServlet {
         // memorizzazione del nuovo product nel DB
         productDAO.createProduct(product1);
         
-        // recupero di tutti gli product del DB
-        products = productDAO.getAllProducts();
-        
         request.setAttribute("goodInsertProduct", "true");
         response.sendRedirect("adminSection.jsp");
         

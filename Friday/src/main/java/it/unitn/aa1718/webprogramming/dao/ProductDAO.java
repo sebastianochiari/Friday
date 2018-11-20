@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ProductDAO {
     
-    public List getAllProducts();
+    public List getAllProducts(String order);
     
     public List getProductsByEmail(String Email);
     

@@ -299,8 +299,8 @@ public class securityServlet extends HttpServlet {
         
         request.getSession().setAttribute("adminUserSession", admin);
         
-        User user1 = new User(email, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner);
-        userDAO.updateUserByEmail(user1);
+        //User user1 = new User(email, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner);
+        //userDAO.updateUserByEmail(user1);
 
         System.out.println("utente è ora amministratore");
 

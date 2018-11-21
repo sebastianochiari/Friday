@@ -171,8 +171,13 @@
         <main>
             
             <div class="container">
-                <br>
-                <span>Conferma di registrazione ultimata! Effettua nuovamente il login per accedere al magico mondo di Friday! </span>
+                <div class="form-group">
+                    <span>Conferma di registrazione ultimata! Effettua il login per accedere al magico mondo di Friday! <br> Se entro pochi secondi non  verrai reindirizzato alla pagina principale, <a href="index.jsp"><strong>clicca qui</strong></a>. </span>
+                    <!-- bisogna sistemare questa cosa del redirect automatico -->
+                    <%--
+                    <c:redirect url="index.jsp"></c:redirect>
+                    --%>
+                </div>
             </div>
 
         </main>

@@ -61,10 +61,10 @@
                             Le mie liste
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                            <a class="dropdown-item" href="#">Lista #1</a>
-                            <a class="dropdown-item" href="#">Lista #2</a>
-                            <a class="dropdown-item" href="#">Liste condivise</a>
-                            <a class="dropdown-item" href="#">Gestisci liste</a>
+                            <a class="dropdown-item" href="gestioneListe.jsp#lista2">Lista #1</a>
+                            <a class="dropdown-item" href="gestioneListe.jsp#lista2">Lista #2</a>
+                            <a class="dropdown-item" href="gestioneListe.jsp#sharingList">Liste condivise</a>
+                            <a class="dropdown-item" href="gestioneListe.jsp">Gestisci liste</a>
                         </div>
                     </li>
                 </ul>

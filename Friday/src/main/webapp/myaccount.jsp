@@ -98,7 +98,7 @@
                                         <p class="ml-2" style="display: inline-block">
                                             <c:out value=" ${emailSession}"></c:out>
                                         </p>
-                                        <p class="ml-2" style="display: inline-block">(<a class="text-link" href="security.jsp#modifyEmail">modifica e-mail</a>)</p>
+                                        <p class="ml-2" style="display: inline-block">(<a class="text-link" href="security.jsp#emailArea">modifica e-mail</a>)</p>
                                     </div>
                                     <div>
                                         <p style="display: inline-block"><b>Password: </b></p>

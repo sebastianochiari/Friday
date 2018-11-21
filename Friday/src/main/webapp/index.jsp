@@ -7,8 +7,8 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.sql.*"%>
-<%@page import="java.util.*"%>
-<%@page import="javax.servlet.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="javax.servlet.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
@@ -106,6 +106,7 @@
                         (request.getSession()).setAttribute("avatarUserSession", result.getString("Avatar"));
                         (request.getSession()).setAttribute("adminUserSession", result.getBoolean("Admin"));
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
+                        (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
                 }
 

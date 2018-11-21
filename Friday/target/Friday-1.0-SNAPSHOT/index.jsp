@@ -7,8 +7,8 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.sql.*"%>
-<%@page import="java.util.*"%>
-<%@page import="javax.servlet.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="javax.servlet.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
@@ -106,6 +106,7 @@
                         (request.getSession()).setAttribute("avatarUserSession", result.getString("Avatar"));
                         (request.getSession()).setAttribute("adminUserSession", result.getBoolean("Admin"));
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
+                        (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
                 }
 
@@ -170,109 +171,8 @@
         </nav>
         <!-- END: topHeader -->            
 
-<<<<<<< HEAD
         <!-- Header -->
         <jsp:include page="jsp/components/header.jsp" />
-=======
-        <!-- START: main navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <div class="header-logo float-left">
-                    <a href="#" alt="logo">
-                            <img src="images/friday_icon_colored.png" class="logo">
-                        </a>
-                </div>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown nav-category">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                CATEGORIE
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                                <a class="dropdown-item" href="#">Alimentari</a>
-                                <a class="dropdown-item" href="#">Ferramenta</a>
-                                <a class="dropdown-item" href="#">Sport e Benessere</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown nav-category">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-user nav-link-icon"></i>
-                                Il mio account
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                                <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
-                                <c:if test="${boolEmailSessionTrue}">
-                                    <a class="dropdown-item" href="login.jsp">Login</a>
-                                    <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
-                                </c:if>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown nav-category">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-shopping-cart nav-link-icon"></i>
-                                Le mie liste
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                                <a class="dropdown-item" href="#">Lista #1</a>
-                                <a class="dropdown-item" href="#">Lista #2</a>
-                                <a class="dropdown-item" href="#">Gestisci liste</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <div>
-                        <a href="#" class="shopping-link" style="margin-right: 5px;">
-                            <i class="fas fa-envelope shopping-icon"></i>
-                        </a>
-                        <a href="#" class="shopping-link">
-                            <i class="fas fa-shopping-cart shopping-icon"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <!-- END: main navbar -->
-
-        <!-- START: search navbar -->
-        <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
-            <div class="container mb-1">
-                <form action="searchServlet" method="GET">
-                    <div class="row">
-                        <div class="col mt-1 nav-col">
-                            <div class="col-sm">
-                   
-                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
-
-                                <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
-                                </sql:query>
-                                        
-                                <select name="inputCategory" class="form-control">
-                                    <option value="-1">Tutte le Categorie</option>
-                                    <c:forEach var="res" items="${result.rows}" >
-                                        <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
-                                    </c:forEach>
-                                </select>
-                                
-                            </div>
-                        </div>
-                                    
-                        <div class="col-md mt-1 nav-col">
-                            <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
-                        </div>
-                        <div>
-                            <button type="submit" class="btn displayCenter login-btn">Search</button>
-                        
-                        </div>
-                        </div>
-                </form>
-            </div>
-        </nav>
-        <!-- END: search navbar -->
->>>>>>> l-back-end
 
         <!-- START: main carousel -->
         <main>

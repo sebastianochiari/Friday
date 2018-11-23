@@ -68,6 +68,8 @@
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
+            boolean boolEmailSession = false;
+            
             try {
                 connection = MySQLDAOFactory.createConnection();
                 preparedStatement = connection.prepareStatement("SELECT * FROM cookies;");
@@ -83,12 +85,20 @@
                             System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
                             if((cookies[i].getValue()).equals(result.getString("cookieID"))){
 
-                                (request.getSession()).setAttribute("emailSession", result.getString("Email"));
+                                String emailSession = result.getString("Email");
+                                (request.getSession()).setAttribute("emailSession", emailSession);
                                 (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
                                 (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
                                 (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
                                 System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
-
+                                
+                                if (emailSession.equals(null)){
+                                    boolEmailSession = false;
+                                } else {
+                                    boolEmailSession = true;
+                                }
+                                
+                                (request.getSession()).setAttribute("boolEmailSessionScriptlet", boolEmailSession);
 
                             }
                         }
@@ -107,7 +117,9 @@
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
+                    
                 }
+                
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -127,17 +139,19 @@
                     cse.printStackTrace();
                 }
             }
+            
+            
         %>
 
         <!-- START: topHeader -->
         <nav id="breadcrumb" class="navbar">
             <div class="container">
                 <div class="float-left">
-                    <c:set var="boolEmailSessionTrue" value="${emailSession eq null}"></c:set>
-                    <c:if test="${boolEmailSessionTrue}">
+                    <c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
+                    <c:if test="${!boolEmailSession}">
                         <span>Benvenuto su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
                     </c:if>
-                    <c:if test="${!boolEmailSessionTrue}"> 
+                    <c:if test="${boolEmailSession}"> 
                         <span>Bentonato su <b>Friday</b> <c:out value="${nameUserSession}"></c:out>, l'innovativo gestore di <b>liste della spesa</b></span>
                     </c:if>
 
@@ -146,11 +160,11 @@
                     <ul class="header-top-links">
                         <li><a href="#">Newsletter</a></li>
                         <li><a href="faq.jsp">FAQ</a></li>
-                        <c:if test="${boolEmailSessionTrue}">
+                        <c:if test="${!boolEmailSession}">
                             <li><a href="login.jsp">Login</a></li>
                             <li><a href="insertUser.jsp">Registrati</a></li>
                         </c:if>
-                        <c:if test="${!boolEmailSessionTrue}">
+                        <c:if test="${boolEmailSession}">
                         <li>
                             <div>
                                 <c:out value=" ${emailSession}"></c:out>
@@ -170,17 +184,6 @@
         <!-- END: topHeader -->            
 
         <!-- Header -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> m-back-end
-=======
->>>>>>> t-back-end
-=======
->>>>>>> m-back-end
-=======
->>>>>>> l-back-end
         <jsp:include page="jsp/components/header.jsp" />
 
         <!-- START: main carousel -->

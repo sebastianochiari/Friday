@@ -13,6 +13,10 @@
 <%@ page import="java.util.*"%>
 <%@ page import="javax.servlet.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
@@ -82,13 +86,19 @@
                 preparedStatement.execute();
                 result = preparedStatement.getResultSet();
                 
+                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+                
+                List lists = null;
+                lists = shoppingListDAO.getShoppingListsByOwner((String)(request.getSession()).getAttribute("emailSession"));
 
-                int i=1;
-                while (result.next()) {
-                    (request.getSession()).setAttribute("ListUserSession"+i, result.getString("Name"));
-                    i++;
+                String[] searchListResult = new String[lists.size()];
+
+                for(int i=0; i<lists.size(); i++){
+                    searchListResult[i] = ((ShoppingList)(lists.get(i))).getName();
                 }
-                (request.getSession()).setAttribute("NumListUserSession", i);
+
+                session.setAttribute("ListUserSession", searchListResult);
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,11 +142,10 @@
 
                             <h3 class="aside-title">Le mie liste:</h3>
                             <ul class="list-links">
-                                <li class="active"><a href="#gestioneListe" id="gestioneListe">Gestione liste</a></li>
-                                <c:forEach var="i" begin="1" end="${NumListUserSession}">
+                                <li class="active"><a href="#" id="gestioneListe">Gestione liste</a></li>
+                                <c:forEach items="${ListUserSession}" var="lista">
                                 <li>
-                                    <a href='"#lista"+${i}' id='"#lista"+${i}'>
-                                        <c:set var="lista" value="${ListUserSession+i}"></c:set>
+                                    <a href="${lista}" id=${lista}>
                                         <c:out value="${lista}"></c:out>
                                     </a>
                                 </li>

@@ -28,7 +28,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
     private static final String Read_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE LID = ?";
     
-    private static final String Read_Email_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE email = ?";
+    private static final String Read_Email_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE list_owner = ?";
     
     private static final String Read_LCID_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE LCID = ?";
     
@@ -92,7 +92,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_Email_Query);
-            preparedStatement.setString(5, email);
+            preparedStatement.setString(1, email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             

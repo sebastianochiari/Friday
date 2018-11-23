@@ -91,18 +91,6 @@ public class insertUserServlet extends HttpServlet {
         String pswEncrypted = encrypt.setSecurePassword(password, email);
         HttpSession session = request.getSession();
         
-          //  session.setAttribute("ruolo", rud.getRuoloById(currentUser.getRuoloId()).getRuolo());
-             // session.removeAttribute("signupErrorMessage");
-             // request.getRequestDispatcher("/JSP/successpage.jsp").forward(request, response);
-             
-        //System.out.println("surname:" + surname);
-        //System.out.println("typeError: " + typeError);
-        //System.out.println("registerForm: " + registerForm);
-        //System.out.println("email:" + email);
-        //System.out.println("psw: " + password);
-        //System.out.println("pswcheck: " + passwordcheck);
-        //System.out.println("avatar: " + avatar);
-        
         boolean isOkay = encrypt.checkString(password);
 
         request.setAttribute("name", name);
@@ -110,8 +98,7 @@ public class insertUserServlet extends HttpServlet {
         request.setAttribute("email", email);
 
         if(!userDAO.checkEmail(email)){
-            
-            //System.out.println("ERRORE EMAIL NON VALIDA ------------------------------------");
+           
             response.sendRedirect("index.jsp");
             
         } else if (userDAO.checkUser(email)) {

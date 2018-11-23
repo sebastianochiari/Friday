@@ -85,7 +85,14 @@ public class logoutServlet extends HttpServlet {
         
         session.setAttribute("emailSession", null);
         session.setAttribute("cookieIDSession", null);
+        String boolEmailSession = request.getParameter("boolEmailSession");
+        String emailSession = "false";
+        if (emailSession.equals(boolEmailSession)){
+            request.setAttribute("boolEmailSession", false);
+        }
         session.invalidate();
+        
+        
         
         response.sendRedirect("index.jsp");
         

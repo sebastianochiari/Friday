@@ -57,14 +57,14 @@
 
         <!-- section -->
         <div class="section">
-    		<!-- container -->
-    		<div class="container">
-    			<!-- row -->
-    			<div class="row">
-    				<!-- ASIDE -->
-    				<div id="aside" class="col-md-3">
-    					<!-- aside widget -->
-    					<div class="aside">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- ASIDE -->
+                    <div id="aside" class="col-md-3">
+                        <!-- aside widget -->
+                        <div class="aside">
 
                             <h3 class="aside-title">Categorie:</h3>
                             <ul class="list-links">

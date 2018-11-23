@@ -43,14 +43,7 @@
                             
                             <li><a href="#">Le mie liste</a></li>
                             
-                            <!-- se l'utente è già loggato, questo non deve comparire -->
-                            <li>
-                                <c:if test="${!boolEmailSessionTrue}">
-                                    <form action="logoutServlet" method="POST">
-                                        <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                                    </form>
-                                </c:if>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>

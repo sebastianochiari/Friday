@@ -15,7 +15,8 @@
 
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />    
+<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />   
+<c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
     
     <!-- START: main navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
@@ -40,7 +41,7 @@
                         </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
                              
-                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
                              
                             <form action="searchServlet" method ="GET">
@@ -50,7 +51,7 @@
                                            ${res.Name}
                                        </button>
                                  </c:forEach>
-                        </form>
+                            </form>
                         </div>
                     </li>
                                         </li>
@@ -60,17 +61,11 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-<<<<<<< HEAD
-                            <a class="dropdown-item" href="#">Il mio account</a>
-                            <a class="dropdown-item" href="login.jsp">Login</a>
-                            <a class="dropdown-item" href="register.jsp">Crea un account</a>
-=======
                             <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
-                            <c:if test="${boolEmailSessionTrue}">
+                            <c:if test="${!boolEmailSession}">
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
                             </c:if>
->>>>>>> l-back-end
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">
@@ -107,7 +102,7 @@
                         <div class="col mt-1 nav-col">
                             <div class="col-sm">
                    
-                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
                                 <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
                                 </sql:query>
@@ -136,6 +131,7 @@
                         <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
                     </div>
                     <form action="logoutServlet" method="POST">
+                        <input type="hidden" name="boolEmailSession" value="false">
                         <button type="submit" class="btn displayCenter login-btn">Logout</button>
                     </form>
                 </c:if>

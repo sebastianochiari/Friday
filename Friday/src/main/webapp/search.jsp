@@ -68,10 +68,17 @@
 
                             <h3 class="aside-title">Categorie:</h3>
                             <ul class="list-links">
-                                <li><a href="#">Alimentari</a></li>
-                                <li><a href="#">Ferramenta</a></li>
-                                <li><a href="#">Sport e benessere</a></li>
-                                <li class="active"><a href="#">Scuola</a></li>
+                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
+                            <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
+                             
+                            <c:forEach var="res" items="${result.rows}" >
+                                      
+                                <li class="active" ><a href="faq.jsp"> ${res.Name} </a> </li>
+                                <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
+                                       
+                                 </c:forEach>
+                            
+                              
                             </ul>
 
                         </div>
@@ -138,103 +145,7 @@
 
                             </div>
 
-                            <div class="row">
-
-                                <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <div class="product product-single">
-                                        <div class="product-thumb">
-                                            <div class="product-label">
-                                                <span>Scuola</span>
-                                            </div>
-                                            <img src="images/prodotti/evidenziatore.jpg" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h2 class="product-name">Evidenziatori Stabilo</h2>
-                                            <p class="product-description">Evidenziatore dotato di tecnologia Stabilo Anti-Dry-Out: resiste fino a 4 ore senza cappuccio</p>
-                                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
-                                                <div class="btn-group" role="group">
-                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-angle-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <div class="create-list">
-                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <div class="product product-single">
-                                        <div class="product-thumb">
-                                            <div class="product-label">
-                                                <span>Scuola</span>
-                                            </div>
-                                            <img src="images/prodotti/pennarelli.jpg" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h2 class="product-name">Pennarelli Stabilo</h2>
-                                            <p class="product-description">
-                                                STABILO Pen 68 Color Parade Pennarelli colori assortiti
-                                                <br>
-                                                Scatola da 20, colore brillante e luminoso
-                                            </p>
-                                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
-                                                <div class="btn-group" role="group">
-                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-angle-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <div class="create-list">
-                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <div class="product product-single">
-                                        <div class="product-thumb">
-                                            <div class="product-label">
-                                                <span>Categoria</span>
-                                            </div>
-                                            <img src="images/prodotti/colla.JPG" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h2 class="product-name">Inserire nome prodotto</h2>
-                                            <p class="product-description">Inserire la descrizione del prodotto</p>
-                                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
-                                                <div class="btn-group" role="group">
-                                                    <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-angle-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <div class="create-list">
-                                                            <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                           
                             
                             <br>
                             
@@ -274,9 +185,6 @@
 
     <!-- Footer -->
     <jsp:include page="jsp/components/footer.jsp" />
-
-
-
 
     <!-- JS Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

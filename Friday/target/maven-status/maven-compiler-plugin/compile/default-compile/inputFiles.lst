@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\leo97\Desktop\ProgettoWeb\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\encrypt\DBSecurity.java
 C:\Users\leo97\Desktop\ProgettoWeb\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductServlet.java
 C:\Users\leo97\Desktop\ProgettoWeb\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.java
@@ -33,6 +34,8 @@ C:\Users\leo97\Desktop\ProgettoWeb\FridayFinal\friday\Friday\src\main\java\it\un
 C:\Users\leo97\Desktop\ProgettoWeb\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ShoppingListCategoryDAO.java
 C:\Users\leo97\Desktop\ProgettoWeb\FridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\Product.java
 =======
+=======
+>>>>>>> m-back-end
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\MyCookieDAO.java
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\loginServlet.java
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.java
@@ -61,9 +64,11 @@ C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webpro
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLProductDAOImpl.java
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListCategoryDAOImpl.java
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ProductCategoryDAO.java
+C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\confirmRegistrationServlet.java
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\encrypt\DBSecurity.java
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.java
 C:\Users\marta\Desktop\FRIDAY\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\UserDAO.java
+<<<<<<< HEAD
 >>>>>>> m-back-end
 =======
 C:\varie\UNI\progettoWeb\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.java
@@ -99,3 +104,5 @@ C:\varie\UNI\progettoWeb\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webp
 C:\varie\UNI\progettoWeb\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.java
 C:\varie\UNI\progettoWeb\Friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ProductDAO.java
 >>>>>>> t-back-end
+=======
+>>>>>>> m-back-end

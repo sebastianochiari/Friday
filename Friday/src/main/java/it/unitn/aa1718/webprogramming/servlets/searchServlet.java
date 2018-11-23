@@ -71,7 +71,6 @@ public class searchServlet extends HttpServlet {
         
         int PCID = -1;
         HttpSession session = request.getSession();
-        String input = request.getParameter("inputSearch");
         if(request.getParameter("inputCategory") != null)
             PCID = Integer.parseInt(request.getParameter("inputCategory"));
         
@@ -89,14 +88,34 @@ public class searchServlet extends HttpServlet {
        
         String inputClick = request.getParameter("selectedPCategory");
         if(inputClick != null){
-            //int inputClickInteger = Integer.parseInt(inputClick);
             System.out.println(" selected category in generale vale: " + inputClick);
-            response.sendRedirect("faq.html");
+            
+            int inputClickPCID = Integer.parseInt(inputClick);
+            
+            List products = null;
+            products = productDAO.getProductsByPCID(inputClickPCID);
+
+            String[][] searchProductResult = new String[products.size()][7];
+
+            for(int i=0; i<products.size(); i++){
+
+                searchProductResult[i][0] = Integer.toString(((Product)(products.get(i))).getPID());
+                searchProductResult[i][1] = ((Product)(products.get(i))).getName();
+                searchProductResult[i][2] = ((Product)(products.get(i))).getNote();
+                searchProductResult[i][3] = ((Product)(products.get(i))).getLogo();
+                searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
+                searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
+                searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
+
+            }
+
+            session.setAttribute("resultSearch", searchProductResult);
+            response.sendRedirect("search.jsp");
         } 
         
         else {
         //SE NON HO SELEZIONATO NULLA NELLE CATEGORIE GENERICHE 
-        System.out.println("NON HAI SELEZIONATO LE CATEGORIE DI PRODOTTO GENERICHE. PASSO CONTROLLO A DROPDOWN LIST CON INPUT");
+        System.out.println("NON HAI SELEZIONATO LE CATEGORIE DI PRODOTTO GENERICHE. PASSO CONTROLLO A DROPDOWN LIST CON INPUT da tastiera");
         
         
         if(input != null ){
@@ -133,15 +152,6 @@ public class searchServlet extends HttpServlet {
         session.setAttribute("resultSearch", searchProductResult);
 
 
-
-
-
-
-
-
-
-
-
         /* forse va tolto
         if(inputCategory == -1) {
             
@@ -175,7 +185,7 @@ public class searchServlet extends HttpServlet {
         
      //   products = productDAO.getProductsByPCID()
         */
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("search.jsp");
         
         }
         

@@ -59,7 +59,7 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
             preparedStatement = connection.prepareStatement(Read_Query_By_Email);
             preparedStatement.setString(1, email);
             preparedStatement.execute();
-            result = preparedStatement.getResultSet();                    
+            result = preparedStatement.getResultSet();
             
             while(result.next()){
                 if(result.getString("cookieID") != null){

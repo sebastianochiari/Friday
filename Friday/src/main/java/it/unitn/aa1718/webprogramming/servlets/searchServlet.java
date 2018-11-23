@@ -114,7 +114,7 @@ public class searchServlet extends HttpServlet {
         } else if (request.getParameter("exampleFormControlSelect1") == "per categoria"){ 
             products = productDAO.getAllProducts("per categoria");
         } else {
-            products = productDAO.getAllProducts("alfabicamente");
+            products = productDAO.getAllProducts("alfabeticamente");
         }
         String[][] searchProductResult = new String[products.size()][7];
         

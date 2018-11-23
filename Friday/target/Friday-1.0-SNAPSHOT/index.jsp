@@ -7,8 +7,9 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.sql.*"%>
-<%@page import="java.util.*"%>
-<%@page import="javax.servlet.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="javax.servlet.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
@@ -54,21 +55,21 @@
             (request.getSession()).setAttribute("emailSession", null);
             (request.getSession()).setAttribute("cookieIDSession", null);
             (request.getSession()).setAttribute("nameUserSession", null);
+            
+            String DBUrl = MySQLDAOFactory.getDBUrl();
+            String DBUser = MySQLDAOFactory.getDBUser();
+            String DBPass = MySQLDAOFactory.getDBPass();
+            
+            (request.getSession()).setAttribute("DBUrlSession", DBUrl);
+            (request.getSession()).setAttribute("DBUserSession", DBUser);
+            (request.getSession()).setAttribute("DBPassSession", DBPass);
 
             Cookie[] cookies = request.getCookies();
             Connection connection = null;
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "root");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
             try {
+                connection = MySQLDAOFactory.createConnection();
                 preparedStatement = connection.prepareStatement("SELECT * FROM cookies;");
                 preparedStatement.execute();
                 result = preparedStatement.getResultSet();
@@ -88,8 +89,6 @@
                                 (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
                                 System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
 
-                                System.out.println("+++++++ "+(request.getSession()).getAttribute("deadlineSession"));
-                                //System.out.println("+-+-+-+-+-+-+- "+(request.getSession()).getAttribute("LIDSession"));
 
                             }
                         }
@@ -106,9 +105,9 @@
                         (request.getSession()).setAttribute("avatarUserSession", result.getString("Avatar"));
                         (request.getSession()).setAttribute("adminUserSession", result.getBoolean("Admin"));
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
+                        (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -170,10 +169,12 @@
         </nav>
         <!-- END: topHeader -->            
 
-<<<<<<< HEAD
         <!-- Header -->
+<<<<<<< HEAD
 =======
 >>>>>>> m-back-end
+=======
+>>>>>>> t-back-end
         <jsp:include page="jsp/components/header.jsp" />
 
         <!-- START: main carousel -->

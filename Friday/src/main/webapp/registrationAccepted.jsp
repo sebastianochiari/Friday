@@ -139,7 +139,7 @@
                         <div class="col mt-1 nav-col">
                             <div class="col-sm">
                    
-                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
                                 <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">   
                                 </sql:query>
@@ -171,8 +171,13 @@
         <main>
             
             <div class="container">
-                <br>
-                <span>Conferma di registrazione ultimata! Effettua nuovamente il login per accedere al magico mondo di Friday! </span>
+                <div class="form-group">
+                    <span>Conferma di registrazione ultimata! Effettua il login per accedere al magico mondo di Friday! <br> Se entro pochi secondi non  verrai reindirizzato alla pagina principale, <a href="index.jsp"><strong>clicca qui</strong></a>. </span>
+                    <!-- bisogna sistemare questa cosa del redirect automatico -->
+                    <%--
+                    <c:redirect url="index.jsp"></c:redirect>
+                    --%>
+                </div>
             </div>
 
         </main>

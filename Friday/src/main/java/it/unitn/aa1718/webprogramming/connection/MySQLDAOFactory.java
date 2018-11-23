@@ -7,9 +7,11 @@ package it.unitn.aa1718.webprogramming.connection;
 
 import it.unitn.aa1718.webprogramming.dao.*;
 import it.unitn.aa1718.webprogramming.dao.entities.*;
+import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /**
  *
@@ -21,7 +23,7 @@ public class MySQLDAOFactory extends DAOFactory {
     
     public static final String DBUrl = "jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String User = "root";
-    public static final String Pass = "root";
+    public static final String Pass = "root81097";    
     
     public static Connection createConnection() {
         Connection connection = null;
@@ -37,10 +39,16 @@ public class MySQLDAOFactory extends DAOFactory {
         return connection;
     }
     
-    public static Connection getConnection (UserDAO userDao){
-        Connection connection = null;
-        
-        return connection;
+    public static String getDBUrl (){
+        return DBUrl;
+    }
+    
+    public static String getDBUser (){
+        return User;
+    }
+    
+    public static String getDBPass (){
+        return Pass;
     }
     
     @Override

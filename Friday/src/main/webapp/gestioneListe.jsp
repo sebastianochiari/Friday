@@ -8,6 +8,14 @@
 
 <!-- @author: Sebastiano Chiari -->
 
+<%@ page import="java.io.*"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="javax.servlet.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,6 +45,74 @@
 
 <body id="top">
     
+    <!-- START: recupero delle liste dell'utente loggato -->
+    <%
+        Cookie[] cookies = request.getCookies();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM cookies;");
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+
+            if(cookies != null){
+
+                while (result.next()) {
+
+                    for(int i=0; i<cookies.length; i++){
+
+                        System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
+                        if((cookies[i].getValue()).equals(result.getString("cookieID"))){
+
+                            (request.getSession()).setAttribute("emailSession", result.getString("Email"));
+                            (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                            (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
+                            (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
+                            System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
+
+
+                        }
+                    }
+                }
+
+                preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE List_Owner = ?;");
+                preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
+                preparedStatement.execute();
+                result = preparedStatement.getResultSet();
+                
+
+                int i=1;
+                while (result.next()) {
+                    (request.getSession()).setAttribute("ListUserSession"+i, result.getString("Name"));
+                    i++;
+                }
+                (request.getSession()).setAttribute("NumListUserSession", i);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+    %>
+    <!-- END: recupero delle liste dell'utente loggato -->
+    
     <!-- HEADER -->
     <jsp:include page="jsp/components/header.jsp" />
 
@@ -56,9 +132,16 @@
 
                             <h3 class="aside-title">Le mie liste:</h3>
                             <ul class="list-links">
-                                <li><a href="#">Lista #1</a></li>
-                                <li><a href="#">Lista #2</a></li>
-                                <li class="active"><a href="#">Gestisci liste</a></li>
+                                <li class="active"><a href="#gestioneListe" id="gestioneListe">Gestione liste</a></li>
+                                <c:forEach var="i" begin="1" end="${NumListUserSession}">
+                                <li>
+                                    <a href='"#lista"+${i}' id='"#lista"+${i}'>
+                                        <c:set var="lista" value="${ListUserSession+i}"></c:set>
+                                        <c:out value="${lista}"></c:out>
+                                    </a>
+                                </li>
+                                </c:forEach>
+                                
                             </ul>
 
                             <h3 class="aside-title">Liste condivise:</h3>
@@ -76,11 +159,11 @@
                     <div id="main" class="col-md-9">
 
                         <!-- START: list -->
-                        <div id="list">
+                        <div id="list" aria-labelledby="gestioneListe" data-parent="gestioneListe">
                             
                             <h4>Gestione Liste</h4>
                             <p>
-                                Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle che altri utenti hanno condiviso con te
+                                Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti. 
                             </p>
                             <p>
                                 <a href="#" class="text-link">Clicca qui</a> nel caso tu voglia creare una nuova lista
@@ -192,6 +275,11 @@
                         
                         </div>
                         <!-- END: list -->
+                        
+                        
+                        <div id="prova" aria-labelledby="lista1">
+                            ciao
+                        </div>
                     
                     </div>
                     <!-- END: main -->

@@ -60,9 +60,17 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+<<<<<<< HEAD
                             <a class="dropdown-item" href="#">Il mio account</a>
                             <a class="dropdown-item" href="login.jsp">Login</a>
                             <a class="dropdown-item" href="register.jsp">Crea un account</a>
+=======
+                            <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
+                            <c:if test="${boolEmailSessionTrue}">
+                                <a class="dropdown-item" href="login.jsp">Login</a>
+                                <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            </c:if>
+>>>>>>> l-back-end
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">

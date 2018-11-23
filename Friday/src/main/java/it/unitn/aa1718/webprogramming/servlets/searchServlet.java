@@ -130,7 +130,7 @@ public class searchServlet extends HttpServlet {
         List products = null;
         if(PCID > 0){
             products = productDAO.getProductsByNameAndPCID(PCID, input);
-        } else if (request.getParameter("exampleFormControlSelect1") == "per categoria"){ 
+        } else if ("per categoria".equals(request.getParameter("exampleFormControlSelect1"))){ 
             products = productDAO.getAllProducts("per categoria");
         } else {
             products = productDAO.getAllProducts("alfabeticamente");

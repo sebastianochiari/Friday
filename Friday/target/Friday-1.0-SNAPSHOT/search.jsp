@@ -52,32 +52,7 @@
     <!-- Header -->
     <jsp:include page="jsp/components/header.jsp" />
 
-<<<<<<< HEAD
-<!--
-    <nav class="navbar navbar-border">
-        <div class="container">
-            <div class="float-left">
-                <span>Benvenuti su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
-            </div>
-            <div class="float-right">
-                <ul class="header-top-links">
-                    <li><a href="#">Newsletter</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
--->
-
-<!-- Header -->
-        <jsp:include page="jsp/components/header.jsp" />
-
-    
-
-=======
     <!-- START: parte principale -->
->>>>>>> t-back-end
     <main>
 
         <!-- section -->
@@ -93,7 +68,7 @@
 
                             <h3 class="aside-title">Categorie:</h3>
                             <ul class="list-links">
-                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root"/>
+                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
                              
                             <c:forEach var="res" items="${result.rows}" >
@@ -209,17 +184,7 @@
     <!-- END: parte principale -->
 
     <!-- Footer -->
-<<<<<<< HEAD
     <jsp:include page="jsp/components/footer.jsp" />
-=======
-        <jsp:include page="jsp/components/footer.jsp" />
-    <!-- problemi in footer, se non sono loggata ho comunque pulsante logout -->
-        
-        
->>>>>>> m-back-end
-
-
-
 
     <!-- JS Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

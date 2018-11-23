@@ -170,17 +170,6 @@
         <!-- END: topHeader -->            
 
         <!-- Header -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> m-back-end
-=======
->>>>>>> t-back-end
-=======
->>>>>>> m-back-end
-=======
->>>>>>> l-back-end
         <jsp:include page="jsp/components/header.jsp" />
 
         <!-- START: main carousel -->

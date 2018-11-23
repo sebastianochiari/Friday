@@ -146,7 +146,7 @@
                 <div class="float-right">
                     <ul class="header-top-links">
                         <li><a href="#">Newsletter</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="faq.jsp">FAQ</a></li>
                         <c:if test="${boolEmailSessionTrue}">
                             <li><a href="login.jsp">Login</a></li>
                             <li><a href="insertUser.jsp">Registrati</a></li>
@@ -170,10 +170,7 @@
         </nav>
         <!-- END: topHeader -->            
 
-<<<<<<< HEAD
         <!-- Header -->
-=======
->>>>>>> m-back-end
         <jsp:include page="jsp/components/header.jsp" />
 
         <!-- START: main carousel -->

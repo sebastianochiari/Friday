@@ -170,10 +170,7 @@
         </nav>
         <!-- END: topHeader -->            
 
-<<<<<<< HEAD
         <!-- Header -->
-=======
->>>>>>> m-back-end
         <jsp:include page="jsp/components/header.jsp" />
 
         <!-- START: main carousel -->

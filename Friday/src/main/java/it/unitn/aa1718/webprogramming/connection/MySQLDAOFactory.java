@@ -72,4 +72,9 @@ public class MySQLDAOFactory extends DAOFactory {
     public MyCookieDAO getMyCookieDAO() {
         return new MySQLMyCookieDAOImpl();
     }
+    
+    @Override
+    public ProductListDAO getProductListDAO() {
+        return new MySQLProductListDAOImpl();
+    }
 }

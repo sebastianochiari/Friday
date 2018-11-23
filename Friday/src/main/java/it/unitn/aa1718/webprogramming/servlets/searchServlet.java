@@ -71,7 +71,6 @@ public class searchServlet extends HttpServlet {
         
         int PCID = -1;
         HttpSession session = request.getSession();
-        String input = request.getParameter("inputSearch");
         if(request.getParameter("inputCategory") != null)
             PCID = Integer.parseInt(request.getParameter("inputCategory"));
         
@@ -111,7 +110,7 @@ public class searchServlet extends HttpServlet {
         List products = null;
         if(PCID > 0){
             products = productDAO.getProductsByNameAndPCID(PCID, input);
-        } else if (request.getParameter("exampleFormControlSelect1") == "per categoria"){ 
+        } else if ("per categoria".equals(request.getParameter("exampleFormControlSelect1"))){ 
             products = productDAO.getAllProducts("per categoria");
         } else {
             products = productDAO.getAllProducts("alfabicamente");
@@ -175,7 +174,7 @@ public class searchServlet extends HttpServlet {
         
      //   products = productDAO.getProductsByPCID()
         */
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("search.jsp");
         
         }
         

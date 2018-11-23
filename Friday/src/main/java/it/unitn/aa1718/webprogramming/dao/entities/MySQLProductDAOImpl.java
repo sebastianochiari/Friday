@@ -30,11 +30,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ? ORDER BY name";
     
-<<<<<<< HEAD
     private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY name";
-=======
-    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ?";
->>>>>>> m-back-end
     
     private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?)) ORDER BY Name;";
     
@@ -334,11 +330,9 @@ public class MySQLProductDAOImpl implements ProductDAO {
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_Name_Query);
-<<<<<<< HEAD
-            preparedStatement.setString(1, "%"+name+"%");
-=======
+            
             preparedStatement.setString(1, "%" + name + "%");
->>>>>>> m-back-end
+
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             

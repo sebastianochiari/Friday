@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class MySQLProductListDAOImpl implements ProductListDAO{
     
-    private static final String Create_Query = "INSERT INTO product_lists (PID, LID, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO product_lists (PID, LID, quantity) VALUES (?, ?, ?)";
     
     private static final String Read_Query = "SELECT PID, LID, quantity FROM product_lists WHERE (PID = ? and LID = ?)";
     

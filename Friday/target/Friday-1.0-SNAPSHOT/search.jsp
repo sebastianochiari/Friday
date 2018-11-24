@@ -76,7 +76,7 @@
                                 <li class="active" ><a href="faq.jsp"> ${res.Name} </a> </li>
                                 <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
                                        
-                                 </c:forEach>
+                            </c:forEach>
                             
                               
                             </ul>

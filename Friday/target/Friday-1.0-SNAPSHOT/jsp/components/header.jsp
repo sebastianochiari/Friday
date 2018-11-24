@@ -15,14 +15,9 @@
 
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<<<<<<< HEAD
 <c:set var="pageCurrent" value="${requestScope.pageCurrent}" />   
 <c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
     
-=======
-<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
-
->>>>>>> frontEnd
     <!-- START: main navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
@@ -45,11 +40,7 @@
                             CATEGORIE
                         </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-<<<<<<< HEAD
-                             
-=======
 
->>>>>>> frontEnd
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
 
@@ -70,17 +61,11 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-<<<<<<< HEAD
                             <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                             <c:if test="${!boolEmailSession}">
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
                             </c:if>
-=======
-                            <a class="dropdown-item" href="#">Il mio account</a>
-                            <a class="dropdown-item" href="login.jsp">Login</a>
-                            <a class="dropdown-item" href="register.jsp">Crea un account</a>
->>>>>>> frontEnd
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">
@@ -109,57 +94,52 @@
     </nav>
     <!-- END: main navbar -->
 
-        <!-- START: search navbar -->
-        <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
-            <div class="container mb-1">
-                <form action="searchServlet" method="GET">
-                    <div class="row">
-                        <div class="col mt-1 nav-col">
-                            <div class="col-sm">
-<<<<<<< HEAD
-                   
-                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
-=======
->>>>>>> frontEnd
+    <!-- START: search navbar -->
+    <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
+        <div class="container mb-1">
+            <form action="searchServlet" method="GET">
+                <div class="row">
+                    <div class="col mt-1 nav-col">
+                        <div class="col-sm">
 
-                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
+                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
-                                <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
-                                </sql:query>
+                            <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
+                            </sql:query>
 
-                                <select name="inputCategory" class="form-control">
-                                    <option value = "-1" >Tutte le Categorie</option>
-                                    <c:forEach var="res" items="${result.rows}" >
-                                        <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
-                                    </c:forEach>
-                                </select>
+                            <select name="inputCategory" class="form-control">
+                                <option value = "-1" >Tutte le Categorie</option>
+                                <c:forEach var="res" items="${result.rows}" >
+                                    <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
+                                </c:forEach>
+                            </select>
 
-                            </div>
-                        </div>
-
-                        <div class="col-md mt-1 nav-col">
-                            <div class="input-group nav-search">
-                                <input class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <%-- <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
-                            <button type="submit" class="btn displayCenter login-btn">Search</button> --%>
                         </div>
                     </div>
+
+                    <div class="col-md mt-1 nav-col">
+                        <div class="input-group nav-search">
+                            <input class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <%-- <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
+                        <button type="submit" class="btn displayCenter login-btn">Search</button> --%>
+                    </div>
+                </div>
+            </form>
+            <c:if test="${emailSession ne null}">
+                <div>
+                    <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
+                </div>
+                <form action="logoutServlet" method="POST">
+                    <input type="hidden" name="boolEmailSession" value="false">
+                    <button type="submit" class="btn displayCenter login-btn">Logout</button>
                 </form>
-                <c:if test="${emailSession ne null}">
-                    <div>
-                        <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
-                    </div>
-                    <form action="logoutServlet" method="POST">
-                        <input type="hidden" name="boolEmailSession" value="false">
-                        <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                    </form>
-                </c:if>
-            </div>
-        </nav>
-        <!-- END: search navbar -->
+            </c:if>
+        </div>
+    </nav>
+    <!-- END: search navbar -->

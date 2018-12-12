@@ -5,7 +5,6 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
-import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;

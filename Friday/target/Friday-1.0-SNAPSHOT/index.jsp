@@ -59,10 +59,12 @@
             String DBUrl = MySQLDAOFactory.getDBUrl();
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
+            String DBDriver = MySQLDAOFactory.getDBDriver();
             
             (request.getSession()).setAttribute("DBUrlSession", DBUrl);
             (request.getSession()).setAttribute("DBUserSession", DBUser);
             (request.getSession()).setAttribute("DBPassSession", DBPass);
+            (request.getSession()).setAttribute("DBDriverSession", DBDriver);
 
             Cookie[] cookies = request.getCookies();
             Connection connection = null;
@@ -139,7 +141,6 @@
                     cse.printStackTrace();
                 }
             }
-            
             
         %>
 

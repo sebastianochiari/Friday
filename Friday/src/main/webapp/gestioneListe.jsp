@@ -91,13 +91,15 @@
                 List lists = null;
                 lists = shoppingListDAO.getShoppingListsByOwner((String)(request.getSession()).getAttribute("emailSession"));
 
-                String[] searchListResult = new String[lists.size()];
+                String[][] searchListResult = new String[lists.size()][2];
 
                 for(int i=0; i<lists.size(); i++){
-                    searchListResult[i] = ((ShoppingList)(lists.get(i))).getName();
+                    searchListResult[i][0] = ((ShoppingList)(lists.get(i))).getName();
+                    searchListResult[i][1] = Integer.toString(((ShoppingList)(lists.get(i))).getLID());
                 }
 
                 session.setAttribute("ListUserSession", searchListResult);
+                session.setAttribute("ListUserSessionSize", lists.size());
                 
             }
         } catch (SQLException e) {
@@ -142,15 +144,51 @@
 
                             <h3 class="aside-title">Le mie liste:</h3>
                             <ul class="list-links">
-                                <li class="active"><a href="#" id="gestioneListe">Gestione liste</a></li>
-                                <c:forEach items="${ListUserSession}" var="lista">
-                                <li>
-                                    <a href="${lista}" id=${lista}>
-                                        <c:out value="${lista}"></c:out>
-                                    </a>
-                                </li>
-                                </c:forEach>
                                 
+                                <form action="handlingListServlet" method="GET">
+                                
+                                    <c:set var="listaAttiva" value="${requestScope.listaAttiva}"></c:set>
+                                    <!-- so che è codice ripetuto ma non so come fare altrimenti -->
+                                    <c:if test="${listaAttiva eq 0}">
+                                        <li><button type="submit" value="0" name="selectedList">
+                                            Gestione Liste
+                                        </button></li>
+                                        <%--<li class="active"><a href="#" id="0">Gestione liste</a></li>--%>
+                                        <c:set var="attiva0" value="active <- attiva0"></c:set>
+                                    </c:if>
+                                    <c:if test="${listaAttiva ne 0}">
+                                         <li><button type="submit" value="0" name="selectedList">
+                                            Gestione Liste
+                                        </button></li>
+                                        <%--
+                                        <li><a href="#" id="0">Gestione liste</a></li>--%>
+                                        <c:set var="attiva0" value="notActive <- attiva0"></c:set>
+                                    </c:if>
+
+                                    <c:forEach items="${ListUserSession}" var="lista">
+                                        <c:if test="${listaAttiva eq lista[1]}">
+                                            <li>
+                                            <button type="submit" value="${lista[1]}" name="selectedList">
+                                                ${lista[0]}
+                                            </button>
+                                            </li>
+                                            <%--<li class="active"><a href="#" id="${lista[1]}">${lista[0]}</a></li>--%>
+                                            <c:set var="attiva" value="active"></c:set>
+                                        </c:if>
+                                        <c:if test="${listaAttiva ne lista[1]}">
+                                            <li>
+                                            <button type="submit" value="${lista[1]}" name="selectedList">
+                                                ${lista[0]}
+                                            </button>
+                                            </li>
+                                            <%--
+                                            <li><a href="#" id="${lista[1]}">${lista[0]}</a></li>--%>
+                                            <c:set var="attiva" value="notActive"></c:set>
+                                        </c:if> 
+
+
+                                    </c:forEach>
+                                </form>
                             </ul>
 
                             <h3 class="aside-title">Liste condivise:</h3>

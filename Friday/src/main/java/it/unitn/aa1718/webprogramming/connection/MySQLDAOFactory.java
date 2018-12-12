@@ -39,6 +39,10 @@ public class MySQLDAOFactory extends DAOFactory {
         return connection;
     }
     
+    public static String getDBDriver (){
+        return Driver;
+    }
+    
     public static String getDBUrl (){
         return DBUrl;
     }

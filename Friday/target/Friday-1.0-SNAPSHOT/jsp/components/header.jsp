@@ -15,14 +15,9 @@
 
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<<<<<<< HEAD
 <c:set var="pageCurrent" value="${requestScope.pageCurrent}" />   
 <c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
     
-=======
-<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
-
->>>>>>> frontEnd
     <!-- START: main navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
@@ -45,17 +40,12 @@
                             CATEGORIE
                         </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-<<<<<<< HEAD
-                             
-=======
 
->>>>>>> frontEnd
-                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
+                            <sql:setDataSource var="snapshot" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
 
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${result.rows}" >
-                                       <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
                                        <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="selectedPCategory" >
                                            ${res.Name}
                                        </button>
@@ -63,24 +53,18 @@
                             </form>
                         </div>
                     </li>
-                                        </li>
+                                       
                     <li class="nav-item dropdown nav-category">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user nav-link-icon"></i>
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-<<<<<<< HEAD
                             <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                             <c:if test="${!boolEmailSession}">
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
                             </c:if>
-=======
-                            <a class="dropdown-item" href="#">Il mio account</a>
-                            <a class="dropdown-item" href="login.jsp">Login</a>
-                            <a class="dropdown-item" href="register.jsp">Crea un account</a>
->>>>>>> frontEnd
                         </div>
                     </li>
                     <li class="nav-item dropdown nav-category">
@@ -89,13 +73,37 @@
                             Le mie liste
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                            <a class="dropdown-item" href="gestioneListe.jsp#gestioneListe">Gestione liste</a>
-                            <a class="dropdown-item" href="gestioneListe.jsp#lista1">Lista #1</a>
-                            <a class="dropdown-item" href="gestioneListe.jsp#lista2">Lista #2</a>
-                            <a class="dropdown-item" href="gestioneListe.jsp#sharingList">Liste condivise</a>
+                            
+                            <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
+                            <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE List_Owner = '${emailSession}';"></sql:query>
+                            
+                            
+                            <form action="handlingListServlet" method="GET">
+                                <%--<a class="dropdown-item" href="gestioneListe.jsp">Gestione liste</a>--%>
+                                <button type="submit" value="0" class="dropdown-item" name="selectedList" >
+                                    Gestione Liste
+                                </button>
+                                <c:forEach var="resList" items="${resultList.rows}" >
+                                    <button type="submit" value="${resList.LID}" class="dropdown-item" name="selectedList" >
+                                        ${resList.Name}
+                                    </button>
+                                    <%--
+                                    <a class="dropdown-item" href="gestioneListe.jsp#${resList.LID}">
+                                        <c:out value="${resList.Name}"></c:out>
+                                    </a>
+                                    --%>
+                                </c:forEach>
+                            
+                                <%--<a class="dropdown-item" href="gestioneListe.jsp#00">Liste condivise</a>--%>
+                                <button type="submit" value="00" class="dropdown-item" name="selectedList" >
+                                    Liste Condivise
+                                </button>
+                            </form>
+                            
                         </div>
                     </li>
                 </ul>
+                            
                 <div>
                     <a href="#" class="shopping-link" style="margin-right: 5px;">
                         <i class="fas fa-envelope shopping-icon"></i>
@@ -109,57 +117,52 @@
     </nav>
     <!-- END: main navbar -->
 
-        <!-- START: search navbar -->
-        <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
-            <div class="container mb-1">
-                <form action="searchServlet" method="GET">
-                    <div class="row">
-                        <div class="col mt-1 nav-col">
-                            <div class="col-sm">
-<<<<<<< HEAD
-                   
-                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
-=======
->>>>>>> frontEnd
+    <!-- START: search navbar -->
+    <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
+        <div class="container mb-1">
+            <form action="searchServlet" method="GET">
+                <div class="row">
+                    <div class="col mt-1 nav-col">
+                        <div class="col-sm">
 
-                                <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
+                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
-                                <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
-                                </sql:query>
+                            <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
+                            </sql:query>
 
-                                <select name="inputCategory" class="form-control">
-                                    <option value = "-1" >Tutte le Categorie</option>
-                                    <c:forEach var="res" items="${result.rows}" >
-                                        <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
-                                    </c:forEach>
-                                </select>
+                            <select name="inputCategory" class="form-control">
+                                <option value = "-1" >Tutte le Categorie</option>
+                                <c:forEach var="res" items="${result.rows}" >
+                                    <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
+                                </c:forEach>
+                            </select>
 
-                            </div>
-                        </div>
-
-                        <div class="col-md mt-1 nav-col">
-                            <div class="input-group nav-search">
-                                <input class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <%-- <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
-                            <button type="submit" class="btn displayCenter login-btn">Search</button> --%>
                         </div>
                     </div>
+
+                    <div class="col-md mt-1 nav-col">
+                        <div class="input-group nav-search">
+                            <input class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <%-- <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
+                        <button type="submit" class="btn displayCenter login-btn">Search</button> --%>
+                    </div>
+                </div>
+            </form>
+            <c:if test="${emailSession ne null}">
+                <div>
+                    <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
+                </div>
+                <form action="logoutServlet" method="POST">
+                    <input type="hidden" name="boolEmailSession" value="false">
+                    <button type="submit" class="btn displayCenter login-btn">Logout</button>
                 </form>
-                <c:if test="${emailSession ne null}">
-                    <div>
-                        <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
-                    </div>
-                    <form action="logoutServlet" method="POST">
-                        <input type="hidden" name="boolEmailSession" value="false">
-                        <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                    </form>
-                </c:if>
-            </div>
-        </nav>
-        <!-- END: search navbar -->
+            </c:if>
+        </div>
+    </nav>
+    <!-- END: search navbar -->

@@ -50,6 +50,10 @@
         <servlet-name>confirmRegistrationServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.confirmRegistrationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>handlingListServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.handlingListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>insertUserServlet</servlet-name>
         <url-pattern>/insertUserServlet</url-pattern>
@@ -89,6 +93,10 @@
     <servlet-mapping>
         <servlet-name>confirmRegistrationServlet</servlet-name>
         <url-pattern>/confirmRegistrationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>handlingListServlet</servlet-name>
+        <url-pattern>/handlingListServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

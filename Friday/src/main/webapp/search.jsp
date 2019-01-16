@@ -71,12 +71,22 @@
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
                              
-                            <c:forEach var="res" items="${result.rows}" >
-                                      
-                                <li class="active" ><a href="faq.jsp"> ${res.Name} </a> </li>
-                                <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
-                                       
+                          
+                            
+                            <form action="searchServlet" method ="GET">
+                                 <c:forEach var="res" items="${result.rows}" >
+                                       <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
+                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="selectedPCategory" >
+                                           ${res.Name}
+                                       </button>
                                  </c:forEach>
+                            </form>
+                                
+                                
+                                
+                                
+                                
+                                
                             
                               
                             </ul>

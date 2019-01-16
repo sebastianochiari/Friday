@@ -21,17 +21,17 @@ import java.util.ArrayList;
  */
 public class MySQLSharingDAOImpl implements SharingDAO{
     
-    private static final String Create_Query = "INSERT INTO sharing (email, LID) VALUES (?, ?)";
+    private static final String Create_Query = "INSERT INTO sharing (email, LID, name, modify, add, delete) VALUES (?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT email, LID FROM sharing WHERE (email = ? and LID = ?)";
+    private static final String Read_Query = "SELECT email, LID, name, modify, add, delete FROM sharing WHERE (email = ? and LID = ?)";
     
-    private static final String Read_All_Emails_By_LID_Query = "SELECT email, LID FROM sharing WHERE LID = ?";
+    private static final String Read_All_Emails_By_LID_Query = "SELECT email, LID, name, modify, add, delete FROM sharing WHERE LID = ?";
     
-    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID FROM sharing WHERE email = ?";
+    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID, name, modify, add, delete FROM sharing WHERE email = ?";
     
-    private static final String Read_All_Query = "SELECT email, LID FROM sharing";
+    private static final String Read_All_Query = "SELECT email, LID, name, modify, add, delete FROM sharing";
         
-    private static final String Update_Query = "UPDATE sharing SET email=?, LID=? WHERE (email = ? and LID = ?)";
+    private static final String Update_Query = "UPDATE sharing SET email=?, LID=?, name=?, modify=?, add=?, delete=? WHERE (email = ? and LID = ?)";
     
     private static final String Delete_Query = "DELETE FROM sharing WHERE (email = ? and LID = ?)";
 
@@ -50,7 +50,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2),  result.getString(3), result.getBoolean(4),  result.getBoolean(5),  result.getBoolean(6) );
                 sharings.add(sharing);
             }
         } catch (SQLException e) {
@@ -94,7 +94,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2),  result.getString(3), result.getBoolean(4),  result.getBoolean(5),  result.getBoolean(6) );
                 sharings.add(sharing);
             }
         } catch (SQLException e) {
@@ -137,7 +137,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2),  result.getString(3), result.getBoolean(4),  result.getBoolean(5),  result.getBoolean(6) );
                 sharings.add(sharing);
             }
         } catch (SQLException e) {
@@ -180,7 +180,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2),  result.getString(3), result.getBoolean(4),  result.getBoolean(5),  result.getBoolean(6) );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -217,6 +217,10 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             preparedStatement = connection.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, sharing.getEmail());
             preparedStatement.setInt(2, sharing.getLID());
+            preparedStatement.setString(3, sharing.getName());
+            preparedStatement.setBoolean(4, sharing.getModify());
+            preparedStatement.setBoolean(5, sharing.getAdd());
+            preparedStatement.setBoolean(6, sharing.getDelete());
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
             
@@ -260,6 +264,10 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             preparedStatement = connection.prepareStatement(Update_Query);
             preparedStatement.setString(1, sharing.getEmail());
             preparedStatement.setInt(2, sharing.getLID());
+            preparedStatement.setString(3, sharing.getName());
+            preparedStatement.setBoolean(4, sharing.getModify());
+            preparedStatement.setBoolean(5, sharing.getAdd());
+            preparedStatement.setBoolean(6, sharing.getDelete());
             preparedStatement.execute();
             
             return true;

@@ -13,11 +13,20 @@ public class Sharing {
     
     private int LID;
     private String email = null;
+    private String name = null;
+    private boolean modify;
+    private boolean add;
+    private boolean delete;
     
-    public Sharing(String email, int LID) {
+    
+    public Sharing(String email, int LID, String name, boolean modify, boolean add, boolean delete) {
         super();
         this.LID = LID;
         this.email = email;
+        this.name = name;
+        this.modify = modify;
+        this.add = add;
+        this.delete = delete;
     }
     
     public int getLID() {           
@@ -34,6 +43,38 @@ public class Sharing {
     
     public void setEmail() {                
         this.email = email;        
+    }
+    
+     public String getName() {           
+        return name;        
+    }        
+    
+    public void setName() {                
+        this.name = name;        
+    }
+    
+    public boolean getModify() {           
+        return modify;        
+    }        
+    
+    public void setModify() {                
+        this.modify = modify;        
+    }
+    
+    public boolean getAdd() {           
+        return add;        
+    }        
+    
+    public void setAdd() {                
+        this.add = add;        
+    }
+    
+    public boolean getDelete() {           
+        return delete;        
+    }        
+    
+    public void setDelete() {                
+        this.delete = delete;        
     }
     
 }

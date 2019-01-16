@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : index
     Created on : 19-ott-2018, 10.35.28
     Author     : marta & remo
@@ -55,11 +55,11 @@
             (request.getSession()).setAttribute("emailSession", null);
             (request.getSession()).setAttribute("cookieIDSession", null);
             (request.getSession()).setAttribute("nameUserSession", null);
-            
+
             String DBUrl = MySQLDAOFactory.getDBUrl();
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
-            
+
             (request.getSession()).setAttribute("DBUrlSession", DBUrl);
             (request.getSession()).setAttribute("DBUserSession", DBUser);
             (request.getSession()).setAttribute("DBPassSession", DBPass);
@@ -69,7 +69,7 @@
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
             boolean boolEmailSession = false;
-            
+
             try {
                 connection = MySQLDAOFactory.createConnection();
                 preparedStatement = connection.prepareStatement("SELECT * FROM cookies;");
@@ -77,9 +77,9 @@
                 result = preparedStatement.getResultSet();
 
                 if(cookies != null){
-                    
+
                     while (result.next()) {
-                        
+
                         for(int i=0; i<cookies.length; i++){
 
                             System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
@@ -91,13 +91,13 @@
                                 (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
                                 (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
                                 System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
-                                
+
                                 if (emailSession.equals(null)){
                                     boolEmailSession = false;
                                 } else {
                                     boolEmailSession = true;
                                 }
-                                
+
                                 (request.getSession()).setAttribute("boolEmailSessionScriptlet", boolEmailSession);
 
                             }
@@ -117,9 +117,24 @@
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
-                    
+
+                    // Seba code
+                    // preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE Email = ?;");
+                    // preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
+                    // preparedStatement.execute();
+                    // result = preparedStatement.getResultSet();
+                    //
+                    // System.out.println("+++++++++++++++++++++++" + result.rows + "+++++++++++++++++++++++++");
+                    //
+                    // String [] userLists = new String[result.rows];
+                    // for(int i = 0; i < result.rows; i++) {
+                    //     String tempUserList;
+                    //     (request.getSession()).setAttribute("tempUserList", result.getString("Name"));
+                    //     userLists[i] = tempUserList;
+                    // }
+
                 }
-                
+
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -139,8 +154,8 @@
                     cse.printStackTrace();
                 }
             }
-            
-            
+
+
         %>
 
         <!-- START: topHeader -->
@@ -151,8 +166,8 @@
                     <c:if test="${!boolEmailSession}">
                         <span>Benvenuto su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
                     </c:if>
-                    <c:if test="${boolEmailSession}"> 
-                        <span>Bentonato su <b>Friday</b> <c:out value="${nameUserSession}"></c:out>, l'innovativo gestore di <b>liste della spesa</b></span>
+                    <c:if test="${boolEmailSession}">
+                        <span>Bentornato su <b>Friday</b> <c:out value="${nameUserSession}"></c:out>, l'innovativo gestore di <b>liste della spesa</b></span>
                     </c:if>
 
                 </div>
@@ -181,7 +196,7 @@
                 </div>
             </div>
         </nav>
-        <!-- END: topHeader -->            
+        <!-- END: topHeader -->
 
         <!-- Header -->
         <jsp:include page="jsp/components/header.jsp" />
@@ -190,7 +205,7 @@
         <main>
 
             <div class="container mt-4">
-    
+
                 <!-- START: Carousel -->
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">

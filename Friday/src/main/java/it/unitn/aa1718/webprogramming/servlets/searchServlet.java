@@ -88,6 +88,7 @@ public class searchServlet extends HttpServlet {
         System.out.println("PCID: " + request.getParameter("inputCategory"));
         System.out.println("inputClick: " + request.getParameter("inputClick"));
         System.out.println("inputSearch: " + request.getParameter("inputSearch"));
+        System.out.println("CategoryLeft: " + request.getParameter("CategoryLeft"));
         System.out.println("order: " + request.getParameter("order"));
         
         if(request.getParameter("inputCategory") != null){
@@ -96,13 +97,17 @@ public class searchServlet extends HttpServlet {
             session.setAttribute("PCID", PCID);
         }
         
-        if(request.getParameter("inputClick") != null){
-            inputClick = request.getParameter("inputClick");
+        if(request.getParameter("inputClick") != null || request.getParameter("CategoryLeft") != null){
+            
+            if(request.getParameter("inputClick") != null)
+                inputClick = request.getParameter("inputClick");
+            else 
+                inputClick = request.getParameter("CategoryLeft");
             session.setAttribute("inputSearch", null);
             session.setAttribute("PCID", -1);
             session.setAttribute("inputClick", inputClick);
         }
-        
+
         if(request.getParameter("inputSearch") != null){
             input = request.getParameter("inputSearch");
             session.setAttribute("inputClick", null);
@@ -189,3 +194,4 @@ public class searchServlet extends HttpServlet {
     }// </editor-fold>
     
 }
+

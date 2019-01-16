@@ -15,9 +15,9 @@
 
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />   
+<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
 <c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
-    
+
     <!-- START: main navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
@@ -60,10 +60,17 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                            <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                             <c:if test="${!boolEmailSession}">
+                                <a class="dropdown-item" href="login.jsp">Il mio account</a>
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            </c:if>
+                            <c:if test="${boolEmailSession}">
+                                <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
+                                <a class="dropdown-item" href="security.jsp">Impostazioni di sicurezza</a>
+                                <c:if test="${adminUserSession}">
+                                    <a class="dropdown-item" href="adminSection.jsp">Sezione admin</a>
+                                </c:if>
                             </c:if>
                         </div>
                     </li>

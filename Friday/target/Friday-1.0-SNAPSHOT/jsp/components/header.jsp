@@ -15,9 +15,9 @@
 
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />   
+<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
 <c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
-    
+
     <!-- START: main navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
@@ -41,24 +41,13 @@
                         </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 
-<<<<<<< HEAD
-<<<<<<< HEAD
                             <sql:setDataSource var="snapshot" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
-=======
-=======
->>>>>>> l-back-end
-                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
->>>>>>> m-back-end
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
 
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${result.rows}" >
-<<<<<<< HEAD
-                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="selectedPCategory" >
-=======
                                        <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
                                        <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="inputClick" id="inputClick">
->>>>>>> l-back-end
                                            ${res.Name}
                                        </button>
                                  </c:forEach>
@@ -72,10 +61,17 @@
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                            <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                             <c:if test="${!boolEmailSession}">
+                                <a class="dropdown-item" href="login.jsp">Il mio account</a>
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            </c:if>
+                            <c:if test="${boolEmailSession}">
+                                <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
+                                <a class="dropdown-item" href="security.jsp">Impostazioni di sicurezza</a>
+                                <c:if test="${adminUserSession}">
+                                    <a class="dropdown-item" href="adminSection.jsp">Sezione admin</a>
+                                </c:if>
                             </c:if>
                         </div>
                     </li>

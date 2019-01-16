@@ -57,9 +57,6 @@ public class handlingListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-//        System.out.println("ciaooooooooooo sono passato");
-//        System.out.println(request.getParameter("selectedList"));
-
         int listaSelezionata = Integer.parseInt(request.getParameter("selectedList"));
         
         System.out.println(listaSelezionata);

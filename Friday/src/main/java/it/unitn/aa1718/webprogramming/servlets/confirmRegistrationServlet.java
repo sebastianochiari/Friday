@@ -67,9 +67,13 @@ public class confirmRegistrationServlet extends HttpServlet {
         Library library = new Library();
         
        String email = request.getParameter("email");
-       userDAO.confirmedUser(email);
+       if(email.length()<200){ 
+            userDAO.confirmedUser(email);
+            response.sendRedirect("registrationAccepted.jsp");
+       } else {
+            response.sendRedirect("faq.jsp");
+       }
        
-       response.sendRedirect("registrationAccepted.jsp");
     }
 
     /**

@@ -88,79 +88,88 @@ public class insertUserServlet extends HttpServlet {
         registerForm = request.getParameter("registerForm");
         
         
-        String pswEncrypted = encrypt.setSecurePassword(password, email);
-        HttpSession session = request.getSession();
-        
-        boolean isOkay = encrypt.checkString(password);
+        if(email.length()<200 && password.length()< 200 && name.length()< 200 && surname.length()<500 && avatar.length()<200){ 
 
-        request.setAttribute("name", name);
-        request.setAttribute("surname", surname);
-        request.setAttribute("email", email);
+            String pswEncrypted = encrypt.setSecurePassword(password, email);
+            HttpSession session = request.getSession();
 
-        if(!userDAO.checkEmail(email)){
-           
-            response.sendRedirect("index.jsp");
-            
-        } else if (userDAO.checkUser(email)) {
+            boolean isOkay = encrypt.checkString(password);
 
-            String error = "emailError";
-            typeError = error;
-            request.setAttribute("errorEmail", typeError);
-            request.getRequestDispatcher(registerForm).forward(request, response);
+            request.setAttribute("name", name);
+            request.setAttribute("surname", surname);
+            request.setAttribute("email", email);
 
-        } else if(!isOkay) {   
+            if(!userDAO.checkEmail(email)){
 
-            String error = "errorPassword";
-            typeError = error;
-            request.setAttribute("errorPassword", typeError);                
-            request.getRequestDispatcher(registerForm).forward(request, response);
+                response.sendRedirect("index.jsp");
 
-        } else if (!password.equals(passwordcheck)) {       
+            } else if (userDAO.checkUser(email)) {
 
-            String error = "errorCheckPassword";
-            typeError = error;
-            request.setAttribute("errorCheckPassword", typeError);
-            
-            //System.out.println( "-----Le password non coicidono");
-            //da sistemare il ritorno al insertUser.jsp
-            request.getRequestDispatcher(registerForm).forward(request, response);
-            //response.sendRedirect("insertUser.jsp");
+                String error = "emailError";
+                typeError = error;
+                request.setAttribute("errorEmail", typeError);
+                request.getRequestDispatcher(registerForm).forward(request, response);
 
-         } else {
+            } else if(!isOkay) {   
 
-            User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false, false);
-            userDAO.createUser(user1);
-            
-            //aggiorno email cookie e lista se precedentemente era un cookie anonimo
-            if(session.getAttribute("cookieIDSession") != null){
-               
-                MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
-                MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
-                
-                ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
-                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-                
-                int cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
-                int cookieLID =  myCookieDAO.getLIDbyCookieID(cookieID);
-                System.out.println("cookie LID = "+cookieLID);
-                shoppingListDAO.updateEmailShoppingList(cookieLID, email);
-                myCookieDAO.updateEmailCookie(cookieID, email);
-            
+                String error = "errorPassword";
+                typeError = error;
+                request.setAttribute("errorPassword", typeError);                
+                request.getRequestDispatcher(registerForm).forward(request, response);
+
+            } else if (!password.equals(passwordcheck)) {       
+
+                String error = "errorCheckPassword";
+                typeError = error;
+                request.setAttribute("errorCheckPassword", typeError);
+
+                //System.out.println( "-----Le password non coicidono");
+                //da sistemare il ritorno al insertUser.jsp
+                request.getRequestDispatcher(registerForm).forward(request, response);
+                //response.sendRedirect("insertUser.jsp");
+
+             } else {
+
+                User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false, false);
+                userDAO.createUser(user1);
+
+                //aggiorno email cookie e lista se precedentemente era un cookie anonimo
+                if(session.getAttribute("cookieIDSession") != null){
+
+                    MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+                    MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+
+                    ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
+                    ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+
+                    int cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+                    int cookieLID =  myCookieDAO.getLIDbyCookieID(cookieID);
+                    System.out.println("cookie LID = "+cookieLID);
+                    shoppingListDAO.updateEmailShoppingList(cookieLID, email);
+                    myCookieDAO.updateEmailCookie(cookieID, email);
+
+                }
+
+
+                //dobbiamo trovare un host che funzioni
+                try {
+                    library.sendMail(email, name, surname);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+
+                //System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
+                // ritorno alla pagina iniziale
+                response.sendRedirect("confirmRegistration.jsp");
+
             }
-          
             
-            //dobbiamo trovare un host che funzioni
-            try {
-                library.sendMail(email, name, surname);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
             
-            //System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
-            // ritorno alla pagina iniziale
-            response.sendRedirect("confirmRegistration.jsp");
+       } else {
+            response.sendRedirect("faq.jsp");
+       }
         
-        }
+        
     }
      
 

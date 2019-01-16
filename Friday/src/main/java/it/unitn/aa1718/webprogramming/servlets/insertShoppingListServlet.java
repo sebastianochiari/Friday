@@ -86,42 +86,53 @@ public class insertShoppingListServlet extends HttpServlet {
         String list_owner = (String)session.getAttribute("emailSession");
         int cookieID = -1;
         
-        //associo cookie anonimo se non loggato
-        if(list_owner == null){
+        
+        if(name.length()< 200 && note.length()< 200 && image.length()<500){ 
 
-            MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
-            MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+            //associo cookie anonimo se non loggato
+            if(list_owner == null){
+
+                MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+                MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+
+                //cancello eventuali cookie scaduti
+                myCookieDAO.deleteDBExpiredCookies();
+
+                //Creo cookie
+                Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
+                cookie.setMaxAge(-1);
+                cookieID = Integer.parseInt((String)cookie.getValue());
+
+                Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
+
+                myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, list_owner, Deadline));
+                //System.out.println("zao zao il nuovo tuo cookie anonimo è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+                session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
+                response.addCookie(cookie);
+
+                shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
+                shoppingListDAO.createShoppingList(shoppingList);
+
+                //aggiungo LID al cookie anonimo
+                myCookieDAO.updateLIDCookie(cookieID, LID);
+
+            } else {
+
+                cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+                shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
+                shoppingListDAO.createShoppingList(shoppingList);
+            }
+
+            // recupero di tutti gli shoppingList del DB
+            shoppingLists = shoppingListDAO.getAllShoppingLists();
             
-            //cancello eventuali cookie scaduti
-            myCookieDAO.deleteDBExpiredCookies();
-            
-            //Creo cookie
-            Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
-            cookie.setMaxAge(-1);
-            cookieID = Integer.parseInt((String)cookie.getValue());
-       
-            Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
-            
-            myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, list_owner, Deadline));
-            //System.out.println("zao zao il nuovo tuo cookie anonimo è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
-            session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
-            response.addCookie(cookie);
-            
-            shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
-            shoppingListDAO.createShoppingList(shoppingList);
-            
-            //aggiungo LID al cookie anonimo
-            myCookieDAO.updateLIDCookie(cookieID, LID);
+       } else {
+            response.sendRedirect("faq.jsp");
+       }
         
-        } else {
-            
-            cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
-            shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
-            shoppingListDAO.createShoppingList(shoppingList);
-        }
         
-        // recupero di tutti gli shoppingList del DB
-        shoppingLists = shoppingListDAO.getAllShoppingLists();
+        
+        
     }
 
     /**

@@ -121,76 +121,86 @@ public class loginServlet extends HttpServlet {
 //        System.out.println("registerForm: " + registerForm);
 //        System.out.println("EMIL + PASSWORD + ricordami : " + email + password);
         
-        request.setAttribute("email", email);
-        User tmpUser = userDAO.getUser(email);
-        
-        //ritorna false se non esiste una mail nel database 
-        if (!userDAO.checkUser(email) || !tmpUser.getConfirmed()) {
-            //System.out.println("questa email non esiste nel database");
-            String error = "emailError";
-            typeError = error;
-            request.setAttribute("errorEmail", typeError);
-            request.getRequestDispatcher(registerForm).forward(request, response);
-            
-        } else {
-                
-            String pswencrypted = encrypt.setSecurePassword(password, email);
-            //System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
-            String dbpassword = userDAO.getPasswordByUserEmail(email);
-        
-            if (pswencrypted.equals(dbpassword)) {
 
-                //System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
-                //elimina cookie scaduti
-                myCookieDAO.deleteDBExpiredCookies();
+        if(email.length()<200 && password.length()< 200){ 
 
-                //associa cookie se esistente
-                myCookie = myCookieDAO.getCookie(request, email);
-                Long Deadline = (long)0;
-                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            request.setAttribute("email", email);
+            User tmpUser = userDAO.getUser(email);
 
-                if (myCookie == null) {
+            //ritorna false se non esiste una mail nel database 
+            if (!userDAO.checkUser(email) || !tmpUser.getConfirmed()) {
+                //System.out.println("questa email non esiste nel database");
+                String error = "emailError";
+                typeError = error;
+                request.setAttribute("errorEmail", typeError);
+                request.getRequestDispatcher(registerForm).forward(request, response);
 
-                    Cookie cookie = new Cookie("FridayLogin", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
-                    //ricordami per 3600 secondi se selezionato, altrimenti cookie valido per la sessione
-
-                    if(ricordami != null && ricordami.equals("on")) {
-
-                        cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
-                        Deadline = timestamp.getTime()+ 60*60*1000;
-
-                    } else {
-
-                        cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
-                        Deadline = timestamp.getTime();
-                    }
-
-                    int LID = -1;
-                    //System.out.println("COOKIE ID = "+library.LastEntryTable("cookieID", "cookies")+"+ LID = "+LID+" EMAIL = "+email+" DEADLINE = "+Deadline);
-                    MyCookie myNewCookie = new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline); 
-                    myCookieDAO.createCookie(myNewCookie);
-                    response.addCookie(cookie);
-                    session.setAttribute("cookieIDSession", myNewCookie.getCookieID());
-                    System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
-
-                } else {
-                    System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
-                }
-
-                response.sendRedirect("index.jsp");
-         
             } else {
 
-                //System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
-                //System.out.println("la password non corrisponde all'email inserita ");
-                String error = "errorPassword";
-                typeError = error;
-                request.setAttribute("errorPassword", typeError);
-                request.getRequestDispatcher(registerForm).forward(request, response);
+                String pswencrypted = encrypt.setSecurePassword(password, email);
+                //System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
+                String dbpassword = userDAO.getPasswordByUserEmail(email);
+
+                if (pswencrypted.equals(dbpassword)) {
+
+                    //System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
+                    //elimina cookie scaduti
+                    myCookieDAO.deleteDBExpiredCookies();
+
+                    //associa cookie se esistente
+                    myCookie = myCookieDAO.getCookie(request, email);
+                    Long Deadline = (long)0;
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+                    if (myCookie == null) {
+
+                        Cookie cookie = new Cookie("FridayLogin", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
+                        //ricordami per 3600 secondi se selezionato, altrimenti cookie valido per la sessione
+
+                        if(ricordami != null && ricordami.equals("on")) {
+
+                            cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
+                            Deadline = timestamp.getTime()+ 60*60*1000;
+
+                        } else {
+
+                            cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
+                            Deadline = timestamp.getTime();
+                        }
+
+                        int LID = -1;
+                        //System.out.println("COOKIE ID = "+library.LastEntryTable("cookieID", "cookies")+"+ LID = "+LID+" EMAIL = "+email+" DEADLINE = "+Deadline);
+                        MyCookie myNewCookie = new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline); 
+                        myCookieDAO.createCookie(myNewCookie);
+                        response.addCookie(cookie);
+                        session.setAttribute("cookieIDSession", myNewCookie.getCookieID());
+                        System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+
+                    } else {
+                        System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
+                    }
+
+                    response.sendRedirect("index.jsp");
+
+                } else {
+
+                    //System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
+                    //System.out.println("la password non corrisponde all'email inserita ");
+                    String error = "errorPassword";
+                    typeError = error;
+                    request.setAttribute("errorPassword", typeError);
+                    request.getRequestDispatcher(registerForm).forward(request, response);
+
+                }
+
+            }  
+ 
             
-            }
-            
-        }  
+       } else {
+            response.sendRedirect("faq.jsp");
+       }
+
+
 
     }
        

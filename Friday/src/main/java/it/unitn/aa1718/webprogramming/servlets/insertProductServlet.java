@@ -87,13 +87,21 @@ public class insertProductServlet extends HttpServlet {
         String photo = request.getParameter("photo");
         int PCID = Integer.parseInt(request.getParameter("PCID"));
         
-        Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
-    
-        // memorizzazione del nuovo product nel DB
-        productDAO.createProduct(product1);
+        if(email.length()<200 && name.length()< 200 && logo.length()< 200 && note.length()<500 && photo.length()<200){ 
+
+            Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
+
+            // memorizzazione del nuovo product nel DB
+            productDAO.createProduct(product1);
+
+            request.setAttribute("goodInsertProduct", "true");
+            response.sendRedirect("adminSection.jsp");
+            
+       } else {
+            response.sendRedirect("faq.jsp");
+       }
         
-        request.setAttribute("goodInsertProduct", "true");
-        response.sendRedirect("adminSection.jsp");
+        
         
     }
 

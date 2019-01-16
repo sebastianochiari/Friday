@@ -78,16 +78,25 @@ public class insertProductCategoryServlet extends HttpServlet {
         String note = request.getParameter("note");
         String logo = request.getParameter("logo");
         
-        ProductCategory productCategory1 = new ProductCategory(PCID, name, note, library.ImageControl(logo), email);
-    
-        // memorizzazione del nuovo productCategory nel DB
-        productCategoryDAO.createProductCategory(productCategory1);
+        if(email.length()<200 && name.length() < 200 && note.length()<500 && logo.length()<200){ 
+
+            ProductCategory productCategory1 = new ProductCategory(PCID, name, note, library.ImageControl(logo), email);
+
+            // memorizzazione del nuovo productCategory nel DB
+            productCategoryDAO.createProductCategory(productCategory1);
+
+            // recupero di tutti gli productCategory del DB
+            productCategories = productCategoryDAO.getAllProductCategories();
+
+            request.setAttribute("goodInsertProductCategory", "true");
+            response.sendRedirect("adminSection.jsp");  
+            
+       } else {
+            
+            response.sendRedirect("faq.jsp");
+       }
         
-        // recupero di tutti gli productCategory del DB
-        productCategories = productCategoryDAO.getAllProductCategories();
-        
-        request.setAttribute("goodInsertProductCategory", "true");
-        response.sendRedirect("adminSection.jsp");        
+              
         
     }
 

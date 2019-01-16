@@ -96,17 +96,32 @@ public class searchServlet extends HttpServlet {
             session.setAttribute("PCID", PCID);
         }
         
-        if(request.getParameter("inputClick") != null){
-            inputClick = request.getParameter("inputClick");
+        if(request.getParameter("inputClick") != null || request.getParameter("CategoryLeft") != null){
+            
+          if(request.getParameter("inputClick") != null) {
+                inputClick = request.getParameter("inputClick");
+          }  else {
+                inputClick = request.getParameter("CategoryLeft");
             session.setAttribute("inputSearch", null);
             session.setAttribute("PCID", -1);
             session.setAttribute("inputClick", inputClick);
+          }
         }
         
         if(request.getParameter("inputSearch") != null){
             input = request.getParameter("inputSearch");
+            
+             
+        if(input.length()< 200){ 
+            
             session.setAttribute("inputClick", null);
             session.setAttribute("inputSearch", input);
+            
+        } else {
+          
+             response.sendRedirect("faq.jsp");
+             return;
+            }
         }
         
         if(request.getParameter("order") != null && request.getParameter("order").equals("categoria")){
@@ -118,9 +133,9 @@ public class searchServlet extends HttpServlet {
             input = (String)session.getAttribute("inputSearch");
             PCID = (int)session.getAttribute("PCID");
         }
-        if(inputClick == null)
+        if(inputClick == null){
             inputClick = (String)session.getAttribute("inputClick");
-        
+        }
         
         //controllo input
         System.out.println("PCID: " + PCID);
@@ -156,12 +171,14 @@ public class searchServlet extends HttpServlet {
             
             //salvo risultati
             session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
-        
+            
         }
                
         //ridireziono alla pagina di ricerca
         response.sendRedirect("search.jsp");
         
+        
+              
     }
 
     /**

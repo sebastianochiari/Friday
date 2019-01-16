@@ -54,7 +54,7 @@
                             </form>
                         </div>
                     </li>
-                                       
+
                     <li class="nav-item dropdown nav-category">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user nav-link-icon"></i>
@@ -81,11 +81,11 @@
                             Le mie liste
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                            
+
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
                             <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE List_Owner = '${emailSession}';"></sql:query>
-                            
-                            
+
+
                             <form action="handlingListServlet" method="GET">
                                 <%--<a class="dropdown-item" href="gestioneListe.jsp">Gestione liste</a>--%>
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
@@ -101,24 +101,32 @@
                                     </a>
                                     --%>
                                 </c:forEach>
-                            
+
                                 <%--<a class="dropdown-item" href="gestioneListe.jsp#00">Liste condivise</a>--%>
                                 <button type="submit" value="00" class="dropdown-item" name="selectedList" >
                                     Liste Condivise
                                 </button>
                             </form>
-                            
+
                         </div>
                     </li>
                 </ul>
-                            
-                <div>
+
+                <div style="display: inline;">
                     <a href="#" class="shopping-link" style="margin-right: 5px;">
                         <i class="fas fa-envelope shopping-icon"></i>
                     </a>
-                    <a href="#" class="shopping-link">
+                    <a href="#" class="shopping-link" style="margin-right: 5px;">
                         <i class="fas fa-shopping-cart shopping-icon"></i>
                     </a>
+                    <c:if test="${emailSession ne null}">
+                        <form style="display: inline-flex;" action="logoutServlet" method="POST">
+                            <input type="hidden" name="boolEmailSession" value="false">
+                            <button type="submit" class="btn std-button">
+                                <i class="fas fa-sign-out-alt shopping-icon displayCenter"></i>
+                            </button>
+                        </form>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -132,7 +140,6 @@
                 <div class="row">
                     <div class="col mt-1 nav-col">
                         <div class="col-sm">
-
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
@@ -144,7 +151,6 @@
                                     <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
                                 </c:forEach>
                             </select>
-
                         </div>
                     </div>
 
@@ -157,20 +163,17 @@
                                 </button>
                             </div>
                         </div>
-                        <%-- <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
-                        <button type="submit" class="btn displayCenter login-btn">Search</button> --%>
                     </div>
+
+                    <c:if test="${emailSession ne null}">
+                        <div class="col-md align-right">
+                            <small class="text-muted">Logged as </small>
+                            <br>
+                            <c:out value=" ${emailSession}"></c:out>
+                        </div>
+                    </c:if>
                 </div>
             </form>
-            <c:if test="${emailSession ne null}">
-                <div>
-                    <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
-                </div>
-                <form action="logoutServlet" method="POST">
-                    <input type="hidden" name="boolEmailSession" value="false">
-                    <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                </form>
-            </c:if>
         </div>
     </nav>
     <!-- END: search navbar -->

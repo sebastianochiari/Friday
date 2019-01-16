@@ -166,7 +166,7 @@ public class insertUserServlet extends HttpServlet {
             
             
        } else {
-            response.sendRedirect("faq.jsp");
+            response.sendRedirect("error.jsp");
        }
         
         

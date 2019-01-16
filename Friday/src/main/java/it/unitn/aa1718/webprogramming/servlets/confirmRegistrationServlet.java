@@ -71,7 +71,7 @@ public class confirmRegistrationServlet extends HttpServlet {
             userDAO.confirmedUser(email);
             response.sendRedirect("registrationAccepted.jsp");
        } else {
-            response.sendRedirect("faq.jsp");
+            response.sendRedirect("error.jsp");
        }
        
     }

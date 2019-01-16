@@ -60,7 +60,7 @@
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
             String DBDriver = MySQLDAOFactory.getDBDriver();
-            
+
             (request.getSession()).setAttribute("DBUrlSession", DBUrl);
             (request.getSession()).setAttribute("DBUserSession", DBUser);
             (request.getSession()).setAttribute("DBPassSession", DBPass);
@@ -156,7 +156,7 @@
                     cse.printStackTrace();
                 }
             }
-            
+
         %>
 
         <!-- START: topHeader -->
@@ -180,19 +180,6 @@
                             <li><a href="login.jsp">Login</a></li>
                             <li><a href="insertUser.jsp">Registrati</a></li>
                         </c:if>
-                        <c:if test="${boolEmailSession}">
-                        <li>
-                            <div>
-                                <c:out value=" ${emailSession}"></c:out>
-                            </div>
-                        </li>
-                        <li>
-                            <form action="logoutServlet" method="POST">
-                                <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                            </form>
-                        </li>
-                        </c:if>
-
                     </ul>
                 </div>
             </div>

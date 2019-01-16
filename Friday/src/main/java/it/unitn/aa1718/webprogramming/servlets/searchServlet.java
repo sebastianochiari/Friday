@@ -107,22 +107,22 @@ public class searchServlet extends HttpServlet {
             session.setAttribute("PCID", -1);
             session.setAttribute("inputClick", inputClick);
           }
-        }
+        
 
         if(request.getParameter("inputSearch") != null){
             input = request.getParameter("inputSearch");
             
              
-        if(input.length()< 200){ 
-            
-            session.setAttribute("inputClick", null);
-            session.setAttribute("inputSearch", input);
-            
-        } else {
-          
-             response.sendRedirect("faq.jsp");
-             return;
-            }
+            if(input.length()< 200){ 
+
+                session.setAttribute("inputClick", null);
+                session.setAttribute("inputSearch", input);
+
+            } else {
+
+                 response.sendRedirect("error.jsp");
+                 return;
+              }
         }
         
         if(request.getParameter("order") != null && request.getParameter("order").equals("categoria")){

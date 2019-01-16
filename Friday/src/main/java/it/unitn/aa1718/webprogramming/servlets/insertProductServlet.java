@@ -98,7 +98,7 @@ public class insertProductServlet extends HttpServlet {
             response.sendRedirect("adminSection.jsp");
             
        } else {
-            response.sendRedirect("faq.jsp");
+            response.sendRedirect("error.jsp");
        }
         
         

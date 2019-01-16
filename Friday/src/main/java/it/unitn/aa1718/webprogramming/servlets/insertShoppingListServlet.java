@@ -127,7 +127,7 @@ public class insertShoppingListServlet extends HttpServlet {
             shoppingLists = shoppingListDAO.getAllShoppingLists();
             
        } else {
-            response.sendRedirect("faq.jsp");
+            response.sendRedirect("error.jsp");
        }
         
         

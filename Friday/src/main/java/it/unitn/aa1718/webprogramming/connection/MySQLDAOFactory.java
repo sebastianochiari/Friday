@@ -89,4 +89,9 @@ public class MySQLDAOFactory extends DAOFactory {
     public ProductListDAO getProductListDAO() {
         return new MySQLProductListDAOImpl();
     }
+    
+    @Override
+    public SharingDAO getSharingDAO() {
+        return new MySQLSharingDAOImpl();
+    }
 }

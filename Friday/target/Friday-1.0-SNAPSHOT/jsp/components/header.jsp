@@ -42,15 +42,23 @@
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <sql:setDataSource var="snapshot" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
 =======
+=======
+>>>>>>> l-back-end
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 >>>>>>> m-back-end
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
 
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${result.rows}" >
+<<<<<<< HEAD
                                        <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="selectedPCategory" >
+=======
+                                       <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
+                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="inputClick" id="inputClick">
+>>>>>>> l-back-end
                                            ${res.Name}
                                        </button>
                                  </c:forEach>

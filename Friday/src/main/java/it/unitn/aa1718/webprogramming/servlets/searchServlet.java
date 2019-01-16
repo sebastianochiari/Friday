@@ -69,127 +69,98 @@ public class searchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int PCID = -1;
-        HttpSession session = request.getSession();
-        if(request.getParameter("inputCategory") != null)
-            PCID = Integer.parseInt(request.getParameter("inputCategory"));
-        
-        
+        //cose che servono
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         ProductDAO ProductriverDAO = mySqlFactory.getProductDAO();
         ProductDAO productDAO = new MySQLProductDAOImpl();
         ProductDAO ProductCategoryriverDAO = mySqlFactory.getProductDAO();
         ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        HttpSession session = request.getSession();
         Library library = new Library();
         
         
+        //recupero inputs
         String input = null;
-        input = request.getParameter("inputSearch");
-       
-        String inputClick = request.getParameter("selectedPCategory");
+        String inputClick = null;
+        String ordine = null;
+        int PCID = -1;
+        
+        System.out.println("PCID: " + request.getParameter("inputCategory"));
+        System.out.println("inputClick: " + request.getParameter("inputClick"));
+        System.out.println("inputSearch: " + request.getParameter("inputSearch"));
+        System.out.println("order: " + request.getParameter("order"));
+        
+        if(request.getParameter("inputCategory") != null){
+            PCID = Integer.parseInt(request.getParameter("inputCategory"));
+            session.setAttribute("inputClick", null);
+            session.setAttribute("PCID", PCID);
+        }
+        
+        if(request.getParameter("inputClick") != null){
+            inputClick = request.getParameter("inputClick");
+            session.setAttribute("inputSearch", null);
+            session.setAttribute("PCID", -1);
+            session.setAttribute("inputClick", inputClick);
+        }
+        
+        if(request.getParameter("inputSearch") != null){
+            input = request.getParameter("inputSearch");
+            session.setAttribute("inputClick", null);
+            session.setAttribute("inputSearch", input);
+        }
+        
+        if(request.getParameter("order") != null && request.getParameter("order").equals("categoria")){
+            ordine = request.getParameter("order");
+        }
+        
+        //in caso di aggiornamento della pagina ripristino la ricerca precedente
+        if(input == null && PCID < 0){
+            input = (String)session.getAttribute("inputSearch");
+            PCID = (int)session.getAttribute("PCID");
+        }
+        if(inputClick == null)
+            inputClick = (String)session.getAttribute("inputClick");
+        
+        
+        //controllo input
+        System.out.println("PCID: " + PCID);
+        System.out.println("inputClick: " + inputClick);
+        System.out.println("inputSearch: " + input);
+        System.out.println("order: " + ordine);
+        
+        //se selezionato inputClick significa che non sei passato per il cerca, ma per le categorie in alto
         if(inputClick != null){
-            System.out.println(" selected category in generale vale: " + inputClick);
-            
+
             int inputClickPCID = Integer.parseInt(inputClick);
+           
+            //calcolo risultato
+            List products = productDAO.getProductsByPCID(inputClickPCID);
             
-            List products = null;
-            products = productDAO.getProductsByPCID(inputClickPCID);
-
-            String[][] searchProductResult = new String[products.size()][7];
-
-            for(int i=0; i<products.size(); i++){
-
-                searchProductResult[i][0] = Integer.toString(((Product)(products.get(i))).getPID());
-                searchProductResult[i][1] = ((Product)(products.get(i))).getName();
-                searchProductResult[i][2] = ((Product)(products.get(i))).getNote();
-                searchProductResult[i][3] = ((Product)(products.get(i))).getLogo();
-                searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
-                searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
-                searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
-
-            }
-
-            session.setAttribute("resultSearch", searchProductResult);
-            response.sendRedirect("search.jsp");
+            //salvo risultato
+            session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
+       
         } 
-        
-        else {
-        //SE NON HO SELEZIONATO NULLA NELLE CATEGORIE GENERICHE 
-        System.out.println("NON HAI SELEZIONATO LE CATEGORIE DI PRODOTTO GENERICHE. PASSO CONTROLLO A DROPDOWN LIST CON INPUT da tastiera");
-        
-        
-        if(input != null ){
-        int inputCategory = Integer.parseInt(request.getParameter("inputCategory"));
-        
-   //    String selectedCategory = request.getParameter("navbarDropdownMenuLink1"); //prendo categoria selezionata da drop down list
-        
-        
-        System.out.println("---inputCategory A SX VALE: " + inputCategory);
+        //se hai cercato tramite la sezione cerca, o se hai richiesto un diverso ordinamento
+        else if(input != null || ordine != null){
 
+            //calcolo risultato
+            List products = null;
 
-        List products = null;
-        if(PCID > 0){
-            products = productDAO.getProductsByNameAndPCID(PCID, input);
-        } else if ("per categoria".equals(request.getParameter("exampleFormControlSelect1"))){ 
-            products = productDAO.getAllProducts("per categoria");
-        } else {
-            products = productDAO.getAllProducts("alfabeticamente");
-        }
-        String[][] searchProductResult = new String[products.size()][7];
-        
-        for(int i=0; i<products.size(); i++){
-            
-            searchProductResult[i][0] = Integer.toString(((Product)(products.get(i))).getPID());
-            searchProductResult[i][1] = ((Product)(products.get(i))).getName();
-            searchProductResult[i][2] = ((Product)(products.get(i))).getNote();
-            searchProductResult[i][3] = ((Product)(products.get(i))).getLogo();
-            searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
-            searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
-            searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
-            
-        }
-        
-        session.setAttribute("resultSearch", searchProductResult);
-
-
-        /* forse va tolto
-        if(inputCategory == -1) {
-            
-            products = productDAO.getProductsByName(input);
-            for(int i=0; i<products.size(); i++){
-                System.out.println(((Product)products.get(i)).getName()); //se nessuna selezione a SX stampa i tutti i prodotti
-            }
-            response.sendRedirect("index.jsp"); //MODIFICA REDIREZIONAMENTO
-         } else {
-            products = productDAO.getProductsByNameAndPCID(inputCategory, input); 
-                        //se ho inserito un input nella search bar, ritorna i prodotti in base alla ricerca con filtro categoria di SX
-      
-        
-            if(products.size() == 0){
-                System.out.println("NESSUN PRODOTTO CORRISPONDE ALLA PRODUCT_CATEGORIES E PRODOTTO CERCATO");
-                response.sendRedirect("index.jsp");
+            if(PCID > 0){
+                products = productDAO.getProductsByNameAndPCID(PCID, input);
+            } else if (ordine != null && ordine.equals("categoria")){
+                products = productDAO.getProductsByName(input, true);
             } else {
-            
-                for(int i=0; i<products.size(); i++){
-                    System.out.println(((Product)products.get(i)).getName()); 
-                }
-                response.sendRedirect("index.jsp"); //MODIFICA REDIREZIONAMENTO
+                products = productDAO.getProductsByName(input, false);
             }
-         
-        }  
-        } else {
-          
-        String reqParam = request.getParameter("selectedPCategory");
-        System.out.println("----------------------Selected category vale :  " + reqParam);
+            
+            //salvo risultati
+            session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
         
-        
-     //   products = productDAO.getProductsByPCID()
-        */
+        }
+               
+        //ridireziono alla pagina di ricerca
         response.sendRedirect("search.jsp");
-        
-        }
-        
-        }
         
     }
 

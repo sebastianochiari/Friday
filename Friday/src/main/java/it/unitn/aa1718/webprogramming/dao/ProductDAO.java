@@ -14,13 +14,13 @@ import java.util.List;
  */
 public interface ProductDAO {
     
-    public List getAllProducts(String order);
+    public List getAllProducts();
     
     public List getProductsByEmail(String Email);
     
     public List getProductsByPCID(int PCID);
     
-    public List getProductsByName(String name);
+    public List getProductsByName(String name, boolean perPCID);
     
     public List getProductsByNameAndPCID(int PCID, String name);
     

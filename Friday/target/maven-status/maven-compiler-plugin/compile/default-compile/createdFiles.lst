@@ -1,9 +1,13 @@
 it\unitn\aa1718\webprogramming\servlets\searchServlet.class
 it\unitn\aa1718\webprogramming\dao\MyCookieDAO.class
 <<<<<<< HEAD
+<<<<<<< HEAD
 it\unitn\aa1718\webprogramming\servlets\handlingListServlet.class
 =======
 >>>>>>> m-back-end
+=======
+it\unitn\aa1718\webprogramming\dao\SharingDAO.class
+>>>>>>> l-back-end
 it\unitn\aa1718\webprogramming\servlets\logoutServlet.class
 it\unitn\aa1718\webprogramming\extra\Library$1.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductListDAOImpl.class
@@ -22,6 +26,7 @@ it\unitn\aa1718\webprogramming\servlets\insertProductServlet.class
 it\unitn\aa1718\webprogramming\servlets\loginServlet.class
 it\unitn\aa1718\webprogramming\dao\ShoppingListCategoryDAO.class
 it\unitn\aa1718\webprogramming\friday\ProductList.class
+<<<<<<< HEAD
 it\unitn\aa1718\webprogramming\servlets\insertUserServlet.class
 it\unitn\aa1718\webprogramming\friday\ProductCategory.class
 it\unitn\aa1718\webprogramming\friday\ShoppingListCategory.class
@@ -30,6 +35,14 @@ it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.class
 it\unitn\aa1718\webprogramming\extra\sessionAttribute.class
 =======
 >>>>>>> m-back-end
+=======
+it\unitn\aa1718\webprogramming\friday\Sharing.class
+it\unitn\aa1718\webprogramming\servlets\insertUserServlet.class
+it\unitn\aa1718\webprogramming\friday\ProductCategory.class
+it\unitn\aa1718\webprogramming\friday\ShoppingListCategory.class
+it\unitn\aa1718\webprogramming\dao\entities\MySQLSharingDAOImpl.class
+it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.class
+>>>>>>> l-back-end
 it\unitn\aa1718\webprogramming\friday\ShoppingList.class
 it\unitn\aa1718\webprogramming\encrypt\DBSecurity.class
 it\unitn\aa1718\webprogramming\connection\DAOFactory.class

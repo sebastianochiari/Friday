@@ -9,8 +9,8 @@
 <%@ page import="java.sql.*"%>
 <%@page import="java.util.*"%>
 <%@page import="javax.servlet.*"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -71,8 +71,6 @@
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
                              
-                          
-                            
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${result.rows}" >
                                        <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
@@ -82,13 +80,6 @@
                                  </c:forEach>
                             </form>
                                 
-                                
-                                
-                                
-                                
-                                
-                            
-                              
                             </ul>
 
                         </div>
@@ -101,14 +92,41 @@
                         <!-- START: store -->
                         <div id="store">
                             
-                            <!-- ORDINAMENTO RICERCA -->
-                            <form class="form-inline">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" name="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ORDINAMENTO
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                                <form action="searchServlet" method ="GET">
+                                    <button type="submit" value ="alfabeticamente" class="dropdown-item" name ="order" id="order">
+                                        alfabeticamente
+                                    </button>
+                                    <button type="submit" value ="categoria" class="dropdown-item" name ="order" id="order">
+                                        per categoria
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            
+                            
+                            
+                            
+                            <%-- ORDINAMENTO RICERCA
+                            <form class="form-inline" method="GET" action="searchServlet">
                                 <span class="text-uppercase mr-3">ordina:</span>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>per categoria</option>
-                                    <option>alfabeticamente</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
+                                    <option>
+                                        <button type="submit" value ="alfabeticamente" class="dropdown-item" name ="order" >
+                                            alfabeticamente
+                                        </button>
+                                    </option>
+                                    <option>       
+                                        <button type="submit" value ="per categoria" class="dropdown-item" name ="order" >
+                                            per categoria
+                                        </button>
+                                    </option>
                                 </select>
                             </form>
+                            --%>                           
                             
 <!--
                             <p class="mt-3">

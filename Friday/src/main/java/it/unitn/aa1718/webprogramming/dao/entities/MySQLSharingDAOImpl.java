@@ -6,39 +6,40 @@
 package it.unitn.aa1718.webprogramming.dao.entities;
 
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
-import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
-import it.unitn.aa1718.webprogramming.friday.ProductList;
+import it.unitn.aa1718.webprogramming.dao.SharingDAO;
+import it.unitn.aa1718.webprogramming.friday.Sharing;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-
+import java.util.ArrayList;
 /**
  *
  * @author leo97
  */
-public class MySQLProductListDAOImpl implements ProductListDAO{
+public class MySQLSharingDAOImpl implements SharingDAO{
     
-    private static final String Create_Query = "INSERT INTO product_lists (PID, LID, quantity) VALUES (?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO sharing (email, LID) VALUES (?, ?)";
     
-    private static final String Read_Query = "SELECT PID, LID, quantity FROM product_lists WHERE (PID = ? and LID = ?)";
+    private static final String Read_Query = "SELECT email, LID FROM sharing WHERE (email = ? and LID = ?)";
     
-    private static final String Read_PIDsbyLID_Query = "SELECT PID, LID, quantity FROM product_lists WHERE LID = ?";
+    private static final String Read_All_Emails_By_LID_Query = "SELECT email, LID FROM sharing WHERE LID = ?";
     
-    private static final String Read_All_Query = "SELECT PID, LID, quantity FROM product_lists";
+    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID FROM sharing WHERE email = ?";
+    
+    private static final String Read_All_Query = "SELECT email, LID FROM sharing";
         
-    private static final String Update_Query = "UPDATE product_lists SET PID=?, LID=?, quantity=? WHERE (PID = ? and LID = ?)";
+    private static final String Update_Query = "UPDATE sharing SET email=?, LID=? WHERE (email = ? and LID = ?)";
     
-    private static final String Delete_Query = "DELETE FROM product_lists WHERE (PID = ? and LID = ?)";
+    private static final String Delete_Query = "DELETE FROM sharing WHERE (email = ? and LID = ?)";
 
     @Override
-    public List getAllProductLists() {
+    public List getAllSharing() {
         
-        List productLists = new ArrayList();
-        ProductList productList = null;
+        List sharings = new ArrayList();
+        Sharing sharing = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
@@ -49,8 +50,8 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                productList = new ProductList(result.getInt(1), result.getInt(2), result.getInt(3));
-                productLists.add(productList);
+                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharings.add(sharing);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,27 +73,72 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
             }
         }
         
-        return productLists;
+        return sharings;
+        
     }
 
     @Override
-    public List getPIDsByLID(int LID) {
+    public List getAllListByEmail(String email) {
         
-        List productLists = new ArrayList();
-        ProductList productList = null;
+        List sharings = new ArrayList();
+        Sharing sharing = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
+        
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_PIDsbyLID_Query);
+            preparedStatement = connection.prepareStatement(Read_All_LIDs_By_Email_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharings.add(sharing);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return sharings;
+    }
+
+    @Override
+    public List getAllEmailsbyList(int LID) {
+        
+        List sharings = new ArrayList();
+        Sharing sharing = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_All_Emails_By_LID_Query);
             preparedStatement.setInt(1, LID);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                productList = new ProductList(result.getInt(1), result.getInt(2), result.getInt(3));
-                productLists.add(productList);
+                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharings.add(sharing);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,27 +160,27 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
             }
         }
         
-        return productLists;
-        
+        return sharings;
     }
 
     @Override
-    public ProductList getProductList(int PID, int LID) {
+    public Sharing getSharing(int LID, String email) {
         
-        ProductList productList = null;
+        Sharing sharing = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
+        
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_Query);
-            preparedStatement.setInt(1, PID);
+            preparedStatement.setString(1, email);
             preparedStatement.setInt(2, LID);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                productList = new ProductList(result.getInt(1), result.getInt(2), result.getInt(3));
+                sharing = new Sharing(result.getString(1), result.getInt(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -156,25 +202,24 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
             }
         }
         
-        return productList;
+        return sharing;
     }
 
     @Override
-    public String createProductList(ProductList productList) {
+    public String createSharing(Sharing sharing) {
         
-        Connection conn = null;
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
+        
         try {
-                     
-            conn = MySQLDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setInt(1, productList.getPID());
-            preparedStatement.setInt(2, productList.getLID());
-            preparedStatement.setInt(3, productList.getQuantity());
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, sharing.getEmail());
+            preparedStatement.setInt(2, sharing.getLID());
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
- 
+            
             if (result.next() && result != null) {
                 return result.getString(1);
             } else {
@@ -194,39 +239,45 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
                 sse.printStackTrace();
             }
             try {
-                conn.close();
+                connection.close();
             } catch (Exception cse) {
                 cse.printStackTrace();
             }
         }
- 
+        
         return null;
     }
 
     @Override
-    public boolean updateProductList(ProductList productList) {
-        
-        Connection conn = null;
+    public boolean updateSharing(Sharing sharing) {
+
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        
         try {
-            conn = MySQLDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(Update_Query);
-            preparedStatement.setInt(1, productList.getPID());
-            preparedStatement.setInt(2, productList.getLID());
-            preparedStatement.setInt(3, productList.getQuantity());
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Update_Query);
+            preparedStatement.setString(1, sharing.getEmail());
+            preparedStatement.setInt(2, sharing.getLID());
             preparedStatement.execute();
-            return true;
             
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
             try {
                 preparedStatement.close();
             } catch (Exception sse) {
                 sse.printStackTrace();
             }
             try {
-                conn.close();
+                connection.close();
             } catch (Exception cse) {
                 cse.printStackTrace();
             }
@@ -236,34 +287,41 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
     }
 
     @Override
-    public boolean deleteProductList(ProductList productList) {
+    public boolean deleteSharing(Sharing sharing) {
         
-        Connection conn = null;
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        
         try {
-            conn = MySQLDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(Delete_Query);
-            preparedStatement.setInt(1, productList.getPID());
-            preparedStatement.setInt(2, productList.getLID());
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Delete_Query);
+            preparedStatement.setString(1, sharing.getEmail());
+            preparedStatement.setInt(2, sharing.getLID());
             preparedStatement.execute();
-            return true;
             
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
             try {
                 preparedStatement.close();
             } catch (Exception sse) {
                 sse.printStackTrace();
             }
             try {
-                conn.close();
+                connection.close();
             } catch (Exception cse) {
                 cse.printStackTrace();
             }
         }
         
         return false;
+        
     }
-    
 }

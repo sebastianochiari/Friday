@@ -59,12 +59,8 @@
             String DBUrl = MySQLDAOFactory.getDBUrl();
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
-<<<<<<< HEAD
             String DBDriver = MySQLDAOFactory.getDBDriver();
             
-=======
-
->>>>>>> frontEnd
             (request.getSession()).setAttribute("DBUrlSession", DBUrl);
             (request.getSession()).setAttribute("DBUserSession", DBUser);
             (request.getSession()).setAttribute("DBPassSession", DBPass);
@@ -160,12 +156,7 @@
                     cse.printStackTrace();
                 }
             }
-<<<<<<< HEAD
             
-=======
-
-
->>>>>>> frontEnd
         %>
 
         <!-- START: topHeader -->

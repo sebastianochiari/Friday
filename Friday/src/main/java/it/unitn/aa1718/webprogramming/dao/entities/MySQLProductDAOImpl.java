@@ -24,13 +24,15 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Create_Query = "INSERT INTO products (PID, name, note, logo, photo, PCID, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID = ?";
+    private static final String Read_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID = ? ORDER BY name";
     
     private static final String Read_Email_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE email = ? ORDER BY name";
     
     private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ? ORDER BY name";
     
     private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY name";
+    
+    private static final String Read_Name_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY PCID";
     
     private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?)) ORDER BY Name;";
     
@@ -43,7 +45,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     private static final String Delete_Query = "DELETE FROM prpducts WHERE PID = ?";
     
     @Override
-    public List getAllProducts(String order) {
+    public List getAllProducts() {
         
         List products = new ArrayList();
         Product product = null;
@@ -52,10 +54,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
         ResultSet result = null;
         try {
             connection = MySQLDAOFactory.createConnection();
-            if(order == "per categoria")
-                preparedStatement = connection.prepareStatement(Read_All_Query_Order_By_PCID);
-            else
-                preparedStatement = connection.prepareStatement(Read_All_Query);
+            preparedStatement = connection.prepareStatement(Read_All_Query);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
@@ -319,7 +318,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List getProductsByName(String name) {
+    public List getProductsByName(String name, boolean perPCID) {
         List products = new ArrayList();
         Product product = null;
         Connection connection = null;
@@ -327,9 +326,13 @@ public class MySQLProductDAOImpl implements ProductDAO {
         ResultSet result = null;
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_Name_Query);
+            
+            if(perPCID)
+                preparedStatement = connection.prepareStatement(Read_Name_Query_Order_By_PCID);
+            else
+                preparedStatement = connection.prepareStatement(Read_Name_Query);
+            
             preparedStatement.setString(1, "%" + name + "%");
-
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             

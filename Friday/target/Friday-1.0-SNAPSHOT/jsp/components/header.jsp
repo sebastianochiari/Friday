@@ -47,7 +47,7 @@
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${result.rows}" >
                                        <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
-                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="selectedPCategory" >
+                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="inputClick" id="inputClick">
                                            ${res.Name}
                                        </button>
                                  </c:forEach>

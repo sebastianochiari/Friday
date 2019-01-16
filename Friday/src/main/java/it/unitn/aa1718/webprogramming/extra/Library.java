@@ -7,9 +7,11 @@ package it.unitn.aa1718.webprogramming.extra;
 
 import it.unitn.aa1718.webprogramming.connection.*;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
+import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.sql.Connection;
@@ -322,4 +324,21 @@ public class Library {
         
     }
     
+    public String[][] getSearchResults(List products, ProductCategoryDAO productCategoryDAO){
+        
+        String[][] searchProductResult = new String[products.size()][7];
+        
+        for(int i=0; i<products.size(); i++){
+
+                searchProductResult[i][0] = Integer.toString(((Product)(products.get(i))).getPID());
+                searchProductResult[i][1] = ((Product)(products.get(i))).getName();
+                searchProductResult[i][2] = ((Product)(products.get(i))).getNote();
+                searchProductResult[i][3] = ((Product)(products.get(i))).getLogo();
+                searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
+                searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
+                searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
+
+            }
+        return searchProductResult;
+    }
 }

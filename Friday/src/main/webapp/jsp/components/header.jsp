@@ -85,27 +85,16 @@
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
                             <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE List_Owner = '${emailSession}';"></sql:query>
 
-
                             <form action="handlingListServlet" method="GET">
                                 <%--<a class="dropdown-item" href="gestioneListe.jsp">Gestione liste</a>--%>
-                                <button type="submit" value="0" class="dropdown-item" name="selectedList" >
+                                <button type="submit" value="10" class="dropdown-item" name="selectedList" >
                                     Gestione Liste
                                 </button>
                                 <c:forEach var="resList" items="${resultList.rows}" >
-                                    <button type="submit" value="${resList.LID}" class="dropdown-item" name="selectedList" >
+                                    <button type="submit" value="${1}${resList.LID}" class="dropdown-item" name="selectedList" >
                                         ${resList.Name}
                                     </button>
-                                    <%--
-                                    <a class="dropdown-item" href="gestioneListe.jsp#${resList.LID}">
-                                        <c:out value="${resList.Name}"></c:out>
-                                    </a>
-                                    --%>
                                 </c:forEach>
-
-                                <%--<a class="dropdown-item" href="gestioneListe.jsp#00">Liste condivise</a>--%>
-                                <button type="submit" value="00" class="dropdown-item" name="selectedList" >
-                                    Liste Condivise
-                                </button>
                             </form>
 
                         </div>

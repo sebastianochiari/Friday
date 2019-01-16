@@ -71,9 +71,10 @@
                     <form method="GET" action="insertShoppingListServlet" enctype="multipart/form-data">
                         <div class="row form-group">
                             <div class="col">
-                                <label>Nome della lista</label>
-                                <input type="text" class="form-control" name="name">
+                                <label for="Email">Nome della lista <strong>*</strong> </label>
+                                <input name="name" type="text" class="form-control" id="name" required="true" aria-describedby="nameHelp" value="${requestScope.name}" required="true">
                             </div>
+                            
                         </div>
                         <div class="form-group">
                                 <label for="LCID">Scegli la categoria di appartenza del prodotto</label>

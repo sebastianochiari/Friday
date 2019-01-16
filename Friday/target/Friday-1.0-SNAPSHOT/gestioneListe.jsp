@@ -107,7 +107,7 @@
                 
                 // START: recupero delle liste condivise dell'utente loggato
                 
-                preparedStatement = connection.prepareStatement("SELECT * FROM sharing WHERE LID = ?;");
+                preparedStatement = connection.prepareStatement("SELECT * FROM sharing WHERE email = ?;");
                 preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
                 preparedStatement.execute();
                 result = preparedStatement.getResultSet();
@@ -117,12 +117,12 @@
                 List sharingLists = null;
                 sharingLists = sharingDAO.getAllListByEmail((String)(request.getSession()).getAttribute("emailSession"));
                 
-                String[][] sharingListResult = new String[sharingLists.size()][2];
+                String[][] sharingListResult = new String[sharingLists.size()][3];
                 
                 for(int i=0; i<sharingLists.size(); i++){
                     sharingListResult[i][0] = ((Sharing)(sharingLists.get(i))).getEmail();
                     sharingListResult[i][1] = Integer.toString(((Sharing)(sharingLists.get(i))).getLID());
-                    //sharingListResult[i][2] = ((Sharing)(sharingLists.get(i))).getName();
+                    sharingListResult[i][2] = ((Sharing)(sharingLists.get(i))).getName();
                 }
                 
                 session.setAttribute("SharingListUserSession", sharingListResult);
@@ -262,7 +262,28 @@
                                 Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti. 
                             </p>
                             <p>
-                                <a href="#" class="text-link">Clicca qui</a> nel caso tu voglia creare una nuova lista
+                                <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Clicca qui</a> nel caso tu voglia creare una nuova lista
+                                <c:set var="goodInsertShoppingList" value="requestScope.goodInsertShoppingList"></c:set>
+                                <c:if test="${!goodInsertShoppingList}">
+                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                </c:if>
+                                <c:if test="${goodInsertShoppingList}">
+                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true" style="display: block">
+                                </c:if>
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content shadow">
+                                             <div class="modal-header">
+                                                 <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                     <span aria-hidden="true">&times;</span>
+                                                 </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <jsp:include page="insertShoppingList.jsp" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                             
                             <h5>

@@ -15,8 +15,8 @@ public class Sharing {
     private String email = null;
     private String name = null;
     private boolean modify;
-    private boolean add;
-    private boolean delete;
+    private boolean addRemProd;
+    private boolean deleteList;
     
     
     public Sharing(String email, int LID, String name, boolean modify, boolean add, boolean delete) {
@@ -25,8 +25,8 @@ public class Sharing {
         this.email = email;
         this.name = name;
         this.modify = modify;
-        this.add = add;
-        this.delete = delete;
+        this.addRemProd = add;
+        this.deleteList = delete;
     }
     
     public int getLID() {           
@@ -62,19 +62,19 @@ public class Sharing {
     }
     
     public boolean getAdd() {           
-        return add;        
+        return addRemProd;        
     }        
     
     public void setAdd() {                
-        this.add = add;        
+        this.addRemProd = addRemProd;        
     }
     
     public boolean getDelete() {           
-        return delete;        
+        return deleteList;        
     }        
     
     public void setDelete() {                
-        this.delete = delete;        
+        this.deleteList = deleteList;        
     }
     
 }

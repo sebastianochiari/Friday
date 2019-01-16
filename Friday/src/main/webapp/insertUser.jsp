@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : insertUser
     Created on : 12-ott-2018, 10.40.00
     Author     : tommi
@@ -45,10 +45,10 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-           
+
     </head>
     <body>
-        
+
         <div class="container">
 
         <!-- LOGO Friday -->
@@ -68,13 +68,13 @@
                         <c:set var="errorCheckEmail" value="${requestScope.errorCheckPassword}"></c:set>
                         <div>
                             <div class="form-group">
-                                <label for="Name">Nome</label>
+                                <label for="Name">Nome <strong>*</strong></label>
                                 <input name="name" type="text" class="form-control" id="name" placeholder="Mario" value="${requestScope.name}"  required="true">
                             </div>
                         </div>
                         <div>
                             <div class="form-group">
-                                <label for="Surname">Cognome</label>
+                                <label for="Surname">Cognome <strong>*</strong></label>
                                 <input name="surname" type="text" class="form-control" id="surname" placeholder="Rossi" value="${requestScope.surname}" required="true">
                             </div>
                         </div>
@@ -86,48 +86,48 @@
                                 <input type="hidden" name="registerForm" value="insertUser.jsp">
                             </div>
                         </div>
-                        
+
                         <div class="row form-group">
                             <div class="col">
                                 <c:if test="${errorEmail eq null}">
-                                    <label for="Email"><strong>*</strong> Email</label>
+                                    <label for="Email">Email <strong>*</strong> </label>
                                     <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                                 </c:if>
                                 <c:if test="${errorEmail eq 'emailError'}">
-                                    <label for="Email"><strong>*</strong> Email</label>
+                                    <label for="Email">Email <strong>*</strong></label>
                                     <input name="email" type="text" class="form-control is-invalid security-form johnCena" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
                                     </div>
                                 </c:if>
-                     
+
                             </div>
                         </div>
                         <div class="form-group">
                             <c:if test="${errorPassword eq null}">
-                                <label for="password"><strong>*</strong> Password</label>
+                                <label for="password">Password <strong>*</strong></label>
                                 <input name="password" type="password" class="form-control security-form johnCena" id="password" required="true" aria-describedby="passwordHelpInline"  required="true">
-                            
+
                                 <p class="footer-info"><small>La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</small></p>
                             </c:if>
                             <c:if test="${errorPassword eq 'errorPassword'}">
-                                <label for="password"><strong>*</strong> Password</label>
+                                <label for="password">Password <strong>*</strong></label>
                                 <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true" required="true">
                                 <div class="invalid-feedback">
-                                    ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
+                                    ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale.
                                 </div>
                             </c:if>
                         </div>
                         <div class="form-group">
                             <c:if test="${errorCheckPassword eq null}">
-                                <label for="password1"><strong>*</strong> Conferma password</label>
+                                <label for="password1">Conferma password <strong>*</strong></label>
                                 <input name ="password1" type="password" class="form-control security-form johnCena" id="password1" require="true" aria-describedby="passwordHelpInline" required="true">
                             </c:if>
                             <c:if test="${errorCheckPassword eq 'errorCheckPassword'}">
-                                <label for="password1"><strong>*</strong> Conferma password</label>
+                                <label for="password1">Conferma password <strong>*</strong></label>
                                 <input name ="password1" type="password" class="form-control is-invalid security-form johnCena" id="password1" require="true" required="true">
                                 <div class="invalid-feedback">
-                                    ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.  
+                                    ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.
                                 </div>
                             </c:if>
                             <div class="form-check mb-3">
@@ -135,29 +135,31 @@
                                 <label class="form-check-label" for="showInput">Mostra password</label>
                             </div>
                         </div>
-                            
-                            
+
+
                         <div class="row">
                             <div class="col-sm">
                                 <label for="Avatar">Avatar</label>
-                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar"> 
+                                <input name ="avatar" type="file" accept=".jpg, .jpeg, .png" id="avatar">
                             </div>
                         </div>
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
-                            <label class="form-check-label" for="exampleCheck1">
-                                <strong>*</strong> <small> Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br><br> <strong> I campi contrassegnati con * sono obbligatori. </strong></small>
-                            </label>
-                        </div>
-                        <div>
-                            <br>
-                        </div>
-                        <div>
+                        <div class="row mt-2">
                             <div class="col-sm">
-                                <button type="submit" class="btn displayCenter login-btn">Registrati</button>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
+                                    <label class="form-check-label" for="exampleCheck1">
+                                        <small> Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="text-link">informativa sulla privacy</a> <strong>*</strong></small>
+                                    </label>
+                                </div>
+                                <small><strong> I campi contrassegnati con * sono obbligatori. </strong></small>
                             </div>
-                            <div class="col-sm mt-1 mb-1">
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-6">
                                 <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn displayCenter login-btn">Registrati</button>
                             </div>
                         </div>
                         <p class="mt-4">Hai già un account Friday? <a href="login.jsp" class="text-link">Accedi</a></p>
@@ -168,8 +170,6 @@
         </div>
 
     </div>
-
-    <br></br>
 
     <div class="footer">
         <!-- Informativa sulla Privacy - Informativa sui Cookie -->
@@ -191,12 +191,12 @@
                 </div>
             </div>
             <div class="displayCenter">
-                <p class="footer-info">© 2018, Friday.com, Inc o società affiliate</p>
+                <p class="footer-info mt-2">© 2018, Friday.com, Inc o società affiliate</p>
             </div>
         </div>
         <br></br>
-    </div>  
-    
+    </div>
+
     <!-- JS Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -209,6 +209,6 @@
 
     <!-- personal JS -->
     <script type="text/javascript" src="js/main.js"></script>
-    
+
     </body>
 </html>

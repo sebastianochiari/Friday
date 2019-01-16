@@ -80,7 +80,7 @@ public class insertProductServlet extends HttpServlet {
         // creazione di product
         Library library = new Library();
         int PID = library.LastEntryTable("PID", "products");
-        String email = request.getParameter("email");
+        String email = (String) (request.getSession()).getAttribute("emailSession");
         String name = request.getParameter("name");
         String note = request.getParameter("note");
         String logo = request.getParameter("logo");
@@ -92,8 +92,8 @@ public class insertProductServlet extends HttpServlet {
         // memorizzazione del nuovo product nel DB
         productDAO.createProduct(product1);
         
-        // recupero di tutti gli product del DB
-        products = productDAO.getAllProducts();
+        request.setAttribute("goodInsertProduct", "true");
+        response.sendRedirect("adminSection.jsp");
         
     }
 

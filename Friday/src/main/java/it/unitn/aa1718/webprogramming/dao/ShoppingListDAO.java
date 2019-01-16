@@ -28,4 +28,6 @@ public interface ShoppingListDAO {
     
     public boolean deleteShoppingList(ShoppingList shoppingList);
     
+    public void updateEmailShoppingList(int LID, String email);
+    
 }

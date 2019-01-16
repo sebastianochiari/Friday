@@ -22,17 +22,21 @@ import java.util.List;
  */
 public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
-    private static final String Create_Query = "INSERT INTO lists (LID, name, note, image, LCID, list_owner) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO lists (LID, name, note, image, LCID, list_owner, cookieID )VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists WHERE LID = ?";
+    private static final String Create_Query_Anonymous = "INSERT INTO lists (LID, name, note, image, LCID, list_owner, cookieID )VALUES (?, ?, ?, ?, ?, null, ?)";
     
-    private static final String Read_Email_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists WHERE email = ?";
+    private static final String Read_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE LID = ?";
     
-    private static final String Read_LCID_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists WHERE LCID = ?";
+    private static final String Read_Email_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE list_owner = ?";
     
-    private static final String Read_All_Query = "SELECT LID, name, note, image, LCID, list_owner FROM lists";
+    private static final String Read_LCID_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE LCID = ?";
     
-    private static final String Update_Query = "UPDATE lists SET (LID=?, name=?, note=?, image=?, LCID=?, list_owner=?) WHERE LID = ?)";
+    private static final String Read_All_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists";
+    
+    private static final String Update_Query = "UPDATE lists SET LID=?, name=?, note=?, image=?, LCID=?, list_owner=?, cookieID=? WHERE LID = ?";
+    
+    private static final String Update_Email_Query = "UPDATE lists SET list_owner = ? WHERE LID = ?";
     
     private static final String Delete_Query = "DELETE FROM lists WHERE LID = ?";
     
@@ -51,7 +55,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7));
                 shoppingLists.add(shoppingList);
             }
         } catch (SQLException e) {
@@ -88,12 +92,12 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_Email_Query);
-            preparedStatement.setString(5, email);
+            preparedStatement.setString(1, email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7));
                 shoppingLists.add(shoppingList);
             }
         } catch (SQLException e) {
@@ -135,7 +139,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6),result.getInt(7));
                 shoppingLists.add(shoppingList);
             }
         } catch (SQLException e) {
@@ -177,7 +181,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
             result = preparedStatement.getResultSet();
  
             if (result.next() && result != null) {
-                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6));
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7));
             } 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -207,15 +211,26 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
-        try {
+        System.out.println("LID = "+shoppingList.getLID()+" name = "+shoppingList.getName()+" note = "+shoppingList.getNote()+" list owner = "+shoppingList.getListOwner()+" LCID = "+shoppingList.getLCID()+" COOKIEID = "+shoppingList.getCookieID());
+        try {      
+            
             conn = MySQLDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
+            if(shoppingList.getListOwner() != null){
+                preparedStatement = conn.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(6, shoppingList.getListOwner());
+                preparedStatement.setInt(7, shoppingList.getCookieID());
+            }
+            else{
+                preparedStatement = conn.prepareStatement(Create_Query_Anonymous, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setInt(6, shoppingList.getCookieID());
+            }
+            
             preparedStatement.setInt(1, shoppingList.getLID());
             preparedStatement.setString(2, shoppingList.getName());
             preparedStatement.setString(3, shoppingList.getNote());
             preparedStatement.setString(4, shoppingList.getImage());
-            preparedStatement.setInt(5, shoppingList.getLCID());
-            preparedStatement.setString(6, shoppingList.getListOwner());
+            preparedStatement.setInt(5, shoppingList.getLCID());    
+            
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
  
@@ -261,6 +276,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
             preparedStatement.setString(4, shoppingList.getImage());
             preparedStatement.setInt(5, shoppingList.getLCID());
             preparedStatement.setString(6, shoppingList.getListOwner());
+            preparedStatement.setInt(7, shoppingList.getCookieID());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -306,6 +322,35 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         }
         
         return false;
+    }
+
+    @Override
+    public void updateEmailShoppingList(int LID, String email) {
+        
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Update_Email_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setInt(2, LID);
+            preparedStatement.execute();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
     }
     
 }

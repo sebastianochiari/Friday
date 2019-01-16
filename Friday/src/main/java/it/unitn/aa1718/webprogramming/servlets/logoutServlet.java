@@ -7,7 +7,6 @@ package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
-import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -86,7 +85,14 @@ public class logoutServlet extends HttpServlet {
         
         session.setAttribute("emailSession", null);
         session.setAttribute("cookieIDSession", null);
+        String boolEmailSession = request.getParameter("boolEmailSession");
+        String emailSession = "false";
+        if (emailSession.equals(boolEmailSession)){
+            request.setAttribute("boolEmailSession", false);
+        }
         session.invalidate();
+        
+        
         
         response.sendRedirect("index.jsp");
         

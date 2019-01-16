@@ -69,17 +69,11 @@ public class insertProductCategoryServlet extends HttpServlet {
         ProductCategory productCategory = null;
         
         ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
-        
-//        // cancellazione di product memorizzati sul DB
-//        productCategories = productCategoryDAO.getAllProductCategories();
-//        for (Object u : productCategories) {
-//            productCategoryDAO.deleteProductCategory((ProductCategoryCategory) u);
-//        }
 
         // creazione di productCategory
         Library library = new Library();
         int PCID = library.LastEntryTable("PCID", "product_categories");
-        String email = request.getParameter("email");
+        String email = (String) (request.getSession()).getAttribute("emailSession");
         String name = request.getParameter("name");
         String note = request.getParameter("note");
         String logo = request.getParameter("logo");
@@ -91,6 +85,9 @@ public class insertProductCategoryServlet extends HttpServlet {
         
         // recupero di tutti gli productCategory del DB
         productCategories = productCategoryDAO.getAllProductCategories();
+        
+        request.setAttribute("goodInsertProductCategory", "true");
+        response.sendRedirect("adminSection.jsp");        
         
     }
 

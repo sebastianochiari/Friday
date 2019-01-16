@@ -19,9 +19,10 @@ public class User {
     private String avatar = null;
     private boolean admin;
     private boolean list_owner;
+    private boolean confirmed;
     private int sharing_list[] = null;
     
-    public User(String email, String password, String name, String surname, String avatar, boolean admin, boolean list_owner) {
+    public User(String email, String password, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) {
         super();
         this.email = email;
         this.password = password;
@@ -30,6 +31,7 @@ public class User {
         this.avatar = avatar;
         this.admin = admin;
         this.list_owner = list_owner;
+        this.confirmed = confirmed;
         this.sharing_list = new int[100];
     }
     
@@ -75,6 +77,14 @@ public class User {
     public void setListOwner() {        
         this.list_owner = list_owner;    
     }
+    
+    public Boolean getConfirmed() {        
+        return confirmed;    
+    }    
+    public void setConfirmed() {        
+        this.confirmed = confirmed;    
+    }
+    
     public int[] getSharingList() {        
         return sharing_list;    
     }    

@@ -21,7 +21,9 @@ import javax.servlet.http.Cookie;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
+import it.unitn.aa1718.webprogramming.friday.User;
 import java.sql.Timestamp;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -81,63 +83,64 @@ public class loginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        DBSecurity encrypt = new DBSecurity();
-
+        //connessione
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        
+        //struttura utenti
         UserDAO riverUserDAO = mySqlFactory.getUserDAO();
-        MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
-
-        // List myCookies = null; da implementare, dovremmo salvarci tutti i cookie del DB
-        MyCookie myCookie = null;
-        MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
-
-        List users = null;
         UserDAO userDAO = new MySQLUserDAOImpl();
+        List users = null;
+        
+        //struttura cookie
+        MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+        MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+        MyCookie myCookie = null;
+        
+        //cose che servono
+        DBSecurity encrypt = new DBSecurity();
+        HttpSession session = request.getSession();
         Library library = new Library();
       
+        //dati pagina jsp
         String email = null;
         String password = null;
         String ricordami = null;
-        
         String typeError = null;
         String registerForm = null;
+        
         email = request.getParameter("email");
         password = request.getParameter("password");
         ricordami = request.getParameter("ricordami");
         typeError = request.getParameter("typeError");
         registerForm = request.getParameter("registerForm");
-
-        System.out.println("email:" + email);
-        System.out.println("psw:" + password);
-        System.out.println("ricordami:" + ricordami);
         
-        System.out.println("typeError: " + typeError);
-        System.out.println("registerForm: " + registerForm);
-        
-        System.out.println("EMIL + PASSWORD + ricordami : " + email + password);
+//        System.out.println("email:" + email);
+//        System.out.println("psw:" + password);
+//        System.out.println("ricordami:" + ricordami);
+//        System.out.println("typeError: " + typeError);
+//        System.out.println("registerForm: " + registerForm);
+//        System.out.println("EMIL + PASSWORD + ricordami : " + email + password);
         
         request.setAttribute("email", email);
+        User tmpUser = userDAO.getUser(email);
         
         //ritorna false se non esiste una mail nel database 
-        if (!userDAO.checkUser(email)) {
-            System.out.println("questa email non esiste nel database");
+        if (!userDAO.checkUser(email) || !tmpUser.getConfirmed()) {
+            //System.out.println("questa email non esiste nel database");
             String error = "emailError";
             typeError = error;
             request.setAttribute("errorEmail", typeError);
             request.getRequestDispatcher(registerForm).forward(request, response);
             
         } else {
-
-            // questa parte è da fare con un metodo di userDAO, come checkUser
                 
             String pswencrypted = encrypt.setSecurePassword(password, email);
-            System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
-        
+            //System.out.println("LA PASSWORD CRIPTATA IN LOGINSERVLET è :" + pswencrypted);
             String dbpassword = userDAO.getPasswordByUserEmail(email);
         
             if (pswencrypted.equals(dbpassword)) {
 
-                System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
+                //System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
                 //elimina cookie scaduti
                 myCookieDAO.deleteDBExpiredCookies();
 
@@ -159,27 +162,27 @@ public class loginServlet extends HttpServlet {
                     } else {
 
                         cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
+                        Deadline = timestamp.getTime();
                     }
 
                     int LID = -1;
-                    myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline));
-                    (request.getSession()).setAttribute("sessionCookie", myCookieDAO.getCookie(request, email));
+                    //System.out.println("COOKIE ID = "+library.LastEntryTable("cookieID", "cookies")+"+ LID = "+LID+" EMAIL = "+email+" DEADLINE = "+Deadline);
+                    MyCookie myNewCookie = new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline); 
+                    myCookieDAO.createCookie(myNewCookie);
                     response.addCookie(cookie);
+                    session.setAttribute("cookieIDSession", myNewCookie.getCookieID());
                     System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
 
                 } else {
-
                     System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
-                    (request.getSession()).setAttribute("sessionCookie", myCookie);
-
                 }
 
                 response.sendRedirect("index.jsp");
          
             } else {
 
-                System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
-                System.out.println("la password non corrisponde all'email inserita ");
+                //System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
+                //System.out.println("la password non corrisponde all'email inserita ");
                 String error = "errorPassword";
                 typeError = error;
                 request.setAttribute("errorPassword", typeError);
@@ -190,9 +193,7 @@ public class loginServlet extends HttpServlet {
         }  
 
     }
-        
-
-
+       
     /**
      * Returns a short description of the servlet.
      *

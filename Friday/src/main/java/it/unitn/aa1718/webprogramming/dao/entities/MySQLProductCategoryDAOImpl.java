@@ -34,6 +34,9 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
     
     private static final String Delete_Query = "DELETE FROM product_categories WHERE PCID = ?";
     
+    private static final String PCIDbyProductCatName = "SELECT PCID FROM product_categories WHERE Name = ? ";
+    
+    
     @Override
     public List getAllProductCategories() {
         
@@ -260,5 +263,53 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         
         return false;
     }
+    
+    
+    
+    //funzione per prendere prodotti da db in base a input scritto da utente e categoria di prodotto selezionato
+    public int getPCIDbyCategoryName (String pcategory){
+        int PCID = -1;
+       
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(PCIDbyProductCatName);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            result.next();
+            while (result.next()) {
+          //      PCID = new ProductCategory(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5));
+            
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return PCID;
+    }
+
+    
+     
+
+    
+    
     
 }

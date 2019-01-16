@@ -101,7 +101,40 @@
                 session.setAttribute("ListUserSession", searchListResult);
                 session.setAttribute("ListUserSessionSize", lists.size());
                 
+                // START: recupero delle liste condivise dell'utente loggato
+                
+                preparedStatement = connection.prepareStatement("SELECT * FROM sharing WHERE List_Owner = ?;");
+                preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
+                preparedStatement.execute();
+                result = preparedStatement.getResultSet();
+                
+                // mancano i DAO di sharing list
+                
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        
+        
+        try {
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -214,6 +214,7 @@ public class MySQLUserDAOImpl implements UserDAO {
             preparedStatement.setString(4, user.getSurname());
             preparedStatement.setString(5, user.getAvatar());
             preparedStatement.setBoolean(6, user.getAdmin());
+            preparedStatement.setBoolean(7, user.getListOwner());
             preparedStatement.setBoolean(8, user.getConfirmed());
             preparedStatement.setString(9, user.getPassword());
             preparedStatement.execute();

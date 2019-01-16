@@ -80,6 +80,8 @@
                         }
                     }
                 }
+                
+                // START: recupero delle liste che appartengono all'utente loggato
 
                 preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE List_Owner = ?;");
                 preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
@@ -101,40 +103,34 @@
                 session.setAttribute("ListUserSession", searchListResult);
                 session.setAttribute("ListUserSessionSize", lists.size());
                 
+                // END: recupero delle liste che appartengono all'utente loggato
+                
                 // START: recupero delle liste condivise dell'utente loggato
                 
-                preparedStatement = connection.prepareStatement("SELECT * FROM sharing WHERE List_Owner = ?;");
+                preparedStatement = connection.prepareStatement("SELECT * FROM sharing WHERE LID = ?;");
                 preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
                 preparedStatement.execute();
                 result = preparedStatement.getResultSet();
                 
-                // mancano i DAO di sharing list
+                SharingDAO sharingDAO = new MySQLSharingDAOImpl();
+                
+                List sharingLists = null;
+                sharingLists = sharingDAO.getAllListByEmail((String)(request.getSession()).getAttribute("emailSession"));
+                
+                String[][] sharingListResult = new String[sharingLists.size()][2];
+                
+                for(int i=0; i<sharingLists.size(); i++){
+                    sharingListResult[i][0] = ((Sharing)(sharingLists.get(i))).getEmail();
+                    sharingListResult[i][1] = Integer.toString(((Sharing)(sharingLists.get(i))).getLID());
+                    //sharingListResult[i][2] = ((Sharing)(sharingLists.get(i))).getName();
+                }
+                
+                session.setAttribute("SharingListUserSession", sharingListResult);
+                session.setAttribute("SharingListUserSessionSize", sharingLists.size());
+                
+                // END: recupero delle liste condivise dell'utente loggato                
                 
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                result.close();
-            } catch (Exception rse) {
-                rse.printStackTrace();
-            }
-            try {
-                preparedStatement.close();
-            } catch (Exception sse) {
-                sse.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (Exception cse) {
-                cse.printStackTrace();
-            }
-        }
-        
-        
-        
-        try {
-            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -174,23 +170,24 @@
                     <div id="aside" class="col-md-3">
                         <!-- aside widget -->
                         <div class="aside">
+                            
+                            <c:set var="listaAttiva" value="${requestScope.listaAttiva}"></c:set>
 
                             <h3 class="aside-title">Le mie liste:</h3>
                             <ul class="list-links">
                                 
                                 <form action="handlingListServlet" method="GET">
-                                
-                                    <c:set var="listaAttiva" value="${requestScope.listaAttiva}"></c:set>
+                            
                                     <!-- so che è codice ripetuto ma non so come fare altrimenti -->
                                     <c:if test="${listaAttiva eq 0}">
-                                        <li><button type="submit" value="0" name="selectedList">
+                                        <li><button type="submit" value="10" name="selectedList">
                                             Gestione Liste
                                         </button></li>
                                         <%--<li class="active"><a href="#" id="0">Gestione liste</a></li>--%>
                                         <c:set var="attiva0" value="active <- attiva0"></c:set>
                                     </c:if>
                                     <c:if test="${listaAttiva ne 0}">
-                                         <li><button type="submit" value="0" name="selectedList">
+                                         <li><button type="submit" value="10" name="selectedList">
                                             Gestione Liste
                                         </button></li>
                                         <%--
@@ -199,36 +196,55 @@
                                     </c:if>
 
                                     <c:forEach items="${ListUserSession}" var="lista">
+                                        <c:set var="listaUser" value="${lista}"></c:set>
                                         <c:if test="${listaAttiva eq lista[1]}">
                                             <li>
-                                            <button type="submit" value="${lista[1]}" name="selectedList">
+                                            <button type="submit" value="${1}${lista[1]}" name="selectedList">
                                                 ${lista[0]}
+                                            </button>
+                                            </li>
+                                            <c:set var="attiva" value="active"></c:set>
+                                        </c:if>
+                                        <c:if test="${listaAttiva ne lista[1]}">
+                                            <li>
+                                            <button type="submit" value="${1}${lista[1]}" name="selectedList">
+                                                ${lista[0]}
+                                            </button>
+                                            </li>
+                                            <c:set var="attiva" value="notActive"></c:set>
+                                        </c:if> 
+                                    </c:forEach>
+                                </form>
+                            </ul>
+
+                            <h3 class="aside-title">Liste condivise:</h3>
+                            <c:if test="${SharingListUserSessionSize eq 0}">
+                                <p>Non hai nessuna lista condivisa</p>
+                            </c:if>
+                            <ul class="list-links">
+                                <form action="handlingListServlet" method="GET">
+                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                        <c:if test="${listaAttiva eq listaCondivisa[1]}">
+                                            <li>
+                                            <button type="submit" value="${2}${listaCondivisa[1]}" name="selectedList">
+                                                ${listaCondivisa[2]}
                                             </button>
                                             </li>
                                             <%--<li class="active"><a href="#" id="${lista[1]}">${lista[0]}</a></li>--%>
                                             <c:set var="attiva" value="active"></c:set>
                                         </c:if>
-                                        <c:if test="${listaAttiva ne lista[1]}">
+                                        <c:if test="${listaAttiva ne listaCondivisa[1]}">
                                             <li>
-                                            <button type="submit" value="${lista[1]}" name="selectedList">
-                                                ${lista[0]}
+                                            <button type="submit" value="${2}${listaCondivisa[1]}" name="selectedList">
+                                                ${listaCondivisa[2]}
                                             </button>
                                             </li>
                                             <%--
                                             <li><a href="#" id="${lista[1]}">${lista[0]}</a></li>--%>
                                             <c:set var="attiva" value="notActive"></c:set>
                                         </c:if> 
-
-
                                     </c:forEach>
                                 </form>
-                            </ul>
-
-                            <h3 class="aside-title">Liste condivise:</h3>
-                            <p>Non hai nessuna lista condivisa</p>
-                            <ul class="list-links">
-                                <li><a href="#">Lista #1</a></li>
-                                <li><a href="#">Lista #2</a></li>
                             </ul>
 
                         </div>

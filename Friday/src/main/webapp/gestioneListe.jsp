@@ -76,7 +76,6 @@
                             (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
                             System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
 
-
                         }
                     }
                 }
@@ -93,36 +92,57 @@
                 List lists = null;
                 lists = shoppingListDAO.getShoppingListsByOwner((String)(request.getSession()).getAttribute("emailSession"));
 
-                String[][] searchListResult = new String[lists.size()][2];
-
+                String[][] searchListResult = new String[lists.size()][3];
+                
+                // START: recupero della categoria di lista
+                int LCID = 0;
+                ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+                
+                // slc = shoppingListCategory
+                ShoppingListCategory slc = null;
+                
                 for(int i=0; i<lists.size(); i++){
                     searchListResult[i][0] = ((ShoppingList)(lists.get(i))).getName();
                     searchListResult[i][1] = Integer.toString(((ShoppingList)(lists.get(i))).getLID());
+                    LCID = ((ShoppingList)(lists.get(i))).getLCID();
+                    slc = shoppingListCategoryDAO.getShoppingListCategory(LCID);
+                    searchListResult[i][2] = ((ShoppingListCategory)(slc)).getName();        
                 }
-
+                
+                // END: recupero della categoria di lista
+                
                 session.setAttribute("ListUserSession", searchListResult);
                 session.setAttribute("ListUserSessionSize", lists.size());
                 
                 // END: recupero delle liste che appartengono all'utente loggato
                 
                 // START: recupero delle liste condivise dell'utente loggato
-                
-                preparedStatement = connection.prepareStatement("SELECT * FROM sharing WHERE email = ?;");
-                preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
-                preparedStatement.execute();
-                result = preparedStatement.getResultSet();
-                
+                                
                 SharingDAO sharingDAO = new MySQLSharingDAOImpl();
                 
                 List sharingLists = null;
                 sharingLists = sharingDAO.getAllListByEmail((String)(request.getSession()).getAttribute("emailSession"));
                 
-                String[][] sharingListResult = new String[sharingLists.size()][3];
+                String[][] sharingListResult = new String[sharingLists.size()][4];
                 
                 for(int i=0; i<sharingLists.size(); i++){
                     sharingListResult[i][0] = ((Sharing)(sharingLists.get(i))).getEmail();
-                    sharingListResult[i][1] = Integer.toString(((Sharing)(sharingLists.get(i))).getLID());
-                    sharingListResult[i][2] = ((Sharing)(sharingLists.get(i))).getName();
+                    sharingListResult[i][1] = Integer.toString(((Sharing)(sharingLists.get(i))).getLID()); 
+                }
+                
+                for(int i=0; i<sharingLists.size(); i++){
+                    for(int j=0; j<lists.size(); j++){
+                        System.out.println("+++++++sharingListResult[i][1]: "+sharingListResult[i][1]+" +++++++++");
+                        System.out.println("+++++++sharingListResult[i][1]: "+searchListResult[j][1]+" +++++++++");
+                        int tmp1 = Integer.parseInt(sharingListResult[i][1]);
+                        int tmp2 = Integer.parseInt(searchListResult[j][1]);
+                        if (tmp1 == tmp2) {
+                            sharingListResult[i][2] = searchListResult[j][0];
+                            sharingListResult[i][3] = searchListResult[j][2];
+                            System.out.println("sono dentro l'if dei due for");
+                        }
+                        System.out.println("-------qui invece sono subito dopo l'if--------");
+                    }
                 }
                 
                 session.setAttribute("SharingListUserSession", sharingListResult);
@@ -175,23 +195,18 @@
 
                             <h3 class="aside-title">Le mie liste:</h3>
                             <ul class="list-links">
-                                
+                                <!-- START: liste personali -->
                                 <form action="handlingListServlet" method="GET">
-                            
-                                    <!-- so che è codice ripetuto ma non so come fare altrimenti -->
                                     <c:if test="${listaAttiva eq 0}">
                                         <li><button type="submit" value="10" name="selectedList">
                                             Gestione Liste
                                         </button></li>
-                                        <%--<li class="active"><a href="#" id="0">Gestione liste</a></li>--%>
                                         <c:set var="attiva0" value="active <- attiva0"></c:set>
                                     </c:if>
                                     <c:if test="${listaAttiva ne 0}">
-                                         <li><button type="submit" value="10" name="selectedList">
+                                        <li><button type="submit" value="10" name="selectedList">
                                             Gestione Liste
                                         </button></li>
-                                        <%--
-                                        <li><a href="#" id="0">Gestione liste</a></li>--%>
                                         <c:set var="attiva0" value="notActive <- attiva0"></c:set>
                                     </c:if>
 
@@ -215,6 +230,7 @@
                                         </c:if> 
                                     </c:forEach>
                                 </form>
+                                <!-- END: liste personali -->
                             </ul>
 
                             <h3 class="aside-title">Liste condivise:</h3>
@@ -222,6 +238,7 @@
                                 <p>Non hai nessuna lista condivisa</p>
                             </c:if>
                             <ul class="list-links">
+                                <!-- START: liste condivise -->
                                 <form action="handlingListServlet" method="GET">
                                     <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
                                         <c:if test="${listaAttiva eq listaCondivisa[1]}">
@@ -230,7 +247,6 @@
                                                 ${listaCondivisa[2]}
                                             </button>
                                             </li>
-                                            <%--<li class="active"><a href="#" id="${lista[1]}">${lista[0]}</a></li>--%>
                                             <c:set var="attiva" value="active"></c:set>
                                         </c:if>
                                         <c:if test="${listaAttiva ne listaCondivisa[1]}">
@@ -239,12 +255,11 @@
                                                 ${listaCondivisa[2]}
                                             </button>
                                             </li>
-                                            <%--
-                                            <li><a href="#" id="${lista[1]}">${lista[0]}</a></li>--%>
                                             <c:set var="attiva" value="notActive"></c:set>
                                         </c:if> 
                                     </c:forEach>
                                 </form>
+                                <!-- END: liste condivise -->
                             </ul>
 
                         </div>
@@ -264,19 +279,14 @@
                             <p>
                                 <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Clicca qui</a> nel caso tu voglia creare una nuova lista
                                 <c:set var="goodInsertShoppingList" value="requestScope.goodInsertShoppingList"></c:set>
-                                <c:if test="${!goodInsertShoppingList}">
-                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
-                                </c:if>
-                                <c:if test="${goodInsertShoppingList}">
-                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true" style="display: block">
-                                </c:if>
+                                <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content shadow">
-                                             <div class="modal-header">
-                                                 <h5 class="modal-title">Crea una nuova lista della spesa</h5>
-                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                     <span aria-hidden="true">&times;</span>
-                                                 </button>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
                                             <div class="modal-body">
                                                 <jsp:include page="insertShoppingList.jsp" />
@@ -300,48 +310,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th style="text-align: center;" scope="row">1</th>
-                                        <td>Scuola Giovanni</td>
-                                        <td>Scuola</td>
-                                        <td style="text-align: center;">
-                                            <i class="fas fa-check"></i>
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <a href="#" title="Elimina questa lista">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align: center;" scope="row">2</th>
-                                        <td>Lasagne</td>
-                                        <td>Alimentari</td>
-                                        <td style="text-align: center;">
-                                            <i class="fas fa-times"></i>
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <a href="#" title="Elimina questa lista">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align: center;" scope="row">3</th>
-                                        <td>Beer Pong</td>
-                                        <td>Alcolici</td>
-                                        <td style="text-align: center;">
-                                            <i class="fas fa-times"></i>
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <a href="#" title="Elimina questa lista">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <c:set var="counterPL" value="1"></c:set>
+                                    <c:forEach items="${ListUserSession}" var="lista1">
+                                        <tr>
+                                            <th style="text-align: center;" scope="row">${counterPL}</th>
+                                            
+                                            <td>${lista1[0]}</td>
+                                            <td>${lista1[2]}</td>
+                                            <td style="text-align: center;">
+                                                <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                                    <c:if test="${lista1[0] eq listaCondivisa[2]}">
+                                                        <i class="fas fa-check"></i>
+                                                    </c:if>
+                                                    <c:if test="${lista1[0] ne listaCondivisa[2]}">
+                                                        <i class="fas fa-times"></i>
+                                                    </c:if> 
+                                                </c:forEach>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <a href="#" title="Elimina questa lista">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <c:set var="counterPL" value="${counterPL+1}"></c:set>
+                                    </c:forEach>
                                 </tbody>
                             </table>
-                            
                             
                             <h5 class="mt-5">
                                 Liste condivise
@@ -356,47 +351,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th style="text-align: center;" scope="row">1</th>
-                                        <td>Scuola Giovanni</td>
-                                        <td>Scuola</td>
-                                        <td style="text-align: center;">
-                                            <a href="#">
+                                    <c:set var="counterSL" value="1"></c:set>
+                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa1">
+                                        <tr>
+                                            <th style="text-align: center;" scope="row">${counterSL}</th>
+                                            
+                                            <td>${listaCondivisa1[2]}</td>
+                                            <td>${listaCondivisa1[3]}</td>
+                                            <td style="text-align: center;">
+                                                <a href="#">
                                                 <i class="fas fa-sign-out-alt"></i>
                                             </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align: center;" scope="row">2</th>
-                                        <td>Lasagne</td>
-                                        <td>Alimentari</td>
-                                        <td style="text-align: center;">
-                                            <a href="#">
-                                                <i class="fas fa-sign-out-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align: center;" scope="row">3</th>
-                                        <td>Beer Pong</td>
-                                        <td>Alcolici</td>
-                                        <td style="text-align: center;">
-                                            <a href="#">
-                                                <i class="fas fa-sign-out-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                        <c:set var="counterSL" value="${counterSL+1}"></c:set>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                             
                         
                         </div>
                         <!-- END: list -->
-                        
-                        
-                        <div id="prova" aria-labelledby="lista1">
-                            ciao
-                        </div>
                     
                     </div>
                     <!-- END: main -->

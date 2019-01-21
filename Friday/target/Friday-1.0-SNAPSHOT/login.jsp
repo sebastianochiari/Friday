@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : login
     Created on : 19-ott-2018, 9.28.16
     Author     : marta
@@ -50,7 +50,7 @@
                     <h3>Accedi</h3>
                     <form  method="POST" action="loginServlet" enctype="application/x-www-form-urlencoded">
                         <div class="form-group">
-                            
+
                             <c:if test="${errorEmail eq null}">
                                 <div class="col-md mt-1 nav-col">
                                     <div class="row">
@@ -61,8 +61,8 @@
                                 </div>
                                 <input name="email" type="text" class="form-control" id="email"  required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                             </c:if>
-                            
-                           
+
+
                         <c:if test="${errorEmail eq 'emailError'}">
                             <div class="col-md mt-1 nav-col">
                                 <div class="row">
@@ -77,9 +77,9 @@
                             </div>
                         </c:if>
                         </div>
-                        
+
                         <div class="form-group">
-                            
+
                             <c:if test="${errorPassword eq null}">
                                 <div class="col-md mt-1 nav-col">
                                     <div class="row">
@@ -95,7 +95,7 @@
                                 </div>
                                 <input type="password" class="form-control security-form johnCena" name="password"  required="true">
                             </c:if>
-                            
+
                             <c:if test="${errorPassword eq 'errorPassword'}">
                                 <div class="col-md mt-1 nav-col">
                                     <div class="row">
@@ -111,25 +111,25 @@
                                 </div>
                                 <input name="password" type="password" class="form-control is-invalid security-form johnCena" id="password" required="true"  required="true">
                                 <div class="invalid-feedback">
-                                    ATTENZIONE! La password è errata. 
+                                    ATTENZIONE! La password è errata.
                                 </div>
                             </c:if>
-                                         
+
                         </div>
                         <div class="form-group form-check">
                             <div class="col-md mt-1 nav-col">
                                 <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInput">
                                 <label class="form-check-label" for="showInput">Mostra password</label>
-                            </div> 
+                            </div>
                         </div>
-                                    
-                        
+
+
                         <div class="form-group form-check">
                             <div class="col-md mt-1 nav-col">
                                 <input name = "ricordami" type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">Ricordami</label>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-sm mt-1 mb-1">
@@ -139,7 +139,7 @@
                                 <button type="button" onclick="goBack()" class="btn displayCenter login-btn">Annulla</button>
                             </div>
                         </div>
-                        
+
                         <div>
                             <div class="form-group">
                                 <input type="hidden" name="typeError" value="null">
@@ -179,13 +179,13 @@
                 <div class="col-sm">
                 </div>
             </div>
-            <div class="displayCenter mt-3">
-                <p class="footer-info">© 2018, Friday.com, Inc o società affiliate</p>
+            <div class="displayCenter">
+                <p class="footer-info mt-2">© 2018, Friday.com, Inc o società affiliate</p>
             </div>
             <br>
         </div>
     </div>
-    
+
     <!-- JS Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -202,4 +202,3 @@
 </body>
 
 </html>
-

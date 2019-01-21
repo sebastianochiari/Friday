@@ -28,6 +28,8 @@ public abstract class DAOFactory {
     
     public abstract SharingDAO getSharingDAO();
     
+    public abstract MessageDAO getMessageDAO();
+    
     public static DAOFactory getDAOFactory() {
         return new MySQLDAOFactory();
     }

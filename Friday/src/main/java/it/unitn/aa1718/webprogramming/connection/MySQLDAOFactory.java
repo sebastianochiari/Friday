@@ -94,4 +94,9 @@ public class MySQLDAOFactory extends DAOFactory {
     public SharingDAO getSharingDAO() {
         return new MySQLSharingDAOImpl();
     }
+    
+    @Override
+    public MessageDAO getMessageDAO() {
+        return new MySQLMessageDAOImpl();
+    }
 }

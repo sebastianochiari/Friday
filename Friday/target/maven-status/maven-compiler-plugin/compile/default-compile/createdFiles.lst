@@ -1,7 +1,9 @@
+it\unitn\aa1718\webprogramming\dao\entities\MySQLMessageDAOImpl.class
 it\unitn\aa1718\webprogramming\servlets\searchServlet.class
 it\unitn\aa1718\webprogramming\dao\MyCookieDAO.class
 it\unitn\aa1718\webprogramming\servlets\handlingListServlet.class
 it\unitn\aa1718\webprogramming\dao\SharingDAO.class
+it\unitn\aa1718\webprogramming\dao\MessageDAO.class
 it\unitn\aa1718\webprogramming\servlets\logoutServlet.class
 it\unitn\aa1718\webprogramming\extra\Library$1.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductListDAOImpl.class
@@ -13,6 +15,7 @@ it\unitn\aa1718\webprogramming\friday\Product.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLUserDAOImpl.class
 it\unitn\aa1718\webprogramming\friday\User.class
 it\unitn\aa1718\webprogramming\dao\ProductCategoryDAO.class
+it\unitn\aa1718\webprogramming\friday\Message.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListCategoryDAOImpl.class
 it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.class
 it\unitn\aa1718\webprogramming\servlets\securityServlet.class
@@ -32,6 +35,7 @@ it\unitn\aa1718\webprogramming\encrypt\DBSecurity.class
 it\unitn\aa1718\webprogramming\connection\DAOFactory.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLMyCookieDAOImpl.class
+it\unitn\aa1718\webprogramming\services\MapGroupGenerator.class
 it\unitn\aa1718\webprogramming\dao\ProductListDAO.class
 it\unitn\aa1718\webprogramming\dao\UserDAO.class
 it\unitn\aa1718\webprogramming\friday\MyCookie.class

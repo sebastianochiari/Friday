@@ -106,7 +106,7 @@ public class searchServlet extends HttpServlet {
             session.setAttribute("inputSearch", null);
             session.setAttribute("PCID", -1);
             session.setAttribute("inputClick", inputClick);
-          }
+         
         }
 
         if(request.getParameter("inputSearch") != null){
@@ -177,8 +177,6 @@ public class searchServlet extends HttpServlet {
                
         //ridireziono alla pagina di ricerca
         response.sendRedirect("search.jsp");
-        
-        
               
     }
 

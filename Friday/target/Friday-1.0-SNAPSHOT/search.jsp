@@ -74,11 +74,7 @@
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${result.rows}" >
                                        <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
-<<<<<<< HEAD
                                        <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="CategoryLeft" id="CategoryLeft">
-=======
-                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="CategoryLeft" id="CategoryLeft" >
->>>>>>> m-back-end
                                            ${res.Name}
                                        </button>
                                  </c:forEach>

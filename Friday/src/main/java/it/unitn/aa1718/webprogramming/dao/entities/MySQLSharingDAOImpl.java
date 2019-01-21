@@ -27,7 +27,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
     
     private static final String Read_All_Emails_By_LID_Query = "SELECT email, LID, name, modify, add, delete FROM sharing WHERE LID = ?";
     
-    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID, name, modify, add, delete FROM sharing WHERE email = ?";
+    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID, name, modify, addRemProd, deleteList FROM sharing WHERE email = ?";
     
     private static final String Read_All_Query = "SELECT email, LID, name, modify, add, delete FROM sharing";
         

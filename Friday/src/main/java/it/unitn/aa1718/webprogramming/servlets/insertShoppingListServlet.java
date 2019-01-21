@@ -126,6 +126,9 @@ public class insertShoppingListServlet extends HttpServlet {
             // recupero di tutti gli shoppingList del DB
             shoppingLists = shoppingListDAO.getAllShoppingLists();
             
+            request.setAttribute("goodInsertShoppingList", "true");
+            response.sendRedirect("gestioneListe.jsp");
+            
        } else {
             response.sendRedirect("faq.jsp");
        }

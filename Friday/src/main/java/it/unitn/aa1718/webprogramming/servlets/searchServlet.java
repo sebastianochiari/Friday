@@ -113,16 +113,16 @@ public class searchServlet extends HttpServlet {
             input = request.getParameter("inputSearch");
             
              
-        if(input.length()< 200){ 
-            
-            session.setAttribute("inputClick", null);
-            session.setAttribute("inputSearch", input);
-            
-        } else {
-          
-             response.sendRedirect("faq.jsp");
-             return;
-            }
+            if(input.length()< 200){ 
+
+                session.setAttribute("inputClick", null);
+                session.setAttribute("inputSearch", input);
+
+            } else {
+
+                 response.sendRedirect("faq.jsp");
+                 return;
+                }
         }
         
         if(request.getParameter("order") != null && request.getParameter("order").equals("categoria")){

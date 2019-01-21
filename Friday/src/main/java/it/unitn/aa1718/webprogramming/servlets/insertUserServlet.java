@@ -71,12 +71,6 @@ public class insertUserServlet extends HttpServlet {
         String avatar = null;
         String typeError = null;
         String registerForm = null;
- 
-        /*   HttpSession session = request.getSession();
-          if (session.getAttribute("email") != null) {
-              response.setStatus(500);
-          }
-        */
 
         email = request.getParameter("email");
         password = request.getParameter("password");
@@ -86,7 +80,6 @@ public class insertUserServlet extends HttpServlet {
         avatar = request.getParameter("avatar");
         typeError = request.getParameter("typeError");
         registerForm = request.getParameter("registerForm");
-        
         
         if(email.length()<200 && password.length()< 200 && name.length()< 200 && surname.length()<500 && avatar.length()<200){ 
 

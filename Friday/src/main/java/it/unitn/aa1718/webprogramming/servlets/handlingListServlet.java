@@ -60,12 +60,17 @@ public class handlingListServlet extends HttpServlet {
         
         Library library = new Library();
         library.recuperoListeUtenteloggato(request);
+        
         int listaSelezionata = Integer.parseInt(request.getParameter("selectedList"));
         
-        System.out.println(listaSelezionata);
+        if (listaSelezionata == 10) {
+            request.setAttribute("listaAttiva", listaSelezionata);
+            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+        } else {
+            request.setAttribute("listaAttiva", listaSelezionata);
+            request.getRequestDispatcher("list.jsp").forward(request, response);
+        }
         
-        request.setAttribute("listaAttiva", listaSelezionata);
-        request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
     }
 
     /**

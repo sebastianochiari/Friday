@@ -21,17 +21,17 @@ import java.util.ArrayList;
  */
 public class MySQLSharingDAOImpl implements SharingDAO{
     
-    private static final String Create_Query = "INSERT INTO sharing (email, LID, name, modify, add, delete) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO sharing (email, LID, name, modify, addRemProd, delete) VALUES (?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT email, LID, name, modify, add, delete FROM sharing WHERE (email = ? and LID = ?)";
+    private static final String Read_Query = "SELECT email, LID, name, modify, addRemProd, delete FROM sharing WHERE (email = ? and LID = ?)";
     
-    private static final String Read_All_Emails_By_LID_Query = "SELECT email, LID, name, modify, add, delete FROM sharing WHERE LID = ?";
+    private static final String Read_All_Emails_By_LID_Query = "SELECT email, LID, name, modify, addRemProd, delete FROM sharing WHERE LID = ?";
     
     private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID, name, modify, addRemProd, deleteList FROM sharing WHERE email = ?";
     
-    private static final String Read_All_Query = "SELECT email, LID, name, modify, add, delete FROM sharing";
+    private static final String Read_All_Query = "SELECT email, LID, name, modify, addRemProd, delete FROM sharing";
         
-    private static final String Update_Query = "UPDATE sharing SET email=?, LID=?, name=?, modify=?, add=?, delete=? WHERE (email = ? and LID = ?)";
+    private static final String Update_Query = "UPDATE sharing SET email=?, LID=?, name=?, modify=?, addRemProd=?, delete=? WHERE (email = ? and LID = ?)";
     
     private static final String Delete_Query = "DELETE FROM sharing WHERE (email = ? and LID = ?)";
 

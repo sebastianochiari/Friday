@@ -49,131 +49,6 @@
 
 <body id="top">
     
-    <!-- START: recupero delle liste dell'utente loggato -->
-    <%
-        Cookie[] cookies = request.getCookies();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet result = null;
-        try {
-            connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement("SELECT * FROM cookies;");
-            preparedStatement.execute();
-            result = preparedStatement.getResultSet();
-
-            if(cookies != null){
-
-                while (result.next()) {
-
-                    for(int i=0; i<cookies.length; i++){
-
-                        System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
-                        if((cookies[i].getValue()).equals(result.getString("cookieID"))){
-
-                            (request.getSession()).setAttribute("emailSession", result.getString("Email"));
-                            (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
-                            (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
-                            (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
-                            System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
-
-                        }
-                    }
-                }
-                
-                // START: recupero delle liste che appartengono all'utente loggato
-
-                preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE List_Owner = ?;");
-                preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
-                preparedStatement.execute();
-                result = preparedStatement.getResultSet();
-                
-                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-                
-                List lists = null;
-                lists = shoppingListDAO.getShoppingListsByOwner((String)(request.getSession()).getAttribute("emailSession"));
-
-                String[][] searchListResult = new String[lists.size()][3];
-                
-                // START: recupero della categoria di lista
-                int LCID = 0;
-                ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
-                
-                // slc = shoppingListCategory
-                ShoppingListCategory slc = null;
-                
-                for(int i=0; i<lists.size(); i++){
-                    searchListResult[i][0] = ((ShoppingList)(lists.get(i))).getName();
-                    searchListResult[i][1] = Integer.toString(((ShoppingList)(lists.get(i))).getLID());
-                    LCID = ((ShoppingList)(lists.get(i))).getLCID();
-                    slc = shoppingListCategoryDAO.getShoppingListCategory(LCID);
-                    searchListResult[i][2] = ((ShoppingListCategory)(slc)).getName();        
-                }
-                
-                // END: recupero della categoria di lista
-                
-                session.setAttribute("ListUserSession", searchListResult);
-                session.setAttribute("ListUserSessionSize", lists.size());
-                
-                // END: recupero delle liste che appartengono all'utente loggato
-                
-                // START: recupero delle liste condivise dell'utente loggato
-                                
-                SharingDAO sharingDAO = new MySQLSharingDAOImpl();
-                
-                List sharingLists = null;
-                sharingLists = sharingDAO.getAllListByEmail((String)(request.getSession()).getAttribute("emailSession"));
-                
-                String[][] sharingListResult = new String[sharingLists.size()][4];
-                
-                for(int i=0; i<sharingLists.size(); i++){
-                    sharingListResult[i][0] = ((Sharing)(sharingLists.get(i))).getEmail();
-                    sharingListResult[i][1] = Integer.toString(((Sharing)(sharingLists.get(i))).getLID()); 
-                }
-                
-                for(int i=0; i<sharingLists.size(); i++){
-                    for(int j=0; j<lists.size(); j++){
-                        System.out.println("+++++++sharingListResult[i][1]: "+sharingListResult[i][1]+" +++++++++");
-                        System.out.println("+++++++sharingListResult[i][1]: "+searchListResult[j][1]+" +++++++++");
-                        int tmp1 = Integer.parseInt(sharingListResult[i][1]);
-                        int tmp2 = Integer.parseInt(searchListResult[j][1]);
-                        if (tmp1 == tmp2) {
-                            sharingListResult[i][2] = searchListResult[j][0];
-                            sharingListResult[i][3] = searchListResult[j][2];
-                            System.out.println("sono dentro l'if dei due for");
-                        }
-                        System.out.println("-------qui invece sono subito dopo l'if--------");
-                    }
-                }
-                
-                session.setAttribute("SharingListUserSession", sharingListResult);
-                session.setAttribute("SharingListUserSessionSize", sharingLists.size());
-                
-                // END: recupero delle liste condivise dell'utente loggato                
-                
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                result.close();
-            } catch (Exception rse) {
-                rse.printStackTrace();
-            }
-            try {
-                preparedStatement.close();
-            } catch (Exception sse) {
-                sse.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (Exception cse) {
-                cse.printStackTrace();
-            }
-        }
-        
-    %>
-    <!-- END: recupero delle liste dell'utente loggato -->
-    
     <!-- HEADER -->
     <jsp:include page="jsp/components/header.jsp" />
 
@@ -244,7 +119,7 @@
                                         <c:if test="${listaAttiva eq listaCondivisa[1]}">
                                             <li>
                                             <button type="submit" value="${2}${listaCondivisa[1]}" name="selectedList">
-                                                ${listaCondivisa[2]}
+                                                ${listaCondivisa[0]}
                                             </button>
                                             </li>
                                             <c:set var="attiva" value="active"></c:set>
@@ -252,7 +127,7 @@
                                         <c:if test="${listaAttiva ne listaCondivisa[1]}">
                                             <li>
                                             <button type="submit" value="${2}${listaCondivisa[1]}" name="selectedList">
-                                                ${listaCondivisa[2]}
+                                                ${listaCondivisa[0]}
                                             </button>
                                             </li>
                                             <c:set var="attiva" value="notActive"></c:set>
@@ -319,10 +194,10 @@
                                             <td>${lista1[2]}</td>
                                             <td style="text-align: center;">
                                                 <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
-                                                    <c:if test="${lista1[0] eq listaCondivisa[2]}">
+                                                    <c:if test="${lista1[0] eq listaCondivisa[0]}">
                                                         <i class="fas fa-check"></i>
                                                     </c:if>
-                                                    <c:if test="${lista1[0] ne listaCondivisa[2]}">
+                                                    <c:if test="${lista1[0] ne listaCondivisa[0]}">
                                                         <i class="fas fa-times"></i>
                                                     </c:if> 
                                                 </c:forEach>
@@ -356,8 +231,8 @@
                                         <tr>
                                             <th style="text-align: center;" scope="row">${counterSL}</th>
                                             
+                                            <td>${listaCondivisa1[0]}</td>
                                             <td>${listaCondivisa1[2]}</td>
-                                            <td>${listaCondivisa1[3]}</td>
                                             <td style="text-align: center;">
                                                 <a href="#">
                                                 <i class="fas fa-sign-out-alt"></i>

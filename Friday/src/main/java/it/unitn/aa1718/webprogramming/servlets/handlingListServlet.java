@@ -5,6 +5,7 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
+import it.unitn.aa1718.webprogramming.extra.Library;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -57,6 +58,8 @@ public class handlingListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
+        Library library = new Library();
+        library.recuperoListeUtenteloggato(request);
         int listaSelezionata = Integer.parseInt(request.getParameter("selectedList"));
         
         System.out.println(listaSelezionata);

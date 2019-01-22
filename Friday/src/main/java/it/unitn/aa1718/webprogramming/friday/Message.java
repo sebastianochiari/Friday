@@ -13,36 +13,28 @@ public class Message {
     
     int messageID;
     String sender = null;
-    String recipient = null;
-    String object = null;
+    int LID;
     String text = null;
     
-    public Message(int messageID, String sender, String recipient, String object, String text) {
+    public Message(int messageID, int LID, String sender, String text) {
         super();
         this.messageID = messageID;
         this.sender = sender;
-        this.recipient = recipient;
-        this.object = object;
+        this.LID = LID;
         this.text = text;
     }
     
-    public String getObject() {        
-        return object;    
-    }    
-    public void setObject() {        
-        this.object = object;    
-    }
     public String getSender() {        
         return sender;    
     }    
     public void setSender() {        
         this.sender = sender;    
     }
-    public String getRecipient() {        
-        return recipient;    
+    public int getLID() {        
+        return LID;    
     }    
-    public void setRecipient() {        
-        this.recipient = recipient;    
+    public void setLID() {        
+        this.LID = LID;    
     }
     public String getText() {        
         return text;    

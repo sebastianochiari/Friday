@@ -14,7 +14,7 @@ import java.util.Vector;
  */
 public interface MessageDAO {
     
-    public Vector<Message> getMessagesBySenderRecipient(String sender, String recipient);
+    public Vector<Message> getMessagesByLID(int LID);
     
     public Message getMessagesByID(int messageID);
     
@@ -24,6 +24,6 @@ public interface MessageDAO {
     
     public void deleteMessageByID(Message message);
     
-    public void deleteMessageBySenderRecipient(String sender, String recipient);
+    public void deleteMessageByLID(int LID);
     
 }

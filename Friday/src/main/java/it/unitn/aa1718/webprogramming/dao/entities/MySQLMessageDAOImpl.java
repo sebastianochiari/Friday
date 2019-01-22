@@ -21,29 +21,21 @@ import java.util.Vector;
  */
 public class MySQLMessageDAOImpl implements MessageDAO{
     
-    private static final String Create_Query = "INSERT INTO messages (messageID, sender, recipient, object, text) VALUES (?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO messages (messageID, LID, sender, text) VALUES (?, ?, ?, ?)";
     
-    private static final String Read_Sender_Query = "SELECT messageID, sender, recipient, object, text FROM messages WHERE sender=?";
+    private static final String Read_LID_Query = "SELECT messageID, LID, sender, text FROM messages WHERE LID=?";
+   
+    private static final String Read_messageID_Query = "SELECT messageID, LID, sender, text FROM messages WHERE messageID=?";
     
-    private static final String Read_Recipient_Query = "SELECT messageID, sender, recipient, object, text FROM messages WHERE recipier=?";
-    
-    private static final String Read_Sender_And_Recipient_Query = "SELECT messageID, sender, recipient, object, text FROM messages WHERE sender=? AND recipier=?";
-
-    private static final String Read_messageID_Query = "SELECT messageID, sender, recipient, object, text FROM messages WHERE messageID=?";
-    
-    private static final String Update_Query = "UPDATE messages SET messageID=?, sender=?, recipient=?, object=?, text=? WHERE messageID = ?";
-    
-    private static final String Delete_Query_By_Sender = "DELETE FROM messages WHERE sender = ?";
-    
-    private static final String Delete_Query_By_Recipient = "DELETE FROM messages WHERE recipient = ?";
-    
-    private static final String Delete_Query_By_Sender_And_Recipient = "DELETE FROM massages WHERE sender = ? AND recipient = ?";
-            
+    private static final String Update_Query = "UPDATE messages SET messageID=?, LID=?, sender=?, text=? WHERE messageID = ?";
+        
+    private static final String Delete_Query_By_LID = "DELETE FROM messages WHERE LID = ?";
+                
     private static final String Delete_Query_By_MessageID = "DELETE FROM cookies WHERE messageID = ?";
 
 
     @Override
-    public Vector<Message> getMessagesBySenderRecipient(String sender, String recipient) {
+    public Vector<Message> getMessagesByLID(int LID) {
         
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -53,23 +45,14 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = null;
-            if(sender == null){
-                preparedStatement = connection.prepareStatement(Read_Recipient_Query);
-                preparedStatement.setString(1, recipient);
-            } else if (recipient == null){
-                preparedStatement = connection.prepareStatement(Read_Sender_Query);
-                preparedStatement.setString(1, sender);
-            } else {
-                preparedStatement = connection.prepareStatement(Read_Sender_And_Recipient_Query);
-                preparedStatement.setString(1, sender);
-                preparedStatement.setString(2, recipient);
-            }
-            
+            preparedStatement = connection.prepareStatement(Read_LID_Query);
+            preparedStatement.setInt(1, LID);
+
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
             while(result.next()){
-                    Message message = new Message(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5));
+                    Message message = new Message(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4));
                     messages.add(message);
             }
             
@@ -111,7 +94,7 @@ public class MySQLMessageDAOImpl implements MessageDAO{
             result = preparedStatement.getResultSet();
             
             if(result.next()){
-                    message = new Message(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5));
+                    message = new Message(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4));
             }
             
         } catch (SQLException e) {
@@ -145,10 +128,9 @@ public class MySQLMessageDAOImpl implements MessageDAO{
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, message.getMessageID());
-            preparedStatement.setString(2, message.getSender());
-            preparedStatement.setString(3, message.getRecipient());
-            preparedStatement.setString(4, message.getObject());
-            preparedStatement.setString(5, message.getText());
+            preparedStatement.setInt(2, message.getLID());
+            preparedStatement.setString(3, message.getSender());
+            preparedStatement.setString(4, message.getText());
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
             
@@ -182,11 +164,10 @@ public class MySQLMessageDAOImpl implements MessageDAO{
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Update_Query);
             preparedStatement.setInt(1, message.getMessageID());
-            preparedStatement.setString(2, message.getSender());
-            preparedStatement.setString(3, message.getRecipient());
-            preparedStatement.setString(4, message.getObject());
-            preparedStatement.setString(5, message.getText());
-            preparedStatement.setInt(6, message.getMessageID());
+            preparedStatement.setInt(2, message.getLID());
+            preparedStatement.setString(3, message.getSender());
+            preparedStatement.setString(4, message.getText());
+            preparedStatement.setInt(5, message.getMessageID());
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
             
@@ -244,23 +225,14 @@ public class MySQLMessageDAOImpl implements MessageDAO{
     }
 
     @Override
-    public void deleteMessageBySenderRecipient(String sender, String recipient) {
+    public void deleteMessageByLID(int LID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
         try {
             conn = MySQLDAOFactory.createConnection();
-            if(sender == null){
-                preparedStatement = conn.prepareStatement(Delete_Query_By_Recipient);
-                preparedStatement.setString(1, recipient);
-            } else if (recipient == null){
-                preparedStatement = conn.prepareStatement(Delete_Query_By_Sender);
-                preparedStatement.setString(1, sender);
-            } else {
-                preparedStatement = conn.prepareStatement(Delete_Query_By_Sender_And_Recipient);
-                preparedStatement.setString(1, sender);
-                preparedStatement.setString(2, recipient);
-            }
+            preparedStatement = conn.prepareStatement(Delete_Query_By_LID);
+            preparedStatement.setInt(1, LID);
             preparedStatement.execute();
             
         } catch (SQLException e) {

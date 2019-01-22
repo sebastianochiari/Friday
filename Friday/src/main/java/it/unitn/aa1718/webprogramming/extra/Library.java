@@ -8,10 +8,19 @@ package it.unitn.aa1718.webprogramming.extra;
 import it.unitn.aa1718.webprogramming.connection.*;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingDAO;
+import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.friday.Product;
+import it.unitn.aa1718.webprogramming.friday.Sharing;
+import it.unitn.aa1718.webprogramming.friday.ShoppingList;
+import it.unitn.aa1718.webprogramming.friday.ShoppingListCategory;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,6 +33,7 @@ import javax.mail.internet.*;
 import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -338,4 +348,54 @@ public class Library {
             }
         return searchProductResult;
     }
+    
+    public void recuperoListeUtenteloggato(HttpServletRequest request){
+       
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        HttpSession session = request.getSession();
+       
+                
+                // START: recupero delle liste che appartengono all'utente loggato
+                
+                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+                ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+                
+                List lists = shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession"));
+                String[][] searchListResult = new String[lists.size()][3];
+                
+                for(int i=0; i<lists.size(); i++){
+                    searchListResult[i][0] = ((ShoppingList)(lists.get(i))).getName();
+                    searchListResult[i][1] = Integer.toString(((ShoppingList)(lists.get(i))).getLID());
+                    searchListResult[i][2] = ((ShoppingListCategory)(shoppingListCategoryDAO.getShoppingListCategory(((ShoppingList)(lists.get(i))).getLCID()))).getName();        
+                }
+                
+                session.setAttribute("ListUserSession", searchListResult);
+                session.setAttribute("ListUserSessionSize", lists.size());
+                
+                // END: recupero delle liste che appartengono all'utente loggato
+                
+                // START: recupero delle liste condivise dell'utente loggato
+                                
+                SharingDAO sharingDAO = new MySQLSharingDAOImpl();
+                
+                List sharingLists = sharingDAO.getAllListByEmail((String)session.getAttribute("emailSession"));
+                ShoppingList tmp = null;
+                String[][] sharingListResult = new String[sharingLists.size()][3];
+                
+                for(int i=0; i<sharingLists.size(); i++){
+                    
+                    tmp = shoppingListDAO.getShoppingList(((Sharing)(sharingLists.get(i))).getLID());
+                    
+                    sharingListResult[i][0] = tmp.getName();
+                    sharingListResult[i][1] = Integer.toString(tmp.getLID());
+                    sharingListResult[i][2] = (shoppingListCategoryDAO.getShoppingListCategory(tmp.getLCID())).getName();
+                }   
+                
+                session.setAttribute("SharingListUserSession", sharingListResult);
+                session.setAttribute("SharingListUserSessionSize", sharingLists.size());
+                
+                // END: recupero delle liste condivise dell'utente loggato                
+                
+            }
 }
+

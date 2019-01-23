@@ -26,7 +26,7 @@ public interface ShoppingListDAO {
     
     public boolean updateShoppingList(ShoppingList shoppingList);
     
-    public boolean deleteShoppingList(ShoppingList shoppingList);
+    public boolean deleteShoppingList(int LID);
     
     public void updateEmailShoppingList(int LID, String email);
     

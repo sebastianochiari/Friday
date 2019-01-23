@@ -297,13 +297,13 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     }
     
     @Override
-    public boolean deleteShoppingList(ShoppingList shoppingList) {
+    public boolean deleteShoppingList(int LID) {
 	Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Delete_Query);
-            preparedStatement.setInt(1, shoppingList.getLID());
+            preparedStatement.setInt(1, LID);
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

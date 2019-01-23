@@ -5,13 +5,25 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
+import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
+import it.unitn.aa1718.webprogramming.friday.Product;
+import it.unitn.aa1718.webprogramming.friday.ProductList;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -60,14 +72,15 @@ public class handlingListServlet extends HttpServlet {
         
         Library library = new Library();
         library.recuperoListeUtenteloggato(request);
+        HttpSession session = request.getSession();
         
         int listaSelezionata = Integer.parseInt(request.getParameter("selectedList"));
         
-        if (listaSelezionata == 10) {
-            request.setAttribute("listaAttiva", listaSelezionata);
+        if (listaSelezionata == 0) {
             request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
         } else {
             request.setAttribute("listaAttiva", listaSelezionata);
+            library.prodottiDellaLista(listaSelezionata, request);
             request.getRequestDispatcher("list.jsp").forward(request, response);
         }
         
@@ -82,9 +95,32 @@ public class handlingListServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        
+        int PIDProdotto = Integer.parseInt(request.getParameter("SelectedProduct"));
+        HttpSession session = request.getSession();
+        
+        ProductDAO productDAO = new MySQLProductDAOImpl();
+        Product product = productDAO.getProduct(PIDProdotto);
+        
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        UserDAO userDAO = new MySQLUserDAOImpl();
+        
+        String [] prodotto = new String [7];
+        
+        for(int i=0; i<prodotto.length; i++){
+            prodotto[i] = product.getName();
+            prodotto[i] = product.getNote();
+            prodotto[i] = product.getLogo();
+            prodotto[i] = product.getPhoto();
+            prodotto[i] = productCategoryDAO.getProductCategory(product.getPCID()).getName();
+            prodotto[i] = userDAO.getUser(product.getEmail()).getName();
+            prodotto[i] = Integer.toString(product.getPID());
+        }
+        
+        session.setAttribute("prodotto", prodotto);
+        request.getRequestDispatcher("showProduct.jsp").forward(request, response);
     }
 
     /**

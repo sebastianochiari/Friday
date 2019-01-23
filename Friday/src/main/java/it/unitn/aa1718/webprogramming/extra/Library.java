@@ -8,17 +8,24 @@ package it.unitn.aa1718.webprogramming.extra;
 import it.unitn.aa1718.webprogramming.connection.*;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.Product;
+import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
 import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import it.unitn.aa1718.webprogramming.friday.ShoppingListCategory;
@@ -355,49 +362,83 @@ public class Library {
        
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         HttpSession session = request.getSession();
-       
-                
-                // START: recupero delle liste che appartengono all'utente loggato
-                
-                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-                ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
-                
-                List lists = shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession"));
-                String[][] searchListResult = new String[lists.size()][3];
-                
-                for(int i=0; i<lists.size(); i++){
-                    searchListResult[i][0] = ((ShoppingList)(lists.get(i))).getName();
-                    searchListResult[i][1] = Integer.toString(((ShoppingList)(lists.get(i))).getLID());
-                    searchListResult[i][2] = ((ShoppingListCategory)(shoppingListCategoryDAO.getShoppingListCategory(((ShoppingList)(lists.get(i))).getLCID()))).getName();        
-                }
-                
-                session.setAttribute("ListUserSession", searchListResult);
-                session.setAttribute("ListUserSessionSize", lists.size());
-                
-                // END: recupero delle liste che appartengono all'utente loggato
-                
-                // START: recupero delle liste condivise dell'utente loggato
-                                
-                SharingDAO sharingDAO = new MySQLSharingDAOImpl();
-                
-                List sharingLists = sharingDAO.getAllListByEmail((String)session.getAttribute("emailSession"));
-                ShoppingList tmp = null;
-                String[][] sharingListResult = new String[sharingLists.size()][3];
-                
-                for(int i=0; i<sharingLists.size(); i++){
-                    
-                    tmp = shoppingListDAO.getShoppingList(((Sharing)(sharingLists.get(i))).getLID());
-                    
-                    sharingListResult[i][0] = tmp.getName();
-                    sharingListResult[i][1] = Integer.toString(tmp.getLID());
-                    sharingListResult[i][2] = (shoppingListCategoryDAO.getShoppingListCategory(tmp.getLCID())).getName();
-                }   
-                
-                session.setAttribute("SharingListUserSession", sharingListResult);
-                session.setAttribute("SharingListUserSessionSize", sharingLists.size());
-                
-                // END: recupero delle liste condivise dell'utente loggato                
-                
+        
+        // START: recupero delle liste che appartengono all'utente loggato
+
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        SharingDAO sharingDAO = new MySQLSharingDAOImpl();
+        ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+
+        List lists = shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession"));
+        String[][] searchListResult = new String[lists.size()][4];
+
+        for(int i=0; i<lists.size(); i++){
+            searchListResult[i][0] = ((ShoppingList)(lists.get(i))).getName();
+            searchListResult[i][1] = Integer.toString(((ShoppingList)(lists.get(i))).getLID());
+            searchListResult[i][2] = ((ShoppingListCategory)(shoppingListCategoryDAO.getShoppingListCategory(((ShoppingList)(lists.get(i))).getLCID()))).getName();
+            List listaCondivisa = sharingDAO.getAllEmailsbyList(Integer.parseInt(searchListResult[i][1]));
+            if (listaCondivisa.isEmpty()){
+                searchListResult[i][3] = Integer.toString(0);
+            } else {
+                searchListResult[i][3] = Integer.toString(1);
             }
+        }
+
+        session.setAttribute("ListUserSession", searchListResult);
+        session.setAttribute("ListUserSessionSize", lists.size());
+
+        // END: recupero delle liste che appartengono all'utente loggato
+
+        // START: recupero delle liste condivise dell'utente loggato
+
+        List sharingLists = sharingDAO.getAllListByEmail((String)session.getAttribute("emailSession"));
+        ShoppingList tmp = null;
+        String[][] sharingListResult = new String[sharingLists.size()][3];
+
+        for(int i=0; i<sharingLists.size(); i++){
+
+            tmp = shoppingListDAO.getShoppingList(((Sharing)(sharingLists.get(i))).getLID());
+
+            sharingListResult[i][0] = tmp.getName();
+            sharingListResult[i][1] = Integer.toString(tmp.getLID());
+            sharingListResult[i][2] = (shoppingListCategoryDAO.getShoppingListCategory(tmp.getLCID())).getName();
+        }   
+
+        session.setAttribute("SharingListUserSession", sharingListResult);
+        session.setAttribute("SharingListUserSessionSize", sharingLists.size());
+
+        // END: recupero delle liste condivise dell'utente loggato                
+
+    }
+
+    public void prodottiDellaLista(int LID, HttpServletRequest request){
+        
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        HttpSession session = request.getSession();
+        
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        ProductDAO productDAO = new MySQLProductDAOImpl();
+        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        UserDAO userDAO = new MySQLUserDAOImpl();
+        
+        List productList = productListDAO.getPIDsByLID(LID);
+        Product product = null;
+        String [][] prodotto = new String [productList.size()][8];
+        
+        for(int i=0; i<productList.size(); i++){
+            product = productDAO.getProduct(((ProductList)(productList.get(i))).getPID());
+            prodotto[i][0] = product.getName();
+            prodotto[i][1] = product.getNote();
+            prodotto[i][2] = product.getLogo();
+            prodotto[i][3] = product.getPhoto();
+            prodotto[i][4] = productCategoryDAO.getProductCategory(product.getPCID()).getName();
+            prodotto[i][5] = userDAO.getUser(product.getEmail()).getName();
+            prodotto[i][6] = Integer.toString(((ProductList)(productList.get(i))).getQuantity());
+            prodotto[i][7] = Integer.toString(product.getPID());
+        }
+        
+        session.setAttribute("Prodotto", prodotto);
+        
+    }
 }
 

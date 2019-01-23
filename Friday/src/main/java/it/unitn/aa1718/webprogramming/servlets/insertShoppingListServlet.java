@@ -147,9 +147,19 @@ public class insertShoppingListServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        
+        int listToDelete = Integer.parseInt(request.getParameter("deleteList"));
+        HttpSession session = request.getSession();
+        
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        boolean deleted = shoppingListDAO.deleteShoppingList(listToDelete);
+        
+        if (deleted){
+            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("faq.jsp");
+        }
     }
 
     /**

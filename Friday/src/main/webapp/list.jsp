@@ -86,7 +86,58 @@
 
             <div class="container mt-4">
 
-                
+                <table class="table table-striped table-borderless">
+                    <thead>
+                        <tr data-toggle="collapse" data-target="#accordion" class="clickable">
+                            <th scope="col" style="text-align: center;">Quantità</th>
+                            <th scope="col">Nome prodotto</th>
+                            <th scope="col">Note</th>
+                            <th style="text-align: center;" scope="col">Elimina</th>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <c:set var="counterPL" value="1"></c:set>
+                        <c:forEach items="${Prodotto}" var="prodotto">
+                            <tr data-toggle="collapse" data-target="#accordion" class="clickable">
+                                <td scope="col" style="text-align: center;">${prodotto[6]}</td>
+                                <td scope="col">${prodotto[0]}</td>
+                                <td scope="col">${prodotto[1]}</td>
+                                <td style="text-align: center;">
+                                    <a href="#" title="Elimina questa lista">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="collapse" id="accordion">
+                                <th scope="col">Logo</th>
+                                <th scope="col">Foto</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Proprietario prodotto</th>
+                            </tr>
+                            <tr class="collapse" id="accordion">
+                                <td scope="col">${prodotto[2]}</td>
+                                <td scope="col">${prodotto[3]}</td>
+                                <td scope="col">${prodotto[4]}</td>
+                                <td scope="col">${prodotto[5]}</td>
+                            </tr>
+                            <tr class="collapse" id="accordion">
+                                <td colspan="8"><hr align="center" size="5" width="1000" color="#000000"></td>
+                            </tr>
+                            <tr class="collapse" id="accordion">
+                                <th scope="col" style="text-align: center;">Quantità</th>
+                                <th scope="col">Nome prodotto</th>
+                                <th scope="col">Note</th>
+                                <th style="text-align: center;" scope="col">Elimina</th>
+                            </tr>
+                            
+                            <c:set var="counterPL" value="${counterPL+1}"></c:set>
+                        </c:forEach>
+                            <tr>
+                                <td colspan="8" style="text-align: center;">Aggiungi prodotto alla lista</td>
+                            </tr>
+                    </tbody>
+                </table>
 
             </div>
 

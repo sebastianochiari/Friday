@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -116,7 +117,42 @@ public class insertProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
         
+        int comando = Integer.parseInt(request.getParameter("changeProduct"));
+        int lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+        int scelta = Integer.parseInt(request.getParameter("scelta"));
         
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        ProductList productList = null;
+        int amount = 1;
+        if (scelta != 4) {
+            productList = productListDAO.getProductList(comando, lista);
+            amount = productList.getQuantity();
+        }
+        
+        switch (scelta){
+            case 1: 
+                amount--;
+                productList = new ProductList(comando, lista, amount);
+                productListDAO.updateProductList(productList);
+                break;
+            case 2:
+                productListDAO.deleteProductList(productList);
+                break;
+            case 3:
+                amount++;
+                productList = new ProductList(comando, lista, amount);
+                productListDAO.updateProductList(productList);
+                break;
+            case 4:
+                productList = new ProductList(comando, lista, amount);
+                productListDAO.createProductList(productList);
+                break;
+            default: 
+                response.sendRedirect("faq.jsp");
+                break;
+        }
+            
+        response.sendRedirect("list.jsp");
     }
 
     /**

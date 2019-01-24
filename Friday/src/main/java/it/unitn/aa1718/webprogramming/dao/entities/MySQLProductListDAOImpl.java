@@ -214,6 +214,8 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
             preparedStatement.setInt(1, productList.getPID());
             preparedStatement.setInt(2, productList.getLID());
             preparedStatement.setInt(3, productList.getQuantity());
+            preparedStatement.setInt(4, productList.getPID());
+            preparedStatement.setInt(5, productList.getLID());
             preparedStatement.execute();
             return true;
             

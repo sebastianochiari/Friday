@@ -20,7 +20,10 @@ import javax.servlet.http.HttpSession;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.friday.User;
 import java.sql.Timestamp;
 import javax.servlet.http.Cookie;
 
@@ -121,6 +124,25 @@ public class insertShoppingListServlet extends HttpServlet {
                 cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
                 shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
                 shoppingListDAO.createShoppingList(shoppingList);
+                
+                UserDAO userDAO = new MySQLUserDAOImpl();
+                User user = userDAO.getUser(list_owner);
+                String email = list_owner;
+                String password = user.getPassword();
+                String userName = user.getName();
+                String surname = user.getSurname();
+                String avatar = user.getAvatar();
+                boolean admin = user.getAdmin();
+                boolean isListOwner = user.getListOwner();
+                boolean confirmed = user.getConfirmed();
+                
+                if (!isListOwner) {
+                    isListOwner = true;
+                }
+                
+                user = new User(email, password, userName, surname, avatar, admin, isListOwner, confirmed);
+                
+                userDAO.updateUserByEmail(user);
             }
 
             // recupero di tutti gli shoppingList del DB

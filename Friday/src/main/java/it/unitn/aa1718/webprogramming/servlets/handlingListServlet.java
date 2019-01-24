@@ -72,15 +72,14 @@ public class handlingListServlet extends HttpServlet {
         
         Library library = new Library();
         library.recuperoListeUtenteloggato(request);
-        HttpSession session = request.getSession();
         
-        int listaSelezionata = Integer.parseInt(request.getParameter("selectedList"));
+        int selectedList = Integer.parseInt(request.getParameter("selectedList"));
         
-        if (listaSelezionata == 0) {
+        if (selectedList == 0) {
             request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
         } else {
-            request.setAttribute("listaAttiva", listaSelezionata);
-            library.prodottiDellaLista(listaSelezionata, request);
+            request.setAttribute("selectedList", selectedList);
+            library.prodottiDellaLista(selectedList, request);
             request.getRequestDispatcher("list.jsp").forward(request, response);
         }
         

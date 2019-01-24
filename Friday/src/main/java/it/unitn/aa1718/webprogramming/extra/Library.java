@@ -413,7 +413,6 @@ public class Library {
 
     public void prodottiDellaLista(int LID, HttpServletRequest request){
         
-        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         HttpSession session = request.getSession();
         
         ProductListDAO productListDAO = new MySQLProductListDAOImpl();

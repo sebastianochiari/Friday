@@ -120,21 +120,6 @@
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
 
-                    // Seba code
-                    // preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE Email = ?;");
-                    // preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
-                    // preparedStatement.execute();
-                    // result = preparedStatement.getResultSet();
-                    //
-                    // System.out.println("+++++++++++++++++++++++" + result.rows + "+++++++++++++++++++++++++");
-                    //
-                    // String [] userLists = new String[result.rows];
-                    // for(int i = 0; i < result.rows; i++) {
-                    //     String tempUserList;
-                    //     (request.getSession()).setAttribute("tempUserList", result.getString("Name"));
-                    //     userLists[i] = tempUserList;
-                    // }
-
                 }
 
             } catch (SQLException e) {

@@ -84,9 +84,9 @@
 
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
                             <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE List_Owner = '${emailSession}';"></sql:query>
+                            <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM sharing WHERE Email = '${emailSession}';"></sql:query>
 
                             <form action="handlingListServlet" method="GET">
-                                <%--<a class="dropdown-item" href="gestioneListe.jsp">Gestione liste</a>--%>
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste
                                 </button>
@@ -95,6 +95,13 @@
                                 <c:forEach var="resList" items="${resultList.rows}" >
                                     <button type="submit" value="${resList.LID}" class="dropdown-item" name="selectedList" >
                                         ${resList.Name}
+                                    </button>
+                                </c:forEach>
+                            </form>
+                            <form action="handlingListServlet" method="GET">
+                                <c:forEach var="resSharingList" items="${resultSharingList.rows}" >
+                                    <button type="submit" value="${resSharingList.LID}" class="dropdown-item" name="selectedList" >
+                                        ${resSharingList.Name}
                                     </button>
                                 </c:forEach>
                             </form>

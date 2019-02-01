@@ -93,7 +93,7 @@ public class insertProductCategoryServlet extends HttpServlet {
             
        } else {
             
-            response.sendRedirect("faq.jsp");
+            response.sendRedirect("error.jsp");
        }
         
               

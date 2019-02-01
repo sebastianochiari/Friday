@@ -114,12 +114,9 @@ public class insertShoppingListCategoryServlet extends HttpServlet {
             
           
        } else {
-            response.sendRedirect("faq.jsp");
-       }
-        
-        
-        
-        
+            response.sendRedirect("error.jsp");
+        }
+
     }
 
     /**

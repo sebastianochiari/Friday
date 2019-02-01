@@ -95,10 +95,12 @@ public class searchServlet extends HttpServlet {
         
         if(request.getParameter("inputClick") != null || request.getParameter("CategoryLeft") != null){
             
-            if(request.getParameter("inputClick") != null)
+            if(request.getParameter("inputClick") != null) {
                 inputClick = request.getParameter("inputClick");
-            else 
+            } else {
                 inputClick = request.getParameter("CategoryLeft");
+            }
+                
             session.setAttribute("inputSearch", null);
             session.setAttribute("PCID", -1);
             session.setAttribute("inputClick", inputClick);
@@ -116,9 +118,9 @@ public class searchServlet extends HttpServlet {
 
             } else {
 
-                 response.sendRedirect("faq.jsp");
+                 response.sendRedirect("error.jsp");
                  return;
-                }
+            }
         }
         
         if(request.getParameter("order") != null && request.getParameter("order").equals("categoria")){

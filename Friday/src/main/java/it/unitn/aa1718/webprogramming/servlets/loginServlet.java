@@ -196,10 +196,17 @@ public class loginServlet extends HttpServlet {
             }  
  
             
-       } else {
-            response.sendRedirect("faq.jsp");
+       } 
+        /*
+        
+        VOGLIAMO TENERE L'ERRORE SE DURANTE IL LOGIN INSERISCO UN NOME DA 300 CARATTERI (TENERE L'ELSE) 
+        OPPURE TORNO SULLA PAGINA DI LOGIN DICENDO " QUESTO USER NON ESISTE " (SENZA ELSE) ?????
+        
+        else {
+            response.sendRedirect("error.jsp");
        }
-
+        
+        */
 
 
     }

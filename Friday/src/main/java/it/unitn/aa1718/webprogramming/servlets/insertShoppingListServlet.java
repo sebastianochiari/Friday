@@ -152,7 +152,7 @@ public class insertShoppingListServlet extends HttpServlet {
             response.sendRedirect("gestioneListe.jsp");
             
        } else {
-            response.sendRedirect("faq.jsp");
+            response.sendRedirect("error.jsp");
        }
         
         

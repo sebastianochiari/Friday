@@ -95,6 +95,7 @@
                                             </li>
                                             <c:set var="attiva" value="active"></c:set>
                                         </c:if>
+<<<<<<< HEAD
                                         <c:if test="${listaAttiva ne lista[1]}">
                                             <li>
                                             <button type="submit" value="${lista[1]}" name="selectedList" class="dropdown-item">
@@ -136,6 +137,67 @@
                                 </form>
                                 <!-- END: liste condivise -->
                             </ul>
+=======
+                                        <c:if test="${listaAttiva ne 0}">
+                                            <li><button type="submit" value="0" name="selectedList" class="dropdown-item">
+                                                Gestione Liste
+                                            </button></li>
+                                            <c:set var="attiva0" value="notActive <- attiva0"></c:set>
+                                        </c:if>
+    <c:forEach items="${ListUserSession}" var="lista">
+                                            <c:set var="listaUser" value="${lista}"></c:set>
+                                            <c:if test="${listaAttiva eq lista[1]}">
+                                                <li>
+                                                <button type="submit" value="${lista[1]}" name="selectedList" class="dropdown-item">
+                                                    ${lista[0]}
+                                                </button>
+                                                </li>
+                                                <c:set var="attiva" value="active"></c:set>
+                                            </c:if>
+                                            <c:if test="${listaAttiva ne lista[1]}">
+                                                <li>
+                                                <button type="submit" value="${lista[1]}" name="selectedList" class="dropdown-item">
+                                                    ${lista[0]}
+                                                </button>
+                                                </li>
+                                                <c:set var="attiva" value="notActive"></c:set>
+                                            </c:if> 
+                                        </c:forEach>
+                                    </form>
+                                    <!-- END: liste personali -->
+                                </ul>
+
+                                <h3 class="aside-title">Liste condivise:</h3>
+                                <c:if test="${SharingListUserSessionSize eq 0}">
+                                    <p>Non hai nessuna lista condivisa</p>
+                                </c:if>
+                                <ul class="list-links">
+                                    <!-- START: liste condivise -->
+                                    <form action="handlingListServlet" method="GET">
+                                        <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                            <c:if test="${listaAttiva eq listaCondivisa[1]}">
+                                                <li>
+                                                <button type="submit" value="${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
+                                                    ${listaCondivisa[0]}
+                                                </button>
+                                                </li>
+                                                <c:set var="attiva" value="active"></c:set>
+                                            </c:if>
+                                            <c:if test="${listaAttiva ne listaCondivisa[1]}">
+                                                <li>
+                                                <button type="submit" value="${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
+                                                    ${listaCondivisa[0]}
+                                                </button>
+                                                </li>
+                                                <c:set var="attiva" value="notActive"></c:set>
+                                            </c:if> 
+                                        </c:forEach>
+                                    </form>
+                                    <!-- END: liste condivise -->
+                                </ul>
+
+                            </div>
+>>>>>>> l-back-end
 
                         </div>
 

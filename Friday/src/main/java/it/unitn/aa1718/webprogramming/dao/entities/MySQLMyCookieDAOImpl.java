@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Vector;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -85,6 +86,49 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
             }
         }
         return myCookies;
+    }
+    
+    public Vector<MyCookie> getAllCookie(){
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        Vector<MyCookie> myCookies = new Vector();
+        
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_All_Query);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while(result.next()){
+                if(result.getString("cookieID") != null){
+                    MyCookie myCookie = new MyCookie(result.getInt(1), result.getInt(2), result.getString(3), result.getLong(4));
+                    myCookies.add(myCookie);
+                }
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        return myCookies;
+    
     }
 
     @Override

@@ -6,6 +6,7 @@
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import java.io.IOException;
@@ -91,6 +92,16 @@ public class logoutServlet extends HttpServlet {
             request.setAttribute("boolEmailSession", false);
         }
         session.invalidate();
+        
+        String DBUrl = MySQLDAOFactory.getDBUrl();
+        String DBUser = MySQLDAOFactory.getDBUser();
+        String DBPass = MySQLDAOFactory.getDBPass();
+        String DBDriver = MySQLDAOFactory.getDBDriver();
+
+        (request.getSession()).setAttribute("DBUrlSession", DBUrl);
+        (request.getSession()).setAttribute("DBUserSession", DBUser);
+        (request.getSession()).setAttribute("DBPassSession", DBPass);
+        (request.getSession()).setAttribute("DBDriverSession", DBDriver);
         
         
         

@@ -87,6 +87,10 @@
                             <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM sharing WHERE Email = '${emailSession}';"></sql:query>
 
                             <form action="handlingListServlet" method="GET">
+<<<<<<< HEAD
+=======
+                                <%--<a class="dropdown-item" href="gestioneListe.jsp">Gestione liste</a>--%>
+>>>>>>> l-back-end
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste
                                 </button>

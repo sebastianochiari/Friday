@@ -24,6 +24,10 @@ import it.unitn.aa1718.webprogramming.extra.Library;
 import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
 import it.unitn.aa1718.webprogramming.friday.ShoppingList;
+import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.MessageDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMessageDAOImpl;
+import it.unitn.aa1718.webprogramming.friday.Message;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -80,55 +84,76 @@ public class handlingListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         Library library = new Library();
-        library.recuperoListeUtenteloggato(request);
+        library.recuperoListeUtenteloggato(request, response);
         HttpSession session = request.getSession();
+        int listaSelezionata;
+        int selectedList;
         
-        int selectedList = Integer.parseInt(request.getParameter("selectedList"));
+        //se lista selezionata, inoltro nella pagina della lista, altrimenti mostro la pagina
+        //di gestione delle liste
         
-        if (selectedList == 0) {
-            session.setAttribute("selectedList", selectedList);
-            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
-        } else {
+        if(request.getParameter("selectedList") == null){
             
-            ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-            ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);
-            ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
-            UserDAO userDAO = new MySQLUserDAOImpl();
-            User user = userDAO.getUser(shoppingList.getListOwner());
-            SharingDAO sharingDAO = new MySQLSharingDAOImpl();
-            List sharing = sharingDAO.getAllEmailsbyList(selectedList);
-            
-            String [] listaSelezionata = new String [5];
-            String [] utenteProprietario = new String [5];
-            String [][] listaCondivisa = new String [sharing.size()][4];
-            
-            for (int i=0; i<sharing.size(); i++) {
-                listaCondivisa[i][0] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getName();
-                listaCondivisa[i][1] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getSurname();
-                listaCondivisa[i][2] = ((Sharing)sharing.get(i)).getEmail();
-                listaCondivisa[i][3] = Boolean.toString(((Sharing)sharing.get(i)).getDelete());
+            if(session.getAttribute("selectedList") != null){
+                listaSelezionata = (int)session.getAttribute("selectedList");
+            } else {
+                listaSelezionata = 0;
             }
             
-            listaSelezionata[0] = Integer.toString(shoppingList.getLID());
-            listaSelezionata[1] = shoppingList.getName();
-            listaSelezionata[2] = shoppingList.getNote();
-            listaSelezionata[3] = shoppingList.getImage();
-            listaSelezionata[4] = shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID()).getName();
+        } else { 
             
-            utenteProprietario[0] = user.getName();
-            utenteProprietario[1] = user.getSurname();
-            utenteProprietario[2] = user.getEmail();
-            utenteProprietario[3] = user.getPassword();
-            utenteProprietario[4] = user.getAvatar();
-            
-            session.setAttribute("listaCondivisa", listaCondivisa);            
-            session.setAttribute("utenteProprietario", utenteProprietario);            
-            session.setAttribute("listaSelezionata", listaSelezionata);            
-            session.setAttribute("selectedList", selectedList);            
-            library.prodottiDellaLista(selectedList, request);
-            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            listaSelezionata = Integer.parseInt(request.getParameter("selectedList"));
+            session.setAttribute("selectedList", listaSelezionata);
+
+            if (selectedList == 0) {
+                selectedList = Integer.parseInt(request.getParameter("selectedList"));
+                session.setAttribute("selectedList", selectedList);
+            } else {
+                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+                ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);
+                ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+                UserDAO userDAO = new MySQLUserDAOImpl();
+                User user = userDAO.getUser(shoppingList.getListOwner());
+                SharingDAO sharingDAO = new MySQLSharingDAOImpl();
+                List sharing = sharingDAO.getAllEmailsbyList(selectedList);
+                
+                String [] listaSelezionata = new String [5];
+                String [] utenteProprietario = new String [5];
+                String [][] listaCondivisa = new String [sharing.size()][4];
+                
+                for (int i=0; i<sharing.size(); i++) {
+                    listaCondivisa[i][0] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getName();
+                    listaCondivisa[i][1] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getSurname();
+                    listaCondivisa[i][2] = ((Sharing)sharing.get(i)).getEmail();
+                    listaCondivisa[i][3] = Boolean.toString(((Sharing)sharing.get(i)).getDelete());
+                }
+                
+                listaSelezionata[0] = Integer.toString(shoppingList.getLID());
+                listaSelezionata[1] = shoppingList.getName();
+                listaSelezionata[2] = shoppingList.getNote();
+                listaSelezionata[3] = shoppingList.getImage();
+                listaSelezionata[4] = shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID()).getName();
+                
+                utenteProprietario[0] = user.getName();
+                utenteProprietario[1] = user.getSurname();
+                utenteProprietario[2] = user.getEmail();
+                utenteProprietario[3] = user.getPassword();
+                utenteProprietario[4] = user.getAvatar();
+                
+                session.setAttribute("listaCondivisa", listaCondivisa);            
+                session.setAttribute("utenteProprietario", utenteProprietario);            
+                session.setAttribute("listaSelezionata", listaSelezionata);            
+                session.setAttribute("selectedList", selectedList);            
+                library.prodottiDellaLista(selectedList, request);
+                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            }
         }
         
+        // DA TOGLIERE
+        if(listaSelezionata == 10){
+            listaSelezionata = 0;
+        }
+        //////////////
     }
 
     /**

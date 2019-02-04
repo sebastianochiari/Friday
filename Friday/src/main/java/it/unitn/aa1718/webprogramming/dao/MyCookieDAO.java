@@ -6,6 +6,7 @@
 package it.unitn.aa1718.webprogramming.dao;
 
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
+import java.util.List;
 import java.util.Vector;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 public interface MyCookieDAO {
     
     public Vector<MyCookie> getAllCookieByEmail(String email);
+    
+    public Vector<MyCookie> getAllCookie();
     
     public MyCookie getTHECookie(Vector<MyCookie> myCookies, int myCookieID);
     

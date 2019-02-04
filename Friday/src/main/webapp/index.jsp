@@ -10,6 +10,9 @@
 <%@ page import="java.util.*"%>
 <%@ page import="javax.servlet.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.friday.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
@@ -50,11 +53,8 @@
     </head>
 
     <body id="top">
-
-        <%
-            (request.getSession()).setAttribute("emailSession", null);
-            (request.getSession()).setAttribute("cookieIDSession", null);
-            (request.getSession()).setAttribute("nameUserSession", null);
+        
+<%
 
             String DBUrl = MySQLDAOFactory.getDBUrl();
             String DBUser = MySQLDAOFactory.getDBUser();
@@ -67,6 +67,11 @@
             (request.getSession()).setAttribute("DBDriverSession", DBDriver);
 
             Cookie[] cookies = request.getCookies();
+            
+            DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+            UserDAO riverUserDAO = mySqlFactory.getUserDAO();
+            UserDAO userDAO = new MySQLUserDAOImpl();
+            
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
@@ -88,15 +93,15 @@
                             if((cookies[i].getValue()).equals(result.getString("cookieID"))){
 
                                 String emailSession = result.getString("Email");
-                                (request.getSession()).setAttribute("emailSession", emailSession);
-                                (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
-                                (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
-                                (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
-                                System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
-
-                                if (emailSession.equals(null)){
+                              
+                                if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
+                               
                                     boolEmailSession = false;
                                 } else {
+                                    (request.getSession()).setAttribute("emailSession", emailSession);
+                                    (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                                    (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
+                                    (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
                                     boolEmailSession = true;
                                 }
 
@@ -119,21 +124,32 @@
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
-
-                    // Seba code
-                    // preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE Email = ?;");
-                    // preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
-                    // preparedStatement.execute();
-                    // result = preparedStatement.getResultSet();
-                    //
-                    // System.out.println("+++++++++++++++++++++++" + result.rows + "+++++++++++++++++++++++++");
-                    //
-                    // String [] userLists = new String[result.rows];
-                    // for(int i = 0; i < result.rows; i++) {
-                    //     String tempUserList;
-                    //     (request.getSession()).setAttribute("tempUserList", result.getString("Name"));
-                    //     userLists[i] = tempUserList;
-                    // }
+                    
+                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
+                    preparedStatement.execute();
+                    result = preparedStatement.getResultSet();
+                    
+                    result.last();
+                    
+                    String [][] prodottiRand = new String [result.getRow()][6];
+                    
+                    result.beforeFirst();
+                    
+                    int i = 0;
+                    
+                    while (result.next()) {
+                        prodottiRand [i][0] = result.getString("PID");
+                        prodottiRand [i][1] = result.getString("Name");
+                        prodottiRand [i][2] = result.getString("Note");
+                        prodottiRand [i][3] = result.getString("Logo");
+                        prodottiRand [i][4] = result.getString("Photo");
+                        prodottiRand [i][5] = result.getString("PCID");
+                        
+                        i++;
+                    }
+                    
+                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
+                    
 
                 }
 

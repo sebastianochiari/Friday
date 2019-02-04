@@ -22,9 +22,13 @@ public interface ShoppingListDAO {
     
     public List getShoppingListsByCategory(int LCID);
     
+    public ShoppingList getAnonymusShoppingList(int CookieID);
+    
     public String createShoppingList(ShoppingList shoppingList);
     
     public boolean updateShoppingList(ShoppingList shoppingList);
+    
+    public boolean deleteExpiredShoppingLists();
     
     public boolean deleteShoppingList(ShoppingList shoppingList);
     

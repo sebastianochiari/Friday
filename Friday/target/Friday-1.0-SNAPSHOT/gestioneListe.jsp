@@ -80,7 +80,7 @@
                                             <c:set var="attiva0" value="active <- attiva0"></c:set>
                                         </c:if>
                                         <c:if test="${listaAttiva ne 0}">
-                                            <li><button type="submit" value="10" name="selectedList" class="dropdown-item">
+                                            <li><button type="submit" value="0" name="selectedList" class="dropdown-item">
                                                 Gestione Liste
                                             </button></li>
                                             <c:set var="attiva0" value="notActive <- attiva0"></c:set>
@@ -89,7 +89,7 @@
                                             <c:set var="listaUser" value="${lista}"></c:set>
                                             <c:if test="${listaAttiva eq lista[1]}">
                                                 <li>
-                                                <button type="submit" value="${1}${lista[1]}" name="selectedList" class="dropdown-item">
+                                                <button type="submit" value="${lista[1]}" name="selectedList" class="dropdown-item">
                                                     ${lista[0]}
                                                 </button>
                                                 </li>
@@ -97,7 +97,7 @@
                                             </c:if>
                                             <c:if test="${listaAttiva ne lista[1]}">
                                                 <li>
-                                                <button type="submit" value="${1}${lista[1]}" name="selectedList" class="dropdown-item">
+                                                <button type="submit" value="${lista[1]}" name="selectedList" class="dropdown-item">
                                                     ${lista[0]}
                                                 </button>
                                                 </li>
@@ -118,7 +118,7 @@
                                         <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
                                             <c:if test="${listaAttiva eq listaCondivisa[1]}">
                                                 <li>
-                                                <button type="submit" value="${2}${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
+                                                <button type="submit" value="${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
                                                     ${listaCondivisa[0]}
                                                 </button>
                                                 </li>
@@ -126,7 +126,7 @@
                                             </c:if>
                                             <c:if test="${listaAttiva ne listaCondivisa[1]}">
                                                 <li>
-                                                <button type="submit" value="${2}${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
+                                                <button type="submit" value="${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
                                                     ${listaCondivisa[0]}
                                                 </button>
                                                 </li>

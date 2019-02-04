@@ -173,9 +173,16 @@ public class loginServlet extends HttpServlet {
                         MyCookie myNewCookie = new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline); 
                         myCookieDAO.createCookie(myNewCookie);
                         response.addCookie(cookie);
+                        
                         session.setAttribute("cookieIDSession", myNewCookie.getCookieID());
                         System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
 
+                        
+                        (request.getSession()).setAttribute("emailSession", email);
+                        (request.getSession()).setAttribute("nameUserSession", userDAO.getUser(email).getName());
+                        
+                        
+                        
                     } else {
                         System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
                     }

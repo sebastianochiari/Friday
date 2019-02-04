@@ -92,24 +92,11 @@ public class insertShoppingListServlet extends HttpServlet {
             //associo cookie anonimo se non loggato
             if(list_owner == null){
 
+                cookieID = (int)session.getAttribute("cookieIDSession");
+                session.setAttribute("listaAnonimo", true);
                 MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
                 MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
-
-                //cancello eventuali cookie scaduti
-                myCookieDAO.deleteDBExpiredCookies();
-
-                //Creo cookie
-                Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
-                cookie.setMaxAge(-1);
-                cookieID = Integer.parseInt((String)cookie.getValue());
-
-                Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
-
-                myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, list_owner, Deadline));
-                //System.out.println("zao zao il nuovo tuo cookie anonimo è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
-                session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
-                response.addCookie(cookie);
-
+                
                 shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
                 shoppingListDAO.createShoppingList(shoppingList);
 
@@ -122,12 +109,10 @@ public class insertShoppingListServlet extends HttpServlet {
                 shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
                 shoppingListDAO.createShoppingList(shoppingList);
             }
-
-            // recupero di tutti gli shoppingList del DB
-            shoppingLists = shoppingListDAO.getAllShoppingLists();
             
             request.setAttribute("goodInsertShoppingList", "true");
-            response.sendRedirect("gestioneListe.jsp");
+            session.setAttribute("selectedList", 0);
+            request.getRequestDispatcher("handlingListServlet").forward(request, response);
             
        } else {
             response.sendRedirect("faq.jsp");

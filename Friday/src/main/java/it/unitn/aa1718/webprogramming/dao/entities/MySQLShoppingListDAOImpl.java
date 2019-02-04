@@ -27,6 +27,8 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     private static final String Create_Query_Anonymous = "INSERT INTO lists (LID, name, note, image, LCID, list_owner, cookieID )VALUES (?, ?, ?, ?, ?, null, ?)";
     
     private static final String Read_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE LID = ?";
+
+    private static final String Read_CookieID_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE cookieID = ?";
     
     private static final String Read_Email_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists WHERE list_owner = ?";
     
@@ -39,6 +41,8 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     private static final String Update_Email_Query = "UPDATE lists SET list_owner = ? WHERE LID = ?";
     
     private static final String Delete_Query = "DELETE FROM lists WHERE LID = ?";
+    
+    private static final String Delete_Expired_Query = "DELETE FROM lists WHERE list_owner IS NULL AND cookieID IS NULL";
     
     @Override
     public List getAllShoppingLists() {
@@ -164,6 +168,47 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         
         return shoppingLists;
     
+    }
+    
+    @Override
+    public ShoppingList getAnonymusShoppingList(int CookieID){
+        
+        ShoppingList shoppingList = null;
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Read_CookieID_Query);
+            preparedStatement.setInt(1, CookieID);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+ 
+            if (result.next() && result != null) {
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7));
+            } 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+ 
+        return shoppingList;
+        
     }
   
     @Override
@@ -304,6 +349,33 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Delete_Query);
             preparedStatement.setInt(1, shoppingList.getLID());
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public boolean deleteExpiredShoppingLists(){
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = MySQLDAOFactory.createConnection();
+            preparedStatement = conn.prepareStatement(Delete_Expired_Query);
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

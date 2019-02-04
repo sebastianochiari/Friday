@@ -27,6 +27,7 @@ it\unitn\aa1718\webprogramming\friday\Sharing.class
 it\unitn\aa1718\webprogramming\servlets\insertUserServlet.class
 it\unitn\aa1718\webprogramming\friday\ProductCategory.class
 it\unitn\aa1718\webprogramming\friday\ShoppingListCategory.class
+it\unitn\aa1718\webprogramming\servlets\listServlet.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLSharingDAOImpl.class
 it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.class
 it\unitn\aa1718\webprogramming\extra\sessionAttribute.class
@@ -39,6 +40,7 @@ it\unitn\aa1718\webprogramming\services\MapGroupGenerator.class
 it\unitn\aa1718\webprogramming\dao\ProductListDAO.class
 it\unitn\aa1718\webprogramming\dao\UserDAO.class
 it\unitn\aa1718\webprogramming\friday\MyCookie.class
+it\unitn\aa1718\webprogramming\servlets\indexServlet.class
 it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.class
 it\unitn\aa1718\webprogramming\dao\ProductDAO.class
 it\unitn\aa1718\webprogramming\servlets\insertShoppingListServlet.class

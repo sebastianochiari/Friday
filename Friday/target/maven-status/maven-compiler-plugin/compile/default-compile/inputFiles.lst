@@ -2,6 +2,7 @@ C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\encrypt\DBSecurity.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\Message.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\confirmRegistrationServlet.java
+C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\indexServlet.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLProductCategoryDAOImpl.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\searchServlet.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\MyCookie.java
@@ -11,6 +12,7 @@ C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\logoutServlet.java
+C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\listServlet.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\User.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertUserServlet.java
 C:\Users\leo97\Desktop\ProgettoWebQuelloVero\github\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.java

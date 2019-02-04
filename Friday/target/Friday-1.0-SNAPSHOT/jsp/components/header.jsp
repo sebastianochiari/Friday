@@ -87,13 +87,13 @@
 
                             <form action="handlingListServlet" method="GET">
                                 <%--<a class="dropdown-item" href="gestioneListe.jsp">Gestione liste</a>--%>
-                                <button type="submit" value="10" class="dropdown-item" name="selectedList" >
+                                <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste
                                 </button>
                             </form>
                             <form action="handlingListServlet" method="GET">
                                 <c:forEach var="resList" items="${resultList.rows}" >
-                                    <button type="submit" value="${1}${resList.LID}" class="dropdown-item" name="selectedList" >
+                                    <button type="submit" value="${resList.LID}" class="dropdown-item" name="selectedList" >
                                         ${resList.Name}
                                     </button>
                                 </c:forEach>

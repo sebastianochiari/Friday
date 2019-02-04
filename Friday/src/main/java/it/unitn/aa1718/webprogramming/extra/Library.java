@@ -28,6 +28,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.servlet.http.HttpServletRequest;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -351,16 +352,20 @@ public class Library {
         return searchProductResult;
     }
     
-    public void recuperoListeUtenteloggato(HttpServletRequest request){
+    public void recuperoListeUtenteloggato(HttpServletRequest request, HttpServletResponse response){
        
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         HttpSession session = request.getSession();
-       
+        
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+        
+        //elimino shopping list anonime scadute
+        shoppingListDAO.deleteExpiredShoppingLists();
+        
+        if(session.getAttribute("emailSession") != null){
                 
                 // START: recupero delle liste che appartengono all'utente loggato
-                
-                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-                ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
                 
                 List lists = shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession"));
                 String[][] searchListResult = new String[lists.size()][3];
@@ -398,6 +403,90 @@ public class Library {
                 
                 // END: recupero delle liste condivise dell'utente loggato                
                 
+            } else {
+            
+                    int cookieID;
+           
+            
+                    if(session.getAttribute("cookieIDSession") == null){
+
+                    MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+                    MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+
+                    //cancello eventuali cookie scaduti
+                    myCookieDAO.deleteDBExpiredCookies();
+
+                    //Creo cookie
+                    Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(LastEntryTable("cookieID", "cookies")));
+                    cookie.setMaxAge(-1);
+                    cookieID = Integer.parseInt((String)cookie.getValue());
+
+                    Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
+
+                    myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
+                    session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
+                    response.addCookie(cookie);
+                    
+                    } else {
+                        cookieID = (int)session.getAttribute("cookieIDSession");
+                    }
+            
+                    ShoppingList shoppingList = shoppingListDAO.getAnonymusShoppingList(cookieID);
+                    String[][] ListResult;
+
+                    if(shoppingList != null){
+
+                        ListResult = new String[1][3];
+                        ListResult[0][0] = shoppingList.getName();
+                        ListResult[0][1] = Integer.toString(shoppingList.getLID());
+                        ListResult[0][2] = (shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID())).getName();
+                        session.setAttribute("ListUserSessionSize", 1);
+
+                    } else {
+                        ListResult = new String[0][3];
+                        session.setAttribute("ListUserSessionSize", 0);
+                    }
+                
+                session.setAttribute("ListUserSession", ListResult);
+                
+        }
+        
+    }
+    
+    public void autologin(Cookie[] cookies,Vector<MyCookie> DBcookie, HttpSession session){
+        
+        MyCookie loginCookie = null;
+        String emailSession = null;
+        boolean boolEmailSession;
+        
+        for(int j=0; j<DBcookie.size(); j++){
+            for(int i=0; i<cookies.length; i++){
+
+                if((cookies[i].getValue()).equals(DBcookie.get(j).getCookieID())){
+                    
+                    System.out.println(DBcookie.get(j).getCookieID());
+                    
+                    loginCookie = DBcookie.get(j);
+
+                    emailSession = DBcookie.get(j).getEmail();
+                    session.setAttribute("emailSession", emailSession);
+                    session.setAttribute("cookieIDSession", DBcookie.get(j).getCookieID());
+                    session.setAttribute("deadlineSession", DBcookie.get(j).getDeadline());
+                    session.setAttribute("LIDSession", DBcookie.get(j).getLID());
+                   
+
+                }
             }
+        }
+        
+        if (emailSession == null){
+            boolEmailSession = false;
+        } else {
+            boolEmailSession = true;
+        }
+
+        session.setAttribute("boolEmailSessionScriptlet", boolEmailSession);
+    }     
+ 
 }
 

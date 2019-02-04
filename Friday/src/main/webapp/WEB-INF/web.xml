@@ -54,6 +54,14 @@
         <servlet-name>handlingListServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.handlingListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>listServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.listServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>indexServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.servlets.indexServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>insertUserServlet</servlet-name>
         <url-pattern>/insertUserServlet</url-pattern>
@@ -97,6 +105,14 @@
     <servlet-mapping>
         <servlet-name>handlingListServlet</servlet-name>
         <url-pattern>/handlingListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>listServlet</servlet-name>
+        <url-pattern>/listServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>indexServlet</servlet-name>
+        <url-pattern>/indexServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

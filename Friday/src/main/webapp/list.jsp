@@ -50,9 +50,9 @@
     </head>
 
     <body id="top">
-        
+
         <c:set var="selectedListToChangeProduct" value="${requestScope.selectedList}" scope="session"></c:set>
-        
+
         <!-- Header -->
         <jsp:include page="jsp/components/header.jsp" />
 
@@ -66,7 +66,7 @@
                 <table class="table table-striped table-borderless">
                     <thead>
                         <tr>
-                            
+
                             <th scope="col"></th>
                             <th scope="col">Nome prodotto</th>
                             <th scope="col">Note</th>
@@ -115,7 +115,7 @@
                                                         <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                     </button>
                                                 </form>
-                                                
+
                                             </tr>
                                         </tbody>
                                     </table>
@@ -150,7 +150,7 @@
 
             </div>
             --%>
-            
+
             <%-- con questa versione invece non ci sono problemi di grafica, però secondo me è più brutto --%>
             <div class="container mt-4">
 
@@ -197,7 +197,7 @@
                                                         <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                     </button>
                                                 </form>
-                                                
+
                                             </tr>
                                         </tbody>
                                     </table>
@@ -227,7 +227,7 @@
                                 <th scope="col" style="text-align: right;">Quantità</th>
                                 <th style="text-align: center;" scope="col">Gestisci quantità</th>
                             </tr>
-                            
+
                             <c:set var="counterPL" value="${counterPL+1}"></c:set>
                         </c:forEach>
                             <tr>
@@ -236,12 +236,12 @@
                                         <i class="fa fa-plus-circle">Aggiungi prodotto alla lista</i>
                                     </a>
                                     <div class="modal fade" id="addProductToList" tabindex="-1" role="dialog" aria-labelledby="addProductToListLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-dialog addProduct-width modal-dialog-centered" style="width: 100%" role="document">
                                             <div class="modal-content shadow">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Aggiungi prodotto alla lista</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
+                                                      <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">

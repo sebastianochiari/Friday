@@ -119,6 +119,32 @@
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
+                    
+                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
+                    preparedStatement.execute();
+                    result = preparedStatement.getResultSet();
+                    
+                    result.last();
+                    
+                    String [][] prodottiRand = new String [result.getRow()][6];
+                    
+                    result.beforeFirst();
+                    
+                    int i = 0;
+                    
+                    while (result.next()) {
+                        prodottiRand [i][0] = result.getString("PID");
+                        prodottiRand [i][1] = result.getString("Name");
+                        prodottiRand [i][2] = result.getString("Note");
+                        prodottiRand [i][3] = result.getString("Logo");
+                        prodottiRand [i][4] = result.getString("Photo");
+                        prodottiRand [i][5] = result.getString("PCID");
+                        
+                        i++;
+                    }
+                    
+                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
+                    
 
                 }
 
@@ -257,9 +283,7 @@
                     <div class="mt-4">
                         <h5>Prodotti scelti per te</h5>
                         <div class="cart-carousel">
-                            <sql:setDataSource var="snapshot1" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
-                            <sql:query dataSource="${snapshot1}" var="resultRand" sql="SELECT * FROM products order by RAND() LIMIT 5;"></sql:query>
-                            <c:forEach items="${resultRand}" var="prodottoRand">
+                            <c:forEach items="${prodottiRand}" var="prodottoRand">
                                 <div>
                                     <img class="cart-image" src="images/prodotti/${prodottoRand[4]}">
                                     <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn std-button displayCenter">
@@ -267,6 +291,7 @@
                                     </button>
                                 </div>
                             </c:forEach>
+                            
                         </div>
                     </div>
                 </form>

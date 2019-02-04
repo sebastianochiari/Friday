@@ -52,6 +52,8 @@
 
     <!-- HEADER -->
     <jsp:include page="jsp/components/header.jsp" />
+    
+    
 
     <!-- START: parte principale -->
     <main>
@@ -145,113 +147,119 @@
                     <div id="main" class="col-md-9">
                         <!-- START: list -->
                         <div id="list" aria-labelledby="gestioneListe" data-parent="gestioneListe">
-
-                            <h4>Gestione Liste</h4>
-                            <p>
-                                Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti. Se vuoi creare una nuova lista clicca il pulsante qui sotto:
-                            </p>
-                            <p>
-                                <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList"><h3>Crea nuova lista</h3></a>
-                                <c:set var="goodInsertShoppingList" value="requestScope.goodInsertShoppingList"></c:set>
-                                <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content shadow">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Crea una nuova lista della spesa</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <jsp:include page="insertShoppingList.jsp" />
+                            <c:set var="GestioneListe" value="${selectedList}"></c:set>
+                            <c:if test="${GestioneListe eq 0}">
+                                <h4>Gestione Liste</h4>
+                                <p>
+                                    Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti. Se vuoi creare una nuova lista clicca il pulsante qui sotto:
+                                </p>
+                                <p>
+                                    <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList"><h3>Crea nuova lista</h3></a>
+                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content shadow">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <jsp:include page="insertShoppingList.jsp" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </p>
+                                </p>
 
-                            <h5>
-                                Liste personali
-                            </h5>
-                            <table class="table table-striped table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;" scope="col">#</th>
-                                        <th scope="col">Nome lista</th>
-                                        <th scope="col">Categoria di lista</th>
-                                        <th style="text-align: center;" scope="col">Condivisa</th>
-                                        <th style="text-align: center;" scope="col">Elimina</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:set var="counterPL" value="1"></c:set>
-                                    <c:forEach items="${ListUserSession}" var="lista1">
+                                <h5>
+                                    Liste personali
+                                </h5>
+                                <table class="table table-striped table-borderless">
+                                    <thead>
                                         <tr>
-                                            <th style="text-align: center;" scope="row">${counterPL}</th>
-                                            <td>
-                                                <form action="handlingListServlet" method="GET">
-                                                    <button type="submit" value="${lista1[1]}" name="selectedList" class="dropdown-item">
-                                                        ${lista1[0]}
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            <td>${lista1[2]}</td>
-                                            <td style="text-align: center;">
-                                                <c:if test="${lista1[3] eq 1}">
-                                                    <i class="fas fa-check"></i>
-                                                </c:if>
-                                                <c:if test="${lista1[3] ne 1}">
-                                                    <i class="fas fa-times"></i>
-                                                </c:if>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <form action="insertShoppingListServlet" method="POST">
-                                                    <button type="submit" title="Elimina questa lista" name="deleteList" value="${lista1[1]}">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            <th style="text-align: center;" scope="col">#</th>
+                                            <th scope="col">Nome lista</th>
+                                            <th scope="col">Categoria di lista</th>
+                                            <th style="text-align: center;" scope="col">Condivisa</th>
+                                            <th style="text-align: center;" scope="col">Elimina</th>
                                         </tr>
-                                        <c:set var="counterPL" value="${counterPL+1}"></c:set>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <c:set var="counterPL" value="1"></c:set>
+                                        <c:forEach items="${ListUserSession}" var="lista1">
+                                            <tr>
+                                                <th style="text-align: center;" scope="row">${counterPL}</th>
+                                                <td>
+                                                    <form action="handlingListServlet" method="GET">
+                                                        <button type="submit" value="${lista1[1]}" name="selectedList" class="dropdown-item">
+                                                            ${lista1[0]}
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                                <td>${lista1[2]}</td>
+                                                <td style="text-align: center;">
+                                                    <c:if test="${lista1[3] eq 1}">
+                                                        <i class="fas fa-check"></i>
+                                                    </c:if>
+                                                    <c:if test="${lista1[3] ne 1}">
+                                                        <i class="fas fa-times"></i>
+                                                    </c:if>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <form action="insertShoppingListServlet" method="POST">
+                                                        <button type="submit" title="Elimina questa lista" name="deleteList" value="${lista1[1]}">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <c:set var="counterPL" value="${counterPL+1}"></c:set>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
 
-                            <h5 class="mt-5">
-                                Liste condivise
-                            </h5>
-                            <table class="table table-striped table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;" scope="col">#</th>
-                                        <th scope="col">Nome lista</th>
-                                        <th scope="col">Categoria di lista</th>
-                                        <th style="text-align: center;" scope="col">Esci</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:set var="counterSL" value="1"></c:set>
-                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa1">
+                                <h5 class="mt-5">
+                                    Liste condivise
+                                </h5>
+                                <table class="table table-striped table-borderless">
+                                    <thead>
                                         <tr>
-                                            <th style="text-align: center;" scope="row">${counterSL}</th>
-                                            <td>
-                                                <form action="handlingListServlet" method="GET">
-                                                    <button type="submit" value="${listaCondivisa1[1]}" name="selectedList" class="dropdown-item">
-                                                        ${listaCondivisa1[0]}
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            <td>${listaCondivisa1[2]}</td>
-                                            <td style="text-align: center;">
-                                                <a href="#">
-                                                <i class="fas fa-sign-out-alt"></i>
-                                            </a>
-                                            </td>
+                                            <th style="text-align: center;" scope="col">#</th>
+                                            <th scope="col">Nome lista</th>
+                                            <th scope="col">Categoria di lista</th>
+                                            <th style="text-align: center;" scope="col">Esci</th>
                                         </tr>
-                                        <c:set var="counterSL" value="${counterSL+1}"></c:set>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <c:set var="counterSL" value="1"></c:set>
+                                        <c:forEach items="${SharingListUserSession}" var="listaCondivisa1">
+                                            <tr>
+                                                <th style="text-align: center;" scope="row">${counterSL}</th>
+                                                <td>
+                                                    <form action="handlingListServlet" method="GET">
+                                                        <button type="submit" value="${listaCondivisa1[1]}" name="selectedList" class="dropdown-item">
+                                                            ${listaCondivisa1[0]}
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                                <td>${listaCondivisa1[2]}</td>
+                                                <td style="text-align: center;">
+                                                    <a href="#">
+                                                    <i class="fas fa-sign-out-alt"></i>
+                                                </a>
+                                                </td>
+                                            </tr>
+                                            <c:set var="counterSL" value="${counterSL+1}"></c:set>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:if>
+                            <c:if test="${GestioneListe ne 0}">
+                                <jsp:include page="list.jsp"></jsp:include>
+                            </c:if>
+                               
+                            
 
 
                         </div>

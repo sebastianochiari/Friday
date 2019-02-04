@@ -69,11 +69,10 @@
                             <h3 class="aside-title">Categorie:</h3>
                             <ul class="list-links">
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
-                            <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
+                            <sql:query dataSource="${snapshot}" var="resultProductCategories" sql="SELECT * FROM product_categories;"></sql:query>
                              
                             <form action="searchServlet" method ="GET">
-                                 <c:forEach var="res" items="${result.rows}" >
-                                       <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
+                                 <c:forEach var="res" items="${resultProductCategories.rows}" >
                                        <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="CategoryLeft" id="CategoryLeft">
                                            ${res.Name}
                                        </button>
@@ -106,37 +105,6 @@
                                 </form>
                             </div>
                             
-                            
-                            
-                            
-                            
-                            <%-- ORDINAMENTO RICERCA
-                            <form class="form-inline" method="GET" action="searchServlet">
-                                <span class="text-uppercase mr-3">ordina:</span>
-                                <select class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
-                                    <option>
-                                        <button type="submit" value ="alfabeticamente" class="dropdown-item" name ="order" >
-                                            alfabeticamente
-                                        </button>
-                                    </option>
-                                    <option>       
-                                        <button type="submit" value ="per categoria" class="dropdown-item" name ="order" >
-                                            per categoria
-                                        </button>
-                                    </option>
-                                </select>
-                            </form>
-                            --%>                           
-                            
-<!--
-                            <p class="mt-3">
-                                Ci dispiace, <b>la ricerca non ha prodotto alcun tipo di risultato</b>.
-                                <br>
-                                Prova a <b>ritentare</b> cambiando qualche parola oppure <b>aggiungi il prodotto che desideri</b>.
-                                <a href="#" class="text-link" data-toggle="modal" data-target="#addProductModal">Clicca qui</a>
-                            </p>
--->
-
                             <div class="row">
                                 
                                 <c:forEach items="${resultSearch}" var="prodotto">

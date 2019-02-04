@@ -126,6 +126,7 @@ public class insertProductServlet extends HttpServlet {
         int amount = 1;
         if (scelta != 4) {
             productList = productListDAO.getProductList(comando, lista);
+            System.out.println("------"+productList);
             amount = productList.getQuantity();
         }
         
@@ -133,9 +134,14 @@ public class insertProductServlet extends HttpServlet {
             case 1: 
                 amount--;
                 productList = new ProductList(comando, lista, amount);
-                productListDAO.updateProductList(productList);
+                if (amount>0) {
+                    productListDAO.updateProductList(productList);
+                } else {
+                    productListDAO.deleteProductList(productList);
+                };
                 break;
             case 2:
+                productList = new ProductList(comando, lista, amount);
                 productListDAO.deleteProductList(productList);
                 break;
             case 3:
@@ -152,7 +158,7 @@ public class insertProductServlet extends HttpServlet {
                 break;
         }
             
-        response.sendRedirect("list.jsp");
+        response.sendRedirect("gestioneListe.jsp");
     }
 
     /**

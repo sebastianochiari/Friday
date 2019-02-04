@@ -839,3 +839,16 @@ hr {
     border: 1px solid #ced4da !important;
     border-radius: .25rem !important;
 }
+
+.addProduct-width {
+    max-width: 85% !important;
+}
+
+.logout-button {
+    background-color: transparent;
+    padding: 0;
+}
+.logout-button > i {
+    line-height: 2rem;
+    color: #F8694A;
+}

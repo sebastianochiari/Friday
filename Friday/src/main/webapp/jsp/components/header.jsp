@@ -111,16 +111,16 @@
                 </ul>
 
                 <div style="display: inline;">
-                    <a href="#" class="shopping-link" style="margin-right: 5px;">
+                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-envelope shopping-icon"></i>
                     </a>
-                    <a href="#" class="shopping-link" style="margin-right: 5px;">
+                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-shopping-cart shopping-icon"></i>
                     </a>
                     <c:if test="${emailSession ne null}">
-                        <form style="display: inline-flex;" action="logoutServlet" method="POST">
+                        <form style="display: inline-flex; padding: 0; margin: 0; vertical-align: sub; margin-left: 5px;" action="logoutServlet" method="POST">
                             <input type="hidden" name="boolEmailSession" value="false">
-                            <button type="submit" class="btn std-button">
+                            <button type="submit" class="btn std-button logout-button" style="background-color: transparent;">
                                 <i class="fas fa-sign-out-alt shopping-icon displayCenter"></i>
                             </button>
                         </form>
@@ -134,9 +134,9 @@
     <!-- START: search navbar -->
     <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
         <div class="container mb-1">
-            <form action="searchServlet" method="GET">
+            <form action="searchServlet" method="GET" style="width: 100%;">
                 <div class="row">
-                    <div class="col mt-1 nav-col">
+                    <div class="col-md-3 mt-1 nav-col">
                         <div class="col-sm">
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
@@ -152,7 +152,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md mt-1 nav-col">
+                    <div class="col-md-4 mt-1 nav-col">
                         <div class="input-group nav-search">
                             <input class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
                             <div class="input-group-append">
@@ -164,7 +164,7 @@
                     </div>
 
                     <c:if test="${emailSession ne null}">
-                        <div class="col-md align-right">
+                        <div class="col align-right" style="text-align: right;">
                             <small class="text-muted">Logged as </small>
                             <br>
                             <c:out value=" ${emailSession}"></c:out>

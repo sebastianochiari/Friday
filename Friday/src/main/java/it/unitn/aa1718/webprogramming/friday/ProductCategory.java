@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.friday;
 
 /**
- *
- * @author marta
+ * Classe che identifica la categoria alla quale appartiene il prodotto
  */
 public class ProductCategory {
     
@@ -17,7 +16,14 @@ public class ProductCategory {
     private String note = null;
     private String logo = null;
     private String email = null;
-    
+    /**
+     * Costruttore
+     * @param PCID intero che identifica in modo univoco la categoria di prodotto
+     * @param name
+     * @param note
+     * @param logo
+     * @param email 
+     */
     public ProductCategory(int PCID, String name, String note, String logo, String email) {
         super();
         this.PCID = PCID;

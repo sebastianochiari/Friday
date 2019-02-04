@@ -84,11 +84,7 @@
 
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
                             <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE List_Owner = '${emailSession}';"></sql:query>
-<<<<<<< HEAD
                             <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM sharing WHERE Email = '${emailSession}';"></sql:query>
-=======
-
->>>>>>> m-back-end
 
                             <form action="handlingListServlet" method="GET">
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
@@ -101,7 +97,6 @@
                                         ${resList.Name}
                                     </button>
                                 </c:forEach>
-<<<<<<< HEAD
                             </form>
                             <form action="handlingListServlet" method="GET">
                                 <c:forEach var="resSharingList" items="${resultSharingList.rows}" >
@@ -110,14 +105,6 @@
                                     </button>
                                 </c:forEach>
                             </form>
-=======
-
-                                <%--<a class="dropdown-item" href="gestioneListe.jsp#00">Liste condivise</a>--%>
-                                <button type="submit" value="00" class="dropdown-item" name="selectedList" >
-                                    Liste Condivise
-                                </button>
-                            </form>
->>>>>>> m-back-end
 
                         </div>
                     </li>

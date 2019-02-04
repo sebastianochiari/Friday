@@ -120,21 +120,6 @@
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
 
-                    // Seba code
-                    // preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE Email = ?;");
-                    // preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
-                    // preparedStatement.execute();
-                    // result = preparedStatement.getResultSet();
-                    //
-                    // System.out.println("+++++++++++++++++++++++" + result.rows + "+++++++++++++++++++++++++");
-                    //
-                    // String [] userLists = new String[result.rows];
-                    // for(int i = 0; i < result.rows; i++) {
-                    //     String tempUserList;
-                    //     (request.getSession()).setAttribute("tempUserList", result.getString("Name"));
-                    //     userLists[i] = tempUserList;
-                    // }
-
                 }
 
             } catch (SQLException e) {
@@ -230,65 +215,63 @@
                 <!-- END: Carousel -->
 
                 <!-- START: personal shopping cart -->
-                <div id="breadcrumb" class="mt-4">
-                    <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <form action="insertProductServlet" method="POST">
+                    <div id="breadcrumb" class="mt-4">
+                    
                         <h5 style="display: inline-block;">La mia lista</h5>
-                        <p style="display: inline-block;"><i>predefinita</i></p>
-                    </a>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
-                            <div class="cart-carousel">
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/bic.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/colla.JPG">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/evidenziatore.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/forbice.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/pennarelli.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
+                        <p style="display: inline-block;">
+                            <i>
+                                <select name="selectedListToChangeProduct" class="form-group-sm">
+                                    <c:forEach items="${ListUserSession}" var="lista">
+                                        <option value="${lista[1]}">
+                                            ${lista[0]}
+                                        </option>
+                                    </c:forEach>
+                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                        <option value="${listaCondivisa[1]}">
+                                            ${listaCondivisa[0]}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                                <input type="hidden" value="4" name="scelta">
+                            </i>
+                        </p>
+                        <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <div class="cart-carousel">
+                                    <c:forEach items="${resultSearch}" var="prodotto">
+                                        <div>
+                                            <img class="cart-image" src="images/prodotti/${prodotto[4]}">
+                                            <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodotto[0]}" class="btn std-button displayCenter">
+                                                Aggiungi alla lista
+                                            </button>
+                                        </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <!-- END: personal shopping cart -->
 
-                <div class="mt-4">
-                    <h5>Prodotti scelti per te</h5>
-                    <div class="cart-carousel">
-                        <div>
-                            <img class="cart-image" src="images/prodotti/bic.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
+                    <div class="mt-4">
+                        <h5>Prodotti scelti per te</h5>
+                        <div class="cart-carousel">
+                            <%--
+                            <sql:setDataSource var="snapshot1" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
+                            <sql:query dataSource="${snapshot1}" var="resultRand" sql="SELECT * FROM products order by RAND() LIMIT 5;"></sql:query>
+                            <c:forEach items="${resultRand}" var="prodottoRand">
+                                <div>
+                                    <img class="cart-image" src="images/prodotti/${prodottoRand[4]}">
+                                    <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn std-button displayCenter">
+                                        Aggiungi alla lista
+                                    </button>
+                                </div>
+                            </c:forEach>
+                            --%>
                         </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/colla.JPG">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/evidenziatore.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/forbice.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/pennarelli.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                    </div>
-                </div>
+                    </div> 
+                </form>
 
             </div>
 

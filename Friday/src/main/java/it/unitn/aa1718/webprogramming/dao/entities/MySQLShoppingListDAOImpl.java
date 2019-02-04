@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.dao.entities;
 
@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author leo97
+ * Classe DAO che permette la gestione della lista della spesa 
  */
 public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
@@ -40,6 +39,10 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
     private static final String Delete_Query = "DELETE FROM lists WHERE LID = ?";
     
+    /**
+     * Metodo che ritorna tutte le liste della spesa
+     * @return ritorna una lista che contiene tutte le liste conenute nel database
+     */
     @Override
     public List getAllShoppingLists() {
         
@@ -81,6 +84,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return shoppingLists;
     }
     
+    /**
+     * Metodo che ritorna la lista della spesa in base all'email passata come parametro
+     * @param email stringa che rappresenta l'email, usata per identificare l'utente in modo univoco
+     * @return ritorna una lista contenente le liste appartenenti all'utente specifico
+     */
     @Override
     public List getShoppingListsByOwner (String email) {
         
@@ -123,6 +131,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return shoppingLists;
     }
     
+    /**
+     * Metodo che ritorna le shopping list in base alla categoria
+     * @param LCID intero che rappresenta la categoria di lista 
+     * @return lista contenente tutte le liste della spesa 
+     */
     @Override
     public List getShoppingListsByCategory(int LCID){
     
@@ -166,6 +179,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
     }
   
+    /**
+     * Metodo che ritorna le liste della spesa 
+     * @param LID intero che rappresenta la lista da ritornare 
+     * @return la lista della spesa specifica in base all'ID, altrimenti null
+     */
     @Override
     public ShoppingList getShoppingList(int LID){
 		
@@ -206,6 +224,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return shoppingList;
     }
     
+    /**
+     * Metodo che crea una lista della spesa ???
+     * @param shoppingList
+     * @return 
+     */
     @Override
     public String createShoppingList(ShoppingList shoppingList) {
         Connection conn = null;
@@ -262,6 +285,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return null;
     }
 
+    /**
+     * Metodo che permette la modifica della lista della spesa
+     * @param shoppingList 
+     * @return 
+     */
     @Override
     public boolean updateShoppingList(ShoppingList shoppingList) {
 		
@@ -296,6 +324,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return false;
     }
     
+    /**
+     * Metodo che elimina la lista della spesa in base all'ID passato come parametro
+     * @param LID intero che viene passato come parametro 
+     * @return boolean uguale ad 1 se elimina la lista, false se non trova nulla
+     */
     @Override
     public boolean deleteShoppingList(int LID) {
 	Connection conn = null;
@@ -324,6 +357,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return false;
     }
 
+    /**
+     * Metodo che permette la modifica di una lista della spesa ????
+     * @param LID
+     * @param email 
+     */
     @Override
     public void updateEmailShoppingList(int LID, String email) {
         

@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.dao.entities;
 
@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author marta
+ * Classe DAO che permette la gestione di categorie di prodotto
  */
 public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
     
@@ -37,6 +36,10 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
     private static final String PCIDbyProductCatName = "SELECT PCID FROM product_categories WHERE Name = ? ";
     
     
+    /**
+     * Metodo che ritorna tutte le categorie di prodotto
+     * @return lista con tutte le categorie di prodotto
+     */
     @Override
     public List getAllProductCategories() {
         
@@ -78,6 +81,11 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return productCategories;
     }
     
+    /**
+     * Metodo che ritorna tutti i prodotti in base all'email del creatore
+     * @param email stringa contenente l'email dell'utente
+     * @return lista di prodotti trovati
+     */
     @Override
     public List getProductCategoriesByEmail (String email) {
         
@@ -120,6 +128,11 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return productCategories;
     }
     
+    /**
+     * Metodo che ritorna le categorie di prodotto in base al PCID
+     * @param PCID intero che rappresenta le categorie di prodotto 
+     * @return ritorna la categoria di prodotto trovata
+     */
     @Override
     public ProductCategory getProductCategory(int PCID) {
 		
@@ -160,6 +173,11 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return productCategory;
     }
     
+    /**
+     * Metodo che permette la creazione di una categoria di prodotto
+     * @param productCategory oggetto passato come parametro per la creazione della categoria di prodotto
+     * @return stringa che rappresenta ?????
+     */
     @Override
     public String createProductCategory(ProductCategory productCategory) {
         Connection conn = null;
@@ -204,6 +222,11 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return null;
     }
     
+    /**
+     * Metodo che permette la modifica di una categoria di prodotto
+     * @param productCategory oggetto passato come parametro
+     * @return booleano settato a 1 se la modifica ha avuto successo
+     */
     @Override
     public boolean updateProductCategory(ProductCategory productCategory) {
 		
@@ -236,6 +259,11 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return false;
     }
     
+    /**
+     * Metodo che elimina una categoria di prodotto
+     * @param productCategory oggetto passato da eliminare
+     * @return booleano che rappresenta il successo 1 oppure il fallimento 0 dell'eliminazione
+     */
     @Override
     public boolean deleteProductCategory(ProductCategory productCategory) {
 	Connection conn = null;
@@ -266,7 +294,11 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
     
     
     
-    //funzione per prendere prodotti da db in base a input scritto da utente e categoria di prodotto selezionato
+    /**
+     * Metodo che ritorna i prodotti in base all'input scritto dall'utente e categoria di prodotto selezionata
+     * @param pcategory stringa che rappresenta la categoria di prodotto
+     * @return intero che rappresenta il product category ID trovato
+     */
     public int getPCIDbyCategoryName (String pcategory){
         int PCID = -1;
        
@@ -306,10 +338,6 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
         return PCID;
     }
 
-    
-     
-
-    
-    
+  
     
 }

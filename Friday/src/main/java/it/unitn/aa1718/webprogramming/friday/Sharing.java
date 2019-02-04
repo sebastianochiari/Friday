@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.friday;
 
 /**
- *
- * @author leo97
+ * Classe per gestire le condivisioni delle liste tra utenti
  */
 public class Sharing {
     
@@ -18,6 +17,15 @@ public class Sharing {
     private boolean addRemProd;
     private boolean deleteList;
     
+    /**
+     * Costruttore
+     * @param email 
+     * @param LID
+     * @param name
+     * @param modify
+     * @param add
+     * @param delete 
+     */
     
     public Sharing(String email, int LID, String name, boolean modify, boolean add, boolean delete) {
         super();

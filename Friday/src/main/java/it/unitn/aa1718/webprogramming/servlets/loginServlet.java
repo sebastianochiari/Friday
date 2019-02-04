@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
@@ -25,10 +25,6 @@ import it.unitn.aa1718.webprogramming.friday.User;
 import java.sql.Timestamp;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author marta & leo97
- */
 public class loginServlet extends HttpServlet {
 
     /**
@@ -60,7 +56,7 @@ public class loginServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET non implementato
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -73,7 +69,8 @@ public class loginServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST della servlet: effettua il login, se ha successo setta un cookie per tener traccia dell'user
+     * Se fallisce redireziona ad una pagina di errore predefinita.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -174,10 +171,10 @@ public class loginServlet extends HttpServlet {
                         myCookieDAO.createCookie(myNewCookie);
                         response.addCookie(cookie);
                         session.setAttribute("cookieIDSession", myNewCookie.getCookieID());
-                        System.out.println("zao zao il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+                        System.out.println("il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
 
                     } else {
-                        System.out.println("Bentornato amico! il tuo ID è "+myCookie.getCookieID()+"\n");
+                        System.out.println("Bentornato amico! il tuo ID è "+ myCookie.getCookieID()+"\n");
                     }
 
                     response.sendRedirect("index.jsp");

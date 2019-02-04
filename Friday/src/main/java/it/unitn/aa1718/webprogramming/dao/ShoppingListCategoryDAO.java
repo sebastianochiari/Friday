@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.dao;
 
@@ -10,20 +10,49 @@ import java.util.List;
 
 /**
  *
- * @author leo97
+ * Interfaccia che permette la gestione e implementazione dei DAO per le categorie di lista
  */
 public interface ShoppingListCategoryDAO {
     
+    /**
+     * Metodo che ritorna tutte le categorie di lista della spesa
+     * @return list contenente tutte le liste della spesa presenti nel db
+     */
     public List getAllShoppingListCategories();
     
+    /**
+     * Metodo che ritorna le categorie di lista ???
+     * @param LCID
+     * @return 
+     */
     public ShoppingListCategory getShoppingListCategory(int LID);  
     
+    /**
+     * Metodo che ritorna le categorie di lista in base all'email passata come parametro
+     * @param email stringa che rappresenta l'email dell'utente 
+     * @return list contenente l'insieme delle liste trovate
+     */
     public List getShoppingListCategoriesByEmail(String email);
     
+    /**
+     * Metodo che crea la categoria di lista 
+     * @param shoppingListCategory oggetto list category passato in input
+     * @return stringa che rappresenta ?????????
+     */
     public String createShoppingListCategory(ShoppingListCategory shoppingListCategory);
     
+    /**
+     * Metodo che modifica la categoria di lista 
+     * @param shoppingListCategory oggetto shopping list da modificare
+     * @return booleano settato a 1 se la modifica ha avuto successo
+     */
     public boolean updateShoppingListCategory(ShoppingListCategory shoppingListCategory);
     
+    /**
+     * Metodo che elimina una categoria di lista della spesa 
+     * @param shoppingListCategory oggetto da eliminare
+     * @return booleano settato a 1 se l'eliminazione ha avuto successo
+     */
     public boolean deleteShoppingListCategory(ShoppingListCategory shoppingListCategory);
     
 }

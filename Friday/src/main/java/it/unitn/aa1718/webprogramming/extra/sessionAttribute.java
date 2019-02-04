@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.extra;
 
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
@@ -11,15 +12,17 @@ import java.sql.*;
 import java.io.*;
 import javax.servlet.*;
 
-
-
-
 /**
- *
- * @author tommi
+ * Classe che permette la gestione degli attributi di sessione
  */
 public class sessionAttribute {
-    
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void indexSessionAttribute (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         (request.getSession()).setAttribute("emailSession", null);

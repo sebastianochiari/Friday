@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.dao.entities;
 
 import it.unitn.aa1718.webprogramming.dao.*;
@@ -14,12 +15,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- *
- * @author tommi
+ * Classe DAO che permette la gestione degli utenti
  */
 public class MySQLUserDAOImpl implements UserDAO {
     
@@ -37,6 +36,10 @@ public class MySQLUserDAOImpl implements UserDAO {
     
     private static final String Delete_Query = "DELETE FROM users WHERE email = ?";
     
+    /**
+     * Metodo che effettua la query al database e ritorna tutti gli utenti presenti nella tabella user
+     * @return 
+     */
     @Override
     public List getAllUsers() {
         
@@ -78,6 +81,11 @@ public class MySQLUserDAOImpl implements UserDAO {
         return users;
     }
     
+    /**
+     * Metodo che ritorna l'utente specifico in base all'email
+     * @param email email passata come parametro per l'identificazione dell'utente da ritornare
+     * @return ritorna un oggetto di tipo User con l'utente specifico in base ai parametri passati
+     */
     @Override
     public User getUser(String email) {
 		
@@ -118,6 +126,11 @@ public class MySQLUserDAOImpl implements UserDAO {
         return user;
     }
     
+    /**
+     * Metodo che permette la creazione dell'utente 
+     * @param user oggetto di tipo user passato in input per la creazione di un utente con i parametri specifici
+     * @return una stringa che WTF??????????????''
+     */
     @Override
     public String createUser(User user) {
         Connection conn = null;
@@ -166,6 +179,10 @@ public class MySQLUserDAOImpl implements UserDAO {
         return null;
     }
 
+    /**
+     * Metodo che permette la modifica delle informazioni dell'utente in base all'email
+     * @param user oggetto user da modificare
+     */
     @Override
     public void updateUserByEmail(User user) {
 		
@@ -201,6 +218,10 @@ public class MySQLUserDAOImpl implements UserDAO {
         }
     }
     
+    /**
+     * Metodo per modificare l'utente in base alla password 
+     * @param user oggetto user da modificare
+     */
     @Override
     public void updateUserByPassword(User user) {
 		
@@ -236,6 +257,10 @@ public class MySQLUserDAOImpl implements UserDAO {
         }
     }
  
+    /**
+     * Metodo che permette l'eliminazione di un utente
+     * @param user oggetto utente da eliminare
+     */
     @Override
     public void deleteUser(User user) {
 	Connection conn = null;
@@ -263,6 +288,11 @@ public class MySQLUserDAOImpl implements UserDAO {
 
     }
 
+    /**
+     * Metodo che permette il controllo dell'esistenza di un utente nel database 
+     * @param email identificativo univoco dell'utente che permette il controllo nel database
+     * @return ritorna un booleano: ritorna 1 se esise nel db
+     */
     @Override
     public Boolean checkUser (String email) {
         
@@ -304,6 +334,11 @@ public class MySQLUserDAOImpl implements UserDAO {
         return existance;
     }
     
+    /**
+     * Metodo che ritorna la password criptata dell'utente 
+     * @param email stringa passata come parametro per effettuare la ricerca 
+     * @return stringa che rappresenta la password presa dal db
+     */
     @Override
     public String getPasswordByUserEmail(String email){
     
@@ -346,6 +381,11 @@ public class MySQLUserDAOImpl implements UserDAO {
     
     }
     
+    /**
+     * Metodo che permette il controllo del formato dell'email
+     * @param email stringa email da controllare
+     * @return email corretta ???????????????????????????
+     */
     public Boolean checkEmail (String email){
             //Bisogna capire come funziona 
            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
@@ -354,6 +394,10 @@ public class MySQLUserDAOImpl implements UserDAO {
            return m.matches();
     }
 
+    /**
+     * Metodo che verifica la verifica dell'utente ???????
+     * @param email 
+     */
     @Override
     public void confirmedUser(String email) {
         

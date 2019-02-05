@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.dao.entities;
 
 import it.unitn.aa1718.webprogramming.dao.MessageDAO;
@@ -16,8 +17,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 /**
- *
- * @author leo97
+ * Classe DAO che permette la gestione dei messaggi 
  */
 public class MySQLMessageDAOImpl implements MessageDAO{
     
@@ -33,7 +33,11 @@ public class MySQLMessageDAOImpl implements MessageDAO{
                 
     private static final String Delete_Query_By_MessageID = "DELETE FROM cookies WHERE messageID = ?";
 
-
+    /**
+     * Metodo che ritorna i messaggi in base all'ID della lista alla quale sono associati
+     * @param LID intero associato alla lista
+     * @return vettore con tutti i risultati trovati
+     */
     @Override
     public Vector<Message> getMessagesByLID(int LID) {
         
@@ -78,6 +82,11 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         return messages;
     }
 
+    /**
+     * Metodo che ritorna i messaggi in base all'ID
+     * @param messageID intero che rappresenta il messaggio da ritornare
+     * @return oggetto di tipo messaggio 
+     */
     @Override
     public Message getMessagesByID(int messageID) {
         
@@ -119,6 +128,10 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         return message;
     }
 
+    /**
+     * Metodo che permette la creazione di un messaggio 
+     * @param message oggetto da creare????
+     */
     @Override
     public void createMessage(Message message) {
         Connection conn = null;
@@ -155,6 +168,10 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         }
     }
 
+    /**
+     * Metodo che permette la modifica di un messaggio
+     * @param message oggetto da modificare
+     */
     @Override
     public void updateMessage(Message message) {
        Connection conn = null;
@@ -192,6 +209,10 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         }
     }
 
+    /**
+     * Metodo che elimina i messaggi in base all'ID 
+     * @param message messaggio da eliminare
+     */
     @Override
     public void deleteMessageByID(Message message) {
         Connection conn = null;
@@ -224,6 +245,10 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         }
     }
 
+    /**
+     * Metodo che elimina i messaggi in base all'ID della lista alla quale sono associati
+     * @param LID intero che rappresenta la lista
+     */
     @Override
     public void deleteMessageByLID(int LID) {
         Connection conn = null;

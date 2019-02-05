@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.dao.entities;
 
@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author leo97
+ * Classe DAO che permette la gestione delle liste dei prodotti
  */
 public class MySQLProductListDAOImpl implements ProductListDAO{
     
@@ -34,6 +33,10 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
     
     private static final String Delete_Query = "DELETE FROM product_lists WHERE (PID = ? and LID = ?)";
 
+    /**
+     * Metodo che ritorna tutte le liste dei prodotti 
+     * @return list che contiene tutte le liste di prodotti
+     */
     @Override
     public List getAllProductLists() {
         
@@ -75,6 +78,11 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
         return productLists;
     }
 
+    /**
+     * Metodo che ritorna tutti gli ID dei prodotti, in base all'ID della lista passata
+     * @param LID intero che identifica la lista specifica in cui cercare
+     * @return lista di interi 
+     */
     @Override
     public List getPIDsByLID(int LID) {
         
@@ -118,6 +126,12 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
         
     }
 
+    /**
+     * Metodo che ritorna il 
+     * @param PID
+     * @param LID
+     * @return 
+     */
     @Override
     public ProductList getProductList(int PID, int LID) {
         
@@ -159,6 +173,11 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
         return productList;
     }
 
+    /**
+     * Metodo che crea 
+     * @param productList
+     * @return 
+     */
     @Override
     public String createProductList(ProductList productList) {
         
@@ -203,6 +222,11 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
         return null;
     }
 
+    /**
+     * 
+     * @param productList
+     * @return 
+     */
     @Override
     public boolean updateProductList(ProductList productList) {
         
@@ -237,6 +261,11 @@ public class MySQLProductListDAOImpl implements ProductListDAO{
         return false;
     }
 
+    /**
+     * 
+     * @param productList
+     * @return 
+     */
     @Override
     public boolean deleteProductList(ProductList productList) {
         

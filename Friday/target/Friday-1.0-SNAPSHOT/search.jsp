@@ -138,9 +138,15 @@
                                                 <h2 class="product-name">${prodotto[1]}</h2>
                                                 <p class="product-description">${prodotto[2]}</p>
                                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+<<<<<<< HEAD
 
                                                     <form action="insertProductServlet" method="POST">
 
+=======
+                                                    
+                                                    <form action="insertProductServlet" method="POST">
+                                                        
+>>>>>>> m-back-end
                                                         <select name="selectedListToChangeProduct" class="form-group-sm">
                                                             <option disabled selected value>Aggiungi alla lista</option>
                                                             <c:forEach items="${ListUserSession}" var="lista">
@@ -161,7 +167,11 @@
                                                     </form>
 
                                                 </div>
+<<<<<<< HEAD
                                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown" >
+=======
+                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown" >  
+>>>>>>> m-back-end
                                                     <a class="btn std-button add-list-button" href="#" data-toggle="modal" data-target="#addShoppingList"><i class="fa fa-plus-circle" aria-hidden="true" style="color: #F8694A;"></i> Crea Lista</a>
                                                     <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -182,7 +192,11 @@
                                             </div>
                                         </div>
                                     </div>
+<<<<<<< HEAD
 
+=======
+                                    
+>>>>>>> m-back-end
                                 </c:forEach>
 
                             </div>

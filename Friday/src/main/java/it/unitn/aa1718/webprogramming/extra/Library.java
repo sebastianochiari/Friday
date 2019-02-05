@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.extra;
 
@@ -23,7 +23,6 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOI
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
-import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
@@ -41,17 +40,20 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.*;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author tommi
+ * Classe generale che permette la gestione di diverse azioni 
  */
 public class Library {
     
-    // metodo calcolo del PID dell'ultima entry della tabella prodotti
+    /**
+     *  Metodo che calcola l'ID dell'ultima entry della tabella +1 ?????????????????????
+     * @param col stringa che rappresenta la colonna di riferimento
+     * @param table stringa per la tabella di riferimento
+     * @return intero che rappresenta l'utima entry della tabella
+     */
     public int LastEntryTable(String col, String table) {
         
         int tmp = 1;
@@ -95,7 +97,11 @@ public class Library {
         return tmp;
     }
     
-    //controllo della presenza dell'immagine all'inserimento di liste, prodotti ecc
+    /**
+     * Metodo che controlla la presenza dell'immagine all'inserimento della risorsa specificata (liste,prodotti..)
+     * @param image stringa passata come parametro che identifica l'immagine
+     * @return ritorna una stringa con l'eventuale nome dell'immagine, altrimenti null
+     */
     public String ImageControl(String image) {
         
         String tmp = null;
@@ -107,6 +113,14 @@ public class Library {
         return tmp;
     }
     
+    /**
+     * Metodo che permette l'invio delle email per la registrazione a Friday ???
+     * @param email stringa email dell'utente
+     * @param name stringa nome dell'utente
+     * @param surname stringa per il cognome dell'utente
+     * @throws AddressException
+     * @throws MessagingException 
+     */
     public static void sendMail (String email, String name, String surname) throws AddressException,MessagingException {
         
         Properties props = new Properties();
@@ -197,6 +211,23 @@ public class Library {
         }
     }
     
+    /**
+     * Metodo che permette il cambiamento dell'email dell'utente
+     * @param request
+     * @param response
+     * @param encrypt
+     * @param library
+     * @param userDAO
+     * @param dbpassword stringa ritornata dal database che rappresenta la password 
+     * @param name stringa che rappresenta il nome dell'utente 
+     * @param surname stringa per il cognome dell'utente
+     * @param avatar stringa per identificare l'immagine dell'utente
+     * @param admin boolean che specifica se l'utente è admin oppure no
+     * @param list_owner boolean che speficia se l'utente è un list owner oppure no
+     * @param confirmed boolean che ????????????????????
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void changeEmail (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String dbpassword, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
         String oldEmail = request.getParameter("oldEmail");
@@ -287,7 +318,25 @@ public class Library {
         }
         
     }
-        
+    
+    /**
+     * Metodo per cambiare informazioni personali dell'utente ??????????
+     * @param request
+     * @param response
+     * @param encrypt
+     * @param library
+     * @param userDAO
+     * @param email
+     * @param dbpassword
+     * @param name
+     * @param surname
+     * @param avatar
+     * @param admin
+     * @param list_owner
+     * @param confirmed
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void changePersonal (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String dbpassword, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
         String newName = request.getParameter("newName");
@@ -326,6 +375,23 @@ public class Library {
         
     }
     
+    /**
+     * Metodo che permette il cambiamento da utente registrato ad admin
+     * @param request
+     * @param response
+     * @param encrypt
+     * @param library
+     * @param userDAO
+     * @param email
+     * @param dbpassword
+     * @param name
+     * @param surname
+     * @param avatar
+     * @param list_owner
+     * @param confirmed
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void changeAdmin (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String dbpassword, String name, String surname, String avatar, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
         boolean admin = true;
@@ -341,6 +407,12 @@ public class Library {
         
     }
     
+    /**
+     * Metodo che ritorna il risultato della ricerca effettuata sulla tabella prodotti
+     * @param products
+     * @param productCategoryDAO
+     * @return matrice con i risultati ottenuti in base alla ricerca
+     */
     public String[][] getSearchResults(List products, ProductCategoryDAO productCategoryDAO){
         
         String[][] searchProductResult = new String[products.size()][7];
@@ -359,6 +431,11 @@ public class Library {
         return searchProductResult;
     }
 
+    /**
+     * Metodo che ritorna i prodotti della lista passata come parametro
+     * @param LID intero identificativo univoco della lista passata come parametro
+     * @param request 
+     */
     public void prodottiDellaLista(int LID, HttpServletRequest request){
         
         HttpSession session = request.getSession();
@@ -388,6 +465,11 @@ public class Library {
         
     }
     
+    /**
+     * Metodo che permette ?????????????
+     * @param request
+     * @param response 
+     */
     public void recuperoListeUtenteloggato(HttpServletRequest request, HttpServletResponse response){
        
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();

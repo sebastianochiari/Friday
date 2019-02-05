@@ -257,6 +257,10 @@
                     <div class="mt-4">
                         <h5>Prodotti scelti per te</h5>
                         <div class="cart-carousel">
+<<<<<<< HEAD
+=======
+                            <%--
+>>>>>>> m-back-end
                             <sql:setDataSource var="snapshot1" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
                             <sql:query dataSource="${snapshot1}" var="resultRand" sql="SELECT * FROM products order by RAND() LIMIT 5;"></sql:query>
                             <c:forEach items="${resultRand}" var="prodottoRand">
@@ -267,8 +271,14 @@
                                     </button>
                                 </div>
                             </c:forEach>
+<<<<<<< HEAD
                         </div>
                     </div>
+=======
+                            --%>
+                        </div>
+                    </div> 
+>>>>>>> m-back-end
                 </form>
 
             </div>

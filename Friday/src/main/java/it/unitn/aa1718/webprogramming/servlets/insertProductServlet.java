@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.*;
@@ -19,10 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author tommi
- */
+
 public class insertProductServlet extends HttpServlet {
 
     /**
@@ -55,7 +53,7 @@ public class insertProductServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET: inserisce un prodotto nuovo nel database, effettuando i relativi controlli
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -108,7 +106,7 @@ public class insertProductServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST della servlet:  COSA FA?
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

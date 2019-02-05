@@ -296,9 +296,8 @@
                                     </button>
                                 </div>
                             </c:forEach>
-                            
                         </div>
-                    </div>
+                    </div> 
                 </form>
 
             </div>

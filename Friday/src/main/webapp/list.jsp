@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
 <c:set var="prodotto" value="${Prodotto}"></c:set>
-<c:set var="listaSelezionata" value="${listaSelezionata}"></c:set>
+<c:set var="listaCorrente" value="${listaCorrente}"></c:set>
 <c:set var="utenteProprietario" value="${utenteProprietario}"></c:set>
 <c:set var="listaCondivisa" value="${listaCondivisa}"></c:set>
 
@@ -33,44 +33,51 @@
                             </c:forEach>
                         </p>
                         <p><b>immagine lista:</b></p>
-                        <img src="images/${listaSelezionata[3]}" style="width: 100%">
+                        <img src="images/list-category/${listaCorrente[3]}" style="width: 100%">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CONDIVISIONE LISTA -->
-        <a href="#" class="shopping-link list-icon" title="Condividi lista" data-toggle="modal" data-target="#shareModal">
-            <i class="fas fa-share-alt"></i>
-        </a>
-        <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content shadow">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Condividi con altri utenti</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        <c:if test="${emailSession ne null}">
+            
+            <!-- CONDIVISIONE LISTA -->
+            <a href="#" class="shopping-link list-icon" title="Condividi lista" data-toggle="modal" data-target="#shareModal">
+                <i class="fas fa-share-alt"></i>
+            </a>
+            <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content shadow">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Condividi con altri utenti</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="sharingListServlet" method="GET">
+                            <input type="hidden" name="azioneLista" value="2">
+                            <div class="modal-body">
+                                <label for="exampleFormControlInput1">Persone</label>
+                                <input type="email" class="form-control" id="invitationEmail" placeholder="name@example.com" name="invitationEmail">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn std-button" value="${listaCorrente[0]}" name="listToShare">Invita</button>
+                            </div>
+                        </form>
                     </div>
-                    <form action="sharingListServlet" method="GET">
-                        <input type="hidden" name="azioneLista" value="2">
-                        <div class="modal-body">
-                            <label for="exampleFormControlInput1">Persone</label>
-                            <input type="email" class="form-control" id="invitationEmail" placeholder="name@example.com" name="invitationEmail">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn std-button" value="${listaSelezionata[0]}" name="listToShare">Invita</button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
-
-        <!-- MESSAGGISTICA LISTA -->
-        <a href="#" class="shopping-link list-icon" title="Manda un messaggio">
-            <i class="fas fa-comments"></i>
-        </a>
-
+                            
+            <!-- MESSAGGISTICA LISTA -->
+            <a href="#" class="shopping-link list-icon" title="Manda un messaggio">
+                <form method="GET" action="sharingListServlet" class="inline">
+                    <input type="hidden" name="azioneLista" value="3">
+                    <input type="hidden" name="emailUtenteLoggato" value="${emailSession}">
+                    <button type="submit" class="fas fa-comments" name="messageToList" value="${listaCorrente[0]}"></button>
+                </form>
+            </a>      
+        </c:if>
+            
         <!-- ELIMINAZIONE LISTA -->
         <c:if test="${utenteProprietario[2] eq emailSession}" var="uscitaLista">
             <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
@@ -92,7 +99,7 @@
                             <div class="modal-footer">
                                 <input type="hidden" name="azioneLista" value="4">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                                <button type="submit" class="btn std-button" name="listToEliminate" value="${listaSelezionata[0]}">Elimina Lista</button>
+                                <button type="submit" class="btn std-button" name="listToEliminate" value="${listaCorrente[0]}">Elimina Lista</button>
                             </div>
                         </form>
                     </div>
@@ -120,7 +127,7 @@
                                 <input type="hidden" name="azioneLista" value="5">
                                 <input type="hidden" name="emailUtenteLoggato" value="${emailSession}">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                                <button type="submit" class="btn std-button" name="notToShareList" value="${listaSelezionata[0]}">Esci dalla lista</button>
+                                <button type="submit" class="btn std-button" name="notToShareList" value="${listaCorrente[0]}">Esci dalla lista</button>
                             </div>
                         </form>
                     </div>
@@ -131,8 +138,8 @@
 </div>
 
 <!-- MOSTRA LA PARTE PRINCIPALE DELLA PAGINA -->
-<h4>${listaSelezionata[1]}<span class="badge badge-friday ml-2">${listaSelezionata[4]}</span></h4>
-<p>${listaSelezionata[2]}</p>
+<h4>${listaCorrente[1]}<span class="badge badge-friday ml-2">${listaCorrente[4]}</span></h4>
+<p>${listaCorrente[2]}</p>
 
 <c:forEach items="${prodotto}" var="rigaProdotto">
     <div id="breadcrumb" class="list-element">
@@ -153,21 +160,21 @@
                         <span>Quantità: </span>
                         ${rigaProdotto[6]}
                         <form action="insertProductServlet" method="POST" class="inline">
-                            <input type="hidden" value="${listaSelezionata[0]}" name="selectedListToChangeProduct">
+                            <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
                             <input type="hidden" value="1" name="scelta">
                             <button type="submit" title="Diminuisci la quantità" name="changeProduct" value="${rigaProdotto[7]}">
                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
                             </button>
                         </form>
                         <form action="insertProductServlet" method="POST" class="inline">
-                            <input type="hidden" value="${listaSelezionata[0]}" name="selectedListToChangeProduct">
+                            <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
                             <input type="hidden" value="3" name="scelta">
                             <button type="submit" title="Aumenta la quantità" name="changeProduct" value="${rigaProdotto[7]}">
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                             </button>
                         </form>
                         <form action="insertProductServlet" method="POST" class="inline">
-                            <input type="hidden" value="${listaSelezionata[0]}" name="selectedListToChangeProduct">
+                            <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
                             <input type="hidden" value="2" name="scelta">
                             <button type="submit" title="Togli questo prodotto dalla lista" name="changeProduct" value="${rigaProdotto[7]}">
                                 <i class="fas fa-trash"></i>

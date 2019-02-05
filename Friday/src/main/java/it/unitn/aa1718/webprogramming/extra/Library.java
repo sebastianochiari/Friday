@@ -23,6 +23,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOI
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
+import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
@@ -42,6 +43,7 @@ import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 
 /**
  * Classe generale che permette la gestione di diverse azioni 

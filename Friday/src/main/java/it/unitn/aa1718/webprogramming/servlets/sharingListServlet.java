@@ -5,17 +5,28 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
+import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import static it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory.User;
+import it.unitn.aa1718.webprogramming.dao.MessageDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMessageDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.extra.Library;
+import it.unitn.aa1718.webprogramming.friday.Message;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
+import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -65,12 +76,14 @@ public class sharingListServlet extends HttpServlet {
         int listaScelta = 0;
         SharingDAO sharingDAO = new MySQLSharingDAOImpl();
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        Library library = new Library();
+        HttpSession session = request.getSession();
         
         switch (azioneLista) {
             case 2: 
                 listaScelta = Integer.parseInt(request.getParameter("listToShare"));
                 String email = request.getParameter("invitationEmail");
-                sharingDAO.createSharing(new Sharing(email, listaScelta, shoppingListDAO.getShoppingList(listaScelta).getName(), true, true, false));
+                sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
                 request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
                 break;
             case 3:
@@ -78,9 +91,10 @@ public class sharingListServlet extends HttpServlet {
                 {
                     //inizializzo i DAO e sessione
                     DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-                    SharingDAO sharingDAO = new MySQLSharingDAOImpl();
+                    SharingDAO sharingDAO1 = new MySQLSharingDAOImpl();
                     MessageDAO messageDAO = new MySQLMessageDAOImpl();
                     UserDAO userDAO = new MySQLUserDAOImpl();
+                    int listaSelezionata = 0;
                     
                     //aggiungo messaggi se kjdfauvhdavhb
                     if(request.getParameter("newMessage") != null){
@@ -140,7 +154,7 @@ public class sharingListServlet extends HttpServlet {
             case 5:
                 listaScelta = Integer.parseInt(request.getParameter("notToShareList"));
                 String emailSession = request.getParameter("emailUtenteLoggato");
-                sharingDAO.deleteSharing(new Sharing(emailSession, listaScelta, shoppingListDAO.getShoppingList(listaScelta).getName(), sharingDAO.getSharing(listaScelta, emailSession).getModify(), sharingDAO.getSharing(listaScelta, emailSession).getAdd(), sharingDAO.getSharing(listaScelta, emailSession).getDelete()));
+                sharingDAO.deleteSharing(new Sharing(emailSession, listaScelta, sharingDAO.getSharing(listaScelta, emailSession).getModify(), sharingDAO.getSharing(listaScelta, emailSession).getAdd(), sharingDAO.getSharing(listaScelta, emailSession).getDelete()));
                 request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
                 break;
             default: 

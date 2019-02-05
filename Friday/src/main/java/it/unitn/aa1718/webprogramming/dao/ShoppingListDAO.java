@@ -59,7 +59,6 @@ public interface ShoppingListDAO {
     
     public boolean deleteExpiredShoppingLists();
     
-    public boolean deleteShoppingList(ShoppingList shoppingList);
     /**
      * Metodo che elimina la lista della spesa in base all'ID passato come parametro
      * @param LID intero che viene passato come parametro 

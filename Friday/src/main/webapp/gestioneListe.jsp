@@ -69,7 +69,7 @@
                         <!-- aside widget -->
                         <div class="aside">
 
-                            <c:set var="listaAttiva" value="${requestScope.listaAttiva}"></c:set>
+                            <c:set var="listaAttiva" value="${listaAttiva}"></c:set>
 
                             <h3 class="aside-title">Le mie liste:</h3>
                             <ul class="list-links">
@@ -147,7 +147,7 @@
                     <div id="main" class="col-md-9">
                         <!-- START: list -->
                         <div id="list" aria-labelledby="gestioneListe" data-parent="gestioneListe">
-                            <c:set var="GestioneListe" value="${selectedList}"></c:set>
+                            <c:set var="GestioneListe" value="${listaAttiva}"></c:set>
                             <c:if test="${GestioneListe eq 0}">
                                 <h4>Gestione Liste</h4>
                                 <p>

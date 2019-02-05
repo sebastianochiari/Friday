@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : search
     Created on : 7-nov-2018, 16.04.34
     Author     : marta & remo & tommi
@@ -48,7 +48,7 @@
 </head>
 
 <body id="top">
-    
+
     <!-- Header -->
     <jsp:include page="jsp/components/header.jsp" />
 
@@ -69,17 +69,16 @@
                             <h3 class="aside-title">Categorie:</h3>
                             <ul class="list-links">
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
-                            <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
+                            <sql:query dataSource="${snapshot}" var="resultProductCategories" sql="SELECT * FROM product_categories;"></sql:query>
                              
                             <form action="searchServlet" method ="GET">
-                                 <c:forEach var="res" items="${result.rows}" >
-                                       <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
-                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="selectedPCategory" >
+                                 <c:forEach var="res" items="${resultProductCategories.rows}" >
+                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="CategoryLeft" id="CategoryLeft">
                                            ${res.Name}
                                        </button>
                                  </c:forEach>
                             </form>
-                                
+
                             </ul>
 
                         </div>
@@ -91,7 +90,24 @@
 
                         <!-- START: store -->
                         <div id="store">
-                            
+                            <div class="clearfix">
+                                <div class="float-right">
+                                    <p class="inline-flex">Ordina per: </p>
+                                    <%-- <form class="inline-flex" id="ordinamento" action="searchServlet" method="GET">
+                                        <select name="order" onchange="change()">
+                                            <option value="alfabeticamente" id="order">alfabeto</option>
+                                            <option class="active" value="categoria" id="order">categoria</option>
+                                        </select>
+                                    </form> --%>
+                                    <form class="inline-flex" id="ordinamento" action="searchServlet" method="GET">
+                                    </form>
+                                    <select id="order" name="order" form="ordinamento" onchange="change()">
+                                        <option selected value="alfabeticamente" id="order">alfabeto</option>
+                                        <option value="categoria" id="order">categoria</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" name="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 ORDINAMENTO
                             </a>
@@ -106,39 +122,8 @@
                                 </form>
                             </div>
                             
-                            
-                            
-                            
-                            
-                            <%-- ORDINAMENTO RICERCA
-                            <form class="form-inline" method="GET" action="searchServlet">
-                                <span class="text-uppercase mr-3">ordina:</span>
-                                <select class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
-                                    <option>
-                                        <button type="submit" value ="alfabeticamente" class="dropdown-item" name ="order" >
-                                            alfabeticamente
-                                        </button>
-                                    </option>
-                                    <option>       
-                                        <button type="submit" value ="per categoria" class="dropdown-item" name ="order" >
-                                            per categoria
-                                        </button>
-                                    </option>
-                                </select>
-                            </form>
-                            --%>                           
-                            
-<!--
-                            <p class="mt-3">
-                                Ci dispiace, <b>la ricerca non ha prodotto alcun tipo di risultato</b>.
-                                <br>
-                                Prova a <b>ritentare</b> cambiando qualche parola oppure <b>aggiungi il prodotto che desideri</b>.
-                                <a href="#" class="text-link" data-toggle="modal" data-target="#addProductModal">Clicca qui</a>
-                            </p>
--->
-
                             <div class="row">
-                                
+
                                 <c:forEach items="${resultSearch}" var="prodotto">
                                     <div class="col-md-4 col-sm-6 col-xs-6">
                                         <div class="product product-single">
@@ -152,16 +137,43 @@
                                                 <h2 class="product-name">${prodotto[1]}</h2>
                                                 <p class="product-description">${prodotto[2]}</p>
                                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                    <button type="button" class="btn std-button add-list-button">Aggiungi alla lista</button>
-                                                    <div class="btn-group" role="group">
-                                                        <button id="btnGroupDrop1" type="button" class="btn std-button add-list-button round-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-angle-down"></i>
+
+                                                    <form action="insertProductServlet" method="POST">
+
+                                                        <select name="selectedListToChangeProduct" class="form-group-sm">
+                                                            <option disabled selected value>Aggiungi alla lista</option>
+                                                            <c:forEach items="${ListUserSession}" var="lista">
+                                                                <option value="${lista[1]}">
+                                                                    ${lista[0]}
+                                                                </option>
+                                                            </c:forEach>
+                                                            <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                                                <option value="${listaCondivisa[1]}">
+                                                                    ${listaCondivisa[0]}
+                                                                </option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <input type="hidden" value="4" name="scelta">
+                                                        <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodotto[0]}" class="btn std-button add-list-button">
+                                                            <i class="fa fa-plus-circle" aria-hidden="true" style="color: #F8694A;"></i>
                                                         </button>
-                                                        <div class="dropdown-menu dropdown-list" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                        <a class="dropdown-item" href="#">Dropdown link</a>
-                                                            <div class="create-list">
-                                                                <a class="dropdown-item" href="#"><i class="fas fa-plus mr-2"></i>Crea Lista</a>
+                                                    </form>
+
+                                                </div>
+                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown" >
+                                                    <a class="btn std-button add-list-button" href="#" data-toggle="modal" data-target="#addShoppingList"><i class="fa fa-plus-circle" aria-hidden="true" style="color: #F8694A;"></i> Crea Lista</a>
+                                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content shadow">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <jsp:include page="insertShoppingList.jsp" />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -169,28 +181,33 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </c:forEach>
 
                             </div>
 
-                           
-                            
+
+
                             <br>
-                            
+
                             <div>
                                 <p>
                                     Non trovi quello che stai cercando? Aggiungi il prodotto che desideri.
                                     <a href="#" class="text-link" data-toggle="modal" data-target="#addProductModal">Clicca qui</a>
                                 </p>
                             </div>
-                            
+
                             <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content shadow">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Aggiungi nuovo prodotto</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
                                         <div class="modal-body">
-                                            <h5>Aggiungi il prodotto</h5>
-                                            <br>
-                                            <button type="button" class="btn std-button" data-dismiss="modal">Fine</button>
+                                            <jsp:include page="insertProduct.jsp" />
                                         </div>
                                     </div>
                                 </div>
@@ -230,4 +247,3 @@
 </body>
 
 </html>
-

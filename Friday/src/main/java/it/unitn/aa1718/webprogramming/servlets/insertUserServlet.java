@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
@@ -21,10 +21,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author tommi
- */
+
 public class insertUserServlet extends HttpServlet {
 
     /**
@@ -46,8 +43,9 @@ public class insertUserServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
+     * Handles the HTTP <code>POST </code> method.
+     * Metodo POST che registra l'utente nel database. 
+     * Se la registrazione fallisce viene redirezionato ad una pagina di errore predefinita
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -71,12 +69,6 @@ public class insertUserServlet extends HttpServlet {
         String avatar = null;
         String typeError = null;
         String registerForm = null;
- 
-        /*   HttpSession session = request.getSession();
-          if (session.getAttribute("email") != null) {
-              response.setStatus(500);
-          }
-        */
 
         email = request.getParameter("email");
         password = request.getParameter("password");
@@ -87,86 +79,94 @@ public class insertUserServlet extends HttpServlet {
         typeError = request.getParameter("typeError");
         registerForm = request.getParameter("registerForm");
         
-        
-        String pswEncrypted = encrypt.setSecurePassword(password, email);
-        HttpSession session = request.getSession();
-        
-        boolean isOkay = encrypt.checkString(password);
+        if(email.length()<200 && password.length()< 200 && name.length()< 200 && surname.length()<500 && avatar.length()<200){ 
 
-        request.setAttribute("name", name);
-        request.setAttribute("surname", surname);
-        request.setAttribute("email", email);
+            String pswEncrypted = encrypt.setSecurePassword(password, email);
+            HttpSession session = request.getSession();
 
-        if(!userDAO.checkEmail(email)){
-           
-            response.sendRedirect("index.jsp");
-            
-        } else if (userDAO.checkUser(email)) {
+            boolean isOkay = encrypt.checkString(password);
 
-            String error = "emailError";
-            typeError = error;
-            request.setAttribute("errorEmail", typeError);
-            request.getRequestDispatcher(registerForm).forward(request, response);
+            request.setAttribute("name", name);
+            request.setAttribute("surname", surname);
+            request.setAttribute("email", email);
 
-        } else if(!isOkay) {   
+            if(!userDAO.checkEmail(email)){
 
-            String error = "errorPassword";
-            typeError = error;
-            request.setAttribute("errorPassword", typeError);                
-            request.getRequestDispatcher(registerForm).forward(request, response);
+                response.sendRedirect("index.jsp");
 
-        } else if (!password.equals(passwordcheck)) {       
+            } else if (userDAO.checkUser(email)) {
 
-            String error = "errorCheckPassword";
-            typeError = error;
-            request.setAttribute("errorCheckPassword", typeError);
-            
-            //System.out.println( "-----Le password non coicidono");
-            //da sistemare il ritorno al insertUser.jsp
-            request.getRequestDispatcher(registerForm).forward(request, response);
-            //response.sendRedirect("insertUser.jsp");
+                String error = "emailError";
+                typeError = error;
+                request.setAttribute("errorEmail", typeError);
+                request.getRequestDispatcher(registerForm).forward(request, response);
 
-         } else {
+            } else if(!isOkay) {   
 
-            User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false, false);
-            userDAO.createUser(user1);
-            
-            //aggiorno email cookie e lista se precedentemente era un cookie anonimo
-            if(session.getAttribute("cookieIDSession") != null){
-               
-                MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
-                MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
-                
-                ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
-                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-                
-                int cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
-                int cookieLID =  myCookieDAO.getLIDbyCookieID(cookieID);
-                System.out.println("cookie LID = "+cookieLID);
-                shoppingListDAO.updateEmailShoppingList(cookieLID, email);
-                myCookieDAO.updateEmailCookie(cookieID, email);
-            
+                String error = "errorPassword";
+                typeError = error;
+                request.setAttribute("errorPassword", typeError);                
+                request.getRequestDispatcher(registerForm).forward(request, response);
+
+            } else if (!password.equals(passwordcheck)) {       
+
+                String error = "errorCheckPassword";
+                typeError = error;
+                request.setAttribute("errorCheckPassword", typeError);
+
+                //System.out.println( "-----Le password non coicidono");
+                //da sistemare il ritorno al insertUser.jsp
+                request.getRequestDispatcher(registerForm).forward(request, response);
+                //response.sendRedirect("insertUser.jsp");
+
+             } else {
+
+                User user1 = new User(email, pswEncrypted, name, surname, library.ImageControl(avatar), false, false, false);
+                userDAO.createUser(user1);
+
+                //aggiorno email cookie e lista se precedentemente era un cookie anonimo
+                if(session.getAttribute("cookieIDSession") != null){
+
+                    MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+                    MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+
+                    ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
+                    ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+
+                    int cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+                    int cookieLID =  myCookieDAO.getLIDbyCookieID(cookieID);
+                    System.out.println("cookie LID = "+cookieLID);
+                    shoppingListDAO.updateEmailShoppingList(cookieLID, email);
+                    myCookieDAO.updateEmailCookie(cookieID, email);
+
+                }
+
+
+                //dobbiamo trovare un host che funzioni
+                try {
+                    library.sendMail(email, name, surname);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+
+                //System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
+                // ritorno alla pagina iniziale
+                response.sendRedirect("confirmRegistration.jsp");
+
             }
-          
             
-            //dobbiamo trovare un host che funzioni
-            try {
-                library.sendMail(email, name, surname);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
             
-            //System.out.println("la password è stata criptata correttamente. SONO IN INSERTUSERSERVLET ");
-            // ritorno alla pagina iniziale
-            response.sendRedirect("confirmRegistration.jsp");
+       } else {
+            response.sendRedirect("error.jsp");
+       }
         
-        }
+        
     }
      
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
+     * Handles the HTTP <code>GET</code> method.
+     * Metodo GET non implementato.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
@@ -20,14 +20,14 @@ import javax.servlet.http.HttpSession;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.friday.User;
 import java.sql.Timestamp;
 import javax.servlet.http.Cookie;
 
-/**
- *
- * @author leo97
- */
+
 public class insertShoppingListServlet extends HttpServlet {
 
     /**
@@ -59,7 +59,7 @@ public class insertShoppingListServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -86,56 +86,82 @@ public class insertShoppingListServlet extends HttpServlet {
         String list_owner = (String)session.getAttribute("emailSession");
         int cookieID = -1;
         
-        //associo cookie anonimo se non loggato
-        if(list_owner == null){
+        
+        if(name.length()< 200 && note.length()< 200 && image.length()<500){ 
 
-            MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
-            MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+            //associo cookie anonimo se non loggato
+            if(list_owner == null){
+
+                cookieID = (int)session.getAttribute("cookieIDSession");
+                session.setAttribute("listaAnonimo", true);
+                MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+                MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+                
+                shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
+                shoppingListDAO.createShoppingList(shoppingList);
+
+                //aggiungo LID al cookie anonimo
+                myCookieDAO.updateLIDCookie(cookieID, LID);
+
+            } else {
+
+                cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+                shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
+                shoppingListDAO.createShoppingList(shoppingList);
+                
+                UserDAO userDAO = new MySQLUserDAOImpl();
+                User user = userDAO.getUser(list_owner);
+                String email = list_owner;
+                String password = user.getPassword();
+                String userName = user.getName();
+                String surname = user.getSurname();
+                String avatar = user.getAvatar();
+                boolean admin = user.getAdmin();
+                boolean isListOwner = user.getListOwner();
+                boolean confirmed = user.getConfirmed();
+                
+                if (!isListOwner) {
+                    isListOwner = true;
+                }
+                
+                user = new User(email, password, userName, surname, avatar, admin, isListOwner, confirmed);
+                
+                userDAO.updateUserByEmail(user);
+            }
             
-            //cancello eventuali cookie scaduti
-            myCookieDAO.deleteDBExpiredCookies();
+            request.setAttribute("goodInsertShoppingList", "true");
+            session.setAttribute("selectedList", 0);
+            request.getRequestDispatcher("handlingListServlet").forward(request, response);
             
-            //Creo cookie
-            Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(library.LastEntryTable("cookieID", "cookies")));
-            cookie.setMaxAge(-1);
-            cookieID = Integer.parseInt((String)cookie.getValue());
-       
-            Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
-            
-            myCookieDAO.createCookie(new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, list_owner, Deadline));
-            //System.out.println("zao zao il nuovo tuo cookie anonimo è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
-            session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
-            response.addCookie(cookie);
-            
-            shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
-            shoppingListDAO.createShoppingList(shoppingList);
-            
-            //aggiungo LID al cookie anonimo
-            myCookieDAO.updateLIDCookie(cookieID, LID);
+       } else {
+            response.sendRedirect("error.jsp");
+       }
         
-        } else {
-            
-            cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
-            shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
-            shoppingListDAO.createShoppingList(shoppingList);
-        }
         
-        // recupero di tutti gli shoppingList del DB
-        shoppingLists = shoppingListDAO.getAllShoppingLists();
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        
+        int listToDelete = Integer.parseInt(request.getParameter("deleteList"));
+        HttpSession session = request.getSession();
+        
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        boolean deleted = shoppingListDAO.deleteShoppingList(listToDelete);
+        
+        if (deleted){
+            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("faq.jsp");
+        }
     }
 
     /**

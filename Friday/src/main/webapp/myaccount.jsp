@@ -105,6 +105,39 @@
                                         <p class="ml-2" style="display: inline-block">&#9679 &#9679 &#9679 &#9679 &#9679 &#9679 &#9679 &#9679 &#9679</p>
                                         <p class="ml-2" style="display: inline-block">(<a class="text-link" href="security.jsp#modifyPsw">modifica password</a>)</p>
                                     </div>
+                                    <div>
+                                        <p style="display: inline-block"><b>Cancella il tuo account Friday </b></p>
+                                        <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
+                                            <i class="fas fa-user-times"></i>
+                                        </a>
+                                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Cancella il tuo account Friday</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Vuoi veramente eliminare il tuo account?</p>
+                                                    </div>
+                                                    <!--<form action="sharingListServlet" method="GET">-->
+                                                        <input type="hidden" name="azioneLista" value="2">
+                                                        <div class="modal-body">
+                                                            <label for="exampleFormControlInput1">Informazioni</label>
+                                                            <input type="email" class="form-control" id="deleteEmail" placeholder="mario.rossi@email.com" name="deleteEmail">
+                                                            <input type="password" class="form-control" id="deletePassword" placeholder="AAAaaa1" name="deletePassword">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <!-- da cambiare in submit -->
+                                                            <button type="button" class="btn std-button" value="${listaSelezionata[0]}" name="listToShare">Elimina account</button>
+                                                        </div>
+                                                    <!--</form>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
 

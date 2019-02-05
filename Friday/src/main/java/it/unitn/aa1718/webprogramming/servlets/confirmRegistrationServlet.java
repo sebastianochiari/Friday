@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
@@ -16,10 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author leo97
- */
+
 public class confirmRegistrationServlet extends HttpServlet {
 
     /**
@@ -67,9 +65,13 @@ public class confirmRegistrationServlet extends HttpServlet {
         Library library = new Library();
         
        String email = request.getParameter("email");
-       userDAO.confirmedUser(email);
+       if(email.length()<200){ 
+            userDAO.confirmedUser(email);
+            response.sendRedirect("registrationAccepted.jsp");
+       } else {
+            response.sendRedirect("error.jsp");
+       }
        
-       response.sendRedirect("registrationAccepted.jsp");
     }
 
     /**

@@ -1,37 +1,59 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.extra;
 
 import it.unitn.aa1718.webprogramming.connection.*;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingDAO;
+import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.friday.Product;
+import it.unitn.aa1718.webprogramming.friday.ProductList;
+import it.unitn.aa1718.webprogramming.friday.Sharing;
+import it.unitn.aa1718.webprogramming.friday.ShoppingList;
+import it.unitn.aa1718.webprogramming.friday.ShoppingListCategory;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.servlet.http.HttpServletRequest;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author tommi
+ * Classe generale che permette la gestione di diverse azioni 
  */
 public class Library {
     
-    // metodo calcolo del PID dell'ultima entry della tabella prodotti
+    /**
+     *  Metodo che calcola l'ID dell'ultima entry della tabella +1 ?????????????????????
+     * @param col stringa che rappresenta la colonna di riferimento
+     * @param table stringa per la tabella di riferimento
+     * @return intero che rappresenta l'utima entry della tabella
+     */
     public int LastEntryTable(String col, String table) {
         
         int tmp = 1;
@@ -75,7 +97,11 @@ public class Library {
         return tmp;
     }
     
-    //controllo della presenza dell'immagine all'inserimento di liste, prodotti ecc
+    /**
+     * Metodo che controlla la presenza dell'immagine all'inserimento della risorsa specificata (liste,prodotti..)
+     * @param image stringa passata come parametro che identifica l'immagine
+     * @return ritorna una stringa con l'eventuale nome dell'immagine, altrimenti null
+     */
     public String ImageControl(String image) {
         
         String tmp = null;
@@ -87,6 +113,14 @@ public class Library {
         return tmp;
     }
     
+    /**
+     * Metodo che permette l'invio delle email per la registrazione a Friday ???
+     * @param email stringa email dell'utente
+     * @param name stringa nome dell'utente
+     * @param surname stringa per il cognome dell'utente
+     * @throws AddressException
+     * @throws MessagingException 
+     */
     public static void sendMail (String email, String name, String surname) throws AddressException,MessagingException {
         
         Properties props = new Properties();
@@ -177,6 +211,23 @@ public class Library {
         }
     }
     
+    /**
+     * Metodo che permette il cambiamento dell'email dell'utente
+     * @param request
+     * @param response
+     * @param encrypt
+     * @param library
+     * @param userDAO
+     * @param dbpassword stringa ritornata dal database che rappresenta la password 
+     * @param name stringa che rappresenta il nome dell'utente 
+     * @param surname stringa per il cognome dell'utente
+     * @param avatar stringa per identificare l'immagine dell'utente
+     * @param admin boolean che specifica se l'utente è admin oppure no
+     * @param list_owner boolean che speficia se l'utente è un list owner oppure no
+     * @param confirmed boolean che ????????????????????
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void changeEmail (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String dbpassword, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
         String oldEmail = request.getParameter("oldEmail");
@@ -267,7 +318,25 @@ public class Library {
         }
         
     }
-        
+    
+    /**
+     * Metodo per cambiare informazioni personali dell'utente ??????????
+     * @param request
+     * @param response
+     * @param encrypt
+     * @param library
+     * @param userDAO
+     * @param email
+     * @param dbpassword
+     * @param name
+     * @param surname
+     * @param avatar
+     * @param admin
+     * @param list_owner
+     * @param confirmed
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void changePersonal (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String dbpassword, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
         String newName = request.getParameter("newName");
@@ -306,6 +375,23 @@ public class Library {
         
     }
     
+    /**
+     * Metodo che permette il cambiamento da utente registrato ad admin
+     * @param request
+     * @param response
+     * @param encrypt
+     * @param library
+     * @param userDAO
+     * @param email
+     * @param dbpassword
+     * @param name
+     * @param surname
+     * @param avatar
+     * @param list_owner
+     * @param confirmed
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void changeAdmin (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String dbpassword, String name, String surname, String avatar, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
         boolean admin = true;
@@ -321,6 +407,12 @@ public class Library {
         
     }
     
+    /**
+     * Metodo che ritorna il risultato della ricerca effettuata sulla tabella prodotti
+     * @param products
+     * @param productCategoryDAO
+     * @return matrice con i risultati ottenuti in base alla ricerca
+     */
     public String[][] getSearchResults(List products, ProductCategoryDAO productCategoryDAO){
         
         String[][] searchProductResult = new String[products.size()][7];
@@ -338,4 +430,184 @@ public class Library {
             }
         return searchProductResult;
     }
+
+    /**
+     * Metodo che ritorna i prodotti della lista passata come parametro
+     * @param LID intero identificativo univoco della lista passata come parametro
+     * @param request 
+     */
+    public void prodottiDellaLista(int LID, HttpServletRequest request){
+        
+        HttpSession session = request.getSession();
+        
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        ProductDAO productDAO = new MySQLProductDAOImpl();
+        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        UserDAO userDAO = new MySQLUserDAOImpl();
+        
+        List productList = productListDAO.getPIDsByLID(LID);
+        Product product = null;
+        String [][] prodotto = new String [productList.size()][8];
+        
+        for(int i=0; i<productList.size(); i++){
+            product = productDAO.getProduct(((ProductList)(productList.get(i))).getPID());
+            prodotto[i][0] = product.getName();
+            prodotto[i][1] = product.getNote();
+            prodotto[i][2] = product.getLogo();
+            prodotto[i][3] = product.getPhoto();
+            prodotto[i][4] = productCategoryDAO.getProductCategory(product.getPCID()).getName();
+            prodotto[i][5] = userDAO.getUser(product.getEmail()).getName();
+            prodotto[i][6] = Integer.toString(((ProductList)(productList.get(i))).getQuantity());
+            prodotto[i][7] = Integer.toString(product.getPID());
+        }
+        
+        session.setAttribute("Prodotto", prodotto);
+        
+    }
+    
+    /**
+     * Metodo che permette ?????????????
+     * @param request
+     * @param response 
+     */
+    public void recuperoListeUtenteloggato(HttpServletRequest request, HttpServletResponse response){
+       
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        HttpSession session = request.getSession();
+        
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        SharingDAO sharingDAO = new MySQLSharingDAOImpl();
+        ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+        
+        //elimino shopping list anonime scadute
+        shoppingListDAO.deleteExpiredShoppingLists();
+        
+        if(session.getAttribute("emailSession") != null){
+                
+            // START: recupero delle liste che appartengono all'utente loggato
+            
+            List lists = shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession"));
+            String[][] searchListResult = new String[lists.size()][4];
+
+            for(int i=0; i<lists.size(); i++){
+                searchListResult[i][0] = ((ShoppingList)(lists.get(i))).getName();
+                searchListResult[i][1] = Integer.toString(((ShoppingList)(lists.get(i))).getLID());
+                searchListResult[i][2] = ((ShoppingListCategory)(shoppingListCategoryDAO.getShoppingListCategory(((ShoppingList)(lists.get(i))).getLCID()))).getName();
+                List listaCondivisa = sharingDAO.getAllEmailsbyList(Integer.parseInt(searchListResult[i][1]));
+                if (listaCondivisa.isEmpty()){
+                    searchListResult[i][3] = Integer.toString(0);
+                } else {
+                    searchListResult[i][3] = Integer.toString(1);
+                }
+            }
+
+            session.setAttribute("ListUserSession", searchListResult);
+            session.setAttribute("ListUserSessionSize", lists.size());
+
+            // END: recupero delle liste che appartengono all'utente loggato
+                
+            // START: recupero delle liste condivise dell'utente loggato
+            
+            List sharingLists = sharingDAO.getAllListByEmail((String)session.getAttribute("emailSession"));
+            ShoppingList tmp = null;
+            String[][] sharingListResult = new String[sharingLists.size()][3];
+
+            for(int i=0; i<sharingLists.size(); i++){
+
+                tmp = shoppingListDAO.getShoppingList(((Sharing)(sharingLists.get(i))).getLID());
+
+                sharingListResult[i][0] = tmp.getName();
+                sharingListResult[i][1] = Integer.toString(tmp.getLID());
+                sharingListResult[i][2] = (shoppingListCategoryDAO.getShoppingListCategory(tmp.getLCID())).getName();
+            }   
+
+            session.setAttribute("SharingListUserSession", sharingListResult);
+            session.setAttribute("SharingListUserSessionSize", sharingLists.size());
+                
+            // END: recupero delle liste condivise dell'utente loggato                
+                
+        } else {
+            
+            int cookieID;
+    
+            if(session.getAttribute("cookieIDSession") == null){
+
+            MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+            MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+
+            //cancello eventuali cookie scaduti
+            myCookieDAO.deleteDBExpiredCookies();
+
+            //Creo cookie
+            Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(LastEntryTable("cookieID", "cookies")));
+            cookie.setMaxAge(-1);
+            cookieID = Integer.parseInt((String)cookie.getValue());
+
+            Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
+
+            myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
+            session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
+            response.addCookie(cookie);
+            
+            } else {
+                cookieID = (int)session.getAttribute("cookieIDSession");
+            }
+    
+            ShoppingList shoppingList = shoppingListDAO.getAnonymusShoppingList(cookieID);
+            String[][] ListResult;
+
+            if(shoppingList != null){
+
+                ListResult = new String[1][3];
+                ListResult[0][0] = shoppingList.getName();
+                ListResult[0][1] = Integer.toString(shoppingList.getLID());
+                ListResult[0][2] = (shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID())).getName();
+                session.setAttribute("ListUserSessionSize", 1);
+
+            } else {
+                ListResult = new String[0][3];
+                session.setAttribute("ListUserSessionSize", 0);
+            }
+                
+            session.setAttribute("ListUserSession", ListResult);
+                
+        }
+        
+    }
+    
+    public void autologin(Cookie[] cookies,Vector<MyCookie> DBcookie, HttpSession session){
+        
+        MyCookie loginCookie = null;
+        String emailSession = null;
+        boolean boolEmailSession;
+        
+        for(int j=0; j<DBcookie.size(); j++){
+            for(int i=0; i<cookies.length; i++){
+
+                if((cookies[i].getValue()).equals(DBcookie.get(j).getCookieID())){
+                    
+                    System.out.println(DBcookie.get(j).getCookieID());
+                    
+                    loginCookie = DBcookie.get(j);
+
+                    emailSession = DBcookie.get(j).getEmail();
+                    session.setAttribute("emailSession", emailSession);
+                    session.setAttribute("cookieIDSession", DBcookie.get(j).getCookieID());
+                    session.setAttribute("deadlineSession", DBcookie.get(j).getDeadline());
+                    session.setAttribute("LIDSession", DBcookie.get(j).getLID());
+
+                }
+            }
+        }
+        
+        if (emailSession == null){
+            boolEmailSession = false;
+        } else {
+            boolEmailSession = true;
+        }
+
+        session.setAttribute("boolEmailSessionScriptlet", boolEmailSession);
+    }     
+ 
 }
+

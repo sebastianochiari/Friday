@@ -15,9 +15,9 @@
 
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />   
+<c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
 <c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
-    
+
     <!-- START: main navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
@@ -41,41 +41,37 @@
                         </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 
-<<<<<<< HEAD
-<<<<<<< HEAD
                             <sql:setDataSource var="snapshot" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
-=======
-=======
->>>>>>> l-back-end
-                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
->>>>>>> m-back-end
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
 
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${result.rows}" >
-<<<<<<< HEAD
-                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="selectedPCategory" >
-=======
                                        <%-- <input type="hidden" value ="${res.PCID}" name ="selectedPCategory"> --%>
                                        <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="inputClick" id="inputClick">
->>>>>>> l-back-end
                                            ${res.Name}
                                        </button>
                                  </c:forEach>
                             </form>
                         </div>
                     </li>
-                                       
+
                     <li class="nav-item dropdown nav-category">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user nav-link-icon"></i>
                             Il mio account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                            <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                             <c:if test="${!boolEmailSession}">
+                                <a class="dropdown-item" href="login.jsp">Il mio account</a>
                                 <a class="dropdown-item" href="login.jsp">Login</a>
                                 <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                            </c:if>
+                            <c:if test="${boolEmailSession}">
+                                <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
+                                <a class="dropdown-item" href="security.jsp">Impostazioni di sicurezza</a>
+                                <c:if test="${adminUserSession}">
+                                    <a class="dropdown-item" href="adminSection.jsp">Sezione admin</a>
+                                </c:if>
                             </c:if>
                         </div>
                     </li>
@@ -85,44 +81,54 @@
                             Le mie liste
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                            
+
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
                             <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE List_Owner = '${emailSession}';"></sql:query>
-                            
-                            
+                            <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM sharing WHERE Email = '${emailSession}';"></sql:query>
+
                             <form action="handlingListServlet" method="GET">
+<<<<<<< HEAD
+=======
                                 <%--<a class="dropdown-item" href="gestioneListe.jsp">Gestione liste</a>--%>
+>>>>>>> l-back-end
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste
                                 </button>
+                            </form>
+                            <form action="handlingListServlet" method="GET">
                                 <c:forEach var="resList" items="${resultList.rows}" >
                                     <button type="submit" value="${resList.LID}" class="dropdown-item" name="selectedList" >
                                         ${resList.Name}
                                     </button>
-                                    <%--
-                                    <a class="dropdown-item" href="gestioneListe.jsp#${resList.LID}">
-                                        <c:out value="${resList.Name}"></c:out>
-                                    </a>
-                                    --%>
                                 </c:forEach>
-                            
-                                <%--<a class="dropdown-item" href="gestioneListe.jsp#00">Liste condivise</a>--%>
-                                <button type="submit" value="00" class="dropdown-item" name="selectedList" >
-                                    Liste Condivise
-                                </button>
                             </form>
-                            
+                            <form action="handlingListServlet" method="GET">
+                                <c:forEach var="resSharingList" items="${resultSharingList.rows}" >
+                                    <button type="submit" value="${resSharingList.LID}" class="dropdown-item" name="selectedList" >
+                                        ${resSharingList.Name}
+                                    </button>
+                                </c:forEach>
+                            </form>
+
                         </div>
                     </li>
                 </ul>
-                            
-                <div>
-                    <a href="#" class="shopping-link" style="margin-right: 5px;">
+
+                <div style="display: inline;">
+                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-envelope shopping-icon"></i>
                     </a>
-                    <a href="#" class="shopping-link">
+                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-shopping-cart shopping-icon"></i>
                     </a>
+                    <c:if test="${emailSession ne null}">
+                        <form style="display: inline-flex; padding: 0; margin: 0; vertical-align: sub; margin-left: 5px;" action="logoutServlet" method="POST">
+                            <input type="hidden" name="boolEmailSession" value="false">
+                            <button type="submit" class="btn std-button logout-button" style="background-color: transparent;">
+                                <i class="fas fa-sign-out-alt shopping-icon displayCenter"></i>
+                            </button>
+                        </form>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -132,11 +138,10 @@
     <!-- START: search navbar -->
     <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
         <div class="container mb-1">
-            <form action="searchServlet" method="GET">
+            <form action="searchServlet" method="GET" style="width: 100%;">
                 <div class="row">
-                    <div class="col mt-1 nav-col">
+                    <div class="col-md-3 mt-1 nav-col">
                         <div class="col-sm">
-
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
                             <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
@@ -148,11 +153,10 @@
                                     <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
                                 </c:forEach>
                             </select>
-
                         </div>
                     </div>
 
-                    <div class="col-md mt-1 nav-col">
+                    <div class="col-md-4 mt-1 nav-col">
                         <div class="input-group nav-search">
                             <input class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
                             <div class="input-group-append">
@@ -161,20 +165,17 @@
                                 </button>
                             </div>
                         </div>
-                        <%-- <input class="form-control nav-search" type="text" placeholder="Cerca" name="inputSearch">
-                        <button type="submit" class="btn displayCenter login-btn">Search</button> --%>
                     </div>
+
+                    <c:if test="${emailSession ne null}">
+                        <div class="col align-right" style="text-align: right;">
+                            <small class="text-muted">Logged as </small>
+                            <br>
+                            <c:out value=" ${emailSession}"></c:out>
+                        </div>
+                    </c:if>
                 </div>
             </form>
-            <c:if test="${emailSession ne null}">
-                <div>
-                    <div><small class="text-muted">Logged as </small></div><c:out value=" ${emailSession}"></c:out>
-                </div>
-                <form action="logoutServlet" method="POST">
-                    <input type="hidden" name="boolEmailSession" value="false">
-                    <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                </form>
-            </c:if>
         </div>
     </nav>
     <!-- END: search navbar -->

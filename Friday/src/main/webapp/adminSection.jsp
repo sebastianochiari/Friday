@@ -148,7 +148,7 @@
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content shadow">
                                                      <div class="modal-header">
-                                                         <h5 class="modal-title">Crea un nuovo prodotto</h5>
+                                                         <h5 class="modal-title">Crea una nuova categoria di lista</h5>
                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                              <span aria-hidden="true">&times;</span>
                                                          </button>

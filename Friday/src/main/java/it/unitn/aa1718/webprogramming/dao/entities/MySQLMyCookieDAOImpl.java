@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.dao.entities;
 
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
@@ -13,13 +14,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Vector;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- *
- * @author leo97
+ * Classe DAO che permette la gestione dei cookie 
  */
 public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     
@@ -43,6 +44,11 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     
     private static final String Delete_Query_DB_Expired_Cookies = "DELETE FROM cookies WHERE deadline < ?";
 
+    /**
+     * Metodo che ritorna tutti i cookie in base all'email
+     * @param email stringa che identifica l'utente in modo univoco
+     * @return vettore di cookie
+     */
     @Override
     public Vector<MyCookie> getAllCookieByEmail(String email){
         
@@ -86,7 +92,56 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         }
         return myCookies;
     }
+    
+    public Vector<MyCookie> getAllCookie(){
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        Vector<MyCookie> myCookies = new Vector();
+        
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_All_Query);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while(result.next()){
+                if(result.getString("cookieID") != null){
+                    MyCookie myCookie = new MyCookie(result.getInt(1), result.getInt(2), result.getString(3), result.getLong(4));
+                    myCookies.add(myCookie);
+                }
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        return myCookies;
+    
+    }
 
+    /**
+     * Metodo che ritorna IL cookie ! ???????????
+     * @param myCookies
+     * @param myCookieID
+     * @return 
+     */
     @Override
     public MyCookie getTHECookie(Vector<MyCookie> myCookies, int myCookieID){
         
@@ -98,6 +153,12 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         
     }
 
+    /**
+     * Metodo che ritorna il cookie associato all'email 
+     * @param request
+     * @param email stringa che identifica l'utente
+     * @return oggetto di tipo MyCookie che rappresenta il cookie associato
+     */
     @Override
     public MyCookie getCookie(HttpServletRequest request, String email){
         
@@ -119,6 +180,10 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         return myCookie;
     }
 
+    /**
+     * Metodo che permette la creazione di un cookie ???
+     * @param myCookie 
+     */
     @Override
     public void createCookie(MyCookie myCookie){
         
@@ -151,6 +216,10 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         
     }
 
+    /**
+     * Metodo che permette la modifica di un cookie associato all'utente ?? 
+     * @param myCookie  ??????
+     */
     @Override
     public void updateCookie(MyCookie myCookie){
         
@@ -182,6 +251,10 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         }
     }
 
+    /**
+     * Metodo che elimina il cookie in base all'ID del cookie stesso
+     * @param myCookieID intero che rappresenta il cookie 
+     */
     @Override
     public void deleteCookieByCookieID(int myCookieID){
         
@@ -209,6 +282,10 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         }
     }
     
+    /**
+     * Metodo che permette l'eliminazione del cookie in base all'email
+     * @param email stringa che identifica l'utente in modo univoco
+     */
     @Override
     public void deleteCookieByEmail(String email){
         
@@ -237,6 +314,9 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     
     }
 
+    /**
+     * Metodo che permette l'eliminazione del cookie se non è più valido
+     */
     @Override
     public void deleteDBExpiredCookies(){
         
@@ -265,6 +345,11 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         }
     }
 
+    /**
+     * Metodo che permette la modifica di un cookie in base all'ID della lista
+     * @param cookieID intero che rappresenta in modo univoco il cookie
+     * @param LID intero che rappresenta l'ID della lista
+     */
     @Override
     public void updateLIDCookie(int cookieID, int LID) {
         
@@ -293,6 +378,11 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         }
     }
 
+    /**
+     * Metodo che permette la modifica di un cookie
+     * @param cookieID intero che identifica il cookie
+     * @param email stringa che rappresenta l'email alla quale il cookie è associato
+     */
     @Override
     public void updateEmailCookie(int cookieID, String email) {
         
@@ -322,6 +412,11 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         
     }
 
+    /**
+     * Metodo che ritorna l'ID della lista in base al cookie
+     * @param cookieID intero rappresentante il cookie
+     * @return intero che identifica l'ID della lista
+     */
     @Override
     public int getLIDbyCookieID(int cookieID) {
         

@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.dao.entities;
 
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
@@ -17,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author leo97
+ * Classe DAO che permette la gestione delle categorie delle liste della spesa
  */
 public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO{
     
@@ -34,6 +34,10 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
     
     private static final String Delete_Query = "DELETE FROM list_categories WHERE LCID = ?";
     
+    /**
+     * Metodo che ritorna tutte le categorie di lista della spesa
+     * @return list contenente tutte le liste della spesa presenti nel db
+     */
     @Override
     public List getAllShoppingListCategories() {
         
@@ -75,6 +79,11 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
         return shoppingListCategories;
     }
     
+    /**
+     * Metodo che ritorna le categorie di lista in base all'email passata come parametro
+     * @param email stringa che rappresenta l'email dell'utente 
+     * @return list contenente l'insieme delle liste trovate
+     */
     @Override
     public List getShoppingListCategoriesByEmail (String email) {
         
@@ -117,6 +126,11 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
         return shoppingListCategories;
     }
   
+    /**
+     * Metodo che ritorna le categorie di lista ???
+     * @param LCID
+     * @return 
+     */
     @Override
     public ShoppingListCategory getShoppingListCategory(int LCID){
 		
@@ -157,6 +171,11 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
         return shoppingListCategory;
     }
     
+    /**
+     * Metodo che crea la categoria di lista 
+     * @param shoppingListCategory oggetto list category passato in input
+     * @return stringa che rappresenta ?????????
+     */
     @Override
     public String createShoppingListCategory(ShoppingListCategory shoppingListCategory) {
         Connection conn = null;
@@ -201,6 +220,11 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
         return null;
     }
 
+    /**
+     * Metodo che modifica la categoria di lista 
+     * @param shoppingListCategory oggetto shopping list da modificare
+     * @return booleano settato a 1 se la modifica ha avuto successo
+     */
     @Override
     public boolean updateShoppingListCategory(ShoppingListCategory shoppingListCategory) {
 		
@@ -233,6 +257,11 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
         return false;
     }
     
+    /**
+     * Metodo che elimina una categoria di lista della spesa 
+     * @param shoppingListCategory oggetto da eliminare
+     * @return booleano settato a 1 se l'eliminazione ha avuto successo
+     */
     @Override
     public boolean deleteShoppingListCategory(ShoppingListCategory shoppingListCategory) {
 	Connection conn = null;

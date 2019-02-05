@@ -10,6 +10,9 @@
 <%@ page import="java.util.*"%>
 <%@ page import="javax.servlet.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.dao.friday.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
@@ -50,23 +53,25 @@
     </head>
 
     <body id="top">
-
-        <%
-            (request.getSession()).setAttribute("emailSession", null);
-            (request.getSession()).setAttribute("cookieIDSession", null);
-            (request.getSession()).setAttribute("nameUserSession", null);
+        
+<%
 
             String DBUrl = MySQLDAOFactory.getDBUrl();
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
             String DBDriver = MySQLDAOFactory.getDBDriver();
-            
+
             (request.getSession()).setAttribute("DBUrlSession", DBUrl);
             (request.getSession()).setAttribute("DBUserSession", DBUser);
             (request.getSession()).setAttribute("DBPassSession", DBPass);
             (request.getSession()).setAttribute("DBDriverSession", DBDriver);
 
             Cookie[] cookies = request.getCookies();
+            
+            DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+            UserDAO riverUserDAO = mySqlFactory.getUserDAO();
+            UserDAO userDAO = new MySQLUserDAOImpl();
+            
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
@@ -88,15 +93,15 @@
                             if((cookies[i].getValue()).equals(result.getString("cookieID"))){
 
                                 String emailSession = result.getString("Email");
-                                (request.getSession()).setAttribute("emailSession", emailSession);
-                                (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
-                                (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
-                                (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
-                                System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
-
-                                if (emailSession.equals(null)){
+                              
+                                if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
+                               
                                     boolEmailSession = false;
                                 } else {
+                                    (request.getSession()).setAttribute("emailSession", emailSession);
+                                    (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                                    (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
+                                    (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
                                     boolEmailSession = true;
                                 }
 
@@ -119,21 +124,32 @@
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
-
-                    // Seba code
-                    // preparedStatement = connection.prepareStatement("SELECT * FROM lists WHERE Email = ?;");
-                    // preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
-                    // preparedStatement.execute();
-                    // result = preparedStatement.getResultSet();
-                    //
-                    // System.out.println("+++++++++++++++++++++++" + result.rows + "+++++++++++++++++++++++++");
-                    //
-                    // String [] userLists = new String[result.rows];
-                    // for(int i = 0; i < result.rows; i++) {
-                    //     String tempUserList;
-                    //     (request.getSession()).setAttribute("tempUserList", result.getString("Name"));
-                    //     userLists[i] = tempUserList;
-                    // }
+                    
+                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
+                    preparedStatement.execute();
+                    result = preparedStatement.getResultSet();
+                    
+                    result.last();
+                    
+                    String [][] prodottiRand = new String [result.getRow()][6];
+                    
+                    result.beforeFirst();
+                    
+                    int i = 0;
+                    
+                    while (result.next()) {
+                        prodottiRand [i][0] = result.getString("PID");
+                        prodottiRand [i][1] = result.getString("Name");
+                        prodottiRand [i][2] = result.getString("Note");
+                        prodottiRand [i][3] = result.getString("Logo");
+                        prodottiRand [i][4] = result.getString("Photo");
+                        prodottiRand [i][5] = result.getString("PCID");
+                        
+                        i++;
+                    }
+                    
+                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
+                    
 
                 }
 
@@ -156,7 +172,7 @@
                     cse.printStackTrace();
                 }
             }
-            
+
         %>
 
         <!-- START: topHeader -->
@@ -180,19 +196,6 @@
                             <li><a href="login.jsp">Login</a></li>
                             <li><a href="insertUser.jsp">Registrati</a></li>
                         </c:if>
-                        <c:if test="${boolEmailSession}">
-                        <li>
-                            <div>
-                                <c:out value=" ${emailSession}"></c:out>
-                            </div>
-                        </li>
-                        <li>
-                            <form action="logoutServlet" method="POST">
-                                <button type="submit" class="btn displayCenter login-btn">Logout</button>
-                            </form>
-                        </li>
-                        </c:if>
-
                     </ul>
                 </div>
             </div>
@@ -243,65 +246,59 @@
                 <!-- END: Carousel -->
 
                 <!-- START: personal shopping cart -->
-                <div id="breadcrumb" class="mt-4">
-                    <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <form action="insertProductServlet" method="POST">
+                    <div id="breadcrumb" class="mt-4">
+                    
                         <h5 style="display: inline-block;">La mia lista</h5>
-                        <p style="display: inline-block;"><i>predefinita</i></p>
-                    </a>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
-                            <div class="cart-carousel">
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/bic.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/colla.JPG">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/evidenziatore.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/forbice.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                                </div>
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/pennarelli.jpg">
-                                    <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
+                        <p style="display: inline-block;">
+                            <i>
+                                <select name="selectedListToChangeProduct" class="form-group-sm">
+                                    <c:forEach items="${ListUserSession}" var="lista">
+                                        <option value="${lista[1]}">
+                                            ${lista[0]}
+                                        </option>
+                                    </c:forEach>
+                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                        <option value="${listaCondivisa[1]}">
+                                            ${listaCondivisa[0]}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                                <input type="hidden" value="4" name="scelta">
+                            </i>
+                        </p>
+                        <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <div class="cart-carousel">
+                                    <c:forEach items="${resultSearch}" var="prodotto">
+                                        <div>
+                                            <img class="cart-image" src="images/prodotti/${prodotto[4]}">
+                                            <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodotto[0]}" class="btn std-button displayCenter">
+                                                Aggiungi alla lista
+                                            </button>
+                                        </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <!-- END: personal shopping cart -->
 
-                <div class="mt-4">
-                    <h5>Prodotti scelti per te</h5>
-                    <div class="cart-carousel">
-                        <div>
-                            <img class="cart-image" src="images/prodotti/bic.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
+                    <div class="mt-4">
+                        <h5>Prodotti scelti per te</h5>
+                        <div class="cart-carousel">
+                            <c:forEach items="${prodottiRand}" var="prodottoRand">
+                                <div>
+                                    <img class="cart-image" src="images/prodotti/${prodottoRand[4]}">
+                                    <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn std-button displayCenter">
+                                        Aggiungi alla lista
+                                    </button>
+                                </div>
+                            </c:forEach>
                         </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/colla.JPG">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/evidenziatore.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/forbice.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                        <div>
-                            <img class="cart-image" src="images/prodotti/pennarelli.jpg">
-                            <a href="#" class="btn std-button displayCenter">Aggiungi alla lista</a>
-                        </div>
-                    </div>
-                </div>
+                    </div> 
+                </form>
 
             </div>
 

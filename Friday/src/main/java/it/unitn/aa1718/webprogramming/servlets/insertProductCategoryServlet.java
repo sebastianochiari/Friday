@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
@@ -18,16 +18,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author marta
- */
+
 public class insertProductCategoryServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -53,7 +50,7 @@ public class insertProductCategoryServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -78,16 +75,25 @@ public class insertProductCategoryServlet extends HttpServlet {
         String note = request.getParameter("note");
         String logo = request.getParameter("logo");
         
-        ProductCategory productCategory1 = new ProductCategory(PCID, name, note, library.ImageControl(logo), email);
-    
-        // memorizzazione del nuovo productCategory nel DB
-        productCategoryDAO.createProductCategory(productCategory1);
+        if(email.length()<200 && name.length() < 200 && note.length()<500 && logo.length()<200){ 
+
+            ProductCategory productCategory1 = new ProductCategory(PCID, name, note, library.ImageControl(logo), email);
+
+            // memorizzazione del nuovo productCategory nel DB
+            productCategoryDAO.createProductCategory(productCategory1);
+
+            // recupero di tutti gli productCategory del DB
+            productCategories = productCategoryDAO.getAllProductCategories();
+
+            request.setAttribute("goodInsertProductCategory", "true");
+            response.sendRedirect("adminSection.jsp");  
+            
+       } else {
+            
+            response.sendRedirect("error.jsp");
+       }
         
-        // recupero di tutti gli productCategory del DB
-        productCategories = productCategoryDAO.getAllProductCategories();
-        
-        request.setAttribute("goodInsertProductCategory", "true");
-        response.sendRedirect("adminSection.jsp");        
+              
         
     }
 

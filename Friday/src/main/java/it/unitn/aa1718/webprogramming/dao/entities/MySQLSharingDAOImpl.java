@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.dao.entities;
 
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
@@ -16,25 +17,28 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
 /**
- *
- * @author leo97
+ * Classe DAO che permette la gestione della condivisione delle liste
  */
 public class MySQLSharingDAOImpl implements SharingDAO{
     
-    private static final String Create_Query = "INSERT INTO sharing (email, LID) VALUES (?, ?)";
+    private static final String Create_Query = "INSERT INTO sharing (email, LID, modify, addRemProd, deleteList) VALUES (?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT email, LID FROM sharing WHERE (email = ? and LID = ?)";
+    private static final String Read_Query = "SELECT email, LID, modify, addRemProd, deleteList FROM sharing WHERE (email = ? and LID = ?)";
     
-    private static final String Read_All_Emails_By_LID_Query = "SELECT email, LID FROM sharing WHERE LID = ?";
+    private static final String Read_All_Emails_By_LID_Query = "SELECT * FROM sharing WHERE LID = ?";
     
-    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID FROM sharing WHERE email = ?";
+    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, LID, modify, addRemProd, deleteList FROM sharing WHERE email = ?";
     
-    private static final String Read_All_Query = "SELECT email, LID FROM sharing";
+    private static final String Read_All_Query = "SELECT email, LID, modify, addRemProd, deleteList FROM sharing";
         
-    private static final String Update_Query = "UPDATE sharing SET email=?, LID=? WHERE (email = ? and LID = ?)";
+    private static final String Update_Query = "UPDATE sharing SET email=?, LID=?, modify=?, addRemProd=?, deleteList=? WHERE (email = ? and LID = ?)";
     
     private static final String Delete_Query = "DELETE FROM sharing WHERE (email = ? and LID = ?)";
 
+    /**
+     * Metodo che ritorna tutte le liste condivise
+     * @return list con tutte le liste condivise
+     */
     @Override
     public List getAllSharing() {
         
@@ -50,7 +54,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2), result.getBoolean(3),  result.getBoolean(4),  result.getBoolean(5) );
                 sharings.add(sharing);
             }
         } catch (SQLException e) {
@@ -77,6 +81,11 @@ public class MySQLSharingDAOImpl implements SharingDAO{
         
     }
 
+    /**
+     * Metodo che ritorna tutte le liste in base all'email passata
+     * @param email stringa passata come parametro 
+     * @return list con tutte le liste condivise ???
+     */
     @Override
     public List getAllListByEmail(String email) {
         
@@ -94,7 +103,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2), result.getBoolean(3),  result.getBoolean(4),  result.getBoolean(5));
                 sharings.add(sharing);
             }
         } catch (SQLException e) {
@@ -120,6 +129,11 @@ public class MySQLSharingDAOImpl implements SharingDAO{
         return sharings;
     }
 
+    /**
+     * Metodo che ritorna tutte le liste in base all'email
+     * @param LID intero passato come parametro identificativo univoco per la lista
+     * @return lista contenente tutte le liste associate alla email passata come parametro
+     */
     @Override
     public List getAllEmailsbyList(int LID) {
         
@@ -137,7 +151,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2), result.getBoolean(3),  result.getBoolean(4),  result.getBoolean(5) );
                 sharings.add(sharing);
             }
         } catch (SQLException e) {
@@ -163,6 +177,12 @@ public class MySQLSharingDAOImpl implements SharingDAO{
         return sharings;
     }
 
+    /**
+     * Metodo che ritorna tutte le persone con la quale è stata condivisa la lista con l'ID specifico
+     * @param LID
+     * @param email
+     * @return 
+     */
     @Override
     public Sharing getSharing(int LID, String email) {
         
@@ -180,7 +200,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             result = preparedStatement.getResultSet();
             
             while (result.next()) {
-                sharing = new Sharing(result.getString(1), result.getInt(2));
+                sharing = new Sharing(result.getString(1), result.getInt(2), result.getBoolean(3),  result.getBoolean(4),  result.getBoolean(5) );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -205,6 +225,11 @@ public class MySQLSharingDAOImpl implements SharingDAO{
         return sharing;
     }
 
+    /**
+     * Metodo che ????
+     * @param sharing
+     * @return 
+     */
     @Override
     public String createSharing(Sharing sharing) {
         
@@ -217,6 +242,9 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             preparedStatement = connection.prepareStatement(Create_Query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, sharing.getEmail());
             preparedStatement.setInt(2, sharing.getLID());
+            preparedStatement.setBoolean(3, sharing.getModify());
+            preparedStatement.setBoolean(4, sharing.getAdd());
+            preparedStatement.setBoolean(5, sharing.getDelete());
             preparedStatement.execute();
             result = preparedStatement.getGeneratedKeys();
             
@@ -248,6 +276,11 @@ public class MySQLSharingDAOImpl implements SharingDAO{
         return null;
     }
 
+    /**
+     * Mmetodo che ??????????
+     * @param sharing
+     * @return 
+     */
     @Override
     public boolean updateSharing(Sharing sharing) {
 
@@ -260,6 +293,9 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             preparedStatement = connection.prepareStatement(Update_Query);
             preparedStatement.setString(1, sharing.getEmail());
             preparedStatement.setInt(2, sharing.getLID());
+            preparedStatement.setBoolean(3, sharing.getModify());
+            preparedStatement.setBoolean(4, sharing.getAdd());
+            preparedStatement.setBoolean(5, sharing.getDelete());
             preparedStatement.execute();
             
             return true;
@@ -286,6 +322,11 @@ public class MySQLSharingDAOImpl implements SharingDAO{
         return false;
     }
 
+    /**
+     * Metodo che ????????
+     * @param sharing
+     * @return 
+     */
     @Override
     public boolean deleteSharing(Sharing sharing) {
         

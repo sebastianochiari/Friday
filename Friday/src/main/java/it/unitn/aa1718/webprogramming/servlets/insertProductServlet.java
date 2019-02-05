@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.*;
@@ -17,11 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author tommi
- */
+
 public class insertProductServlet extends HttpServlet {
 
     /**
@@ -54,7 +53,7 @@ public class insertProductServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET: inserisce un prodotto nuovo nel database, effettuando i relativi controlli
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -87,19 +86,27 @@ public class insertProductServlet extends HttpServlet {
         String photo = request.getParameter("photo");
         int PCID = Integer.parseInt(request.getParameter("PCID"));
         
-        Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
-    
-        // memorizzazione del nuovo product nel DB
-        productDAO.createProduct(product1);
+        if(email.length()<200 && name.length()< 200 && logo.length()< 200 && note.length()<500 && photo.length()<200){ 
+
+            Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
+
+            // memorizzazione del nuovo product nel DB
+            productDAO.createProduct(product1);
+
+            request.setAttribute("goodInsertProduct", "true");
+            response.sendRedirect("adminSection.jsp");
+            
+       } else {
+            response.sendRedirect("error.jsp");
+       }
         
-        request.setAttribute("goodInsertProduct", "true");
-        response.sendRedirect("adminSection.jsp");
+        
         
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST della servlet:  COSA FA?
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -108,7 +115,48 @@ public class insertProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
         
+        int comando = Integer.parseInt(request.getParameter("changeProduct"));
+        int lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+        int scelta = Integer.parseInt(request.getParameter("scelta"));
         
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        ProductList productList = null;
+        int amount = 1;
+        if (scelta != 4) {
+            productList = productListDAO.getProductList(comando, lista);
+            System.out.println("------"+productList);
+            amount = productList.getQuantity();
+        }
+        
+        switch (scelta){
+            case 1: 
+                amount--;
+                productList = new ProductList(comando, lista, amount);
+                if (amount>0) {
+                    productListDAO.updateProductList(productList);
+                } else {
+                    productListDAO.deleteProductList(productList);
+                };
+                break;
+            case 2:
+                productList = new ProductList(comando, lista, amount);
+                productListDAO.deleteProductList(productList);
+                break;
+            case 3:
+                amount++;
+                productList = new ProductList(comando, lista, amount);
+                productListDAO.updateProductList(productList);
+                break;
+            case 4:
+                productList = new ProductList(comando, lista, amount);
+                productListDAO.createProductList(productList);
+                break;
+            default: 
+                response.sendRedirect("faq.jsp");
+                break;
+        }
+            
+        response.sendRedirect("gestioneListe.jsp");
     }
 
     /**

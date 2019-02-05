@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.dao.entities;
 
 import it.unitn.aa1718.webprogramming.connection.*;
@@ -17,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author tommi
+ * Class DAO che permette la gestione dei prodotti
  */
 public class MySQLProductDAOImpl implements ProductDAO {
     
@@ -44,6 +44,10 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Delete_Query = "DELETE FROM prpducts WHERE PID = ?";
     
+    /**
+     * Metodo che ritorna tutti i prodotti 
+     * @return lsita con tutti i prodotti
+     */
     @Override
     public List getAllProducts() {
         
@@ -85,6 +89,11 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return products;
     }
     
+    /**
+     * Metodo che ritorna i prodotti in base all'email 
+     * @param email stringa che rappresenta una delle email di un utente
+     * @return list di prodotti creati dall'email passata in input
+     */
     @Override
     public List getProductsByEmail (String email) {
         
@@ -127,6 +136,11 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return products;
     }
     
+    /**
+     * Metodo che ritorna i prodotti in base al product category ID passato
+     * @param PCID intero che rappresenta la categoria di prodotto specificata
+     * @return list di prodotti
+     */
     @Override
     public List getProductsByPCID (int PCID) {
         
@@ -169,6 +183,11 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return products;
     }
     
+    /**
+     * Metodo che ritorna un prodotto in base al suo ID univoco
+     * @param PID intero che rappresenta il prodotto
+     * @return oggetto che rappresenta il prodotto
+     */
     @Override
     public Product getProduct(int PID) {
 		
@@ -209,6 +228,11 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return product;
     }
     
+    /**
+     * Metodo che crea un prodotto 
+     * @param product oggetto passato per creare il prodotto
+     * @return stringa contenente l'ID del prodotto ????????
+     */
     @Override
     public String createProduct(Product product) {
         Connection conn = null;
@@ -255,6 +279,11 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return null;
     }
     
+    /**
+     * Metodo che modifica i campi del prodotto
+     * @param product oggetto con i relativi campi da modificare
+     * @return boolean settato a 1 se la modifica ha avuto successo
+     */
     @Override
     public boolean updateProduct(Product product) {
 		
@@ -289,6 +318,11 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return false;
     }
     
+    /**
+     * Metodo che elimina un prodotto
+     * @param product oggetto da eliminare
+     * @return boolean settato a 1 se l'eliminazione ha avuto successo
+     */
     @Override
     public boolean deleteProduct(Product product) {
 	Connection conn = null;
@@ -317,6 +351,12 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return false;
     }
 
+    /**
+     * Metodo che ritorna i prodotti in base alla ricerca per nome
+     * @param name stringa che identifica il nome
+     * @param perPCID booleano che specifica se la ricerca va fatta per PCID
+     * @return list contenente i prodotti trovati
+     */
     @Override
     public List getProductsByName(String name, boolean perPCID) {
         List products = new ArrayList();
@@ -363,6 +403,12 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return products;
     }
 
+    /**
+     * Metodo che ritorna i prodotti in base al nome e PCID
+     * @param PCID intero che identifica il product category ID
+     * @param name stringa che rappresenta il nome del prodotto da cercare
+     * @return lista contenente i risultati trovati tra i prodotti
+     */
     @Override
     public List getProductsByNameAndPCID(int PCID, String name) {
         List products = new ArrayList();

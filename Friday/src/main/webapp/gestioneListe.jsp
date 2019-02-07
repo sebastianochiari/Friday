@@ -52,8 +52,8 @@
 
     <!-- HEADER -->
     <jsp:include page="jsp/components/header.jsp" />
-    
-    
+
+
 
     <!-- START: parte principale -->
     <main>
@@ -104,7 +104,7 @@
                                             </button>
                                             </li>
                                             <c:set var="attiva" value="notActive"></c:set>
-                                        </c:if> 
+                                        </c:if>
                                     </c:forEach>
                                 </form>
                                 <!-- END: liste personali -->
@@ -133,7 +133,7 @@
                                             </button>
                                             </li>
                                             <c:set var="attiva" value="notActive"></c:set>
-                                        </c:if> 
+                                        </c:if>
                                     </c:forEach>
                                 </form>
                                 <!-- END: liste condivise -->
@@ -151,26 +151,24 @@
                             <c:if test="${GestioneListe eq 0}">
                                 <h4>Gestione Liste</h4>
                                 <p>
-                                    Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti. Se vuoi creare una nuova lista clicca il pulsante qui sotto:
+                                    Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti.
+                                    Se vuoi creare una nuova lista clicca qui: <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Crea nuova lista</a>
                                 </p>
-                                <p>
-                                    <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList"><h3>Crea nuova lista</h3></a>
-                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content shadow">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Crea una nuova lista della spesa</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <jsp:include page="insertShoppingList.jsp" />
-                                                </div>
+                                <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content shadow">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <jsp:include page="insertShoppingList.jsp" />
                                             </div>
                                         </div>
                                     </div>
-                                </p>
+                                </div>
 
                                 <h5>
                                     Liste personali
@@ -191,11 +189,10 @@
                                             <tr>
                                                 <th style="text-align: center;" scope="row">${counterPL}</th>
                                                 <td>
-                                                    <form action="handlingListServlet" method="GET">
-                                                        <button type="submit" value="${lista1[1]}" name="selectedList" class="dropdown-item">
-                                                            ${lista1[0]}
-                                                        </button>
+                                                    <form id="handlingListServlet${counterPL}" action="handlingListServlet" method="GET">
+                                                        <input type="hidden" value="${lista1[1]}" name="selectedList">
                                                     </form>
+                                                    <a href="#" onclick="submitForm('handlingListServlet${counterPL}')">${lista1[0]}</a>
                                                 </td>
                                                 <td>${lista1[2]}</td>
                                                 <td style="text-align: center;">
@@ -207,11 +204,16 @@
                                                     </c:if>
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    <form action="insertShoppingListServlet" method="POST">
+                                                    <%-- QUESTO È IL VECCHIO FORM --%>
+                                                    <%-- <form action="insertShoppingListServlet" method="POST">
                                                         <button type="submit" title="Elimina questa lista" name="deleteList" value="${lista1[1]}">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
+                                                    </form> --%>
+                                                    <form id="insertShoppingListServlet${counterPL}" action="insertShoppingListServlet" method="POST">
+                                                        <input type="hidden" name="deleteList" value="${lista1[1]}">
                                                     </form>
+                                                    <a href="#" onclick="submit('insertShoppingListServlet${counterPL}')"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                             <c:set var="counterPL" value="${counterPL+1}"></c:set>
@@ -219,7 +221,7 @@
                                     </tbody>
                                 </table>
 
-                                <h5 class="mt-5">
+                                <h5 class="mt-4">
                                     Liste condivise
                                 </h5>
                                 <table class="table table-striped table-borderless">
@@ -237,11 +239,15 @@
                                             <tr>
                                                 <th style="text-align: center;" scope="row">${counterSL}</th>
                                                 <td>
-                                                    <form action="handlingListServlet" method="GET">
+                                                    <%-- <form action="handlingListServlet" method="GET">
                                                         <button type="submit" value="${listaCondivisa1[1]}" name="selectedList" class="dropdown-item">
                                                             ${listaCondivisa1[0]}
                                                         </button>
+                                                    </form> --%>
+                                                    <form id="handlingListServlet${counterPL}" action="handlingListServlet" method="GET">
+                                                        <input type="hidden" value="${listaCondivisa1[1]}" name="selectedList">
                                                     </form>
+                                                    <a href="#" onclick="submitForm('handlingListServlet${counterPL}')">${listaCondivisa1[0]}</a>
                                                 </td>
                                                 <td>${listaCondivisa1[2]}</td>
                                                 <td style="text-align: center;">
@@ -251,6 +257,7 @@
                                                 </td>
                                             </tr>
                                             <c:set var="counterSL" value="${counterSL+1}"></c:set>
+                                            <c:set var="counterPL" value="${counterPL + 1}"></c:set>
                                         </c:forEach>
                                     </tbody>
                                 </table>
@@ -258,8 +265,8 @@
                             <c:if test="${GestioneListe ne 0}">
                                 <jsp:include page="list.jsp"></jsp:include>
                             </c:if>
-                               
-                            
+
+
 
 
                         </div>

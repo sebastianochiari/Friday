@@ -59,6 +59,8 @@ public abstract class DAOFactory {
      */
     public abstract SharingDAO getSharingDAO();
     
+    public abstract SharingProductDAO getSharingProductDAO();
+    
     /**
      * Metodo che ritorna il DAO del messaggio
      * @return oggetto di tipo MessageDAO

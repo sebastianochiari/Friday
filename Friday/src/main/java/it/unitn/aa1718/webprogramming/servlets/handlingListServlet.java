@@ -139,7 +139,6 @@ public class handlingListServlet extends HttpServlet {
                 utenteProprietario[4] = "";
             }
             
-
             session.setAttribute("listaCondivisa", listaCondivisa);            
             session.setAttribute("utenteProprietario", utenteProprietario);            
             session.setAttribute("listaCorrente", listaCorrente);            
@@ -162,27 +161,6 @@ public class handlingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         
-        int PIDProdotto = Integer.parseInt(request.getParameter("SelectedProduct"));
-        HttpSession session = request.getSession();
-        
-        ProductDAO productDAO = new MySQLProductDAOImpl();
-        Product product = productDAO.getProduct(PIDProdotto);
-        
-        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
-        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
-        UserDAO userDAO = new MySQLUserDAOImpl();
-        
-        String [] prodotto = new String [7];
-        prodotto[0] = product.getName();
-        prodotto[1] = product.getNote();
-        prodotto[2] = product.getLogo();
-        prodotto[3] = product.getPhoto();
-        prodotto[4] = productCategoryDAO.getProductCategory(product.getPCID()).getName();
-        prodotto[5] = userDAO.getUser(product.getEmail()).getName();
-        prodotto[6] = Integer.toString(product.getPID());
-        
-        session.setAttribute("prodotto", prodotto);
-        request.getRequestDispatcher("showProduct.jsp").forward(request, response);
     }
 
     /**

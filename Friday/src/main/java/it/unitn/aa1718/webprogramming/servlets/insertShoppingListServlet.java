@@ -17,15 +17,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.friday.User;
-import java.sql.Timestamp;
-import javax.servlet.http.Cookie;
 
 
 public class insertShoppingListServlet extends HttpServlet {

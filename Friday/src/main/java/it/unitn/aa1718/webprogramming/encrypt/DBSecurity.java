@@ -32,17 +32,13 @@ public class DBSecurity {
      */
 
     public String setSecurePassword(String passwordToHash, String salt){
-        System.out.println("SONO IN SETSECUREPASSWORD");
-        System.out.println("in DBSECURITY PSW TO HASH: " + passwordToHash);
-        System.out.println("IN DBSECURITY SALTING: " + salt);
+        
         String generatedPassword = null;
 
         try {
             //Creation of MessageDigest for SHA-256 algorithm (?)
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             
-            
-//QUESTO PRIMA NON ERA COMMENTATO! SERVE PER LA CRIPTAZIONE  ... parte sotto 
             md.update(salt.getBytes(StandardCharsets.UTF_8));
             passwordToHash = " " + passwordToHash + salt;
             System.out.println("psw + salting (= email) is : " + passwordToHash);

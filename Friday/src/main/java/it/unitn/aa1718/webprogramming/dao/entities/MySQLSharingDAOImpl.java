@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class MySQLSharingDAOImpl implements SharingDAO{
     
-    private static final String Create_Query = "INSERT INTO sharing (email, LID, modify, addRemProd, deleteList) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO sharing (email, LID, modify, addRemProd, deleteList) VALUES (?, ?, ?, ?, ?)";
     
     private static final String Read_Query = "SELECT email, LID, modify, addRemProd, deleteList FROM sharing WHERE (email = ? and LID = ?)";
     

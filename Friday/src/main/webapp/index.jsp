@@ -131,7 +131,7 @@
                     
                     result.last();
                     
-                    String [][] prodottiRand = new String [result.getRow()][6];
+                    String [][] prodottiRand = new String [result.getRow()][8];
                     
                     result.beforeFirst();
                     
@@ -144,6 +144,8 @@
                         prodottiRand [i][3] = result.getString("Logo");
                         prodottiRand [i][4] = result.getString("Photo");
                         prodottiRand [i][5] = result.getString("PCID");
+                        prodottiRand [i][6] = (userDAO.getUser(result.getString("Email"))).getName();
+                        prodottiRand [i][7] = (userDAO.getUser(result.getString("Email"))).getSurname();
                         
                         i++;
                     }
@@ -253,14 +255,14 @@
                         <p style="display: inline-block;">
                             <i>
                                 <select name="selectedListToChangeProduct" class="form-group-sm">
-                                    <c:forEach items="${ListUserSession}" var="lista">
-                                        <option value="${lista[1]}">
-                                            ${lista[0]}
+                                    <c:forEach items="${resultList.rows}" var="lista">
+                                        <option value="${lista.LID}">
+                                            ${lista.Name}
                                         </option>
                                     </c:forEach>
-                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
-                                        <option value="${listaCondivisa[1]}">
-                                            ${listaCondivisa[0]}
+                                    <c:forEach items="${resultSharingList.rows}" var="listaCondivisa">
+                                        <option value="${listaCondivisa.LID}">
+                                            ${listaCondivisa.Name}
                                         </option>
                                     </c:forEach>
                                 </select>
@@ -290,6 +292,29 @@
                         <div class="cart-carousel">
                             <c:forEach items="${prodottiRand}" var="prodottoRand">
                                 <div>
+                                    <a href="#" class="text-link" data-toggle="modal" data-target="#infoProduct">
+                                        <p>${prodottoRand[1]}</p>
+                                    </a>
+                                    <div class="modal fade" id="infoProduct" tabindex="-1" role="dialog" aria-labelledby="infoProductLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content shadow">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">${prodottoRand[1]}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><b>Creatore: </b>${prodottoRand[6]} ${prodottoRand[7]}</p>
+                                                    <p><b>Note aggiuntive: </b>
+                                                        ${prodottoRand[2]}
+                                                    </p>
+                                                    <p><b>Immagine del prodotto:</b></p>
+                                                    <img src="images/prodotti/${prodottoRand[4]}" style="width: 100%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <img class="cart-image" src="images/prodotti/${prodottoRand[4]}">
                                     <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn std-button displayCenter">
                                         Aggiungi alla lista

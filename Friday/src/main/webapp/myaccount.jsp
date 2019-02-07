@@ -108,7 +108,7 @@
                                     <div>
                                         <p style="display: inline-block"><b>Cancella il tuo account Friday </b></p>
                                         <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
-                                            <i class="fas fa-user-times"></i>
+                                            <i class="fas fa-user-times" style="color: #F8694A"></i>
                                         </a>
                                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -121,19 +121,18 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>Vuoi veramente eliminare il tuo account?</p>
-                                                    </div>
-                                                    <!--<form action="sharingListServlet" method="GET">-->
-                                                        <input type="hidden" name="azioneLista" value="2">
-                                                        <div class="modal-body">
-                                                            <label for="exampleFormControlInput1">Informazioni</label>
-                                                            <input type="email" class="form-control" id="deleteEmail" placeholder="mario.rossi@email.com" name="deleteEmail">
-                                                            <input type="password" class="form-control" id="deletePassword" placeholder="AAAaaa1" name="deletePassword">
+                                                    
+                                                        <form action="securityServlet" method="POST">
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="typeChange" value="deleteAccount">
+                                                                <input type="email" class="form-control" id="deleteEmail" placeholder="mario.rossi@email.com" name="deleteEmail">
+                                                                <input type="password" class="form-control" id="deletePassword" placeholder="AAAaaa1" name="deletePassword">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn std-button" name="deleteUser"> Elimina account </button>
+                                                            </div>
+                                                        </form>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <!-- da cambiare in submit -->
-                                                            <button type="button" class="btn std-button" value="${listaSelezionata[0]}" name="listToShare">Elimina account</button>
-                                                        </div>
-                                                    <!--</form>-->
                                                 </div>
                                             </div>
                                         </div>

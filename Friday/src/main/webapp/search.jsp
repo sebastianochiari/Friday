@@ -142,14 +142,14 @@
 
                                                         <select name="selectedListToChangeProduct" class="form-group-sm">
                                                             <option disabled selected value>Aggiungi alla lista</option>
-                                                            <c:forEach items="${ListUserSession}" var="lista">
-                                                                <option value="${lista[1]}">
-                                                                    ${lista[0]}
+                                                            <c:forEach items="${resultList.rows}" var="lista">
+                                                                <option value="${lista.LID}">
+                                                                    ${lista.Name}
                                                                 </option>
                                                             </c:forEach>
-                                                            <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
-                                                                <option value="${listaCondivisa[1]}">
-                                                                    ${listaCondivisa[0]}
+                                                            <c:forEach items="${resultSharingList.rows}" var="listaCondivisa">
+                                                                <option value="${listaCondivisa.LID}">
+                                                                    ${listaCondivisa.Name}
                                                                 </option>
                                                             </c:forEach>
                                                         </select>

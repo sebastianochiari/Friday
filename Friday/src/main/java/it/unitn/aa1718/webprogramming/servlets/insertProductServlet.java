@@ -124,7 +124,6 @@ public class insertProductServlet extends HttpServlet {
         int amount = 1;
         if (scelta != 4) {
             productList = productListDAO.getProductList(comando, lista);
-            System.out.println("------"+productList);
             amount = productList.getQuantity();
         }
         

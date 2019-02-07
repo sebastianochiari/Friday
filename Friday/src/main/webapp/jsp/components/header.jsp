@@ -83,9 +83,11 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
 
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
-                            <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE List_Owner = '${emailSession}';"></sql:query>
-                            <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM sharing WHERE Email = '${emailSession}';"></sql:query>
+                            <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE (List_Owner = '${emailSession}' or CookieID = '${cookieIDSession}');"></sql:query>
+                            <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM lists WHERE LID in (SELECT LID FROM sharing WHERE Email = '${emailSession}');"></sql:query>
 
+                            <c:set scope="session" var="resultList" value="${resultList}"></c:set>
+                            <c:set scope="session" var="resultSharingList" value="${resultSharingList}"></c:set>
                             <form action="handlingListServlet" method="GET">
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste

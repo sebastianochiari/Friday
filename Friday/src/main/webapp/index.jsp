@@ -125,6 +125,8 @@
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
                     
+                    // START: recupero prodotti casuali
+                    
                     preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
                     preparedStatement.execute();
                     result = preparedStatement.getResultSet();
@@ -151,6 +153,8 @@
                     }
                     
                     (request.getSession()).setAttribute("prodottiRand", prodottiRand);
+                    
+                    // END: recupero prodotto casuali
                     
 
                 }
@@ -254,32 +258,43 @@
                         <h5 style="display: inline-block;">La mia lista</h5>
                         <p style="display: inline-block;">
                             <i>
-                                <select name="selectedListToChangeProduct" class="form-group-sm">
-                                    <c:forEach items="${resultList.rows}" var="lista">
-                                        <option value="${lista.LID}">
-                                            ${lista.Name}
-                                        </option>
-                                    </c:forEach>
-                                    <c:forEach items="${resultSharingList.rows}" var="listaCondivisa">
-                                        <option value="${listaCondivisa.LID}">
-                                            ${listaCondivisa.Name}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                                <input type="hidden" value="4" name="scelta">
+                                <c:forEach items="${resultListRand.rows}" var="lista">
+                                    ${lista.Name}
+                                    <sql:query dataSource="${snapshotList}" var="resultProduct" sql="SELECT * FROM products WHERE PID in (SELECT PID FROM product_lists WHERE (LID = '${lista.LID}'));"></sql:query>
+                                </c:forEach>
                             </i>
                         </p>
                         <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
                         <div class="collapse" id="collapseExample">
                             <div class="card card-body">
                                 <div class="cart-carousel">
-                                    <c:forEach items="${resultSearch}" var="prodotto">
-                                        <div>
-                                            <img class="cart-image" src="images/prodotti/${prodotto[4]}">
-                                            <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodotto[0]}" class="btn std-button displayCenter">
-                                                Aggiungi alla lista
-                                            </button>
+                                    
+                                    <c:forEach items="${resultProduct.rows}" var="Product">
+                                        <a href="#" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct">
+                                            <p>${Product.Name}</p>
+                                        </a>
+                                        <div class="modal fade" id="infoPersonalProduct" tabindex="-1" role="dialog" aria-labelledby="infoPersonalProductLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">${Product.Name}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <sql:query dataSource="${snapshotList}" var="productOwner" sql="SELECT * FROM users WHERE Email = '${Product.email}';"></sql:query>
+                                                        <p><b>Creatore: </b>${productOwner.Name} ${productOwner.Surname}</p>
+                                                        <p><b>Note aggiuntive: </b>
+                                                            ${Product.Note}
+                                                        </p>
+                                                        <p><b>Immagine del prodotto:</b></p>
+                                                        <img src="images/prodotti/${Product.Photo}" style="width: 100%">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <img class="cart-image" src="images/prodotti/${Product.Photo}">
                                     </c:forEach>
                                 </div>
                             </div>

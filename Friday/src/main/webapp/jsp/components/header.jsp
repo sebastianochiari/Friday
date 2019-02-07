@@ -83,11 +83,15 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
 
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
+                            <c:set scope="session" var="snapshotList" value="${snapshotList}"></c:set>
                             <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE (List_Owner = '${emailSession}' or CookieID = '${cookieIDSession}');"></sql:query>
-                            <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM lists WHERE LID in (SELECT LID FROM sharing WHERE Email = '${emailSession}');"></sql:query>
-
+                            <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM sharing WHERE (email = '${emailSession}' && AddRemProd = '1');"></sql:query>
+                            <sql:query dataSource="${snapshotList}" var="resultListRand" sql="SELECT * FROM lists WHERE (List_Owner = '${emailSession}' or CookieID = '${cookieIDSession}') ORDER BY RAND () LIMIT 1;"></sql:query>
+                            
+                            <c:set scope="session" var="resultListRand" value="${resultListRand}"></c:set>
                             <c:set scope="session" var="resultList" value="${resultList}"></c:set>
                             <c:set scope="session" var="resultSharingList" value="${resultSharingList}"></c:set>
+                                       
                             <form action="handlingListServlet" method="GET">
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste

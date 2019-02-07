@@ -32,7 +32,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY name";
     
-    private static final String Read_Name_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY PCID";
+    private static final String Read_Name_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY PCID, name";
     
     private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?)) ORDER BY Name;";
     

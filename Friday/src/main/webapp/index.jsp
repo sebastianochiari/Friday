@@ -12,7 +12,7 @@
 <%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.dao.friday.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
@@ -53,7 +53,7 @@
     </head>
 
     <body id="top">
-        
+
 <%
 
             String DBUrl = MySQLDAOFactory.getDBUrl();
@@ -67,11 +67,11 @@
             (request.getSession()).setAttribute("DBDriverSession", DBDriver);
 
             Cookie[] cookies = request.getCookies();
-            
+
             DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
             UserDAO riverUserDAO = mySqlFactory.getUserDAO();
             UserDAO userDAO = new MySQLUserDAOImpl();
-            
+
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
@@ -93,9 +93,9 @@
                             if((cookies[i].getValue()).equals(result.getString("cookieID"))){
 
                                 String emailSession = result.getString("Email");
-                              
+
                                 if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
-                               
+
                                     boolEmailSession = false;
                                 } else {
                                     (request.getSession()).setAttribute("emailSession", emailSession);
@@ -124,19 +124,19 @@
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
-                    
+
                     preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
                     preparedStatement.execute();
                     result = preparedStatement.getResultSet();
-                    
+
                     result.last();
-                    
+
                     String [][] prodottiRand = new String [result.getRow()][6];
-                    
+
                     result.beforeFirst();
-                    
+
                     int i = 0;
-                    
+
                     while (result.next()) {
                         prodottiRand [i][0] = result.getString("PID");
                         prodottiRand [i][1] = result.getString("Name");
@@ -144,12 +144,24 @@
                         prodottiRand [i][3] = result.getString("Logo");
                         prodottiRand [i][4] = result.getString("Photo");
                         prodottiRand [i][5] = result.getString("PCID");
-                        
+
                         i++;
                     }
-                    
+
                     (request.getSession()).setAttribute("prodottiRand", prodottiRand);
-                    
+
+                    ProductDAO productDAO = new MySQLProductDAOImpl();
+                    List products = productDAO.getAllProducts();
+
+                    String [] productVector = new String [products.size()];
+
+                    for (i = 0; i < products.size(); i++){
+                        productVector[i] = ((Product)products.get(i)).getName();
+                    }
+
+                    (request.getSession()).setAttribute("productVector", productVector);
+                    (request.getSession()).setAttribute("productVectorLun", products.size());
+
 
                 }
 
@@ -220,7 +232,7 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <a href="insertUser.jsp">
-                            <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="Second slide">
+                            <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="First slide">
                         </a>
                         </div>
                         <div class="carousel-item">
@@ -248,7 +260,7 @@
                 <!-- START: personal shopping cart -->
                 <form action="insertProductServlet" method="POST">
                     <div id="breadcrumb" class="mt-4">
-                    
+
                         <h5 style="display: inline-block;">La mia lista</h5>
                         <p style="display: inline-block;">
                             <i>
@@ -297,7 +309,7 @@
                                 </div>
                             </c:forEach>
                         </div>
-                    </div> 
+                    </div>
                 </form>
 
             </div>

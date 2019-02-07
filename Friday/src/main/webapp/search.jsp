@@ -70,7 +70,7 @@
                             <ul class="list-links">
                             <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
                             <sql:query dataSource="${snapshot}" var="resultProductCategories" sql="SELECT * FROM product_categories;"></sql:query>
-                             
+
                             <form action="searchServlet" method ="GET">
                                  <c:forEach var="res" items="${resultProductCategories.rows}" >
                                        <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="CategoryLeft" id="CategoryLeft">
@@ -93,37 +93,18 @@
                             <div class="clearfix">
                                 <div class="float-right">
                                     <p class="inline-flex">Ordina per: </p>
-                                    <%-- <form class="inline-flex" id="ordinamento" action="searchServlet" method="GET">
-                                        <select name="order" onchange="change()">
-                                            <option value="alfabeticamente" id="order">alfabeto</option>
-                                            <option class="active" value="categoria" id="order">categoria</option>
-                                        </select>
-                                    </form> --%>
                                     <form class="inline-flex" id="ordinamento" action="searchServlet" method="GET">
                                     </form>
-                                    <select id="order" name="order" form="ordinamento" onchange="change()">
-                                        <option selected value="alfabeticamente" id="order">alfabeto</option>
-                                        <option value="categoria" id="order">categoria</option>
+                                    <select id="order" name="order" form="ordinamento" onchange="submitForm('ordinamento')">
+                                        <option selected value="${ordinamento[0]}" id="order">${ordinamento[0]}</option>
+                                        <option value="${ordinamento[1]}" id="order">${ordinamento[1]}</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" name="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ORDINAMENTO
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                                <form action="searchServlet" method ="GET">
-                                    <button type="submit" value ="alfabeticamente" class="dropdown-item" name ="order" id="order">
-                                        alfabeticamente
-                                    </button>
-                                    <button type="submit" value ="categoria" class="dropdown-item" name ="order" id="order">
-                                        per categoria
-                                    </button>
-                                </form>
-                            </div>
-                            
                             <div class="row">
 
+                                <c:set var="counter" value="${1}"/>
                                 <c:forEach items="${resultSearch}" var="prodotto">
                                     <div class="col-md-4 col-sm-6 col-xs-6">
                                         <div class="product product-single">
@@ -136,44 +117,38 @@
                                             <div class="product-body">
                                                 <h2 class="product-name">${prodotto[1]}</h2>
                                                 <p class="product-description">${prodotto[2]}</p>
-                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 
-                                                    <form action="insertProductServlet" method="POST">
-
-                                                        <select name="selectedListToChangeProduct" class="form-group-sm">
-                                                            <option disabled selected value>Aggiungi alla lista</option>
-                                                            <c:forEach items="${ListUserSession}" var="lista">
-                                                                <option value="${lista[1]}">
-                                                                    ${lista[0]}
-                                                                </option>
-                                                            </c:forEach>
-                                                            <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
-                                                                <option value="${listaCondivisa[1]}">
-                                                                    ${listaCondivisa[0]}
-                                                                </option>
-                                                            </c:forEach>
-                                                        </select>
-                                                        <input type="hidden" value="4" name="scelta">
-                                                        <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodotto[0]}" class="btn std-button add-list-button">
-                                                            <i class="fa fa-plus-circle" aria-hidden="true" style="color: #F8694A;"></i>
-                                                        </button>
-                                                    </form>
-
-                                                </div>
-                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown" >
-                                                    <a class="btn std-button add-list-button" href="#" data-toggle="modal" data-target="#addShoppingList"><i class="fa fa-plus-circle" aria-hidden="true" style="color: #F8694A;"></i> Crea Lista</a>
-                                                    <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                            <div class="modal-content shadow">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Crea una nuova lista della spesa</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <jsp:include page="insertShoppingList.jsp" />
-                                                                </div>
+                                                <form action="insertProductServlet" method="POST" id="insertProductServlet${counter}">
+                                                    <input type="hidden" value="4" name="scelta">
+                                                    <input type="hidden" name="changeProduct" value="${prodotto[0]}">
+                                                </form>
+                                                <select class="displayCenter" id="selectedListToChangeProduct" name="selectedListToChangeProduct" form="insertProductServlet${counter}" onchange="submitForm('insertProductServlet${counter}')" style="width: 100%;">
+                                                    <option disabled selected>Aggiungi alla lista</option>
+                                                    <c:forEach items="${ListUserSession}" var="lista">
+                                                        <option value="${lista[1]}" name="changeProduct">
+                                                            ${lista[0]}
+                                                        </option>
+                                                    </c:forEach>
+                                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                                        <option value="${listaCondivisa[1]}" name="changeProduct">
+                                                            ${listaCondivisa[0]}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                                <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList" style="width: 100%;">
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista
+                                                </button>
+                                                <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content shadow">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <jsp:include page="insertShoppingList.jsp" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -181,6 +156,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <c:set var="counter" value="${counter + 1}"/>
 
                                 </c:forEach>
 

@@ -40,7 +40,7 @@
         </div>
 
         <c:if test="${emailSession ne null}">
-            
+
             <!-- CONDIVISIONE LISTA -->
             <a href="#" class="shopping-link list-icon" title="Condividi lista" data-toggle="modal" data-target="#shareModal">
                 <i class="fas fa-share-alt"></i>
@@ -67,17 +67,18 @@
                     </div>
                 </div>
             </div>
-                            
+
             <!-- MESSAGGISTICA LISTA -->
-            <a href="#" class="shopping-link list-icon" title="Manda un messaggio">
-                <form method="GET" action="sharingListServlet" class="inline">
+            <a href="#" class="shopping-link list-icon" title="Manda un messaggio" onclick="submitForm('sharingListServlet')">
+                <i class="fas fa-comment"></i>
+                <form method="GET" action="sharingListServlet" class="inline" id="sharingListServlet">
                     <input type="hidden" name="azioneLista" value="3">
                     <input type="hidden" name="emailUtenteLoggato" value="${emailSession}">
-                    <button type="submit" class="fas fa-comments" name="messageToList" value="${listaCorrente[0]}"></button>
+                    <input type="hidden" name="messageToList" value="${listaCorrente[0]}">
                 </form>
-            </a>      
+            </a>
         </c:if>
-            
+
         <!-- ELIMINAZIONE LISTA -->
         <c:if test="${utenteProprietario[2] eq emailSession}" var="uscitaLista">
             <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
@@ -209,25 +210,25 @@
         </div>
     </div>
 </div>
-        
+
 
         <!-- START: main carousel -->
         <main>
 
             <div class="container mt-4">
-                
+
                 <div class="container">
                     <h3 class=" text-center">Messaging</h3>
                     <div class="messaging">
                           <div class="inbox_msg">
                             <div class="inbox_people">
                               <div class="headind_srch">
-                                  <h4 align="center">Partecipanti alla Lista</h4> 
+                                  <h4 align="center">Partecipanti alla Lista</h4>
                               </div>
                               <div class="inbox_chat">
-                                  
+
                                   <c:forEach items="${partecipantiChat}" var="partecipante">
-                                   
+
                                     <div class="chat_list">
                                         <div class="chat_people">
                                             <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
@@ -237,28 +238,28 @@
                                             </div>
                                         </div>
                                     </div>
-                                                
+
                                   </c:forEach>
-                
+
                               </div>
                             </div>
                             <div class="mesgs">
                               <div class="msg_history" id="chat">
-                                  
+
                                   <c:forEach items="${messaggiChat}" var="messaggio">
-                                      
+
                                       <c:if test="${emailSession eq messaggio[3]}">
-                                          
+
                                           <div class="outgoing_msg">
                                             <div class="sent_msg">
                                               <p>${messaggio[2]}</p>
                                               <span class="time_date">Io</span> </div>
                                           </div>
-                                          
-                                          
+
+
                                       </c:if>
                                       <c:if test="${emailSession ne messaggio[3]}">
-                                          
+
                                           <div class="incoming_msg">
                                             <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                             <div class="received_msg">
@@ -267,12 +268,12 @@
                                                 <span class="time_date">${messaggio[0]} ${messaggio[1]}</span></div>
                                             </div>
                                           </div>
-                                          
+
                                       </c:if>
-                                      
-                                      
+
+
                                   </c:forEach>
-                            
+
                               </div>
                                 <form action="handlingListServlet" method="GET">
                                     <div class="type_msg">
@@ -291,7 +292,7 @@
 
 
 
-            
+
 
 <a href="#" class="text-link" title="Condividi lista" data-toggle="modal" data-target="#deleteProductModal">
                     Sposta nella lista

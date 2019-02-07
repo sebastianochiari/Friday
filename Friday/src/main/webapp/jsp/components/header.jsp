@@ -13,7 +13,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
-
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
 <c:set var="boolEmailSession" value="${boolEmailSessionScriptlet}"></c:set>
@@ -134,27 +133,25 @@
     <!-- START: search navbar -->
     <nav id="breadcrumb" class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px;">
         <div class="container mb-1">
-            <form action="searchServlet" method="GET" style="width: 100%;">
+            <form autocomplete="off" action="searchServlet" method="GET" style="width: 100%;">
                 <div class="row">
                     <div class="col-md-3 mt-1 nav-col">
-                        <div class="col-sm">
-                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
+                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
-                            <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
-                            </sql:query>
+                        <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
+                        </sql:query>
 
-                            <select name="inputCategory" class="form-control">
-                                <option value = "-1" >Tutte le Categorie</option>
-                                <c:forEach var="res" items="${result.rows}" >
-                                    <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                        <select name="inputCategory" class="form-control">
+                            <option value = "-1" >Tutte le Categorie</option>
+                            <c:forEach var="res" items="${result.rows}" >
+                                <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
+                            </c:forEach>
+                        </select>
                     </div>
 
                     <div class="col-md-4 mt-1 nav-col">
-                        <div class="input-group nav-search">
-                            <input class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
+                        <div class="input-group nav-search autocomplete">
+                            <input id="myInput" style="max-width: 300px;" class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
                             <div class="input-group-append">
                                 <button type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
                                     <i class="fas fa-search"></i>
@@ -175,3 +172,5 @@
         </div>
     </nav>
     <!-- END: search navbar -->
+
+    <script type="text/javascript" src="js/autocomplete.js"></script>

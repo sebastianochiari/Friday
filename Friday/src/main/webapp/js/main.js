@@ -23,15 +23,7 @@ function revealPsw() {
     }
 }
 
-function change(){
-    var select = document.getElementById("ordinamento");
+function submitForm(id) {
+    var select = document.getElementById(id);
     select.submit();
-    // $("#order option").each(function() {
-    //     var x = $(this);
-    //     if(x.attr('selected')) {
-    //         x.removeAttr('selected');
-    //     } else {
-    //         x.attr('selected', 'selected');
-    //     }
-    // });
 }

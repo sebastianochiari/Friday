@@ -1,5 +1,5 @@
 /*
- * WebProgramming Project - Shopping List 
+ * WebProgramming Project - Shopping List
  * 2017-2018
  * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
@@ -38,7 +38,7 @@ public class searchServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet searchServlet</title>");            
+            out.println("<title>Servlet searchServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet searchServlet at " + request.getContextPath() + "</h1>");
@@ -60,7 +60,7 @@ public class searchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         //cose che servono
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         ProductDAO ProductriverDAO = mySqlFactory.getProductDAO();
@@ -69,45 +69,45 @@ public class searchServlet extends HttpServlet {
         ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
         HttpSession session = request.getSession();
         Library library = new Library();
-        
-        
+
+
         //recupero inputs
         String input = null;
         String inputClick = null;
         String ordine = null;
         int PCID = -1;
-        
+
         System.out.println("PCID: " + request.getParameter("inputCategory"));
         System.out.println("inputClick: " + request.getParameter("inputClick"));
         System.out.println("inputSearch: " + request.getParameter("inputSearch"));
         System.out.println("CategoryLeft: " + request.getParameter("CategoryLeft"));
         System.out.println("order: " + request.getParameter("order"));
-        
+
         if(request.getParameter("inputCategory") != null){
             PCID = Integer.parseInt(request.getParameter("inputCategory"));
             session.setAttribute("inputClick", null);
             session.setAttribute("PCID", PCID);
         }
-        
+
         if(request.getParameter("inputClick") != null || request.getParameter("CategoryLeft") != null){
-            
+
             if(request.getParameter("inputClick") != null) {
                 inputClick = request.getParameter("inputClick");
             } else {
                 inputClick = request.getParameter("CategoryLeft");
             }
-                
+
             session.setAttribute("inputSearch", null);
             session.setAttribute("PCID", -1);
             session.setAttribute("inputClick", inputClick);
-         
+
         }
 
         if(request.getParameter("inputSearch") != null){
             input = request.getParameter("inputSearch");
-            
-             
-            if(input.length()< 200){ 
+
+
+            if(input.length()< 200){
 
                 session.setAttribute("inputClick", null);
                 session.setAttribute("inputSearch", input);
@@ -118,11 +118,11 @@ public class searchServlet extends HttpServlet {
                  return;
             }
         }
-        
+
         if(request.getParameter("order") != null && request.getParameter("order").equals("categoria")){
             ordine = request.getParameter("order");
         }
-        
+
         //in caso di aggiornamento della pagina ripristino la ricerca precedente
         if(input == null && PCID < 0){
             input = (String)session.getAttribute("inputSearch");
@@ -131,47 +131,60 @@ public class searchServlet extends HttpServlet {
         if(inputClick == null){
             inputClick = (String)session.getAttribute("inputClick");
         }
-        
+
         //controllo input
         System.out.println("PCID: " + PCID);
         System.out.println("inputClick: " + inputClick);
         System.out.println("inputSearch: " + input);
         System.out.println("order: " + ordine);
-        
+
+        List products = null;
+        String [] temp = new String [2];
+
         //se selezionato inputClick significa che non sei passato per il cerca, ma per le categorie in alto
         if(inputClick != null){
 
             int inputClickPCID = Integer.parseInt(inputClick);
-           
+
             //calcolo risultato
-            List products = productDAO.getProductsByPCID(inputClickPCID);
-            
+            products = productDAO.getProductsByPCID(inputClickPCID);
+
+            temp[0] = "alfabeto";
+            temp[1] = "categoria";
+
             //salvo risultato
             session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
-       
-        } 
+            session.setAttribute("ordinamento", temp);
+
+        }
         //se hai cercato tramite la sezione cerca, o se hai richiesto un diverso ordinamento
         else if(input != null || ordine != null){
 
-            //calcolo risultato
-            List products = null;
-
             if(PCID > 0){
                 products = productDAO.getProductsByNameAndPCID(PCID, input);
+                temp[0] = "alfabeto";
+                temp[1] = "categoria";
             } else if (ordine != null && ordine.equals("categoria")){
                 products = productDAO.getProductsByName(input, true);
+                temp[0] = "categoria";
+                temp[1] = "alfabeto";
             } else {
                 products = productDAO.getProductsByName(input, false);
+                temp[0] = "alfabeto";
+                temp[1] = "categoria";
             }
-            
+
             //salvo risultati
             session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
-            
+            session.setAttribute("ordinamento", temp);
+
         }
-               
+
+        session.setAttribute("elementi", library.getSearchResults(products, productCategoryDAO).length);
+
         //ridireziono alla pagina di ricerca
         response.sendRedirect("search.jsp");
-              
+
     }
 
     /**
@@ -197,6 +210,5 @@ public class searchServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-}
 
+}

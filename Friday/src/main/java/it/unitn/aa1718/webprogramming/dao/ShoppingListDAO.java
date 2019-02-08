@@ -29,7 +29,7 @@ public interface ShoppingListDAO {
     
     /**
      * Metodo che ritorna la lista della spesa in base all'email passata come parametro
-     * @param email stringa che rappresenta l'email, usata per identificare l'utente in modo univoco
+     * @param list_owner stringa che rappresenta l'email, usata per identificare l'utente in modo univoco
      * @return ritorna una lista contenente le liste appartenenti all'utente specifico
      */
     public List getShoppingListsByOwner(String list_owner);

@@ -95,17 +95,19 @@
                                 String emailSession = result.getString("Email");
 
                                 if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
-
+                                    
+                                    
                                     boolEmailSession = false;
                                 } else {
                                     (request.getSession()).setAttribute("emailSession", emailSession);
-                                    (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
-                                    (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
-                                    (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
+                                    
                                     boolEmailSession = true;
                                 }
 
                                 (request.getSession()).setAttribute("boolEmailSessionScriptlet", boolEmailSession);
+                                (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                                (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
+                                (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
 
                             }
                         }
@@ -272,7 +274,9 @@
                             <i>
                                 <c:forEach items="${resultListRand.rows}" var="lista">
                                     ${lista.Name}
-                                    <sql:query dataSource="${snapshotList}" var="resultProduct" sql="SELECT * FROM products WHERE PID in (SELECT PID FROM product_lists WHERE (LID = '${lista.LID}'));"></sql:query>
+                                    <c:set var="listaLID" value="${lista.LID}"></c:set>
+                                    
+                                    <sql:query dataSource="${snapshotList}" var="resultProduct" sql="SELECT * FROM products WHERE PID in (SELECT PID FROM product_lists WHERE (LID = '${listaLID}'));"></sql:query>
                                 </c:forEach>
                             </i>
                         </p>
@@ -282,31 +286,38 @@
                                 <div class="cart-carousel">
                                     
                                     <c:forEach items="${resultProduct.rows}" var="Product">
-                                        <a href="#" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct">
-                                            <p>${Product.Name}</p>
-                                        </a>
-                                        <div class="modal fade" id="infoPersonalProduct" tabindex="-1" role="dialog" aria-labelledby="infoPersonalProductLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content shadow">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">${Product.Name}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <sql:query dataSource="${snapshotList}" var="productOwner" sql="SELECT * FROM users WHERE Email = '${Product.email}';"></sql:query>
-                                                        <p><b>Creatore: </b>${productOwner.Name} ${productOwner.Surname}</p>
-                                                        <p><b>Note aggiuntive: </b>
-                                                            ${Product.Note}
-                                                        </p>
-                                                        <p><b>Immagine del prodotto:</b></p>
-                                                        <img src="images/prodotti/${Product.Photo}" style="width: 100%">
+                                        <div>
+                                            <a href="#" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct">
+                                                <p>${Product.Name}</p>
+                                            </a>
+                                            <div class="modal fade" id="infoPersonalProduct" tabindex="-1" role="dialog" aria-labelledby="infoPersonalProductLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content shadow">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">${Product.Name}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <sql:query dataSource="${snapshotList}" var="resultProductOwner" sql="SELECT * FROM users WHERE Email = '${Product.email}';"></sql:query>
+                                                            <p>
+                                                                <b>Creatore: </b>
+                                                                <c:forEach items="${resultProductOwner.rows}" var="productOwner">
+                                                                    ${productOwner.Name} ${productOwner.Surname}
+                                                                </c:forEach>
+                                                            </p>
+                                                            <p><b>Note aggiuntive: </b>
+                                                                ${Product.Note}
+                                                            </p>
+                                                            <p><b>Immagine del prodotto:</b></p>
+                                                            <img src="images/prodotti/${Product.Photo}" style="width: 100%">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <img class="cart-image" src="images/prodotti/${Product.Photo}">
                                         </div>
-                                        <img class="cart-image" src="images/prodotti/${Product.Photo}">
                                     </c:forEach>
                                 </div>
                             </div>
@@ -343,6 +354,8 @@
                                         </div>
                                     </div>
                                     <img class="cart-image" src="images/prodotti/${prodottoRand[4]}">
+                                    <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
+                                    <input type="hidden" value="4" name="scelta">
                                     <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn std-button displayCenter">
                                         Aggiungi alla lista
                                     </button>

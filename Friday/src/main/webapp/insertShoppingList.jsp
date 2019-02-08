@@ -26,7 +26,7 @@
     </div>
     <div class="form-group">
         <label for="LCID">Scegli la categoria di appartenza del prodotto</label>
-            <select name="LCID" class="form-control">
+            <select name="LCID" class="form-control" required="true">
                 <option disabled selected value>Seleziona un'opzione</option>
                 <c:forEach var="res" items="${result.rows}" >
                     <option value="${res.LCID}"> <c:out value="${res.Name}"/> </option>

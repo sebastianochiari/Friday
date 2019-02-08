@@ -115,9 +115,28 @@ public class insertProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
         
+        HttpSession session = request.getSession();
         int comando = Integer.parseInt(request.getParameter("changeProduct"));
-        int lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+        int lista = 0;
         int scelta = Integer.parseInt(request.getParameter("scelta"));
+        
+        if (session.getAttribute("emailSession") == null){
+            ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+            Library library = new Library();
+            ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+            int keyLID = library.LastEntryTable("LID", "lists");
+            String keyName = "Anonymous"+keyLID;
+            String keyNote = null;
+            String keyImage = null;
+            // soluzione pessima, ma non avevo tempo di pensare a un altro modo complicato per ricavare un LCID valido
+            int keyLCID = shoppingListCategoryDAO.getShoppingListCategory(1).getLCID();
+            String keyListOwner = null;
+            int keyCookieID = Integer.parseInt((String) session.getAttribute("cookieIDSession"));
+            ShoppingList shoppingList = new ShoppingList(keyLID, keyName, keyNote, keyImage, keyLCID, null, keyCookieID);
+            lista = Integer.parseInt(shoppingListDAO.createShoppingList(shoppingList));
+        } else {
+            lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+        }
         
         ProductListDAO productListDAO = new MySQLProductListDAOImpl();
         ProductList productList = null;
@@ -147,8 +166,23 @@ public class insertProductServlet extends HttpServlet {
                 productListDAO.updateProductList(productList);
                 break;
             case 4:
-                productList = new ProductList(comando, lista, amount);
-                productListDAO.createProductList(productList);
+                List listaProdotti = productListDAO.getPIDsByLID(lista);
+                if (listaProdotti.isEmpty()){
+                    productList = new ProductList(comando, lista, amount);
+                    productListDAO.createProductList(productList);
+                } else {
+                    for (int i=0; i<listaProdotti.size(); i++) {
+                        if (((ProductList)listaProdotti.get(i)).getPID() == comando){
+                            amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
+                            productList = new ProductList(comando, lista, amount);
+                            productListDAO.updateProductList(productList);
+                        } else {
+                            productList = new ProductList(comando, lista, amount);
+                            productListDAO.createProductList(productList);
+                        }
+                    }
+                };
+                
                 break;
             default: 
                 response.sendRedirect("faq.jsp");

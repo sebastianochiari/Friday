@@ -95,12 +95,12 @@
                                 String emailSession = result.getString("Email");
 
                                 if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
-                                    
-                                    
+
+
                                     boolEmailSession = false;
                                 } else {
                                     (request.getSession()).setAttribute("emailSession", emailSession);
-                                    
+
                                     boolEmailSession = true;
                                 }
 
@@ -126,17 +126,17 @@
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
-                    
+
                     // START: recupero prodotti casuali
-                    
+
                     preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
                     preparedStatement.execute();
                     result = preparedStatement.getResultSet();
 
                     result.last();
-                    
+
                     String [][] prodottiRand = new String [result.getRow()][8];
-                    
+
                     result.beforeFirst();
 
                     int i = 0;
@@ -150,27 +150,13 @@
                         prodottiRand [i][5] = result.getString("PCID");
                         prodottiRand [i][6] = (userDAO.getUser(result.getString("Email"))).getName();
                         prodottiRand [i][7] = (userDAO.getUser(result.getString("Email"))).getSurname();
-                        
+
                         i++;
                     }
 
                     (request.getSession()).setAttribute("prodottiRand", prodottiRand);
-                    
+
                     // END: recupero prodotto casuali
-                    
-
-                    ProductDAO productDAO = new MySQLProductDAOImpl();
-                    List products = productDAO.getAllProducts();
-
-                    String [] productVector = new String [products.size()];
-
-                    for (i = 0; i < products.size(); i++){
-                        productVector[i] = ((Product)products.get(i)).getName();
-                    }
-
-                    (request.getSession()).setAttribute("productVector", productVector);
-                    (request.getSession()).setAttribute("productVectorLun", products.size());
-
                 }
 
             } catch (SQLException e) {
@@ -275,7 +261,7 @@
                                 <c:forEach items="${resultListRand.rows}" var="lista">
                                     ${lista.Name}
                                     <c:set var="listaLID" value="${lista.LID}"></c:set>
-                                    
+
                                     <sql:query dataSource="${snapshotList}" var="resultProduct" sql="SELECT * FROM products WHERE PID in (SELECT PID FROM product_lists WHERE (LID = '${listaLID}'));"></sql:query>
                                 </c:forEach>
                             </i>
@@ -284,7 +270,7 @@
                         <div class="collapse" id="collapseExample">
                             <div class="card card-body">
                                 <div class="cart-carousel">
-                                    
+
                                     <c:forEach items="${resultProduct.rows}" var="Product">
                                         <div>
                                             <a href="#" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct">

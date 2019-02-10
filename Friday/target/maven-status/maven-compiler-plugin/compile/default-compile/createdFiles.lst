@@ -21,7 +21,9 @@ it\unitn\aa1718\webprogramming\dao\ProductListDAO.class
 it\unitn\aa1718\webprogramming\friday\MyCookie.class
 it\unitn\aa1718\webprogramming\servlets\indexServlet.class
 it\unitn\aa1718\webprogramming\servlets\insertShoppingListServlet.class
+it\unitn\aa1718\webprogramming\extra\MessageEncoder.class
 it\unitn\aa1718\webprogramming\servlets\searchServlet.class
+it\unitn\aa1718\webprogramming\extra\ChatEndpoint.class
 it\unitn\aa1718\webprogramming\friday\SharingProduct.class
 it\unitn\aa1718\webprogramming\servlets\confirmRegistrationServlet.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductCategoryDAOImpl.class
@@ -29,6 +31,7 @@ it\unitn\aa1718\webprogramming\dao\SharingProductDAO.class
 it\unitn\aa1718\webprogramming\friday\Product.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLUserDAOImpl.class
 it\unitn\aa1718\webprogramming\friday\User.class
+it\unitn\aa1718\webprogramming\extra\MessageDecoder.class
 it\unitn\aa1718\webprogramming\friday\Message.class
 it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.class
 it\unitn\aa1718\webprogramming\servlets\securityServlet.class

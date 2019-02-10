@@ -11,6 +11,7 @@ import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
@@ -19,6 +20,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
@@ -27,6 +29,7 @@ import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
+import it.unitn.aa1718.webprogramming.friday.SharingProduct;
 import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import it.unitn.aa1718.webprogramming.friday.ShoppingListCategory;
 import it.unitn.aa1718.webprogramming.friday.User;
@@ -123,38 +126,6 @@ public class Library {
      * @throws AddressException
      * @throws MessagingException 
      */
-    public static void sendMail (String email, String name, String surname) throws AddressException,MessagingException {
-        
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-	    props.put("mail.smtp.auth", "true");
-	    props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-
-        Session session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                                return new PasswordAuthentication("donotreplyfriday@gmail.com","progettoweb2018");
-                        }
-                });
-
-        try {
-
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("donotreplyfriday@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO,
-                                InternetAddress.parse(email));
-                message.setSubject("Benvenuto in Friday!");
-                message.setText(name+" "+surname+", Benvenuto in Friday!"+
-                                "\n\n link di conferma : http://localhost:8080/Friday/confirmRegistrationServlet?email="+email);
-
-                Transport.send(message);
-
-        } catch (MessagingException e) {
-                throw new RuntimeException(e);
-        }
-    }
     
     public void changePassword (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
@@ -609,7 +580,57 @@ public class Library {
         }
 
         session.setAttribute("boolEmailSessionScriptlet", boolEmailSession);
-    }     
+    } 
+
+    public List<Product> togliProdottiNonCondivisi(List<Product> product, String email){
+        
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        SharingProductDAO sharingProductriverDAO = mySqlFactory.getSharingProductDAO();
+        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+        
+        if(email == null){
+        
+            List DaTogliere = sharingProductDAO.getAllSharingProduct();
+        
+        
+        }
+        
+    
+        return product;
+    }
+    
+    public static void sendMail (String email, String name, String surname) throws AddressException,MessagingException {
+        
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+      props.put("mail.smtp.auth", "true");
+      props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication("donotreplyfriday@gmail.com","progettoweb2018");
+                        }
+                });
+
+        try {
+
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("donotreplyfriday@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO,
+                                InternetAddress.parse(email));
+                message.setSubject("Benvenuto in Friday!");
+                message.setText(name+" "+surname+", Benvenuto in Friday!"+
+                                "\n\n link di conferma : http://localhost:8080/Friday/confirmRegistrationServlet?email="+email);
+
+                Transport.send(message);
+
+        } catch (MessagingException e) {
+                throw new RuntimeException(e);
+        }
+    }
  
 }
 

@@ -11,6 +11,7 @@ import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
@@ -19,6 +20,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
@@ -27,10 +29,12 @@ import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
+import it.unitn.aa1718.webprogramming.friday.SharingProduct;
 import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import it.unitn.aa1718.webprogramming.friday.ShoppingListCategory;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
+import static java.lang.Math.random;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,10 +55,10 @@ import javax.servlet.http.Cookie;
 public class Library {
     
     /**
-     *  Metodo che calcola l'ID dell'ultima entry della tabella +1 ?????????????????????
+     *  Metodo che calcola l'ID della nuova entry da inserire nel database
      * @param col stringa che rappresenta la colonna di riferimento
      * @param table stringa per la tabella di riferimento
-     * @return intero che rappresenta l'utima entry della tabella
+     * @return intero che rappresenta la nuova entry della tabella
      */
     public int LastEntryTable(String col, String table) {
         
@@ -102,7 +106,7 @@ public class Library {
     /**
      * Metodo che controlla la presenza dell'immagine all'inserimento della risorsa specificata (liste,prodotti..)
      * @param image stringa passata come parametro che identifica l'immagine
-     * @return ritorna una stringa con l'eventuale nome dell'immagine, altrimenti null
+     * @return ritorna una stringa con l'eventuale nome dell'immagine, altrimenti icon seguito da un numero casuale da 0 a 4
      */
     public String ImageControl(String image) {
         
@@ -110,6 +114,9 @@ public class Library {
         
         if (image != null && !image.isEmpty()){
                 tmp = image;
+        } else {
+            int num = (new Random()).nextInt(4);
+            tmp = "icon"+num;
         }
         
         return tmp;
@@ -156,6 +163,23 @@ public class Library {
         }
     }
     
+    /**
+     * Metodo che permette il cambiamento dell'email dell'utente
+     * @param request
+     * @param response
+     * @param encrypt
+     * @param library
+     * @param userDAO
+     * @param email stringa che rappresenta l'email dell'utente
+     * @param name stringa che rappresenta il nome dell'utente 
+     * @param surname stringa per il cognome dell'utente
+     * @param avatar stringa per identificare l'immagine dell'utente
+     * @param admin boolean che specifica se l'utente è admin oppure no
+     * @param list_owner boolean che speficia se l'utente è un list owner oppure no
+     * @param confirmed boolean che identifica se l'utente ha confermato la registrazione a friday tramite il link nell'email
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void changePassword (HttpServletRequest request, HttpServletResponse response, DBSecurity encrypt, Library library, UserDAO userDAO, String email, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) throws ServletException, IOException {
         
         String previousPassword = request.getParameter("previousPassword");
@@ -226,7 +250,7 @@ public class Library {
      * @param avatar stringa per identificare l'immagine dell'utente
      * @param admin boolean che specifica se l'utente è admin oppure no
      * @param list_owner boolean che speficia se l'utente è un list owner oppure no
-     * @param confirmed boolean che ????????????????????
+     * @param confirmed boolean che identifica se l'utente ha confermato la registrazione a friday tramite il link nell'email
      * @throws ServletException
      * @throws IOException 
      */
@@ -322,7 +346,7 @@ public class Library {
     }
     
     /**
-     * Metodo per cambiare informazioni personali dell'utente ??????????
+     * Metodo per cambiare informazioni personali dell'utente come nome, cognome e avatar
      * @param request
      * @param response
      * @param encrypt
@@ -449,7 +473,10 @@ public class Library {
         
         List productList = productListDAO.getPIDsByLID(LID);
         Product product = null;
-        String [][] prodotto = new String [productList.size()][8];
+        String [][] prodotto = new String [productList.size()][10];
+        
+        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+        List userSharedProduct = null;
         
         for(int i=0; i<productList.size(); i++){
             product = productDAO.getProduct(((ProductList)(productList.get(i))).getPID());
@@ -461,6 +488,18 @@ public class Library {
             prodotto[i][5] = userDAO.getUser(product.getEmail()).getName();
             prodotto[i][6] = Integer.toString(((ProductList)(productList.get(i))).getQuantity());
             prodotto[i][7] = Integer.toString(product.getPID());
+            prodotto[i][8] = userDAO.getUser(product.getEmail()).getSurname();
+            
+            if (!userDAO.getUser(product.getEmail()).getAdmin()) {
+                userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(prodotto[i][7]));
+                if (userSharedProduct.size()==0 || userSharedProduct.size()>1){
+                    prodotto[i][9] = String.valueOf(userSharedProduct.size()) + " utenti";
+                } else {
+                    prodotto[i][9] = String.valueOf(userSharedProduct.size()) + " utente";
+                }
+            } else {
+                prodotto[i][9] = "Tutti gli utenti";
+            }
         }
         
         session.setAttribute("Prodotto", prodotto);
@@ -468,7 +507,7 @@ public class Library {
     }
     
     /**
-     * Metodo che permette ?????????????
+     * Metodo che permette di recuperare le liste che appartengono all'utente che ha effettuato il login
      * @param request
      * @param response 
      */

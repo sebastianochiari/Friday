@@ -6,9 +6,7 @@
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
-import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
@@ -102,7 +100,6 @@ public class securityServlet extends HttpServlet {
             case "admin": library.changeAdmin(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, list_owner, confirmed); break;
             case "deleteAccount":
                 String deletingEmail = request.getParameter("deleteEmail");
-                // DEVO CONTROLLARE CHE LA PASSWORD SIA CORRETTA!!!!
                 if (deletingEmail.equals(emailSession)){
                     String deletingPassword = request.getParameter("deletePassword");
                     

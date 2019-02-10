@@ -6,22 +6,15 @@
 
 package it.unitn.aa1718.webprogramming.servlets;
 
-import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
-import it.unitn.aa1718.webprogramming.dao.ProductDAO;
-import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
-import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
 import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import it.unitn.aa1718.webprogramming.friday.User;
@@ -81,8 +74,10 @@ public class handlingListServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int selectedList = 0;
         
-        //se lista selezionata, inoltro nella pagina della lista, altrimenti mostro la pagina
-        //di gestione delle liste
+        //se lista selezionata, inoltro nella pagina della lista, altrimenti mostro la pagina di gestione delle liste
+        
+        System.out.println(" request: "+request.getParameter("selectedList"));
+        System.out.println(" session: "+session.getAttribute("selectedList"));
         
         if(request.getParameter("selectedList") == null){
             

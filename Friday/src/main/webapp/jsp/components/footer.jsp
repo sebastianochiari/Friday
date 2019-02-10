@@ -33,7 +33,17 @@
                             <!-- se l'utente non è ancora loggato, questa rimanda alla pagina di login, altrimenti ai rispettivi link -->
                             <li><a href="myaccount.jsp">Il mio account</a></li>
 
-                            <li><a href="#">Le mie liste</a></li>
+                            <li>
+                                <%--
+                                <form action="handlingListServlet" method="GET">
+                                    <button type="submit" value="0" class="" name="selectedList" >
+                                        Le mie liste
+                                    </button>
+                                </form>
+                                --%>
+                                <!-- diciamo che questa soluzione non è proprio elegante -->
+                                <a href="handlingListServlet?selectedList=0">Le mie liste</a>
+                            </li>
 
 
                         </ul>

@@ -22,19 +22,19 @@ import java.util.List;
  */
 public class MySQLSharingProductDAOImpl implements SharingProductDAO{
     
-    private static final String Create_Query = "INSERT INTO sharing_product (email, PID) VALUES (?, ?)";
+    private static final String Create_Query = "INSERT INTO sharing_products (email, PID) VALUES (?, ?)";
     
-    private static final String Read_Query = "SELECT email, PID FROM sharing_product WHERE (email = ? and PID = ?)";
+    private static final String Read_Query = "SELECT email, PID FROM sharing_products WHERE (email = ? and PID = ?)";
     
-    private static final String Read_All_Emails_By_LID_Query = "SELECT * FROM sharing_product WHERE PID = ?";
+    private static final String Read_All_Emails_By_PID_Query = "SELECT * FROM sharing_products WHERE PID = ?";
     
-    private static final String Read_All_LIDs_By_Email_Query = "SELECT email, PID FROM sharing_product WHERE email = ?";
+    private static final String Read_All_PIDs_By_Email_Query = "SELECT email, PID FROM sharing_products WHERE email = ?";
     
-    private static final String Read_All_Query = "SELECT email, PID FROM sharing_product";
+    private static final String Read_All_Query = "SELECT email, PID FROM sharing_products";
         
-    private static final String Update_Query = "UPDATE sharing_product SET email=?, PID=?  WHERE (email = ? and PID = ?)";
+    private static final String Update_Query = "UPDATE sharing_products SET email=?, PID=?  WHERE (email = ? and PID = ?)";
 
-    private static final String Delete_Query = "DELETE FROM sharing_product WHERE (email = ? and PID = ?)";
+    private static final String Delete_Query = "DELETE FROM sharing_products WHERE (email = ? and PID = ?)";
 
     @Override
     public List getAllSharingProduct() {
@@ -88,7 +88,7 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_All_LIDs_By_Email_Query);
+            preparedStatement = connection.prepareStatement(Read_All_PIDs_By_Email_Query);
             preparedStatement.setString(1, email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
@@ -132,7 +132,7 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_All_Emails_By_LID_Query);
+            preparedStatement = connection.prepareStatement(Read_All_Emails_By_PID_Query);
             preparedStatement.setInt(1, PID);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();

@@ -96,9 +96,9 @@ public class insertProductServlet extends HttpServlet {
             request.setAttribute("goodInsertProduct", "true");
             response.sendRedirect("adminSection.jsp");
             
-       } else {
+        } else {
             response.sendRedirect("error.jsp");
-       }
+        }
         
         
         
@@ -166,6 +166,7 @@ public class insertProductServlet extends HttpServlet {
                 productListDAO.updateProductList(productList);
                 break;
             case 4:
+                boolean inList = false;
                 List listaProdotti = productListDAO.getPIDsByLID(lista);
                 if (listaProdotti.isEmpty()){
                     productList = new ProductList(comando, lista, amount);
@@ -176,11 +177,13 @@ public class insertProductServlet extends HttpServlet {
                             amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
                             productList = new ProductList(comando, lista, amount);
                             productListDAO.updateProductList(productList);
-                        } else {
-                            productList = new ProductList(comando, lista, amount);
-                            productListDAO.createProductList(productList);
-                        }
+                            inList = true;
+                        } 
                     }
+                    if (!inList) {
+                        productList = new ProductList(comando, lista, amount);
+                        productListDAO.createProductList(productList);
+                    };
                 };
                 
                 break;
@@ -188,8 +191,14 @@ public class insertProductServlet extends HttpServlet {
                 response.sendRedirect("faq.jsp");
                 break;
         }
-            
-        response.sendRedirect("gestioneListe.jsp");
+        
+        System.out.println(" prima di settare selectedList: ");
+        request.setAttribute("goodInsertShoppingList", "true");
+        session.setAttribute("selectedList", lista);
+        
+        System.out.println(" prima di redirezionare: ");
+        request.getRequestDispatcher("handlingListServlet").forward(request, response);
+        System.out.println(" dopo di redirezionare: ");
     }
 
     /**

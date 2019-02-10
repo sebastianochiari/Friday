@@ -77,7 +77,7 @@
 
                                 <h4>Il mio account</h4>
 
-                                <img class="account-image" src="images/icon/icon2.png" alt="account image">
+                                <img class="account-image" src="images/users/${avatarUserSession}" alt="account image">
 
 
                                 <div class="mt-3">

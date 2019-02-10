@@ -204,12 +204,6 @@
                                                     </c:if>
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    <%-- QUESTO È IL VECCHIO FORM --%>
-                                                    <%-- <form action="insertShoppingListServlet" method="POST">
-                                                        <button type="submit" title="Elimina questa lista" name="deleteList" value="${lista1[1]}">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form> --%>
                                                     <form id="insertShoppingListServlet${counterPL}" action="insertShoppingListServlet" method="POST">
                                                         <input type="hidden" name="deleteList" value="${lista1[1]}">
                                                     </form>
@@ -239,11 +233,6 @@
                                             <tr>
                                                 <th style="text-align: center;" scope="row">${counterSL}</th>
                                                 <td>
-                                                    <%-- <form action="handlingListServlet" method="GET">
-                                                        <button type="submit" value="${listaCondivisa1[1]}" name="selectedList" class="dropdown-item">
-                                                            ${listaCondivisa1[0]}
-                                                        </button>
-                                                    </form> --%>
                                                     <form id="handlingListServlet${counterPL}" action="handlingListServlet" method="GET">
                                                         <input type="hidden" value="${listaCondivisa1[1]}" name="selectedList">
                                                     </form>

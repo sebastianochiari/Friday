@@ -54,6 +54,8 @@
 
     <!-- START: parte principale -->
     <main>
+        
+        <c:set var="RedirectAfterProduct" value="${0}" scope="session"></c:set>
 
         <!-- section -->
         <div class="section">

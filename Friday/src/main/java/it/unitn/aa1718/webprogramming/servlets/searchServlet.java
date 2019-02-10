@@ -8,9 +8,12 @@ package it.unitn.aa1718.webprogramming.servlets;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingProductDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingProductDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
+import it.unitn.aa1718.webprogramming.friday.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -67,9 +70,10 @@ public class searchServlet extends HttpServlet {
         ProductDAO productDAO = new MySQLProductDAOImpl();
         ProductDAO ProductCategoryriverDAO = mySqlFactory.getProductDAO();
         ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        SharingProductDAO sharingProductriverDAO = mySqlFactory.getSharingProductDAO();
+        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
         HttpSession session = request.getSession();
         Library library = new Library();
-
 
         //recupero inputs
         String input = null;
@@ -138,7 +142,7 @@ public class searchServlet extends HttpServlet {
         System.out.println("inputSearch: " + input);
         System.out.println("order: " + ordine);
 
-        List products = null;
+        List<Product> products = null;
         String [] temp = new String [2];
 
         //se selezionato inputClick significa che non sei passato per il cerca, ma per le categorie in alto
@@ -173,7 +177,7 @@ public class searchServlet extends HttpServlet {
                 temp[0] = "alfabeto";
                 temp[1] = "categoria";
             }
-
+            
             //salvo risultati
             session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
             session.setAttribute("ordinamento", temp);

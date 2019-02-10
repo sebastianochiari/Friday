@@ -63,12 +63,17 @@ public class insertProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-        ProductDAO riverDAO = mySqlFactory.getProductDAO();
+        ProductDAO riverProductDAO = mySqlFactory.getProductDAO();
+        UserDAO riverUserDAO = mySqlFactory.getUserDAO();
+        HttpSession session = request.getSession();
+        
+        long RedirectAfterProduct = (long)session.getAttribute("RedirectAfterProduct");
         
         List products = null;
         Product product = null;
         
         ProductDAO productDAO = new MySQLProductDAOImpl();
+        UserDAO userDAO = new MySQLUserDAOImpl();
         
 //        // cancellazione di product memorizzati sul DB
 //        products = productDAO.getAllProducts();
@@ -79,7 +84,7 @@ public class insertProductServlet extends HttpServlet {
         // creazione di product
         Library library = new Library();
         int PID = library.LastEntryTable("PID", "products");
-        String email = (String) (request.getSession()).getAttribute("emailSession");
+        String email = (String) (request.getSession()).getAttribute("emailSession"); 
         String name = request.getParameter("name");
         String note = request.getParameter("note");
         String logo = request.getParameter("logo");
@@ -91,10 +96,21 @@ public class insertProductServlet extends HttpServlet {
             Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
 
             // memorizzazione del nuovo product nel DB
+            if(!userDAO.getUser(email).getAdmin()){
+ 
+                SharingProductDAO riverSharingProductDAO = mySqlFactory.getSharingProductDAO();
+                SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+                sharingProductDAO.createSharingProduct(new SharingProduct(email, PID));           
+            }
+            
             productDAO.createProduct(product1);
-
             request.setAttribute("goodInsertProduct", "true");
-            response.sendRedirect("adminSection.jsp");
+            
+            if(RedirectAfterProduct == 0){
+                response.sendRedirect("search.jsp");
+            } else {
+                response.sendRedirect("adminSection.jsp");
+            }
             
         } else {
             response.sendRedirect("error.jsp");
@@ -115,15 +131,23 @@ public class insertProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
         
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
+        ProductDAO riverProductDAO = mySqlFactory.getProductDAO();
+        
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        
+        
         HttpSession session = request.getSession();
+        Library library = new Library();
         int comando = Integer.parseInt(request.getParameter("changeProduct"));
         int lista = 0;
         int scelta = Integer.parseInt(request.getParameter("scelta"));
         
         if (session.getAttribute("emailSession") == null){
-            ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-            Library library = new Library();
-            ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+
             int keyLID = library.LastEntryTable("LID", "lists");
             String keyName = "Anonymous"+keyLID;
             String keyNote = null;
@@ -137,9 +161,9 @@ public class insertProductServlet extends HttpServlet {
         } else {
             lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
         }
-        
-        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+
         ProductList productList = null;
+        
         int amount = 1;
         if (scelta != 4) {
             productList = productListDAO.getProductList(comando, lista);

@@ -108,7 +108,7 @@
 
                                 <c:set var="counter" value="${1}"/>
                                 <c:forEach items="${resultSearch}" var="prodotto">
-                                    <div class="col-md-4 col-sm-6 col-xs-6">
+                                    <div class="col-md-4 col-sm-6 col-xs-6 pr0d0tt0">
                                         <div class="product product-single">
                                             <div class="product-thumb">
                                                 <div class="product-label">
@@ -165,7 +165,26 @@
 
                             </div>
 
+                            <br>
 
+                            <div class="clearfix">
+                                <nav class="float-right" aria-label="Page navigation example">
+                                    <ul class="pagination" id="pagin">
+                                        <li class="page-item">
+                                          <a class="page-link" href="#" id="previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">0</span>
+                                          </a>
+                                        </li>
+                                        <li class="page-item">
+                                          <a class="page-link" href="#" id="next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">2</span>
+                                          </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
 
                             <br>
 
@@ -222,6 +241,8 @@
 
     <!-- personal JS -->
     <script type="text/javascript" src="js/main.js"></script>
+
+    <script type="text/javascript" src="js/pagination.js"></script>
 
 </body>
 

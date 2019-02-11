@@ -42,9 +42,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import javax.servlet.http.HttpServletRequest;
-import javax.mail.*;
+import javax.mail.MessagingException;
 import javax.mail.internet.*;
 import java.util.*;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -674,9 +678,6 @@ public class Library {
     
         HttpSession session = request.getSession();
         
-        String email = (String)session.getAttribute("emailSession");
-        int cookieID = (int)session.getAttribute("cookieIDSession");
-        
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
@@ -689,64 +690,123 @@ public class Library {
         UserDAO riverUserDAO = mySqlFactory.getUserDAO();
         UserDAO userDAO = new MySQLUserDAOImpl();
         
-        ShoppingList resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
-        List AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
-        List resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
-        List resultSharingList = shoppingListDAO.getAllShoppingListEditable(email);
+        List resultSharingList = null;
+        List AllProductInListRand = null;
+        List resultList = null;   
+        ShoppingList resultListRand = null;
+        
+        String email = null;
+        int cookieID;
+        
+        if(session.getAttribute("emailSession")!=null){
+            
+            email = (String)session.getAttribute("emailSession");  
+            
+            resultSharingList = shoppingListDAO.getAllShoppingListEditable(email);
+        
+            if(session.getAttribute("cookieIDSession")!=null){
+                
+                cookieID = (int)session.getAttribute("cookieIDSession");
+                
+                resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
+                AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
+                resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
+            
+            }
+        
+        }
+        
         List productCategories = productCategoryDAO.getAllProductCategories();
         
         //resultListRand
-        String[][] resultListRandMatrix = new String[1][2];
         
-        resultListRandMatrix[0][0] = Integer.toString(resultListRand.getLID());
-        resultListRandMatrix[0][1] = resultListRand.getName();
+        String[][] resultListRandMatrix = null;
+        
+        if(resultListRand != null){
+        
+            resultListRandMatrix = new String[1][2];
+        
+            resultListRandMatrix[0][0] = Integer.toString(resultListRand.getLID());
+            resultListRandMatrix[0][1] = resultListRand.getName();
+        
+        } else {
+            resultListRandMatrix = new String[0][2];
+        }
         
         //AllProductInListRand
         Product tmp1 = null;
         User tmp2 = null;
-        String[][] AllProductInListRandMatrix = new String[AllProductInListRand.size()][7];
+        
+        String[][] AllProductInListRandMatrix = null;
+        
+        if(AllProductInListRand != null){
+            
+            AllProductInListRandMatrix = new String[AllProductInListRand.size()][7];
 
-        for(int i=0; i<AllProductInListRand.size(); i++){
+            for(int i=0; i<AllProductInListRand.size(); i++){
 
-            tmp1 = productDAO.getProduct(((ProductList)(AllProductInListRand.get(i))).getPID(), email);
-            tmp2 = userDAO.getUser(tmp1.getEmail());
-                    
-            AllProductInListRandMatrix[i][0] = Integer.toString(tmp1.getPID());
-            AllProductInListRandMatrix[i][1] = tmp1.getName();
-            AllProductInListRandMatrix[i][2] = tmp1.getNote();
-            AllProductInListRandMatrix[i][3] = tmp1.getLogo();
-            AllProductInListRandMatrix[i][4] = tmp1.getPhoto();
-            AllProductInListRandMatrix[i][5] = tmp2.getName();
-            AllProductInListRandMatrix[i][6] = tmp2.getSurname();
-           
+                tmp1 = productDAO.getProduct(((ProductList)(AllProductInListRand.get(i))).getPID(), email);
+                tmp2 = userDAO.getUser(tmp1.getEmail());
+
+                AllProductInListRandMatrix[i][0] = Integer.toString(tmp1.getPID());
+                AllProductInListRandMatrix[i][1] = tmp1.getName();
+                AllProductInListRandMatrix[i][2] = tmp1.getNote();
+                AllProductInListRandMatrix[i][3] = tmp1.getLogo();
+                AllProductInListRandMatrix[i][4] = tmp1.getPhoto();
+                AllProductInListRandMatrix[i][5] = tmp2.getName();
+                AllProductInListRandMatrix[i][6] = tmp2.getSurname();
+
+            }
+        
+        } else {
+            AllProductInListRandMatrix = new String[0][7];
         }
         
         
         //resultList
         ShoppingList tmp = null;
-        String[][] resultListMatrix = new String[resultList.size()][2];
-
-        for(int i=0; i<resultList.size(); i++){
-
-            tmp = shoppingListDAO.getShoppingList(((ShoppingList)(resultList.get(i))).getLID());
-
-            resultListMatrix[i][0] = Integer.toString(tmp.getLID());
-            resultListMatrix[i][1] = tmp.getName();
+        String[][] resultListMatrix = null;
+        
+        if(resultList != null){
             
+            resultListMatrix = new String[resultList.size()][2];
+
+            for(int i=0; i<resultList.size(); i++){
+
+                tmp = shoppingListDAO.getShoppingList(((ShoppingList)(resultList.get(i))).getLID());
+
+                resultListMatrix[i][0] = Integer.toString(tmp.getLID());
+                resultListMatrix[i][1] = tmp.getName();
+
+            }
+        
+        } else {
+            resultListMatrix = new String[0][2];
         }
+        
+        
         
         //resultSharingList
         tmp = null;
-        String[][] resultSharingListMatrix = new String[resultSharingList.size()][2];
-
-        for(int i=0; i<resultSharingList.size(); i++){
-
-            tmp = shoppingListDAO.getShoppingList(((ShoppingList)(resultSharingList.get(i))).getLID());
-
-            resultSharingListMatrix[i][0] = Integer.toString(tmp.getLID());
-            resultSharingListMatrix[i][1] = tmp.getName();
+        String[][] resultSharingListMatrix = null;
+        
+        if(resultSharingList != null){
             
+            resultSharingListMatrix = new String[resultSharingList.size()][2];
+
+            for(int i=0; i<resultSharingList.size(); i++){
+
+                tmp = shoppingListDAO.getShoppingList(((ShoppingList)(resultSharingList.get(i))).getLID());
+
+                resultSharingListMatrix[i][0] = Integer.toString(tmp.getLID());
+                resultSharingListMatrix[i][1] = tmp.getName();
+
+            }
+        
+        } else {
+            resultSharingListMatrix = new String[0][2];
         }
+        
         
         //productCategories
         ProductCategory tmp3 = null;

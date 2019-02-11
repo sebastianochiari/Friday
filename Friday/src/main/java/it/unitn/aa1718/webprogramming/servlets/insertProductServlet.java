@@ -75,12 +75,6 @@ public class insertProductServlet extends HttpServlet {
         ProductDAO productDAO = new MySQLProductDAOImpl();
         UserDAO userDAO = new MySQLUserDAOImpl();
         
-//        // cancellazione di product memorizzati sul DB
-//        products = productDAO.getAllProducts();
-//        for (Object u : products) {
-//            productDAO.deleteProduct((Product) u);
-//        }
-
         // creazione di product
         Library library = new Library();
         int PID = library.LastEntryTable("PID", "products");

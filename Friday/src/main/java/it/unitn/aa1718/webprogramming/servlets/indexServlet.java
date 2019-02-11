@@ -8,8 +8,12 @@ package it.unitn.aa1718.webprogramming.servlets;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingProductDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
@@ -19,6 +23,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -86,6 +91,7 @@ public class indexServlet extends HttpServlet {
             DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
             UserDAO riverUserDAO = mySqlFactory.getUserDAO();
             UserDAO userDAO = new MySQLUserDAOImpl();
+            ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
             Library library = new Library();
 
             Connection connection = null;
@@ -151,11 +157,14 @@ public class indexServlet extends HttpServlet {
 
                     result.last();
 
-                    String [][] prodottiRand = new String [result.getRow()][8];
+                    String [][] prodottiRand = new String [result.getRow()][9];
 
                     result.beforeFirst();
 
                     int i = 0;
+                    
+                    SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+                    List userSharedProduct = null;
 
                     while (result.next()) {
                         prodottiRand [i][0] = result.getString("PID");
@@ -163,9 +172,20 @@ public class indexServlet extends HttpServlet {
                         prodottiRand [i][2] = result.getString("Note");
                         prodottiRand [i][3] = result.getString("Logo");
                         prodottiRand [i][4] = result.getString("Photo");
-                        prodottiRand [i][5] = result.getString("PCID");
+                        prodottiRand [i][5] = (productCategoryDAO.getProductCategory(Integer.parseInt(result.getString("PCID")))).getName();
                         prodottiRand [i][6] = (userDAO.getUser(result.getString("Email"))).getName();
                         prodottiRand [i][7] = (userDAO.getUser(result.getString("Email"))).getSurname();
+                        
+                        if (!userDAO.getUser(result.getString("Email")).getAdmin()) {
+                            userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(prodottiRand [i][0]));
+                            if (userSharedProduct.isEmpty() || userSharedProduct.size()>1){
+                                prodottiRand[i][8] = String.valueOf(userSharedProduct.size()) + " utenti";
+                            } else {
+                                prodottiRand[i][8] = String.valueOf(userSharedProduct.size()) + " utente";
+                            }
+                        } else {
+                            prodottiRand[i][8] = "Tutti gli utenti";
+                        }
 
                         i++;
                     }

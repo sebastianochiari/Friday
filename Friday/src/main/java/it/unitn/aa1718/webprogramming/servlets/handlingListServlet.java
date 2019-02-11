@@ -78,6 +78,7 @@ public class handlingListServlet extends HttpServlet {
         
         System.out.println(" request: "+request.getParameter("selectedList"));
         System.out.println(" session: "+session.getAttribute("selectedList"));
+        System.out.println("sono passato anche da hanglingListServlet");
         
         if(request.getParameter("selectedList") == null){
             

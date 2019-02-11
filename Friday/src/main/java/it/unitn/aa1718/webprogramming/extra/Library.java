@@ -405,7 +405,11 @@ public class Library {
      */
     public String[][] getSearchResults(List products, ProductCategoryDAO productCategoryDAO){
         
-        String[][] searchProductResult = new String[products.size()][7];
+        String[][] searchProductResult = new String[products.size()][10];
+        
+        UserDAO userDAO = new MySQLUserDAOImpl();
+        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+        List userSharedProduct = null;
         
         for(int i=0; i<products.size(); i++){
 
@@ -416,6 +420,19 @@ public class Library {
                 searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
                 searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
                 searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
+                searchProductResult[i][7] = userDAO.getUser(((Product)(products.get(i))).getEmail()).getName();
+                searchProductResult[i][8] = userDAO.getUser(((Product)(products.get(i))).getEmail()).getSurname();
+                
+                if (!userDAO.getUser(((Product)(products.get(i))).getEmail()).getAdmin()) {
+                    userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(searchProductResult[i][0]));
+                    if (userSharedProduct.isEmpty() || userSharedProduct.size()>1){
+                        searchProductResult[i][9] = String.valueOf(userSharedProduct.size()) + " utenti";
+                    } else {
+                        searchProductResult[i][9] = String.valueOf(userSharedProduct.size()) + " utente";
+                    }
+                } else {
+                    searchProductResult[i][9] = "Tutti gli utenti";
+                }
 
             }
         return searchProductResult;
@@ -736,17 +753,21 @@ public class Library {
         //AllProductInListRand
         Product tmp1 = null;
         User tmp2 = null;
+        ProductCategory productCategory = null;
+        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+        List userSharedProduct = null;
         
         String[][] AllProductInListRandMatrix = null;
         
         if(AllProductInListRand != null){
             
-            AllProductInListRandMatrix = new String[AllProductInListRand.size()][7];
+            AllProductInListRandMatrix = new String[AllProductInListRand.size()][9];
 
             for(int i=0; i<AllProductInListRand.size(); i++){
 
                 tmp1 = productDAO.getProduct(((ProductList)(AllProductInListRand.get(i))).getPID(), email);
                 tmp2 = userDAO.getUser(tmp1.getEmail());
+                productCategory = productCategoryDAO.getProductCategory(tmp1.getPCID());
 
                 AllProductInListRandMatrix[i][0] = Integer.toString(tmp1.getPID());
                 AllProductInListRandMatrix[i][1] = tmp1.getName();
@@ -755,11 +776,23 @@ public class Library {
                 AllProductInListRandMatrix[i][4] = tmp1.getPhoto();
                 AllProductInListRandMatrix[i][5] = tmp2.getName();
                 AllProductInListRandMatrix[i][6] = tmp2.getSurname();
+                AllProductInListRandMatrix[i][7] = productCategory.getName();
+                
+                if (!(tmp2).getAdmin()) {
+                    userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(AllProductInListRandMatrix [i][0]));
+                    if (userSharedProduct.isEmpty() || userSharedProduct.size()>1){
+                        AllProductInListRandMatrix[i][8] = String.valueOf(userSharedProduct.size()) + " utenti";
+                    } else {
+                        AllProductInListRandMatrix[i][8] = String.valueOf(userSharedProduct.size()) + " utente";
+                    }
+                } else {
+                    AllProductInListRandMatrix[i][8] = "Tutti gli utenti";
+                }
 
             }
         
         } else {
-            AllProductInListRandMatrix = new String[0][7];
+            AllProductInListRandMatrix = new String[0][9];
         }
         
         

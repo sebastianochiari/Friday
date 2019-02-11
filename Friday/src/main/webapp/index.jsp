@@ -125,33 +125,32 @@
                 <!-- END: Carousel -->
 
                 <!-- START: personal shopping cart -->
-                <form action="insertProductServlet" method="POST">
-                    <div id="breadcrumb" class="mt-4">
-
-                        <h5 style="display: inline-block;">La mia lista</h5>
-                        <p style="display: inline-block;">
-                            <i>
-                                <c:forEach items="${resultListRand}" var="lista">
+                <div class="mt-4" id="breadcrumb">
+                    <h5 style="display: inline-block;">La mia lista</h5>
+                    <h5 style="display: inline-block;">
+                        <i>
+                            <c:forEach items="${resultListRand}" var="lista">
+                                <a href="handlingListServlet?selectedList=${lista[0]}">
                                     ${lista[1]}
-                                    <c:set var="listaLID" value="${lista[0]}"></c:set>
-
-                                    <%--<sql:query dataSource="${snapshotList}" var="resultProduct" sql="SELECT * FROM products WHERE PID in (SELECT PID FROM product_lists WHERE (LID = '${listaLID}'));"></sql:query>--%>
-                                </c:forEach>
-                            </i>
-                        </p>
-                        <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                <div class="cart-carousel">
-
-                                    <c:forEach items="${AllProductInListRand}" var="Product">
-                                        <div>
-                                            <div class="mt-4" id="infoProduct">
-                                                <a href="#infoPersonalProduct${Product[0]}" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct${Product[0]}">
-                                                    <p>${Product[1]}</p>
-                                                </a>
+                                </a>
+                                <c:set var="listaLID" value="${lista[0]}"></c:set>
+                            </c:forEach>
+                        </i>
+                    </h5>
+                    <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
+                    <div class="collapse" id="collapseExample">
+                        <div class="row">
+                            <c:forEach items="${AllProductInListRand}" var="Product">
+                                <div class="col-md-3">
+                                    <div class="product product-single">
+                                        <div class="product-thumb">
+                                            <div class="product-label">
+                                                <span>${Product[7]}</span>
                                             </div>
-                                            <div class="modal fade" id="infoPersonalProduct${Product[0]}" tabindex="-1" role="dialog" aria-labelledby="infoProduct" aria-hidden="true">
+                                            <a href="#" data-toggle="modal" data-target="#infoProduct${Product[0]}">
+                                                <img src="images/prodotti/${Product[4]}" style="padding: 1rem;" alt="">
+                                            </a>
+                                            <div class="modal fade" id="infoProduct${Product[0]}" tabindex="-1" role="dialog" aria-labelledby="infoProductLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content shadow">
                                                         <div class="modal-header">
@@ -161,68 +160,97 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <%--<sql:query dataSource="${snapshotList}" var="resultProductOwner" sql="SELECT * FROM users WHERE Email = '${Product.email}';"></sql:query>--%>
-                                                            <p>
-                                                                <b>Creatore: </b>
-                                                                    ${Product[5]} ${Product[6]}
-                                                            </p>
-                                                            <p><b>Note aggiuntive: </b>
+                                                            <p><b>Descrizione: </b>
                                                                 ${Product[2]}
                                                             </p>
-                                                            <p><b>Immagine del prodotto:</b></p>
-                                                            <img src="images/prodotti/${Product[4]}" style="width: 100%">
+                                                            <p><b>Creatore: </b>${Product[5]} ${Product[6]}</p>
+                                                            <p><b>Condiviso con:  </b>${Product[8]}</p>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <img src="images/prodotti/${Product[4]}" style="width: 100%">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <img src="images/loghi/${Product[3]}" style="width: 100%">
+                                                                </div>
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <img class="cart-image" src="images/prodotti/${Product[4]}">
                                         </div>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <!-- END: personal shopping cart -->
-
-                    <div class="mt-4">
-                        <h5>Prodotti scelti per te</h5>
-                        <div class="cart-carousel">
-                            <c:forEach items="${prodottiRand}" var="prodottoRand">
-                                <div>
-                                    <a href="#" class="text-link" data-toggle="modal" data-target="#infoProduct">
-                                        <p>${prodottoRand[1]}</p>
-                                    </a>
-                                    <div class="modal fade" id="infoProduct" tabindex="-1" role="dialog" aria-labelledby="infoProductLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content shadow">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">${prodottoRand[1]}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p><b>Creatore: </b>${prodottoRand[6]} ${prodottoRand[7]}</p>
-                                                    <p><b>Note aggiuntive: </b>
-                                                        ${prodottoRand[2]}
-                                                    </p>
-                                                    <p><b>Immagine del prodotto:</b></p>
-                                                    <img src="images/prodotti/${prodottoRand[4]}" style="width: 100%">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <form action="insertProductServlet" method="POST">
+                                            <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
+                                            <input type="hidden" value="4" name="scelta">
+                                            <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${Product[0]}" class="btn search-btn mt-1 displayCenter">
+                                                Aggiungi alla lista
+                                            </button>
+                                        </form>
                                     </div>
-                                    <img class="cart-image" src="images/prodotti/${prodottoRand[4]}">
-                                    <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
-                                    <input type="hidden" value="4" name="scelta">
-                                    <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn std-button displayCenter">
-                                        Aggiungi alla lista
-                                    </button>
                                 </div>
                             </c:forEach>
                         </div>
                     </div>
-                </form>
+                </div>
+                <!-- END: personal shopping cart -->
+                
+                <!-- START: prodotti scelti per te -->
+                <div class="mt-4">
+                    <h5>Prodotti scelti per te</h5>
+                    <div class="row">
+                        <c:forEach items="${prodottiRand}" var="prodottoRand">
+                            <div class="col-md-3">
+                                <div class="product product-single">
+                                    <div class="product-thumb">
+                                        <div class="product-label">
+                                            <span>${prodottoRand[5]}</span>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#infoProduct${prodottoRand[0]}">
+                                            <img src="images/prodotti/${prodottoRand[4]}" style="padding: 1rem;" alt="">
+                                        </a>
+                                        <div class="modal fade" id="infoProduct${prodottoRand[0]}" tabindex="-1" role="dialog" aria-labelledby="infoProductLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">${prodottoRand[1]}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p><b>Descrizione: </b>
+                                                            ${prodottoRand[2]}
+                                                        </p>
+                                                        <p><b>Creatore: </b>${prodottoRand[6]} ${prodottoRand[7]}</p>
+                                                        <p><b>Condiviso con:  </b>${prodottoRand[8]}</p>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <img src="images/prodotti/${prodottoRand[4]}" style="width: 100%">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <img src="images/loghi/${prodottoRand[3]}" style="width: 100%">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form action="insertProductServlet" method="POST">
+                                        <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
+                                        <input type="hidden" value="4" name="scelta">
+                                        <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn search-btn mt-1 displayCenter">
+                                            Aggiungi alla lista
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                
+                </div>
+                <!-- END: prodotti scelti per te -->
 
             </div>
 

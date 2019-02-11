@@ -114,7 +114,37 @@
                                                 <div class="product-label">
                                                     <span>${prodotto[5]}</span>
                                                 </div>
-                                                <img src="images/prodotti/${prodotto[4]}" alt="">
+                                                <a href="#" data-toggle="modal" data-target="#infoProduct${prodotto[0]}">
+                                                    <img src="images/prodotti/${prodotto[4]}" alt="">
+                                                </a>
+                                                <div class="modal fade" id="infoProduct${prodotto[0]}" tabindex="-1" role="dialog" aria-labelledby="infoProductLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content shadow">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">${prodotto[1]}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p><b>Descrizione: </b>
+                                                                    ${prodotto[2]}
+                                                                </p>
+                                                                <p><b>Creatore: </b>${prodotto[7]} ${prodotto[8]}</p>
+                                                                <p><b>Condiviso con:  </b>${prodotto[9]}</p>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <img src="images/prodotti/${prodotto[4]}" style="width: 100%">
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <img src="images/loghi/${prodotto[3]}" style="width: 100%">
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="product-body">
                                                 <h2 class="product-name">${prodotto[1]}</h2>

@@ -49,10 +49,14 @@
 
         <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css" />
-
+        
     </head>
 
     <body id="top">
+        
+        
+  
+        
         
 <%
 
@@ -191,10 +195,18 @@
                 <div class="float-right">
                     <ul class="header-top-links">
                         <li><a href="#">Newsletter</a></li>
-                        <li><a href="faq.jsp">FAQ</a></li>
+                    <!--    <li><a href="http://localhost:8080/Friday/FAQ-Friday">FAQ</a></li> -->
+                    
+                    
+                    
+                     <li><a href="http://localhost:8080/Friday/FAQ-Friday">FAQ</a></li>
+                      
+                     
+                     
+                     
                         <c:if test="${!boolEmailSession}">
-                            <li><a href="login.jsp">Login</a></li>
-                            <li><a href="insertUser.jsp">Registrati</a></li>
+                            <li><a href="http://localhost:8080/Friday/login-Friday">Login</a></li>
+                            <li><a href="http://localhost:8080/Friday/registrazione-utente-Friday">Registrati</a></li>
                         </c:if>
                     </ul>
                 </div>
@@ -219,7 +231,7 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <a href="insertUser.jsp">
+                            <a href="http://localhost:8080/Friday/registrazione-utente-Friday">
                             <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="Second slide">
                         </a>
                         </div>

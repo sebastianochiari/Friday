@@ -447,7 +447,7 @@ public class Library {
         List userSharedProduct = null;
         
         for(int i=0; i<productList.size(); i++){
-            product = productDAO.getProduct(((ProductList)(productList.get(i))).getPID());
+            product = productDAO.getProduct(((ProductList)(productList.get(i))).getPID(), (String)session.getAttribute("emailSession"));
             prodotto[i][0] = product.getName();
             prodotto[i][1] = product.getNote();
             prodotto[i][2] = product.getLogo();

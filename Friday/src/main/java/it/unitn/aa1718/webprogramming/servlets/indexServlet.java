@@ -8,7 +8,9 @@ package it.unitn.aa1718.webprogramming.servlets;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import java.io.IOException;
@@ -68,23 +70,25 @@ public class indexServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            
-            (request.getSession()).setAttribute("emailSession", null);
-            (request.getSession()).setAttribute("cookieIDSession", null);
-            (request.getSession()).setAttribute("nameUserSession", null);
-
+        
             String DBUrl = MySQLDAOFactory.getDBUrl();
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
             String DBDriver = MySQLDAOFactory.getDBDriver();
+            Connection connection = MySQLDAOFactory.createConnection();
 
             (request.getSession()).setAttribute("DBUrlSession", DBUrl);
             (request.getSession()).setAttribute("DBUserSession", DBUser);
             (request.getSession()).setAttribute("DBPassSession", DBPass);
             (request.getSession()).setAttribute("DBDriverSession", DBDriver);
+            (request.getSession()).setAttribute("DBConnection", connection);
 
             Cookie[] cookies = request.getCookies();
-            Connection connection = null;
+
+            DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+            UserDAO riverUserDAO = mySqlFactory.getUserDAO();
+            UserDAO userDAO = new MySQLUserDAOImpl();
+
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
             boolean boolEmailSession = false;
@@ -105,19 +109,21 @@ public class indexServlet extends HttpServlet {
                             if((cookies[i].getValue()).equals(result.getString("cookieID"))){
 
                                 String emailSession = result.getString("Email");
-                                (request.getSession()).setAttribute("emailSession", emailSession);
-                                (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
-                                (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
-                                (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
-                                System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
 
-                                if (emailSession.equals(null)){
+                                if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
+
+
                                     boolEmailSession = false;
                                 } else {
+                                    (request.getSession()).setAttribute("emailSession", emailSession);
+
                                     boolEmailSession = true;
                                 }
 
                                 (request.getSession()).setAttribute("boolEmailSessionScriptlet", boolEmailSession);
+                                (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                                (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
+                                (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
 
                             }
                         }
@@ -136,19 +142,21 @@ public class indexServlet extends HttpServlet {
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
-                    
+
+                    // START: recupero prodotti casuali
+
                     preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
                     preparedStatement.execute();
                     result = preparedStatement.getResultSet();
-                    
+
                     result.last();
-                    
-                    String [][] prodottiRand = new String [result.getRow()][6];
-                    
+
+                    String [][] prodottiRand = new String [result.getRow()][8];
+
                     result.beforeFirst();
-                    
+
                     int i = 0;
-                    
+
                     while (result.next()) {
                         prodottiRand [i][0] = result.getString("PID");
                         prodottiRand [i][1] = result.getString("Name");
@@ -156,13 +164,15 @@ public class indexServlet extends HttpServlet {
                         prodottiRand [i][3] = result.getString("Logo");
                         prodottiRand [i][4] = result.getString("Photo");
                         prodottiRand [i][5] = result.getString("PCID");
-                        
+                        prodottiRand [i][6] = (userDAO.getUser(result.getString("Email"))).getName();
+                        prodottiRand [i][7] = (userDAO.getUser(result.getString("Email"))).getSurname();
+
                         i++;
                     }
-                    
-                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
-                    
 
+                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
+
+                    // END: recupero prodotto casuali
                 }
 
             } catch (SQLException e) {
@@ -184,9 +194,12 @@ public class indexServlet extends HttpServlet {
                     cse.printStackTrace();
                 }
             }
+            
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         
-        response.sendRedirect("index.jsp");
     }
+            
+            
 
     /**
      * Handles the HTTP <code>POST</code> method.

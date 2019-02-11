@@ -151,7 +151,7 @@ public class searchServlet extends HttpServlet {
             int inputClickPCID = Integer.parseInt(inputClick);
 
             //calcolo risultato
-            products = productDAO.getProductsByPCID(inputClickPCID);
+            products = productDAO.getProductsByPCID(inputClickPCID, (String)session.getAttribute("emailSession"));
 
             temp[0] = "alfabeto";
             temp[1] = "categoria";
@@ -165,15 +165,15 @@ public class searchServlet extends HttpServlet {
         else if(input != null || ordine != null){
 
             if(PCID > 0){
-                products = productDAO.getProductsByNameAndPCID(PCID, input);
+                products = productDAO.getProductsByNameAndPCID(PCID, input, (String)session.getAttribute("emailSession"));
                 temp[0] = "alfabeto";
                 temp[1] = "categoria";
             } else if (ordine != null && ordine.equals("categoria")){
-                products = productDAO.getProductsByName(input, true);
+                products = productDAO.getProductsByName(input, true, (String)session.getAttribute("emailSession"));
                 temp[0] = "categoria";
                 temp[1] = "alfabeto";
             } else {
-                products = productDAO.getProductsByName(input, false);
+                products = productDAO.getProductsByName(input, false, (String)session.getAttribute("emailSession"));
                 temp[0] = "alfabeto";
                 temp[1] = "categoria";
             }

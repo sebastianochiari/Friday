@@ -24,21 +24,21 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Create_Query = "INSERT INTO products (PID, name, note, logo, photo, PCID, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    private static final String Read_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID = ? ORDER BY name";
+    private static final String Read_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID = ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) ORDER BY name";
     
-    private static final String Read_Email_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE email = ? ORDER BY name";
+    private static final String Read_Email_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE email = ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID))  ORDER BY name";
     
-    private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ? ORDER BY name";
+    private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) ORDER BY name";
     
-    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY name";
+    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) ORDER BY name";
     
-    private static final String Read_Name_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY PCID, name";
+    private static final String Read_Name_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) ORDER BY PCID, name";
     
-    private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?) AND AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID))) ORDER BY Name;";
+    private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?) AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID))) ORDER BY Name;";
     
-    private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY name";
+    private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) ORDER BY name";
     
-    private static final String Read_All_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY PCID, name";
+    private static final String Read_All_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) ORDER BY PCID, name";
     
     private static final String Update_Query = "UPDATE products SET (PID=?, name=?, note=?, logo=?, photo=?, PCID=?, email=?) WHERE PID = ?)";
     
@@ -49,7 +49,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
      * @return lsita con tutti i prodotti
      */
     @Override
-    public List getAllProducts() {
+    public List getAllProducts(String Email) {
         
         List products = new ArrayList();
         Product product = null;
@@ -59,6 +59,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_All_Query);
+            preparedStatement.setString(1, Email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
@@ -105,7 +106,8 @@ public class MySQLProductDAOImpl implements ProductDAO {
         try {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_Email_Query);
-            preparedStatement.setString(7, email);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
@@ -142,7 +144,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
      * @return list di prodotti
      */
     @Override
-    public List getProductsByPCID (int PCID) {
+    public List getProductsByPCID (int PCID, String Email) {
         
         List products = new ArrayList();
         Product product = null;
@@ -153,6 +155,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
             connection = MySQLDAOFactory.createConnection();
             preparedStatement = connection.prepareStatement(Read_PCID_Query);
             preparedStatement.setInt(1, PCID);
+            preparedStatement.setString(2, Email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
@@ -189,7 +192,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
      * @return oggetto che rappresenta il prodotto
      */
     @Override
-    public Product getProduct(int PID) {
+    public Product getProduct(int PID, String Email) {
 		
         Product product= null;
         Connection conn = null;
@@ -199,6 +202,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
             conn = MySQLDAOFactory.createConnection();
             preparedStatement = conn.prepareStatement(Read_Query);
             preparedStatement.setInt(1, PID);
+            preparedStatement.setString(2, Email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
  
@@ -358,7 +362,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
      * @return list contenente i prodotti trovati
      */
     @Override
-    public List getProductsByName(String name, boolean perPCID) {
+    public List getProductsByName(String name, boolean perPCID, String Email) {
         List products = new ArrayList();
         Product product = null;
         Connection connection = null;
@@ -373,6 +377,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
                 preparedStatement = connection.prepareStatement(Read_Name_Query);
             
             preparedStatement.setString(1, "%" + name + "%");
+            preparedStatement.setString(2, Email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             
@@ -410,7 +415,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
      * @return lista contenente i risultati trovati tra i prodotti
      */
     @Override
-    public List getProductsByNameAndPCID(int PCID, String name) {
+    public List getProductsByNameAndPCID(int PCID, String name, String Email) {
         List products = new ArrayList();
         Product product = null;
         Connection connection = null;
@@ -422,6 +427,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
             preparedStatement = connection.prepareStatement(Read_NameAndPCID_Query);
             preparedStatement.setString(1, "%"+name+"%");
             preparedStatement.setInt(2, PCID);
+            preparedStatement.setString(3, Email);
             preparedStatement.execute();
             result = preparedStatement.getResultSet();
             

@@ -194,7 +194,7 @@
 
     <%
         ProductDAO productDAO = new MySQLProductDAOImpl();
-        List products = productDAO.getAllProducts();
+        List products = productDAO.getAllProducts((String)session.getAttribute("emailSession"));
 
         String [] productVector = new String [products.size()];
 

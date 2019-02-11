@@ -5,7 +5,6 @@
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
-
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
@@ -24,23 +23,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.sql.Timestamp;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
-
-
-
-/*
-In teoria qui si possono definire gli url validi a cui risponde la servlet specifica, in caso contrario si redireziona alla pagina di errore
-CREDO SERVA PER EVITARE CHE RISPONDA ANCHE A LOGIN.JSP MA SOLO AD iconcina-login
-
-*/
-
-@WebServlet(
-        name = "loginServlet",
-        urlPatterns = "/login-Friday"
-)
-
-
 
 public class loginServlet extends HttpServlet {
 
@@ -96,9 +79,6 @@ public class loginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-  
         
         //connessione
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
@@ -232,40 +212,9 @@ public class loginServlet extends HttpServlet {
         
         */
 
-        
-        
-      //response.setStatus(200);
-      //response.setHeader("Location", "http://localhost:8080/CIAO_ICONCINA");
 
-      
     }
-      
-    
-    
-   //ToDo 
-   // Filter the string for special HTML characters to prevent
-   // command injection attack
-   private static String htmlFilter(String message) {
-      if (message == null) return null;
-        int len = message.length();
-        StringBuffer result = new StringBuffer(len + 20);
-        char aChar;
-
-        for (int i = 0; i < len; ++i) {
-           aChar = message.charAt(i);
-           switch (aChar) {
-               case '<': result.append("&lt;"); break;
-               case '>': result.append("&gt;"); break;
-               case '&': result.append("&amp;"); break;
-               case '"': result.append("&quot;"); break;
-               default: result.append(aChar);
-           }
-        }
-      return (result.toString());
-   }
-    
-    
-    
+       
     /**
      * Returns a short description of the servlet.
      *

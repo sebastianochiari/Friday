@@ -53,7 +53,7 @@
         <div class="container">
 
             <!-- LOGO Friday -->
-            <a href="http://localhost:8080/Friday/home-page-Friday">
+            <a href="index.jsp">
                 <div class="logo-header">
                     <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
                 </div>

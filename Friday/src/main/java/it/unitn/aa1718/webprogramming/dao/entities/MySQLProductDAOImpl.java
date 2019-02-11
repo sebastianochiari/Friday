@@ -30,15 +30,15 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Read_PCID_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PCID = ? ORDER BY name";
     
-    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY name";
+    private static final String Read_Name_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY name";
     
-    private static final String Read_Name_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? ORDER BY PCID, name";
+    private static final String Read_Name_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE Name LIKE ? AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY PCID, name";
     
-    private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?)) ORDER BY Name;";
+    private static final String Read_NameAndPCID_Query = "SELECT * FROM fridaydb.products WHERE ((Name LIKE ?) AND (PCID = ?) AND AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID))) ORDER BY Name;";
     
-    private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products ORDER BY name";
+    private static final String Read_All_Query = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY name";
     
-    private static final String Read_All_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products ORDER BY PCID, name";
+    private static final String Read_All_Query_Order_By_PCID = "SELECT PID, name, note, logo, photo, PCID, email FROM products WHERE AND PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = 'leonardoremondini@gmail.com' GROUP BY PID ORDER BY PID)) ORDER BY PCID, name";
     
     private static final String Update_Query = "UPDATE products SET (PID=?, name=?, note=?, logo=?, photo=?, PCID=?, email=?) WHERE PID = ?)";
     

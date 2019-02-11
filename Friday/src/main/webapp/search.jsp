@@ -70,13 +70,11 @@
 
                             <h3 class="aside-title">Categorie:</h3>
                             <ul class="list-links">
-                            <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
-                            <sql:query dataSource="${snapshot}" var="resultProductCategories" sql="SELECT * FROM product_categories;"></sql:query>
 
                             <form action="searchServlet" method ="GET">
-                                 <c:forEach var="res" items="${resultProductCategories.rows}" >
-                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="CategoryLeft" id="CategoryLeft">
-                                           ${res.Name}
+                                 <c:forEach var="res" items="${productCategories}" >
+                                       <button type="submit" value ="${res[0]}" class="dropdown-item" name ="CategoryLeft" id="CategoryLeft">
+                                           ${res[1]}
                                        </button>
                                  </c:forEach>
                             </form>

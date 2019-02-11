@@ -44,6 +44,8 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     private static final String Delete_Query = "DELETE FROM prpducts WHERE PID = ?";
     
+    private static final String Read_Random_Product = "SELECT * FROM products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) order by RAND() LIMIT 8";
+    
     /**
      * Metodo che ritorna tutti i prodotti 
      * @return lsita con tutti i prodotti
@@ -456,6 +458,49 @@ public class MySQLProductDAOImpl implements ProductDAO {
         }
         
         return products;
+    }
+
+    @Override
+    public List getRandomProduct(String email) {
+        
+        List products = new ArrayList();
+        Product product = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_Random_Product);
+            preparedStatement.setString(1, email);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                product = new Product(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getString(7));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return products;
+        
     }
   
 }

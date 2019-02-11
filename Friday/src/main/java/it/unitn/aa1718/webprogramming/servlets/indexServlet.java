@@ -143,36 +143,7 @@ public class indexServlet extends HttpServlet {
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
 
-                    // START: recupero prodotti casuali
-
-                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 8;");
-                    preparedStatement.execute();
-                    result = preparedStatement.getResultSet();
-
-                    result.last();
-
-                    String [][] prodottiRand = new String [result.getRow()][8];
-
-                    result.beforeFirst();
-
-                    int i = 0;
-
-                    while (result.next()) {
-                        prodottiRand [i][0] = result.getString("PID");
-                        prodottiRand [i][1] = result.getString("Name");
-                        prodottiRand [i][2] = result.getString("Note");
-                        prodottiRand [i][3] = result.getString("Logo");
-                        prodottiRand [i][4] = result.getString("Photo");
-                        prodottiRand [i][5] = result.getString("PCID");
-                        prodottiRand [i][6] = (userDAO.getUser(result.getString("Email"))).getName();
-                        prodottiRand [i][7] = (userDAO.getUser(result.getString("Email"))).getSurname();
-
-                        i++;
-                    }
-
-                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
-
-                    // END: recupero prodotto casuali
+               
                 }
 
             } catch (SQLException e) {
@@ -198,6 +169,8 @@ public class indexServlet extends HttpServlet {
             System.out.println((request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
             
             library.createListIndex(request);
+            library.createProductCategory(request);
+            library.createAutocomplete(request.getSession());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         
     }

@@ -674,6 +674,33 @@ public class Library {
         }
     }
     
+    public void createProductCategory(HttpServletRequest request){
+        
+        HttpSession session = request.getSession();
+        
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        ProductCategoryDAO riverProductCategoryDAO = mySqlFactory.getProductCategoryDAO();
+        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        
+        List productCategories = productCategoryDAO.getAllProductCategories();
+        
+        //productCategories
+        ProductCategory tmp3 = null;
+        String[][] productCategoriesMatrix = new String[productCategories.size()][2];
+
+        for(int i=0; i<productCategories.size(); i++){
+
+            tmp3 = (ProductCategory)productCategories.get(i);
+
+            productCategoriesMatrix[i][0] = Integer.toString(tmp3.getPCID());
+            productCategoriesMatrix[i][1] = tmp3.getName();
+            
+        }
+        
+        session.setAttribute("productCategories", productCategoriesMatrix);
+    
+    }
+    
     public void createListIndex(HttpServletRequest request){
     
         HttpSession session = request.getSession();
@@ -710,13 +737,19 @@ public class Library {
                 
                 resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
                 AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
+                System.out.println("LID = "+resultListRand.getLID());
                 resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
             
             }
         
         }
         
-        List productCategories = productCategoryDAO.getAllProductCategories();
+        List prodottiRandom = null;
+        if(session.getAttribute("emailSession")!=null){
+            prodottiRandom = productDAO.getRandomProduct((String)session.getAttribute("emailSession"));
+        } else {
+            prodottiRandom = productDAO.getRandomProduct(null);
+        }
         
         //resultListRand
         
@@ -744,6 +777,8 @@ public class Library {
             AllProductInListRandMatrix = new String[AllProductInListRand.size()][7];
 
             for(int i=0; i<AllProductInListRand.size(); i++){
+                
+                System.out.println(((ProductList)(AllProductInListRand.get(i))).getPID()+"   "+email);
 
                 tmp1 = productDAO.getProduct(((ProductList)(AllProductInListRand.get(i))).getPID(), email);
                 tmp2 = userDAO.getUser(tmp1.getEmail());
@@ -761,7 +796,6 @@ public class Library {
         } else {
             AllProductInListRandMatrix = new String[0][7];
         }
-        
         
         //resultList
         ShoppingList tmp = null;
@@ -784,8 +818,6 @@ public class Library {
             resultListMatrix = new String[0][2];
         }
         
-        
-        
         //resultSharingList
         tmp = null;
         String[][] resultSharingListMatrix = null;
@@ -807,25 +839,62 @@ public class Library {
             resultSharingListMatrix = new String[0][2];
         }
         
+        //prodottiRandom
+        tmp1 = null;
+        tmp2 = null;
+        String[][] prodottiRandomMatrix = new String[prodottiRandom.size()][7];
         
-        //productCategories
-        ProductCategory tmp3 = null;
-        String[][] productCategoriesMatrix = new String[productCategories.size()][2];
+        for(int i=0; i<prodottiRandom.size(); i++){
+               
+            tmp1 = (Product)prodottiRandom.get(i);
+            tmp2 = userDAO.getUser(tmp1.getEmail());
 
-        for(int i=0; i<productCategories.size(); i++){
+            prodottiRandomMatrix[i][0] = Integer.toString(tmp1.getPID());
+            prodottiRandomMatrix[i][1] = tmp1.getName();
+            prodottiRandomMatrix[i][2] = tmp1.getNote();
+            prodottiRandomMatrix[i][3] = tmp1.getLogo();
+            prodottiRandomMatrix[i][4] = tmp1.getPhoto();
+            prodottiRandomMatrix[i][5] = tmp2.getName();
+            prodottiRandomMatrix[i][6] = tmp2.getSurname();
 
-            tmp3 = (ProductCategory)productCategories.get(i);
-
-            productCategoriesMatrix[i][0] = Integer.toString(tmp3.getPCID());
-            productCategoriesMatrix[i][1] = tmp3.getName();
-            
-        }
+            }
         
         session.setAttribute("resultListRand", resultListRandMatrix);
         session.setAttribute("resultList", resultListMatrix);
         session.setAttribute("resultSharingList", resultSharingListMatrix); 
         session.setAttribute("AllProductInListRand", AllProductInListRandMatrix);
-        session.setAttribute("productCategories", productCategoriesMatrix);
+        session.setAttribute("prodottiRand", prodottiRandomMatrix);
+    
+    }
+    
+    public void createAutocomplete(HttpSession session){
+        
+        ProductDAO productDAO = new MySQLProductDAOImpl();
+        List products = null;
+        
+        if(session.getAttribute("emailSession") != null){
+            products = productDAO.getAllProducts((String)session.getAttribute("emailSession"));
+        } else {
+            products = productDAO.getAllProducts(null);
+        }
+
+        String [] productVector = new String [products.size()];
+
+        for (int i = 0; i < products.size(); i++){
+            productVector[i] = ((Product)products.get(i)).getName();
+        }
+
+        StringBuffer values = new StringBuffer();
+        for (int i = 0; i < productVector.length; ++i) {
+            if (values.length() > 0) {
+                values.append(',');
+            }
+            values.append('"').append(productVector[i]).append('"');
+        }
+        
+        System.out.println(values.toString());
+        
+        session.setAttribute("Autocomplete", values);
     
     }
  

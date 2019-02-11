@@ -152,9 +152,9 @@
             <div class="col">
                 
                 <h5>
-                    <div class="mt-4" id="emailArea">
+                    <div class="mt-4" id="infoProduct">
                     <%--<a href="#" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct">--%>
-                        <a class="cart-toggle" data-toggle="collapse" href="#collapseEmail" role="button" data-target="#collapseEmail" aria-expanded="true" aria-controls="collapseEmail">
+                        <a class="cart-toggle" data-toggle="collapse" href="#infoProduct${rigaProdotto[7]}" role="button" data-target="#infoProduct${rigaProdotto[7]}" aria-expanded="true" aria-controls="infoProduct${rigaProdotto[7]}">
                         <p>${rigaProdotto[0]}</p>
                     </a>
                     </div>
@@ -171,7 +171,7 @@
                                 </div>
                                 <div class="modal-body">
                                     --%>
-                            <div id="collapseEmail" class="collapse pb-4" aria-labelledby="emailArea" data-parent="#accordion">
+                            <div id="infoProduct${rigaProdotto[7]}" class="collapse pb-4" aria-labelledby="infoProduct" data-parent="#accordion">
                                 <div class="card-body">
                                     <p>
                                         <b>Creatore: </b>${rigaProdotto[5]} ${rigaProdotto[8]}
@@ -181,7 +181,7 @@
                                         
                                     </p>
                                     <!-- forse sorgente immagini dei loghi è diverso -->
-                                    <p><b>Marca: </b> <img src="images/prodotti/${rigaProdotto[2]}" style="width: 10%"></p>
+                                    <p><b>Marca: </b> <img src="images/loghi/${rigaProdotto[2]}" style="width: 10%"></p>
                                     <p><b>Note aggiuntive: </b>
                                         ${rigaProdotto[1]}
                                     </p>

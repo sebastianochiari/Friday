@@ -24,7 +24,7 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
     
     private static final String Create_Query = "INSERT INTO sharing_products (email, PID) VALUES (?, ?)";
     
-    private static final String Read_Product_Shared_Query = "SELECT email, PID FROM sharing_products WHERE (email = ? and PID = ?)";
+    private static final String Read_Query = "SELECT email, PID FROM sharing_products WHERE (email = ? and PID = ?)";
     
     private static final String Read_All_Emails_By_PID_Query = "SELECT * FROM sharing_products WHERE PID = ?";
     
@@ -176,7 +176,7 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_Product_Shared_Query);
+            preparedStatement = connection.prepareStatement(Read_Query);
             preparedStatement.setString(1, email);
             preparedStatement.setInt(2, PID);
             preparedStatement.execute();

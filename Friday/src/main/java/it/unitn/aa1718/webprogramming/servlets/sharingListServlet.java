@@ -6,18 +6,23 @@
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
-import static it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory.User;
 import it.unitn.aa1718.webprogramming.dao.MessageDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMessageDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
 import it.unitn.aa1718.webprogramming.friday.Message;
+import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
+import it.unitn.aa1718.webprogramming.friday.SharingProduct;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -76,6 +81,9 @@ public class sharingListServlet extends HttpServlet {
         int listaScelta = 0;
         SharingDAO sharingDAO = new MySQLSharingDAOImpl();
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+        List productList = null;
         Library library = new Library();
         HttpSession session = request.getSession();
         
@@ -84,6 +92,10 @@ public class sharingListServlet extends HttpServlet {
                 listaScelta = Integer.parseInt(request.getParameter("listToShare"));
                 String email = request.getParameter("invitationEmail");
                 sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
+                productList = productListDAO.getPIDsByLID(listaScelta);
+                for (int i=0; i<productList.size(); i++){
+                    sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
+                }
                 request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
                 break;
             case 3:

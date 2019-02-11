@@ -78,22 +78,10 @@
 
                             <c:set var="listaAttiva" value="${listaAttiva}"></c:set>
 
-                            <h3 class="aside-title">Le mie liste:</h3>
+                            <h3 class="aside-title">Chat</h3>
                             <ul class="list-links">
                                 <!-- START: liste personali -->
                                 <form action="handlingListServlet" method="GET">
-                                    <c:if test="${listaAttiva eq 0}">
-                                        <li><button type="submit" value="0" name="selectedList" class="dropdown-item">
-                                            Gestione Liste
-                                        </button></li>
-                                        <c:set var="attiva0" value="active <- attiva0"></c:set>
-                                    </c:if>
-                                    <c:if test="${listaAttiva ne 0}">
-                                        <li><button type="submit" value="0" name="selectedList" class="dropdown-item">
-                                            Gestione Liste
-                                        </button></li>
-                                        <c:set var="attiva0" value="notActive <- attiva0"></c:set>
-                                    </c:if>
                                     <c:forEach items="${ListUserSession}" var="lista">
                                         <c:set var="listaUser" value="${lista}"></c:set>
                                         <c:if test="${listaAttiva eq lista[1]}">
@@ -115,12 +103,7 @@
                                     </c:forEach>
                                 </form>
                                 <!-- END: liste personali -->
-                            </ul>
-
-                            <h3 class="aside-title">Liste condivise:</h3>
-                            <c:if test="${SharingListUserSessionSize eq 0}">
-                                <p>Non hai nessuna lista condivisa</p>
-                            </c:if>
+                            </ul>                            
                             <ul class="list-links">
                                 <!-- START: liste condivise -->
                                 <form action="handlingListServlet" method="GET">
@@ -157,10 +140,10 @@
                         <div class="container mt-4">
                 
                 <div class="container">
-                    <h3 class=" text-center">Messaging</h3>
                     <div class="messaging">
+                        <h4 class="float-right">${listaCorrente[1]}</h4>
                           <div class="inbox_msg">
-                            <div class="inbox_people">
+                            <!-- <div class="inbox_people">
                               <div class="headind_srch">
                                   <h4 align="center">Partecipanti alla Lista</h4> 
                               </div>
@@ -181,8 +164,8 @@
                                   </c:forEach>
                 
                               </div>
-                            </div>
-                            <div class="mesgs">
+                            </div> -->
+                            <div class="mesgs" id="my-chat">
                               <div class="msg_history" id="chat">
                                   
                                   <c:forEach items="${messaggiChat}" var="messaggio">
@@ -216,12 +199,14 @@
                             
                               </div>
                                 <div class="type_msg">
-                                  <div class="input_msg_write">
+                                  <div class="input_msg_write" id="input_message">
                                     <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" id="newMessage"/>
                                     <input type="hidden" name="azioneLista" value="${3}" />
                                     <input type="hidden" name="messageToList" value="${listaCorrente[0]}" id="messageToList"/>
                                     <input type="hidden" name="userToList" value="${emailSession}" id="userToList"/>
-                                    <button class="msg_send_btn" onclick="send();"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                    <button id="sendMessage" class="msg_send_btn" onclick="send();">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </button>
                                   </div>
                                 </div>
                             </div>
@@ -266,8 +251,18 @@
 
     <!-- personal JS -->
     <script type="text/javascript" src="js/main.js"></script>
+
+    <script>
+        onEnter("newMessage", "sendMessage");
+    </script>
     
     <script>
+        var objDiv = document.getElementById("chat");
+
+        $(document).ready(function(){
+            objDiv.scrollTop = objDiv.scrollHeight;
+        });
+
         var ws;
         
         var LID = document.getElementById("messageToList").value;
@@ -289,7 +284,7 @@
 
                 var div = document.createElement("div");
                 div.classList.add("outgoing_msg");
-                div.innerHTML = "<div class=\"sent_msg\"> <p>"+ message.text +"</p> <span class=\"time_date\"> Io </span> </div> </div>";                    
+                div.innerHTML = "<div class=\"sent_msg\"> <p>"+ message.text +"</p> <span class=\"time_date\"> Io </span> </div> </div>";
 
             } else {
 
@@ -299,7 +294,11 @@
 
             }
 
+            $('#input_message').find("input, textarea").val("");
+
             document.getElementById("chat").appendChild(div);
+
+            objDiv.scrollTop = objDiv.scrollHeight;
         };
 
         ws.onopen = function (event) {

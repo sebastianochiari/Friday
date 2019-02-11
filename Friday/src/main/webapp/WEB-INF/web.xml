@@ -5,10 +5,10 @@
             <taglib-uri>http://java.sun.com/jsp/jstl/core-rt</taglib-uri>
             <taglib-location>/WEB-INF/c-rt.tld</taglib-location>
         </taglib>
-        <taglib>
+        <!-- <taglib>
             <taglib-uri>http://java.sun.com/jsp/jstl/sql</taglib-uri>
             <taglib-location>/WEB-INF/sql.tld</taglib-location>
-        </taglib>
+        </taglib> -->
     </jsp-config>
     <servlet>
         <servlet-name>insertUserServlet</servlet-name>

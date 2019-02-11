@@ -79,7 +79,7 @@ public class logoutServlet extends HttpServlet {
         MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
         
         MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
-        myCookieDAO.deleteCookieByCookieID(Integer.parseInt((String)session.getAttribute("cookieIDSession")));
+        myCookieDAO.deleteCookieByCookieID((int)session.getAttribute("cookieIDSession"));
         
         session.setAttribute("emailSession", null);
         session.setAttribute("cookieIDSession", null);

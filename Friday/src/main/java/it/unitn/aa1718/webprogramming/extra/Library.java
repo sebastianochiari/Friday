@@ -27,6 +27,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.Product;
+import it.unitn.aa1718.webprogramming.friday.ProductCategory;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
 import it.unitn.aa1718.webprogramming.friday.SharingProduct;
@@ -615,6 +616,8 @@ public class Library {
         SharingProductDAO sharingProductriverDAO = mySqlFactory.getSharingProductDAO();
         SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
         
+        
+        
         if(email == null){
         
             List DaTogliere = sharingProductDAO.getAllSharingProduct();
@@ -665,6 +668,105 @@ public class Library {
         } catch (MessagingException e) {
                 throw new RuntimeException(e);
         }
+    }
+    
+    public void createListIndex(HttpServletRequest request){
+    
+        HttpSession session = request.getSession();
+        
+        String email = (String)session.getAttribute("emailSession");
+        int cookieID = (int)session.getAttribute("cookieIDSession");
+        
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        ProductCategoryDAO riverProductCategoryDAO = mySqlFactory.getProductCategoryDAO();
+        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+        ProductListDAO riverProductListDAO = mySqlFactory.getProductListDAO();
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        ProductDAO riverProductDAO = mySqlFactory.getProductDAO();
+        ProductDAO productDAO = new MySQLProductDAOImpl();
+        UserDAO riverUserDAO = mySqlFactory.getUserDAO();
+        UserDAO userDAO = new MySQLUserDAOImpl();
+        
+        ShoppingList resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
+        List AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
+        List resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
+        List resultSharingList = shoppingListDAO.getAllShoppingListEditable(email);
+        List productCategories = productCategoryDAO.getAllProductCategories();
+        
+        //resultListRand
+        String[][] resultListRandMatrix = new String[1][2];
+        
+        resultListRandMatrix[0][0] = Integer.toString(resultListRand.getLID());
+        resultListRandMatrix[0][1] = resultListRand.getName();
+        
+        //AllProductInListRand
+        Product tmp1 = null;
+        User tmp2 = null;
+        String[][] AllProductInListRandMatrix = new String[AllProductInListRand.size()][7];
+
+        for(int i=0; i<AllProductInListRand.size(); i++){
+
+            tmp1 = productDAO.getProduct(((ProductList)(AllProductInListRand.get(i))).getPID(), email);
+            tmp2 = userDAO.getUser(tmp1.getEmail());
+                    
+            AllProductInListRandMatrix[i][0] = Integer.toString(tmp1.getPID());
+            AllProductInListRandMatrix[i][1] = tmp1.getName();
+            AllProductInListRandMatrix[i][2] = tmp1.getNote();
+            AllProductInListRandMatrix[i][3] = tmp1.getLogo();
+            AllProductInListRandMatrix[i][4] = tmp1.getPhoto();
+            AllProductInListRandMatrix[i][5] = tmp2.getName();
+            AllProductInListRandMatrix[i][6] = tmp2.getSurname();
+           
+        }
+        
+        
+        //resultList
+        ShoppingList tmp = null;
+        String[][] resultListMatrix = new String[resultList.size()][2];
+
+        for(int i=0; i<resultList.size(); i++){
+
+            tmp = shoppingListDAO.getShoppingList(((ShoppingList)(resultList.get(i))).getLID());
+
+            resultListMatrix[i][0] = Integer.toString(tmp.getLID());
+            resultListMatrix[i][1] = tmp.getName();
+            
+        }
+        
+        //resultSharingList
+        tmp = null;
+        String[][] resultSharingListMatrix = new String[resultSharingList.size()][2];
+
+        for(int i=0; i<resultSharingList.size(); i++){
+
+            tmp = shoppingListDAO.getShoppingList(((ShoppingList)(resultSharingList.get(i))).getLID());
+
+            resultSharingListMatrix[i][0] = Integer.toString(tmp.getLID());
+            resultSharingListMatrix[i][1] = tmp.getName();
+            
+        }
+        
+        //productCategories
+        ProductCategory tmp3 = null;
+        String[][] productCategoriesMatrix = new String[productCategories.size()][2];
+
+        for(int i=0; i<productCategories.size(); i++){
+
+            tmp3 = (ProductCategory)productCategories.get(i);
+
+            productCategoriesMatrix[i][0] = Integer.toString(tmp3.getPCID());
+            productCategoriesMatrix[i][1] = tmp3.getName();
+            
+        }
+        
+        session.setAttribute("resultListRand", resultListRandMatrix);
+        session.setAttribute("resultList", resultListMatrix);
+        session.setAttribute("resultSharingList", resultSharingListMatrix); 
+        session.setAttribute("AllProductInListRand", AllProductInListRandMatrix);
+        session.setAttribute("productCategories", productCategoriesMatrix);
+    
     }
  
 }

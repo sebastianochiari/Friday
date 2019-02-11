@@ -73,4 +73,12 @@ public interface ShoppingListDAO {
      */
     public void updateEmailShoppingList(int LID, String email);
     
+    public List getShoppingListByUserIDOrCookieID(String email, int cookieID);
+    
+    public List getAllShoppingListEditable(String email);
+    
+    public ShoppingList getRandShoppingList(String email, int cookieID);
+    
+    
+    
 }

@@ -126,14 +126,14 @@
                                                 </form>
                                                 <select class="displayCenter" id="selectedListToChangeProduct" name="selectedListToChangeProduct" form="insertProductServlet${counter}" onchange="submitForm('insertProductServlet${counter}')" style="width: 100%;">
                                                     <option disabled selected>Aggiungi alla lista</option>
-                                                    <c:forEach items="${resultList.rows}" var="lista">
-                                                        <option value="${lista.LID}" name="changeProduct">
-                                                            ${lista.Name}
+                                                    <c:forEach items="${resultList}" var="lista">
+                                                        <option value="${lista[0]}" name="changeProduct">
+                                                            ${lista[1]}
                                                         </option>
                                                     </c:forEach>
-                                                    <c:forEach items="${resultSharingList.rows}" var="listaCondivisa">
-                                                        <option value="${listaCondivisa.LID}" name="changeProduct">
-                                                            ${listaCondivisa.Name}
+                                                    <c:forEach items="${resultSharingList}" var="listaCondivisa">
+                                                        <option value="${listaCondivisa[0]}" name="changeProduct">
+                                                            ${listaCondivisa[1]}
                                                         </option>
                                                     </c:forEach>
                                                 </select>

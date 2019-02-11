@@ -43,6 +43,12 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
     private static final String Delete_Expired_Query = "DELETE FROM lists WHERE list_owner IS NULL AND cookieID IS NULL";
     
+    private static final String Read_Email_CookieID_Query = "SELECT * FROM lists WHERE (List_Owner = ? or CookieID = ?)";
+            
+    private static final String Read_Editable_Query = "SELECT * FROM lists WHERE LID in (SELECT LID FROM sharing WHERE (email = ? && AddRemProd = '1'))";
+            
+    private static final String Read_Random_Query = "SELECT * FROM lists WHERE (List_Owner = ? or CookieID = ?) ORDER BY RAND () LIMIT 1";
+    
     /**
      * Metodo che ritorna tutte le liste della spesa
      * @return ritorna una lista che contiene tutte le liste conenute nel database
@@ -460,6 +466,133 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
                 cse.printStackTrace();
             }
         }
+        
+    }
+
+    @Override
+    public List getShoppingListByUserIDOrCookieID(String email, int cookieID) {
+        
+        List shoppingLists = new ArrayList();
+        ShoppingList shoppingList = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_Email_CookieID_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setInt(2, cookieID);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7));
+                shoppingLists.add(shoppingList);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return shoppingLists;
+
+    }
+
+    @Override
+    public List getAllShoppingListEditable(String email) {
+        List shoppingLists = new ArrayList();
+        ShoppingList shoppingList = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_Editable_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7));
+                shoppingLists.add(shoppingList);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return shoppingLists;
+    }
+
+    @Override
+    public ShoppingList getRandShoppingList(String email, int cookieID) {
+        
+        ShoppingList shoppingList = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_Random_Query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setInt(2, cookieID);
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while (result.next()) {
+                shoppingList = new ShoppingList(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        
+        return shoppingList;
         
     }
     

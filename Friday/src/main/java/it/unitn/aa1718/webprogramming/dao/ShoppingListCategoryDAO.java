@@ -25,7 +25,7 @@ public interface ShoppingListCategoryDAO {
      * @param LCID
      * @return 
      */
-    public ShoppingListCategory getShoppingListCategory(int LID);  
+    public ShoppingListCategory getShoppingListCategory(int LCID);  
     
     /**
      * Metodo che ritorna le categorie di lista in base all'email passata come parametro

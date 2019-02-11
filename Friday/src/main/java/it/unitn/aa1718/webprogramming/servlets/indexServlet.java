@@ -75,20 +75,20 @@ public class indexServlet extends HttpServlet {
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
             String DBDriver = MySQLDAOFactory.getDBDriver();
-            Connection connection = MySQLDAOFactory.createConnection();
 
             (request.getSession()).setAttribute("DBUrlSession", DBUrl);
             (request.getSession()).setAttribute("DBUserSession", DBUser);
             (request.getSession()).setAttribute("DBPassSession", DBPass);
             (request.getSession()).setAttribute("DBDriverSession", DBDriver);
-            (request.getSession()).setAttribute("DBConnection", connection);
 
             Cookie[] cookies = request.getCookies();
 
             DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
             UserDAO riverUserDAO = mySqlFactory.getUserDAO();
             UserDAO userDAO = new MySQLUserDAOImpl();
+            Library library = new Library();
 
+            Connection connection = null;
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
             boolean boolEmailSession = false;
@@ -121,7 +121,7 @@ public class indexServlet extends HttpServlet {
                                 }
 
                                 (request.getSession()).setAttribute("boolEmailSessionScriptlet", boolEmailSession);
-                                (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
+                                (request.getSession()).setAttribute("cookieIDSession", result.getInt("cookieID"));
                                 (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
                                 (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
 
@@ -145,7 +145,7 @@ public class indexServlet extends HttpServlet {
 
                     // START: recupero prodotti casuali
 
-                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
+                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 8;");
                     preparedStatement.execute();
                     result = preparedStatement.getResultSet();
 
@@ -195,6 +195,7 @@ public class indexServlet extends HttpServlet {
                 }
             }
             
+            library.createListIndex(request);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         
     }

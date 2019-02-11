@@ -14,7 +14,7 @@
 <%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>--%>
 <!DOCTYPE html>
 <html lang="it">
 
@@ -131,11 +131,11 @@
                         <h5 style="display: inline-block;">La mia lista</h5>
                         <p style="display: inline-block;">
                             <i>
-                                <c:forEach items="${resultListRand.rows}" var="lista">
-                                    ${lista.Name}
-                                    <c:set var="listaLID" value="${lista.LID}"></c:set>
+                                <c:forEach items="${resultListRand}" var="lista">
+                                    ${lista[1]}
+                                    <c:set var="listaLID" value="${lista[0]}"></c:set>
 
-                                    <sql:query dataSource="${snapshotList}" var="resultProduct" sql="SELECT * FROM products WHERE PID in (SELECT PID FROM product_lists WHERE (LID = '${listaLID}'));"></sql:query>
+                                    <%--<sql:query dataSource="${snapshotList}" var="resultProduct" sql="SELECT * FROM products WHERE PID in (SELECT PID FROM product_lists WHERE (LID = '${listaLID}'));"></sql:query>--%>
                                 </c:forEach>
                             </i>
                         </p>
@@ -144,38 +144,38 @@
                             <div class="card card-body">
                                 <div class="cart-carousel">
 
-                                    <c:forEach items="${resultProduct.rows}" var="Product">
+                                    <c:forEach items="${AllProductInListRand}" var="Product">
                                         <div>
-                                            <a href="#" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct">
-                                                <p>${Product.Name}</p>
-                                            </a>
-                                            <div class="modal fade" id="infoPersonalProduct" tabindex="-1" role="dialog" aria-labelledby="infoPersonalProductLabel" aria-hidden="true">
+                                            <div class="mt-4" id="infoProduct">
+                                                <a href="#infoPersonalProduct${Product[0]}" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct${Product[0]}">
+                                                    <p>${Product[1]}</p>
+                                                </a>
+                                            </div>
+                                            <div class="modal fade" id="infoPersonalProduct${Product[0]}" tabindex="-1" role="dialog" aria-labelledby="infoProduct" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content shadow">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">${Product.Name}</h5>
+                                                            <h5 class="modal-title">${Product[1]}</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <sql:query dataSource="${snapshotList}" var="resultProductOwner" sql="SELECT * FROM users WHERE Email = '${Product.email}';"></sql:query>
+                                                            <%--<sql:query dataSource="${snapshotList}" var="resultProductOwner" sql="SELECT * FROM users WHERE Email = '${Product.email}';"></sql:query>--%>
                                                             <p>
                                                                 <b>Creatore: </b>
-                                                                <c:forEach items="${resultProductOwner.rows}" var="productOwner">
-                                                                    ${productOwner.Name} ${productOwner.Surname}
-                                                                </c:forEach>
+                                                                    ${Product[5]} ${Product[6]}
                                                             </p>
                                                             <p><b>Note aggiuntive: </b>
-                                                                ${Product.Note}
+                                                                ${Product[2]}
                                                             </p>
                                                             <p><b>Immagine del prodotto:</b></p>
-                                                            <img src="images/prodotti/${Product.Photo}" style="width: 100%">
+                                                            <img src="images/prodotti/${Product[4]}" style="width: 100%">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <img class="cart-image" src="images/prodotti/${Product.Photo}">
+                                            <img class="cart-image" src="images/prodotti/${Product[4]}">
                                         </div>
                                     </c:forEach>
                                 </div>

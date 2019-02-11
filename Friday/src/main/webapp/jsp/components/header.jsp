@@ -90,6 +90,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
 
+                             <%--
                             <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
                             <c:set scope="session" var="snapshotList" value="${snapshotList}"></c:set>
                             <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE (List_Owner = '${emailSession}' or CookieID = '${cookieIDSession}');"></sql:query>
@@ -99,23 +100,23 @@
                             <c:set scope="session" var="resultListRand" value="${resultListRand}"></c:set>
                             <c:set scope="session" var="resultList" value="${resultList}"></c:set>
                             <c:set scope="session" var="resultSharingList" value="${resultSharingList}"></c:set>
-                                       
+                             --%>          
                             <form action="handlingListServlet" method="GET">
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste
                                 </button>
                             </form>
                             <form action="handlingListServlet" method="GET">
-                                <c:forEach var="resList" items="${resultList.rows}" >
-                                    <button type="submit" value="${resList.LID}" class="dropdown-item" name="selectedList" >
-                                        ${resList.Name}
+                                <c:forEach var="resList" items="${resultList}" >
+                                    <button type="submit" value="${resList[0]}" class="dropdown-item" name="selectedList" >
+                                        ${resList[1]}
                                     </button>
                                 </c:forEach>
                             </form>
                             <form action="handlingListServlet" method="GET">
-                                <c:forEach var="resSharingList" items="${resultSharingList.rows}" >
-                                    <button type="submit" value="${resSharingList.LID}" class="dropdown-item" name="selectedList" >
-                                        ${resSharingList.Name}
+                                <c:forEach var="resSharingList" items="${resultSharingList}" >
+                                    <button type="submit" value="${resSharingList[0]}" class="dropdown-item" name="selectedList" >
+                                        ${resSharingList[1]}
                                     </button>
                                 </c:forEach>
                             </form>
@@ -151,15 +152,12 @@
             <form autocomplete="off" action="searchServlet" method="GET" style="width: 100%;">
                 <div class="row">
                     <div class="col-md-3 mt-1 nav-col">
-                        <sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
 
-                        <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;">
-                        </sql:query>
 
                         <select name="inputCategory" class="form-control">
                             <option value = "-1" >Tutte le Categorie</option>
-                            <c:forEach var="res" items="${result.rows}" >
-                                <option value="${res.PCID}"> <c:out value="${res.Name}"/> </option>
+                            <c:forEach var="res" items="${productCategories}" >
+                                <option value="${res[0]}"> ${res[1]} </option>
                             </c:forEach>
                         </select>
                     </div>

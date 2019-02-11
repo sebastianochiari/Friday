@@ -6,6 +6,11 @@
 <c:set var="utenteProprietario" value="${utenteProprietario}"></c:set>
 <c:set var="listaCondivisa" value="${listaCondivisa}"></c:set>
 
+<c:if test="${!boolEmailSessionScriptlet}">
+    <c:redirect url="/handlingListServlet?selectedList=0"/>
+</c:if>
+        
+
 <div class="clearfix">
     <div class="float-right">
         <!-- INFORMAZIONI LISTA -->

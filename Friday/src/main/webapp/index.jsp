@@ -69,7 +69,6 @@
                 </div>
                 <div class="float-right">
                     <ul class="header-top-links">
-                        <li><a href="#">Newsletter</a></li>
                         <li><a href="faq.jsp">FAQ</a></li>
                         <c:if test="${!boolEmailSession}">
                             <li><a href="login.jsp">Login</a></li>

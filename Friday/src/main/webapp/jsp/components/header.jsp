@@ -129,7 +129,7 @@
                     <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-envelope shopping-icon"></i>
                     </a>
-                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
+                    <a href="handlingListServlet?selectedList=0" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-shopping-cart shopping-icon"></i>
                     </a>
                     <c:if test="${emailSession ne null}">

@@ -168,7 +168,7 @@
                         <div class="input-group nav-search autocomplete">
                             <input id="myInput" style="max-width: 300px;" class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
                             <div class="input-group-append">
-                                <button type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
+                                <button id="myBtn" type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -214,4 +214,12 @@
     <script type="text/javascript">
         var myVar = [ <%= values.toString() %> ];
         populateVector(myVar);
+    </script>
+
+    <!-- ENTER -->
+
+    <script type="text/javascript" src="js/header.js"></script>
+
+    <script>
+        onEnter("myInput", "myBtn");
     </script>

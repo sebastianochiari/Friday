@@ -245,7 +245,7 @@
                                                 </a>
                                                 </td>
                                             </tr>
-                                            <c:set var="counterSL" value="${counterSL+1}"></c:set>
+                                            <c:set var="counterSL" value="${counterSL + 1}"></c:set>
                                             <c:set var="counterPL" value="${counterPL + 1}"></c:set>
                                         </c:forEach>
                                     </tbody>

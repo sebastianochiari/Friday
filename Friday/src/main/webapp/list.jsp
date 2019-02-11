@@ -146,169 +146,63 @@
 
 <c:forEach items="${prodotto}" var="rigaProdotto">
     <div class="mt-4" id="accordion">
-    <div id="breadcrumb" class="mt-4">
-        <div class="row">
-            <div class="col-md-2">
-                <img class="list-image displayCenter" src="images/prodotti/${rigaProdotto[3]}">
-            </div>
-            <div class="col">
-                
-                <h5>
-                    <div class="mt-4" id="infoProduct">
-                    <%--<a href="#" class="text-link" data-toggle="modal" data-target="#infoPersonalProduct">--%>
-                        <a class="cart-toggle" data-toggle="collapse" href="#infoProduct${rigaProdotto[7]}" role="button" data-target="#infoProduct${rigaProdotto[7]}" aria-expanded="true" aria-controls="infoProduct${rigaProdotto[7]}">
-                        <p>${rigaProdotto[0]}</p>
-                    </a>
-                    </div>
-                </h5>
-                    <%--
-                    <div class="modal fade" id="infoPersonalProduct" tabindex="-1" role="dialog" aria-labelledby="infoPersonalProductLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content shadow">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">${rigaProdotto[0]} </h5> 
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    --%>
-                            <div id="infoProduct${rigaProdotto[7]}" class="collapse pb-4" aria-labelledby="infoProduct" data-parent="#accordion">
-                                <div class="card-body">
-                                    <p>
-                                        <b>Creatore: </b>${rigaProdotto[5]} ${rigaProdotto[8]}
-                                    </p>
-                                    <p>
-                                        <b>Condiviso con: </b>${rigaProdotto[9]}
-                                        
-                                    </p>
-                                    <!-- forse sorgente immagini dei loghi è diverso -->
-                                    <p><b>Marca: </b> <img src="images/loghi/${rigaProdotto[2]}" style="width: 10%"></p>
-                                    <p><b>Note aggiuntive: </b>
-                                        ${rigaProdotto[1]}
-                                    </p>
-                                    <p><b>Immagine del prodotto:</b></p>
-                                    <img src="images/prodotti/${rigaProdotto[3]}" style="width: 80%">
-                                </div>
-                            </div>
-                                <%--
+        <div id="breadcrumb" class="mt-4">
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="list-image displayCenter" src="images/prodotti/${rigaProdotto[3]}">
+                </div>
+                <div class="col">
+                    <h5>
+                        <div class="mt-4" id="infoProduct">
+                            <a class="cart-toggle" data-toggle="collapse" href="#infoProduct${rigaProdotto[7]}" role="button" data-target="#infoProduct${rigaProdotto[7]}" aria-expanded="true" aria-controls="infoProduct${rigaProdotto[7]}">
+                                ${rigaProdotto[0]}
+                            </a>
+                        </div>
+                    </h5>
+                    <div id="infoProduct${rigaProdotto[7]}" class="collapse pb-4" aria-labelledby="infoProduct" data-parent="#accordion">
+                        <div class="card-body">
+                            <img src="images/loghi/${rigaProdotto[2]}" style="width: 50%">
+                            <p class="mt-4">
+                                <b>Creatore: </b>${rigaProdotto[5]} ${rigaProdotto[8]}
+                                <br>
+                                <b>Condiviso con: </b>${rigaProdotto[9]}
+                            </p>
                         </div>
                     </div>
-                                --%>
-                <p class="mt-2 list-product-description">
-                    ${rigaProdotto[1]}
-                    <br>
-                </p>
-            </div>
-            <div class="col-md-4">
-                <div class="float-right">
-                    <div class="qty-input">
-                        <span>Quantità: </span>
-                        ${rigaProdotto[6]}
-                        <form action="insertProductServlet" method="POST" class="inline">
-                            <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
-                            <input type="hidden" value="1" name="scelta">
-                            <button type="submit" title="Diminuisci la quantità" name="changeProduct" value="${rigaProdotto[7]}">
-                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                        <form action="insertProductServlet" method="POST" class="inline">
-                            <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
-                            <input type="hidden" value="3" name="scelta">
-                            <button type="submit" title="Aumenta la quantità" name="changeProduct" value="${rigaProdotto[7]}">
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                        <form action="insertProductServlet" method="POST" class="inline">
-                            <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
-                            <input type="hidden" value="2" name="scelta">
-                            <button type="submit" title="Togli questo prodotto dalla lista" name="changeProduct" value="${rigaProdotto[7]}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
+                    <p class="mt-2 list-product-description">
+                        ${rigaProdotto[1]}                    
+                    </p>
+                </div>
+                <div class="col-md-4 align-self-center">
+                    <div class="float-right">
+                        <div class="qty-input">
+                            <span>Quantità: </span>
+                            ${rigaProdotto[6]}
+                            <form action="insertProductServlet" method="POST" class="inline ml-4">
+                                <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
+                                <input type="hidden" value="1" name="scelta">
+                                <button type="submit" title="Diminuisci la quantità" name="changeProduct" value="${rigaProdotto[7]}">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                            <form action="insertProductServlet" method="POST" class="inline">
+                                <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
+                                <input type="hidden" value="3" name="scelta">
+                                <button type="submit" title="Aumenta la quantità" name="changeProduct" value="${rigaProdotto[7]}">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                            <form action="insertProductServlet" method="POST" class="inline">
+                                <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
+                                <input type="hidden" value="2" name="scelta">
+                                <button type="submit" title="Togli questo prodotto dalla lista" name="changeProduct" value="${rigaProdotto[7]}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </c:forEach>
-
-
-<!-- MESSAGGI CHE BOH -->
-
-
-    <div class="container mt-4">
-
-        <div class="container">
-            <h3 class=" text-center">Messaging</h3>
-            <div class="messaging">
-                  <div class="inbox_msg">
-                    <div class="inbox_people">
-                      <div class="headind_srch">
-                          <h4 align="center">Partecipanti alla Lista</h4>
-                      </div>
-                      <div class="inbox_chat">
-
-                          <c:forEach items="${partecipantiChat}" var="partecipante">
-
-                            <div class="chat_list">
-                                <div class="chat_people">
-                                    <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                                    <div class="chat_ib">
-                                        <h5>${partecipante[1]} ${partecipante[2]}<span class="chat_date">LAMARTAPUZZA</span></h5>
-                                        <p>Ciaone.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                          </c:forEach>
-
-                      </div>
-                    </div>
-                    <div class="mesgs">
-                      <div class="msg_history" id="chat">
-
-                          <c:forEach items="${messaggiChat}" var="messaggio">
-
-                              <c:if test="${emailSession eq messaggio[3]}">
-
-                                  <div class="outgoing_msg">
-                                    <div class="sent_msg">
-                                      <p>${messaggio[2]}</p>
-                                      <span class="time_date">Io</span> </div>
-                                  </div>
-
-
-                              </c:if>
-                              <c:if test="${emailSession ne messaggio[3]}">
-
-                                  <div class="incoming_msg">
-                                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                                    <div class="received_msg">
-                                      <div class="received_withd_msg">
-                                        <p>${messaggio[2]}</p>
-                                        <span class="time_date">${messaggio[0]} ${messaggio[1]}</span></div>
-                                    </div>
-                                  </div>
-
-                              </c:if>
-
-
-                          </c:forEach>
-
-                      </div>
-                        <form action="handlingListServlet" method="GET">
-                            <div class="type_msg">
-                              <div class="input_msg_write">
-                                <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" />
-                                <input type="hidden" name="selectedList" value="${selectedList}" />
-                                <button href="list.js" class="msg_send_btn" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                              </div>
-                            </div>
-                        </form>
-                    </div>
-                  </div>
-
-                </div>
-        </div>

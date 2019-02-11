@@ -123,15 +123,6 @@ public class Library {
     }
     
     /**
-     * Metodo che permette l'invio delle email per la registrazione a Friday ???
-     * @param email stringa email dell'utente
-     * @param name stringa nome dell'utente
-     * @param surname stringa per il cognome dell'utente
-     * @throws AddressException
-     * @throws MessagingException 
-     */
-    
-    /**
      * Metodo che permette il cambiamento dell'email dell'utente
      * @param request
      * @param response
@@ -460,7 +451,7 @@ public class Library {
             
             if (!userDAO.getUser(product.getEmail()).getAdmin()) {
                 userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(prodotto[i][7]));
-                if (userSharedProduct.size()==0 || userSharedProduct.size()>1){
+                if (userSharedProduct.isEmpty() || userSharedProduct.size()>1){
                     prodotto[i][9] = String.valueOf(userSharedProduct.size()) + " utenti";
                 } else {
                     prodotto[i][9] = String.valueOf(userSharedProduct.size()) + " utente";
@@ -635,6 +626,14 @@ public class Library {
         return product;
     }
     
+    /**
+     * Metodo che permette l'invio delle email per la registrazione a Friday ???
+     * @param email stringa email dell'utente
+     * @param name stringa nome dell'utente
+     * @param surname stringa per il cognome dell'utente
+     * @throws AddressException
+     * @throws MessagingException 
+     */
     public static void sendMail (String email, String name, String surname) throws AddressException,MessagingException {
         
         Properties props = new Properties();

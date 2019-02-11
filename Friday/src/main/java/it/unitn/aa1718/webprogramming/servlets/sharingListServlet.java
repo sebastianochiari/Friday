@@ -7,12 +7,14 @@ package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MessageDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMessageDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingProductDAOImpl;
@@ -83,6 +85,7 @@ public class sharingListServlet extends HttpServlet {
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
         ProductListDAO productListDAO = new MySQLProductListDAOImpl();
         SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+        ProductDAO productDAO = new MySQLProductDAOImpl();
         List productList = null;
         Library library = new Library();
         HttpSession session = request.getSession();
@@ -94,7 +97,9 @@ public class sharingListServlet extends HttpServlet {
                 sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
                 productList = productListDAO.getPIDsByLID(listaScelta);
                 for (int i=0; i<productList.size(); i++){
-                    sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
+                    if ((productDAO.getProduct(((ProductList)productList.get(i)).getPID())).getEmail().equals((String)session.getAttribute("emailSession"))){
+                        sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
+                    }
                 }
                 request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
                 break;

@@ -176,7 +176,7 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         
         try {
             connection = MySQLDAOFactory.createConnection();
-            preparedStatement = connection.prepareStatement(Read_Query);
+            preparedStatement = connection.prepareStatement(Read_Product_Shared_Query);
             preparedStatement.setString(1, email);
             preparedStatement.setInt(2, PID);
             preparedStatement.execute();

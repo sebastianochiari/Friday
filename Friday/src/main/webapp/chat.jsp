@@ -50,6 +50,13 @@
 
 <body id="top">
 
+    <c:if test="${!boolEmailSessionScriptlet}">
+            <c:redirect url="/error.jsp"/>
+    </c:if>
+        
+    
+    
+    
     <!-- HEADER -->
     <jsp:include page="jsp/components/header.jsp" />
     

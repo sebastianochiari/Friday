@@ -133,13 +133,14 @@ public class insertUserServlet extends HttpServlet {
                     ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
                     ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
 
-                    int cookieID = (int)session.getAttribute("cookieIDSession");
+                    int cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
                     int cookieLID =  myCookieDAO.getLIDbyCookieID(cookieID);
                     System.out.println("cookie LID = "+cookieLID);
                     shoppingListDAO.updateEmailShoppingList(cookieLID, email);
                     myCookieDAO.updateEmailCookie(cookieID, email);
 
                 }
+
 
                 //dobbiamo trovare un host che funzioni
                 try {
@@ -154,9 +155,11 @@ public class insertUserServlet extends HttpServlet {
 
             }
             
+            
        } else {
             response.sendRedirect("error.jsp");
-       }   
+       }
+        
         
     }
      

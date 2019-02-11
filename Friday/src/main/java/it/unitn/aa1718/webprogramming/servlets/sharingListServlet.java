@@ -100,62 +100,63 @@ public class sharingListServlet extends HttpServlet {
                 break;
             case 3:
                 // questa parte va decisamente rivista, ora come ora dovrebbe essere la chat
-         
-                //inizializzo i DAO e sessione
-                DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-                SharingDAO sharingDAO1 = new MySQLSharingDAOImpl();
-                MessageDAO messageDAO = new MySQLMessageDAOImpl();
-                UserDAO userDAO = new MySQLUserDAOImpl();
-                int listaSelezionata = Integer.parseInt(request.getParameter("messageToList"));
+                {
+                    //inizializzo i DAO e sessione
+                    DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+                    SharingDAO sharingDAO1 = new MySQLSharingDAOImpl();
+                    MessageDAO messageDAO = new MySQLMessageDAOImpl();
+                    UserDAO userDAO = new MySQLUserDAOImpl();
+                    int listaSelezionata = 0;
+                    
+                    //aggiungo messaggi se kjdfauvhdavhb
+                    if(request.getParameter("newMessage") != null){
+                    
+                        Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
+                        messageDAO.createMessage(newMessage);
+                    
+                    
+                    }
 
-                //aggiungo messaggi
-                if(request.getParameter("newMessage") != null){
+                    //ottengo valori
+                    System.out.println(listaSelezionata);
+                    int LID = listaSelezionata;
+                    List partecipanti = sharingDAO.getAllEmailsbyList(LID);
+                    List messaggi = messageDAO.getMessagesByLID(LID);
+                    
+                    
 
-                    Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
-                    messageDAO.createMessage(newMessage);
+                    //salvo i partecipanti in modo da poterli passare alla jsp
+                    String[][] PartecipantiResult = new String[partecipanti.size()][3];
 
+                    for(int i=0; i<partecipanti.size(); i++){
+
+                        User tmp = userDAO.getUser(((Sharing)partecipanti.get(i)).getEmail());
+                        
+                        PartecipantiResult[i][0] = tmp.getAvatar();
+                        PartecipantiResult[i][1] = tmp.getName();
+                        PartecipantiResult[i][2] = tmp.getSurname();
+                        System.out.println(PartecipantiResult[i][0]+" "+PartecipantiResult[i][1]+" "+PartecipantiResult[i][2]);
+                    }
+
+                    //salvo i messaggi in modo da poterli passare alla jsp
+                    String[][] MessaggiResult = new String[messaggi.size()][4];
+
+                    for(int i=0; i<messaggi.size(); i++){
+
+                        Message tmp = (Message)messaggi.get(i);
+
+                        MessaggiResult[i][0] = (userDAO.getUser(tmp.getSender())).getName();
+                        MessaggiResult[i][1] = (userDAO.getUser(tmp.getSender())).getSurname();
+                        MessaggiResult[i][2] = tmp.getText();
+                        MessaggiResult[i][3] = (userDAO.getUser(tmp.getSender())).getEmail();
+                        System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
+
+                    }
+
+                    session.setAttribute("partecipantiChat", PartecipantiResult);
+                    session.setAttribute("messaggiChat", MessaggiResult);
+                    response.sendRedirect("list.jsp");
                 }
-
-                //ottengo valori
-                System.out.println(listaSelezionata);
-                int LID = listaSelezionata;
-                List partecipanti = sharingDAO.getAllEmailsbyList(LID);
-                List messaggi = messageDAO.getMessagesByLID(LID);
-
-                //salvo i partecipanti in modo da poterli passare alla jsp
-                String[][] PartecipantiResult = new String[partecipanti.size()][3];
-
-                for(int i=0; i<partecipanti.size(); i++){
-
-                    User tmp = userDAO.getUser(((Sharing)partecipanti.get(i)).getEmail());
-
-                    PartecipantiResult[i][0] = tmp.getAvatar();
-                    PartecipantiResult[i][1] = tmp.getName();
-                    PartecipantiResult[i][2] = tmp.getSurname();
-                    System.out.println(PartecipantiResult[i][0]+" "+PartecipantiResult[i][1]+" "+PartecipantiResult[i][2]);
-                }
-
-                //salvo i messaggi in modo da poterli passare alla jsp
-                String[][] MessaggiResult = new String[messaggi.size()][4];
-
-                for(int i=0; i<messaggi.size(); i++){
-
-                    Message tmp = (Message)messaggi.get(i);
-
-                    MessaggiResult[i][0] = (userDAO.getUser(tmp.getSender())).getName();
-                    MessaggiResult[i][1] = (userDAO.getUser(tmp.getSender())).getSurname();
-                    MessaggiResult[i][2] = tmp.getText();
-                    MessaggiResult[i][3] = (userDAO.getUser(tmp.getSender())).getEmail();
-                    System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
-
-                }
-
-                session.setAttribute("partecipantiChat", PartecipantiResult);
-                session.setAttribute("messaggiChat", MessaggiResult);
-                session.setAttribute("selectedList", listaSelezionata);
-                request.getRequestDispatcher("chat.jsp").forward(request, response);
-
-             
                 break;
             case 4:
                 listaScelta = Integer.parseInt(request.getParameter("listToEliminate"));

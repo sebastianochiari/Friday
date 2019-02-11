@@ -78,7 +78,6 @@
 
                                     <h4>Gestione database</h4>
                                     <c:if test="${adminUserSession}">
-                                        <c:set var="RedirectAfterProduct" value="${1}" scope="session"></c:set>
                                         <p>
                                             Tramite questa pagina, puoi esercitare i tuoi poteri da <b>admin</b> che Friday ti ha conferito.
                                             <br>

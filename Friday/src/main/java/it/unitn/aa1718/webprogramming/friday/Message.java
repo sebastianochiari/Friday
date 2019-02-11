@@ -40,7 +40,7 @@ public class Message {
     /**
      * Metodo per settare il mittente del messaggio
      */
-    public void setSender(String sender) {        
+    public void setSender() {        
         this.sender = sender;    
     }
     /**
@@ -53,7 +53,7 @@ public class Message {
     /**
      * Metodo che setta la lista associata
      */
-    public void setLID(int LID) {        
+    public void setLID() {        
         this.LID = LID;    
     }
     /**
@@ -66,7 +66,7 @@ public class Message {
     /**
      * Metodo che setta il testo del messaggio
      */
-    public void setText(String Text) {        
+    public void setText() {        
         this.text = text;    
     }
     /**
@@ -79,7 +79,7 @@ public class Message {
     /**
      * Metodo che setta l'ID univoco del messaggio
      */
-    public void setMessageID(int messageID) {        
+    public void setMessageID() {        
         this.messageID = messageID;    
     }
     

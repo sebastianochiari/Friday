@@ -188,30 +188,13 @@
 
     <!-- AUTOCOMPLETAMENTO -->
     
+    <input type="hidden" name="autocomplete" value="${Autocomplete}" id="autocomplete"/>
+    
     <script type="text/javascript" src="js/autocomplete.js"></script>
 
-    <%
-        ProductDAO productDAO = new MySQLProductDAOImpl();
-        List products = productDAO.getAllProducts((String)session.getAttribute("emailSession"));
-
-        String [] productVector = new String [products.size()];
-
-        for (int i = 0; i < products.size(); i++){
-            productVector[i] = ((Product)products.get(i)).getName();
-        }
-
-        StringBuffer values = new StringBuffer();
-        for (int i = 0; i < productVector.length; ++i) {
-            if (values.length() > 0) {
-                values.append(',');
-            }
-            values.append('"').append(productVector[i]).append('"');
-        }
-    %>
-
     <script type="text/javascript">
-        var myVar = [ <%= values.toString() %> ];
-        populateVector(myVar);
+        var autocomplete = [ <%= session.getAttribute("Autocomplete").toString() %>];
+        populateVector(autocomplete);
     </script>
 
     <!-- ENTER -->

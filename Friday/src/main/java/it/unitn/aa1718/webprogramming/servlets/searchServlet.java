@@ -74,6 +74,7 @@ public class searchServlet extends HttpServlet {
         SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
         HttpSession session = request.getSession();
         Library library = new Library();
+        library.createProductCategory(request);
 
         //recupero inputs
         String input = null;

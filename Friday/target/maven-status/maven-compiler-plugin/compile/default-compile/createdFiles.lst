@@ -51,3 +51,7 @@ it\unitn\aa1718\webprogramming\dao\UserDAO.class
 it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.class
 it\unitn\aa1718\webprogramming\dao\ProductDAO.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLProductDAOImpl.class
+<<<<<<< HEAD
+=======
+it\unitn\aa1718\webprogramming\extra\AutocompleteEndpoint.class
+>>>>>>> remozaoacca

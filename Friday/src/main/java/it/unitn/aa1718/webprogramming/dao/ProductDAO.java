@@ -55,7 +55,9 @@ public interface ProductDAO {
      * @param PID intero che rappresenta il prodotto
      * @return oggetto che rappresenta il prodotto
      */
-    public Product getProduct(int PID, String Email);     
+    public Product getProduct(int PID, String Email); 
+
+    public List getRandomProduct(String email);
     
     /**
      * Metodo che crea un prodotto 

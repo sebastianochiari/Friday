@@ -31,7 +31,14 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
             <div class="header-logo float-left">
-                <a href="index.jsp">
+                
+                
+                
+                <a href="http://localhost:8080/Friday/home-page-Friday">
+                
+                    
+                    
+                    
                     <div class="logo-header">
                         <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
                     </div>
@@ -70,9 +77,11 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                             <c:if test="${!boolEmailSession}">
-                                <a class="dropdown-item" href="login.jsp">Il mio account</a>
-                                <a class="dropdown-item" href="login.jsp">Login</a>
-                                <a class="dropdown-item" href="insertUser.jsp">Crea un'account</a>
+                                
+                                <!-- SOSTITUITI CON UGUALE URL... ma redirezionano alla stessa pagina ?!?! -->
+                                <a class="dropdown-item" href="http://localhost:8080/Friday/login-Friday">Il mio account</a>
+                                <a class="dropdown-item" href="http://localhost:8080/Friday/login-Friday">Login</a>
+                                <a class="dropdown-item" href="http://localhost:8080/Friday/registrazione-utente-Friday">Crea un'account</a>
                             </c:if>
                             <c:if test="${boolEmailSession}">
                                 <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>

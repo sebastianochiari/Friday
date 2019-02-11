@@ -41,6 +41,18 @@
 <body id="top">
 
 
+    
+    
+    
+    
+    <!--
+    <script type="text/javascript">
+        window.location.href="http://localhost:8080/Friday/FAQ-Friday";
+    </script>  
+    -->
+    
+    
+    
 <!-- Header -->
         <jsp:include page="jsp/components/header.jsp" />
 

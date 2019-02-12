@@ -163,16 +163,14 @@ public class indexServlet extends HttpServlet {
             
             //System.out.println((request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
             
+            library.recuperoListeUtenteloggato(request, response);
             library.createListIndex(request);
-            
-            
             library.createProductCategory(request);
+            library.createShoppingListCategory(request);
             library.createAutocomplete(request.getSession());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         
-    }
-            
-            
+    }                  
 
     /**
      * Handles the HTTP <code>POST</code> method.

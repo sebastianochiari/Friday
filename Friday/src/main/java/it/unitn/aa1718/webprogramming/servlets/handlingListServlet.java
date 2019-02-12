@@ -78,6 +78,11 @@ public class handlingListServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int selectedList = 0;
         
+        library.recuperoListeUtenteloggato(request, response);
+        library.createListIndex(request);
+        library.createProductCategory(request);
+        library.createShoppingListCategory(request);
+        
         //se lista selezionata, inoltro nella pagina della lista, altrimenti mostro la pagina di gestione delle liste
         
         if(request.getParameter("selectedList") == null){
@@ -97,9 +102,7 @@ public class handlingListServlet extends HttpServlet {
             request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
         } else {
             ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-            System.out.println(" selectedList "+selectedList);
             ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);
-            System.out.println(" shoppingList "+shoppingList);
             ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
             UserDAO userDAO = new MySQLUserDAOImpl();
             SharingDAO sharingDAO = new MySQLSharingDAOImpl();

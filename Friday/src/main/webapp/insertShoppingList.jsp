@@ -8,13 +8,6 @@
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
-
-<sql:setDataSource var="snapshot" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/fridaydb?autoReconnect=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC" user="root" password="root81097"/>
-
-
-<sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM list_categories;">   
-</sql:query>
 
 <c:out value="${changeProduct1}"></c:out>
 
@@ -24,8 +17,8 @@
         <label for="LCID">Scegli la categoria di appartenza del prodotto</label>
         <select name="LCID" class="form-control" required="true">
             <option disabled selected value>Seleziona un'opzione</option>
-            <c:forEach var="res" items="${result.rows}" >
-                <option value="${res.LCID}"> <c:out value="${res.Name}"/> </option>
+            <c:forEach var="res" items="${shoppingListCategories}" >
+                <option value="${res[0]}"> <c:out value="${res[1]}"/> </option>
             </c:forEach>
         </select>
     </div>

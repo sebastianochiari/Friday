@@ -15,7 +15,6 @@
 <!-- @author: Sebastiano Chiari -->
 
 <%@ page import="java.io.*"%>
-<%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="javax.servlet.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
@@ -24,7 +23,6 @@
 <%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
 <head>
     <meta charset="utf-8">
@@ -155,12 +153,12 @@
                             <c:set var="GestioneListe" value="${listaAttiva}"></c:set>
                             <c:if test="${GestioneListe eq 0}">
                                 <h4>Gestione Liste</h4>
-                                <p>
-                                    Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti.
-                                </p>
-                                <p>
-                                    <c:if test="${emailSession ne null || listaAnonimo eq false}">
-                                        Se vuoi creare una nuova lista clicca qui: <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Crea nuova lista</a>
+                                    <p>
+                                        Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti.
+                                    </p>
+                                    <c:if test="${resultListRandExist eq false || boolEmailSessionScriptlet eq true}">
+                                        <p>
+                                            Se vuoi creare una nuova lista clicca qui: <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Crea nuova lista</a>
                                         </p>
                                         <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -178,7 +176,11 @@
                                             </div>
                                         </div>
                                     </c:if>
-                                    
+                                    <c:if test="${resultListRandExist eq true && boolEmailSessionScriptlet eq false}">
+                                        <p>
+                                            Hai raggiunto il numero massimo di liste creabili come utente anonimo, clicca qui per registrarti: <a class="text-link" href="insertUser.jsp">Registrati</a>
+                                        </p>
+                                    </c:if>
 
                                 <h5>
                                     Liste personali

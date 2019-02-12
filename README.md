@@ -10,7 +10,14 @@ The **goal of the project** was to design a system to **manage and share shoppin
 More information can be found in the project specifications (**italian only**) and in the project documentation.
 
 ## Getting started
-Qui vanno aggiunte le informazioni su come settare il database e la connessione a questo per rendere il progetto NetBeans operativo.
+Eseguire database.sql per creare il db (vengono anche importate tutte le entry).
+
+Impostare database con:
+<ul>
+	<li>User: "root"</li>
+	<li>Password: "root81097"</li>
+	<li>Porta Standard: "3306"</li>
+</ul>
 
 ## Group Members
 * [Tommaso Bosetti](https://github.com/tommasobosetti)

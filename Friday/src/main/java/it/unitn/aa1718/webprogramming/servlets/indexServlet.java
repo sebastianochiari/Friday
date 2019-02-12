@@ -167,6 +167,12 @@ public class indexServlet extends HttpServlet {
             System.out.println((request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
             
             library.createListIndex(request);
+            
+            
+            
+            System.out.println("IN INDEXSERVLET" + (request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
+            
+            
             library.createProductCategory(request);
             library.createAutocomplete(request.getSession());
             request.getRequestDispatcher("index.jsp").forward(request, response);

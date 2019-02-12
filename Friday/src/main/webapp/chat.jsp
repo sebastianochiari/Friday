@@ -153,28 +153,6 @@
                             </a> 
                         </h4>
                           <div class="inbox_msg">
-                            <!-- <div class="inbox_people">
-                              <div class="headind_srch">
-                                  <h4 align="center">Partecipanti alla Lista</h4> 
-                              </div>
-                              <div class="inbox_chat">
-                                  
-                                  <c:forEach items="${partecipantiChat}" var="partecipante">
-                                   
-                                    <div class="chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                                            <div class="chat_ib">
-                                                <h5>${partecipante[1]} ${partecipante[2]}<span class="chat_date">LAMARTAPUZZA</span></h5>
-                                                <p>Ciaone.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                                
-                                  </c:forEach>
-                
-                              </div>
-                            </div> -->
                             <div class="mesgs" id="my-chat">
                               <div class="msg_history" id="chat">
                                   
@@ -208,17 +186,43 @@
                                   </c:forEach>
                             
                               </div>
-                                <div class="type_msg">
-                                  <div class="input_msg_write" id="input_message">
+                            <div class="row">
+                                <div class="col-md-4 mt-1 mb-1 align-self-center">
+                                    <div class="displayCenter">
+                                        <input type="hidden" value="Sto andando a fare la spesa, manca qualcosa?" id="buttonMessage1">
+                                        <button class="search-btn" onclick="send('buttonMessage1')">
+                                            Sto andando a fare la spesa, manca qualcosa?
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-1 mb-1 align-self-center">
+                                    <div class="displayCenter">
+                                        <input type="hidden" value="Lista modificata. Guarda cosa ho aggiunto!" id="buttonMessage2">
+                                        <button class="search-btn" onclick="send('buttonMessage2')">
+                                            Lista modificata. Guarda cosa ho aggiunto!
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-1 mb-1 align-self-center">
+                                    <div class="displayCenter">
+                                        <input type="hidden" value="Spesa fatta. Ti puoi rilassare." id="buttonMessage3">
+                                        <button class="search-btn" onclick="send('buttonMessage3')">
+                                            Spesa fatta. Ti puoi rilassare.
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="type_msg">
+                                <div class="input_msg_write" id="input_message">
                                     <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" id="newMessage"/>
                                     <input type="hidden" name="azioneLista" value="${3}" />
                                     <input type="hidden" name="messageToList" value="${listaCorrente[0]}" id="messageToList"/>
                                     <input type="hidden" name="userToList" value="${emailSession}" id="userToList"/>
-                                    <button id="sendMessage" class="msg_send_btn" onclick="send();">
+                                    <button id="sendMessage" class="msg_send_btn" onclick="send('newMessage');">
                                         <i class="fas fa-arrow-up"></i>
                                     </button>
                                   </div>
-                                </div>
+                            </div>
                             </div>
                           </div>
 
@@ -323,8 +327,9 @@
 
         };
 
-        function send() {
-            var content = document.getElementById("newMessage").value;
+        function send(id) {
+            var content = document.getElementById(id).value;
+            console.log(content);
             var json = JSON.stringify({
                 "text":content
             });

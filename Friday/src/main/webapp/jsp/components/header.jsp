@@ -164,11 +164,11 @@
 
                     <div class="col-md-4 mt-1 nav-col">
                         <div class="input-group nav-search autocomplete">
-                            <input id="myInput" style="max-width: 300px;" class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
+                            <input id="myInput" style="width: auto;" class="form-control" type="text" placeholder="Cerca" name="inputSearch" style="border-right: 0px;">
                             <div class="input-group-append">
-                                <button id="myBtn" type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
-                                    <i class="fas fa-search"></i>
-                                </button>
+                                    <button id="myBtn" type="submit" class="btn" type="button" style="border: 1px solid #ced4da; border-left: 0px;">
+                                        <i class="fas fa-search"></i>
+                                    </button>
                             </div>
                         </div>
                     </div>

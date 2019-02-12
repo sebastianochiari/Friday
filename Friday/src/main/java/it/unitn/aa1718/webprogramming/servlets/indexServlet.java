@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
@@ -24,10 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author leo97
- */
+
 public class indexServlet extends HttpServlet {
 
     /**
@@ -59,7 +56,7 @@ public class indexServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET che si occupa della gestione della home-page index.jsp
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -103,7 +100,7 @@ public class indexServlet extends HttpServlet {
 
                         for(int i=0; i<cookies.length; i++){
 
-                            System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
+                            //System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
                             if((cookies[i].getValue()).equals(result.getString("cookieID"))){
 
                                 String emailSession = result.getString("Email");
@@ -164,13 +161,9 @@ public class indexServlet extends HttpServlet {
                 }
             }
             
-            System.out.println((request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
+            //System.out.println((request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
             
             library.createListIndex(request);
-            
-            
-            
-            System.out.println("IN INDEXSERVLET" + (request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
             
             
             library.createProductCategory(request);
@@ -183,7 +176,7 @@ public class indexServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST non implementato
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

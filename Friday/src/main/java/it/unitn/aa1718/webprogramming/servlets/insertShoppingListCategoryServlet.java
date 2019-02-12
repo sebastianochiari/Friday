@@ -64,7 +64,7 @@ public class insertShoppingListCategoryServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     * Metodo GET della servlet che si occupa della creazione di una categoria di lista della spesa e della sua aggiunta al db. In caso di errore si redireziona alla default error page.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

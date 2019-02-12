@@ -23,7 +23,7 @@ public interface SharingDAO {
     /**
      * Metodo che ritorna tutte le liste in base all'email passata
      * @param email stringa passata come parametro 
-     * @return list con tutte le liste condivise ???
+     * @return list con tutte le liste 
      */
     public List getAllListByEmail(String email);
     
@@ -36,30 +36,30 @@ public interface SharingDAO {
     
     /**
      * Metodo che ritorna tutte le persone con la quale è stata condivisa la lista con l'ID specifico
-     * @param LID
-     * @param email
-     * @return 
+     * @param LID intero che identifica una lista specifica
+     * @param email stringa che rappresenta l'email dell'utente
+     * @return istanza di tipo sharing 
      */
     public Sharing getSharing(int LID, String email);  
     
     /**
-     * Metodo che ????
+     * Metodo che crea una lista condivisa
      * @param sharing
-     * @return 
+     * @return stringa che rappresenta l'email del creatore
      */
     public String createSharing(Sharing sharing);
     
     /**
-     * Mmetodo che ??????????
-     * @param sharing
-     * @return 
+     * Mmetodo che permette la modifica di una lista condivisa
+     * @param sharing istanza della lista da modificare
+     * @return booleano che rappresenta la modifica corretta o meno della modifica
      */
     public boolean updateSharing(Sharing sharing);
     
     /**
-     * Metodo che ????????
-     * @param sharing
-     * @return 
+     * Metodo che elimina una lista condivisa
+     * @param sharing istanza della lista di eliminare 
+     * @return booleano che verifica la corretta eliminazione della lista
      */
     public boolean deleteSharing(Sharing sharing);
     

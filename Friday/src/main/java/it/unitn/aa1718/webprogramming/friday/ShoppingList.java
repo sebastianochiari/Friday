@@ -26,7 +26,7 @@ public class ShoppingList {
      * @param image stringa che identifica il nome dell'immagine scelta per rappresentare la lista
      * @param LCID intero che rappresenta la categoria di lista alla quale appartiene la lista
      * @param list_owner stringa che rappresenta il nome dell'utente possessore della lista
-     * @param cookieID intero che rappresenta il cookie associato a ??????????' 
+     * @param cookieID intero che rappresenta il cookie associato all'utente  
      */
     public ShoppingList(int LID, String name, String note, String image, int LCID, String list_owner, int cookieID) {
         super();
@@ -104,7 +104,7 @@ public class ShoppingList {
         this.LCID = LCID;       
     }
     /**
-     * Metodo che ritorna il list Owner della lista
+     * Metodo che ritorna una stringa che rappresenta il list Owner della lista
      * @return stringa che rappresenta il possessore della lista
      */
     public String getListOwner() {           
@@ -117,14 +117,14 @@ public class ShoppingList {
         this.list_owner = list_owner;        
     }
     /**
-     * Metodo che ritorna il cookie  ?????????????
+     * Metodo che ritorna un intero che rappresenta il cookie  dell'utente
      * @return 
      */
     public int getCookieID() {           
         return cookieID;        
     }        
     /**
-     *  ???????????????
+     *  Metodo che setta il cookie dell'utente
      */
     public void setCookieID() {              
         this.cookieID = cookieID;       

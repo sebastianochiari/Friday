@@ -30,7 +30,7 @@ public interface UserDAO {
     /** 
     * Metodo che permette la creazione dell'utente 
      * @param user oggetto di tipo user passato in input per la creazione di un utente con i parametri specifici
-     * @return una stringa che WTF??????????????''
+     * @return una stringa che rappresenta l'email dell'utente creato
      */
     public String createUser(User user);
     
@@ -47,8 +47,8 @@ public interface UserDAO {
     public void updateUserByPassword(User user);
     
     /**
-     * Metodo che verifica la verifica dell'utente ???????
-     * @param email 
+     * Metodo che verifica la conferma dell'utente
+     * @param email id univoco per l'identificazione dell'utente
      */
     public void confirmedUser(String email);
     
@@ -68,7 +68,7 @@ public interface UserDAO {
     /**
      * Metodo che permette il controllo del formato dell'email
      * @param email stringa email da controllare
-     * @return email corretta ???????????????????????????
+     * @return booleano che verifica la correttezza o meno dell'email
      */
     public Boolean checkEmail (String email);
     

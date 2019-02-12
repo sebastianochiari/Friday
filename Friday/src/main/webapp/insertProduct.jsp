@@ -1,7 +1,7 @@
 <%-- 
-    Document   : inserimentoProdotto
-    Created on : 28-set-2018, 11.35.35
-    Author     : leonardo
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>

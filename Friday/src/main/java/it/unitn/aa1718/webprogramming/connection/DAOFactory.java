@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
+
 package it.unitn.aa1718.webprogramming.connection;
 
 import it.unitn.aa1718.webprogramming.dao.*;
@@ -67,7 +68,10 @@ public abstract class DAOFactory {
      */
     public abstract MessageDAO getMessageDAO();
     
-    
+    /**
+     * Metodo che ritorna un DAO per funzioni extra 
+     * @return 
+     */
     public static DAOFactory getDAOFactory() {
         return new MySQLDAOFactory();
     }

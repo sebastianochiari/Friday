@@ -1,7 +1,7 @@
-<%--
-    Document   : confirmRegistration
-    Created on : 11-Nov-2018, 14:49:40
-    Author     : leo97
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>

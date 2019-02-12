@@ -15,14 +15,15 @@ import java.util.List;
 public interface ProductDAO {
     
     /**
-     * Metodo che ritorna tutti i prodotti 
+     * Metodo che ritorna tutti i prodotti dell'utente
+     * @param Email email dell'utente
      * @return lsita con tutti i prodotti
      */
     public List getAllProducts(String Email);
     
     /**
      * Metodo che ritorna i prodotti in base all'email 
-     * @param email stringa che rappresenta una delle email di un utente
+     * @param Email stringa che rappresenta una delle email di un utente
      * @return list di prodotti creati dall'email passata in input
      */
     public List getProductsByEmail(String Email);
@@ -53,16 +54,22 @@ public interface ProductDAO {
     /**
      * Metodo che ritorna un prodotto in base al suo ID univoco
      * @param PID intero che rappresenta il prodotto
+     * @param Email email dell'utente
      * @return oggetto che rappresenta il prodotto
      */
     public Product getProduct(int PID, String Email); 
 
+    /**
+     * Metodo che permette la selezione randomica di una serie di prodotti da mostrare nella home page
+     * @param email id univoco per l'utente
+     * @return lista di prodotti selezionati per l'utente 
+     */
     public List getRandomProduct(String email);
     
     /**
      * Metodo che crea un prodotto 
      * @param product oggetto passato per creare il prodotto
-     * @return stringa contenente l'ID del prodotto ????????
+     * @return stringa contenente l'ID del prodotto 
      */
     public String createProduct(Product product);
     

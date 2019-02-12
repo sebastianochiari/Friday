@@ -127,11 +127,11 @@ public class Library {
     
     /**
      * Metodo che permette il cambiamento dell'email dell'utente
-     * @param request
-     * @param response
-     * @param encrypt
-     * @param library
-     * @param userDAO
+     * @param request request passata per permettere il salvataggio dei parametri
+     * @param response response per passare la risposta
+     * @param encrypt parametro per permettere l'utilizzo di funzioni di hash crittografiche
+     * @param library parametro per l'utilizzo di funzioni specificate
+     * @param userDAO parametro per l'utilizzo di DAO relativi all'utente
      * @param email stringa che rappresenta l'email dell'utente
      * @param name stringa che rappresenta il nome dell'utente 
      * @param surname stringa per il cognome dell'utente
@@ -155,8 +155,8 @@ public class Library {
         
         boolean isOkay = encrypt.checkString(inputNewPassword);
         
-        System.out.println(userDAO.getPasswordByUserEmail(email));
-        System.out.println(previousPasswordEncrypted);
+        //System.out.println(userDAO.getPasswordByUserEmail(email));
+        //System.out.println(previousPasswordEncrypted);
         
         String errorPresentPassword = "errorPresentPassword";
         request.setAttribute("errorPresentPassword", errorPresentPassword);
@@ -181,7 +181,7 @@ public class Library {
             typeError = error;
             request.setAttribute("errorConfirmPassword", typeError);
             
-            System.out.println( "-----Le password non coicidono");
+            //System.out.println( "-----Le password non coicidono");
             request.getRequestDispatcher(changePassword).forward(request, response);
 
         } else {
@@ -191,7 +191,7 @@ public class Library {
             User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
             userDAO.updateUserByEmail(user1);
             
-            System.out.println("ho cambiato la password correttamente");
+            //System.out.println("ho cambiato la password correttamente");
             
             response.sendRedirect("myaccount.jsp");
             
@@ -201,11 +201,11 @@ public class Library {
     
     /**
      * Metodo che permette il cambiamento dell'email dell'utente
-     * @param request
-     * @param response
-     * @param encrypt
-     * @param library
-     * @param userDAO
+     * @param request request passata per permettere il salvataggio dei parametri
+     * @param response response per passare la risposta
+     * @param encrypt parametro per permettere l'utilizzo di funzioni di hash crittografiche
+     * @param library parametro per l'utilizzo di funzioni specificate
+     * @param userDAO parametro per l'utilizzo di DAO relativi all'utente
      * @param dbpassword stringa ritornata dal database che rappresenta la password 
      * @param name stringa che rappresenta il nome dell'utente 
      * @param surname stringa per il cognome dell'utente
@@ -237,7 +237,7 @@ public class Library {
         
         if (!userDAO.checkUser(oldEmail)) {
             
-            System.out.println("questa email non esiste nel database");
+            //System.out.println("questa email non esiste nel database");
             String error = "errorOldEmail";
             typeError = error;
             request.setAttribute("errorOldEmail", typeError);
@@ -245,7 +245,7 @@ public class Library {
             
         } else if(!userDAO.checkEmail(inputNewEmail)) {
             
-            System.out.println("IL FORMATO DI QUESTA EMAIL NON è CORRETTO ");
+            //System.out.println("IL FORMATO DI QUESTA EMAIL NON è CORRETTO ");
             errorInputEmailFormat = "errorInputEmailFormat";
             typeError = errorInputEmailFormat;
             request.setAttribute("errorInputEmail", errorInputEmail);
@@ -265,7 +265,7 @@ public class Library {
             typeError = error;
             request.setAttribute("errorConfirmEmail", typeError);
             
-            System.out.println( "-----Le email non coicidono");
+            //System.out.println( "-----Le email non coicidono");
             request.getRequestDispatcher(changeEmail).forward(request, response);
 
         } else {
@@ -294,8 +294,8 @@ public class Library {
             
             } else {
             
-                System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
-                System.out.println("la password non corrisponde all'email inserita ");
+                //System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
+                //System.out.println("la password non corrisponde all'email inserita ");
                 String error = "errorPassword";
                 typeError = error;
                 request.setAttribute("errorPassword", typeError);
@@ -309,19 +309,19 @@ public class Library {
     
     /**
      * Metodo per cambiare informazioni personali dell'utente come nome, cognome e avatar
-     * @param request
-     * @param response
-     * @param encrypt
-     * @param library
-     * @param userDAO
-     * @param email
-     * @param dbpassword
-     * @param name
-     * @param surname
-     * @param avatar
-     * @param admin
-     * @param list_owner
-     * @param confirmed
+     * @param request request passata per permettere il salvataggio dei parametri
+     * @param response response per passare la risposta
+     * @param encrypt parametro per permettere l'utilizzo di funzioni di hash crittografiche
+     * @param library parametro per l'utilizzo di funzioni specificate
+     * @param userDAO parametro per l'utilizzo di DAO relativi all'utente
+     * @param email string che rappresenta l'ID univoco dell'utente
+     * @param dbpassword stringa che rappresenta la password presente nel database 
+     * @param name stringa che rappresenta il nome dell'utente
+     * @param surname stringa che rappresenta il cognome dell'utente
+     * @param avatar stringa che rappresenta l'avatar dell'utente
+     * @param admin booleano che verifica se l'utente è un admin oppure no
+     * @param list_owner booleano che verifica se è possessore di liste
+     * @param confirmed booleano che verifica se è presente la conferma della registrazione del profilo 
      * @throws ServletException
      * @throws IOException 
      */
@@ -365,18 +365,18 @@ public class Library {
     
     /**
      * Metodo che permette il cambiamento da utente registrato ad admin
-     * @param request
-     * @param response
-     * @param encrypt
-     * @param library
-     * @param userDAO
-     * @param email
-     * @param dbpassword
-     * @param name
-     * @param surname
-     * @param avatar
-     * @param list_owner
-     * @param confirmed
+     * @param request request passata per permettere il salvataggio dei parametri
+     * @param response response per passare la risposta
+     * @param encrypt parametro per permettere l'utilizzo di funzioni di hash crittografiche
+     * @param library parametro per l'utilizzo di funzioni specificate
+     * @param userDAO parametro per l'utilizzo di DAO relativi all'utente
+     * @param email string che rappresenta l'ID univoco dell'utente
+     * @param dbpassword stringa che rappresenta la password presente nel database 
+     * @param name stringa che rappresenta il nome dell'utente
+     * @param surname stringa che rappresenta il cognome dell'utente
+     * @param avatar stringa che rappresenta l'avatar dell'utente
+     * @param list_owner booleano che verifica se è possessore di liste
+     * @param confirmed booleano che verifica se è presente la conferma della registrazione del profilo 
      * @throws ServletException
      * @throws IOException 
      */
@@ -397,8 +397,8 @@ public class Library {
     
     /**
      * Metodo che ritorna il risultato della ricerca effettuata sulla tabella prodotti
-     * @param products
-     * @param productCategoryDAO
+     * @param products lista di prodotti
+     * @param productCategoryDAO istanza passata per permettere l'utilizzo di funzioni DAO in product category
      * @return matrice con i risultati ottenuti in base alla ricerca
      */
     public String[][] getSearchResults(List products, ProductCategoryDAO productCategoryDAO){
@@ -439,7 +439,7 @@ public class Library {
     /**
      * Metodo che ritorna i prodotti della lista passata come parametro
      * @param LID intero identificativo univoco della lista passata come parametro
-     * @param request 
+     * @param request request per permettere il salvataggio di parametri in input presenti in request
      */
     public void prodottiDellaLista(int LID, HttpServletRequest request){
         
@@ -487,8 +487,8 @@ public class Library {
     
     /**
      * Metodo che permette di recuperare le liste che appartengono all'utente che ha effettuato il login
-     * @param request
-     * @param response 
+     * @param request request passata per permettere il salvataggio dei parametri
+     * @param response response per passare la risposta
      */
     public void recuperoListeUtenteloggato(HttpServletRequest request, HttpServletResponse response){
        
@@ -595,40 +595,12 @@ public class Library {
         
     }
     
-    public void autologin(Cookie[] cookies,Vector<MyCookie> DBcookie, HttpSession session){
-        
-        MyCookie loginCookie = null;
-        String emailSession = null;
-        boolean boolEmailSession;
-        
-        for(int j=0; j<DBcookie.size(); j++){
-            for(int i=0; i<cookies.length; i++){
-
-                if((cookies[i].getValue()).equals(DBcookie.get(j).getCookieID())){
-                    
-                    System.out.println(DBcookie.get(j).getCookieID());
-                    
-                    loginCookie = DBcookie.get(j);
-
-                    emailSession = DBcookie.get(j).getEmail();
-                    session.setAttribute("emailSession", emailSession);
-                    session.setAttribute("cookieIDSession", DBcookie.get(j).getCookieID());
-                    session.setAttribute("deadlineSession", DBcookie.get(j).getDeadline());
-                    session.setAttribute("LIDSession", DBcookie.get(j).getLID());
-
-                }
-            }
-        }
-        
-        if (emailSession == null){
-            boolEmailSession = false;
-        } else {
-            boolEmailSession = true;
-        }
-
-        session.setAttribute("boolEmailSessionScriptlet", boolEmailSession);
-    } 
-
+    /**
+     * 
+     * @param product
+     * @param email
+     * @return 
+     */
     public List<Product> togliProdottiNonCondivisi(List<Product> product, String email){
         
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
@@ -649,7 +621,7 @@ public class Library {
     }
     
     /**
-     * Metodo che permette l'invio delle email per la registrazione a Friday ???
+     * Metodo che permette l'invio delle email per la registrazione a Friday 
      * @param email stringa email dell'utente
      * @param name stringa nome dell'utente
      * @param surname stringa per il cognome dell'utente
@@ -689,6 +661,10 @@ public class Library {
         }
     }
     
+    /**
+     * Metodo che crea un attributo di sessione con l'elenco di tutte le categorie di prodotto
+     * @param request 
+     */
     public void createProductCategory(HttpServletRequest request){
         
         HttpSession session = request.getSession();
@@ -716,6 +692,10 @@ public class Library {
     
     }
     
+    /**
+     * Metodo che crea degli attributi utilizzati per la customizzazzione della home page index.jsp
+     * @param request 
+     */
     public void createListIndex(HttpServletRequest request){
     
         HttpSession session = request.getSession();
@@ -750,7 +730,7 @@ public class Library {
                 
                 cookieID = (int)session.getAttribute("cookieIDSession");
                 
-                System.out.println(cookieID+"     "+email);
+                //System.out.println(cookieID+"     "+email);
                 
                 resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
                 
@@ -802,7 +782,7 @@ public class Library {
 
             for(int i=0; i<AllProductInListRand.size(); i++){
                 
-                System.out.println(((ProductList)(AllProductInListRand.get(i))).getPID()+"   "+email);
+                //System.out.println(((ProductList)(AllProductInListRand.get(i))).getPID()+"   "+email);
 
                 tmp1 = productDAO.getProduct(((ProductList)(AllProductInListRand.get(i))).getPID(), email);
                 tmp2 = userDAO.getUser(tmp1.getEmail());
@@ -915,6 +895,10 @@ public class Library {
     
     }
     
+    /**
+     * Metodo che permette la gestione dell'autocompletamento, salvando i prodotti in un vettore  
+     * @param session 
+     */
     public void createAutocomplete(HttpSession session){
         
         ProductDAO productDAO = new MySQLProductDAOImpl();

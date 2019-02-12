@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.extra;
 
@@ -12,13 +12,18 @@ import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 /**
- *
- * @author leo97
+ * Classe che si occupa della gestione della messaggistica
  */
 public class MessageEncoder implements Encoder.Text<Message>{
     
     Gson gson = new Gson();
     
+    /**
+     * Metodo che converte il messaggio da un Java Object in JSON per permetterne l'invio 
+     * @param message messaggio da convertire
+     * @return il messaggio in formato JSON
+     * @throws EncodeException 
+     */
     @Override
     public String encode(Message message) throws EncodeException {
         return gson.toJson(message);

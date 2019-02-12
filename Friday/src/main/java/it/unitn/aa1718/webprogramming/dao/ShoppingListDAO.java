@@ -41,22 +41,31 @@ public interface ShoppingListDAO {
      */
     public List getShoppingListsByCategory(int LCID);
     
+    /**
+     * Metodo che ritorna la lista della spesa dell'utente anonimo
+     * @param CookieID intero che rappresenta il cookie dell'utente anonimo
+     * @return la shopping list specifica dell'utente anonimo
+     */
     public ShoppingList getAnonymusShoppingList(int CookieID);
     
     /**
-     * Metodo che crea una lista della spesa ???
-     * @param shoppingList
-     * @return 
+     * Metodo che crea una lista della spesa 
+     * @param shoppingList istanza della lista della spesa
+     * @return l'ID della lista della spesa
      */
     public String createShoppingList(ShoppingList shoppingList);
     
     /**
      * Metodo che permette la modifica della lista della spesa
-     * @param shoppingList 
-     * @return 
+     * @param shoppingList istanza della lista della spesa da modificare
+     * @return lista della spesa modificata
      */
     public boolean updateShoppingList(ShoppingList shoppingList);
     
+    /**
+     * Metodo che elimina la lista della spesa
+     * @return booleano che determina l'eliminazione della lista della spesa
+     */
     public boolean deleteExpiredShoppingLists();
     
     /**
@@ -67,16 +76,33 @@ public interface ShoppingListDAO {
     public boolean deleteShoppingList(int LID);
     
     /**
-     * Metodo che permette la modifica di una lista della spesa ????
-     * @param LID
-     * @param email 
+     * Metodo che permette la modifica dell'email di una lista della spesa 
+     * @param LID intero che rappresenta l'ID univoco della lista
+     * @param email stringa che rappresenta l'email da modificare
      */
     public void updateEmailShoppingList(int LID, String email);
     
+    /**
+     * Metodo che ritorna la lista della spesa in base all'email dell'utente o cookie dell'utente
+     * @param email stringa che rappresenta l'email dell'utente
+     * @param cookieID intero che rappresenta il cookie dell'utente
+     * @return lista ritornata in base ai parametri passati in input
+     */
     public List getShoppingListByUserIDOrCookieID(String email, int cookieID);
     
+    /**
+     * Metodo che ritorna tutte le liste della spesa 
+     * @param email
+     * @return 
+     */
     public List getAllShoppingListEditable(String email);
     
+    /**
+     * Metodo che ritorna le liste della spesa 
+     * @param email
+     * @param cookieID
+     * @return 
+     */
     public ShoppingList getRandShoppingList(String email, int cookieID);
     
     

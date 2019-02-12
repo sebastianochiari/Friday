@@ -47,7 +47,8 @@ public class MySQLProductDAOImpl implements ProductDAO {
     private static final String Read_Random_Product = "SELECT * FROM products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE PID NOT IN (SELECT PID FROM fridaydb.sharing_products WHERE email = ? GROUP BY PID ORDER BY PID)) order by RAND() LIMIT 8";
     
     /**
-     * Metodo che ritorna tutti i prodotti 
+     * Metodo che ritorna tutti i prodotti dell'utente
+     * @param Email email dell'utente
      * @return lsita con tutti i prodotti
      */
     @Override
@@ -94,7 +95,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     
     /**
      * Metodo che ritorna i prodotti in base all'email 
-     * @param email stringa che rappresenta una delle email di un utente
+     * @param Email stringa che rappresenta una delle email di un utente
      * @return list di prodotti creati dall'email passata in input
      */
     @Override
@@ -191,6 +192,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     /**
      * Metodo che ritorna un prodotto in base al suo ID univoco
      * @param PID intero che rappresenta il prodotto
+     * @param Email email dell'utente
      * @return oggetto che rappresenta il prodotto
      */
     @Override
@@ -237,7 +239,7 @@ public class MySQLProductDAOImpl implements ProductDAO {
     /**
      * Metodo che crea un prodotto 
      * @param product oggetto passato per creare il prodotto
-     * @return stringa contenente l'ID del prodotto ????????
+     * @return stringa contenente l'ID del prodotto 
      */
     @Override
     public String createProduct(Product product) {
@@ -460,6 +462,11 @@ public class MySQLProductDAOImpl implements ProductDAO {
         return products;
     }
 
+    /**
+     * Metodo che permette la selezione randomica di una serie di prodotti da mostrare nella home page
+     * @param email id univoco per l'utente
+     * @return lista di prodotti selezionati per l'utente 
+     */
     @Override
     public List getRandomProduct(String email) {
         

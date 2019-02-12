@@ -176,7 +176,7 @@ public class MySQLProductCategoryDAOImpl implements ProductCategoryDAO {
     /**
      * Metodo che permette la creazione di una categoria di prodotto
      * @param productCategory oggetto passato come parametro per la creazione della categoria di prodotto
-     * @return stringa che rappresenta ?????
+     * @return stringa che rappresenta l'ID della categoria di prodotto
      */
     @Override
     public String createProductCategory(ProductCategory productCategory) {

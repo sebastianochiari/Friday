@@ -162,7 +162,7 @@ public class loginServlet extends HttpServlet {
                         } else {
 
                             cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
-                            Deadline = timestamp.getTime();
+                           
                         }
 
                         int LID = -1;

@@ -154,10 +154,7 @@ public class Library {
         String previousPasswordEncrypted = encrypt.setSecurePassword(previousPassword, email);
         
         boolean isOkay = encrypt.checkString(inputNewPassword);
-        
-        //System.out.println(userDAO.getPasswordByUserEmail(email));
-        //System.out.println(previousPasswordEncrypted);
-        
+               
         String errorPresentPassword = "errorPresentPassword";
         request.setAttribute("errorPresentPassword", errorPresentPassword);
         
@@ -181,7 +178,6 @@ public class Library {
             typeError = error;
             request.setAttribute("errorConfirmPassword", typeError);
             
-            //System.out.println( "-----Le password non coicidono");
             request.getRequestDispatcher(changePassword).forward(request, response);
 
         } else {
@@ -191,7 +187,6 @@ public class Library {
             User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
             userDAO.updateUserByEmail(user1);
             
-            //System.out.println("ho cambiato la password correttamente");
             
             response.sendRedirect("myaccount.jsp");
             
@@ -237,7 +232,6 @@ public class Library {
         
         if (!userDAO.checkUser(oldEmail)) {
             
-            //System.out.println("questa email non esiste nel database");
             String error = "errorOldEmail";
             typeError = error;
             request.setAttribute("errorOldEmail", typeError);
@@ -245,7 +239,6 @@ public class Library {
             
         } else if(!userDAO.checkEmail(inputNewEmail)) {
             
-            //System.out.println("IL FORMATO DI QUESTA EMAIL NON è CORRETTO ");
             errorInputEmailFormat = "errorInputEmailFormat";
             typeError = errorInputEmailFormat;
             request.setAttribute("errorInputEmail", errorInputEmail);
@@ -265,7 +258,6 @@ public class Library {
             typeError = error;
             request.setAttribute("errorConfirmEmail", typeError);
             
-            //System.out.println( "-----Le email non coicidono");
             request.getRequestDispatcher(changeEmail).forward(request, response);
 
         } else {
@@ -288,14 +280,11 @@ public class Library {
 
                 //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
 
-                System.out.println("ho cambiato la email correttamente");
                 
                 response.sendRedirect("myaccount.jsp");
             
             } else {
             
-                //System.out.println("PASSWORD DIVERSE !!!!!!!!!!");
-                //System.out.println("la password non corrisponde all'email inserita ");
                 String error = "errorPassword";
                 typeError = error;
                 request.setAttribute("errorPassword", typeError);
@@ -356,7 +345,6 @@ public class Library {
             User user1 = new User(email, dbpassword, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner, true);
             userDAO.updateUserByEmail(user1);
             
-            System.out.println("name e surname e avatar aggiornati.");
             
             response.sendRedirect("myaccount.jsp");
         }
@@ -389,7 +377,6 @@ public class Library {
         User user1 = new User(email, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner, confirmed);
         userDAO.updateUserByEmail(user1);
 
-        System.out.println("utente è ora amministratore");
 
         response.sendRedirect("adminSection.jsp");
         
@@ -498,7 +485,7 @@ public class Library {
      * @param response response per passare la risposta
      */
     public void recuperoListeUtenteloggato(HttpServletRequest request, HttpServletResponse response){
-       
+               
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         HttpSession session = request.getSession();
         
@@ -570,7 +557,7 @@ public class Library {
                 cookie.setMaxAge(-1);
                 cookieID = Integer.parseInt((String)cookie.getValue());
 
-                Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
+                Long Deadline = (long)0;
 
                 myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
                 session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
@@ -581,9 +568,7 @@ public class Library {
             }
     
             ShoppingList shoppingList = shoppingListDAO.getAnonymusShoppingList(cookieID);
-            System.out.println(" cookieID "+cookieID);
-            System.out.println(" shoppingList "+shoppingList);
-            String[][] ListResult;
+            String[][] ListResult = null;
 
             if(shoppingList != null){
 
@@ -602,33 +587,8 @@ public class Library {
                 
         }
         
-    }
-    
-    /**
-     * 
-     * @param product
-     * @param email
-     * @return 
-     */
-    public List<Product> togliProdottiNonCondivisi(List<Product> product, String email){
         
-        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-        SharingProductDAO sharingProductriverDAO = mySqlFactory.getSharingProductDAO();
-        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
-        
-        
-        
-        if(email == null){
-        
-            List DaTogliere = sharingProductDAO.getAllSharingProduct();
-        
-        
-        }
-        
-    
-        return product;
-    }
-    
+    }    
     /**
      * Metodo che permette l'invio delle email per la registrazione a Friday 
      * @param email stringa email dell'utente
@@ -701,6 +661,33 @@ public class Library {
     
     }
     
+    public void createShoppingListCategory(HttpServletRequest request){
+        
+        HttpSession session = request.getSession();
+        
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        ShoppingListCategoryDAO riverShoppingListCategoryDAO = mySqlFactory.getShoppingListCategoryDAO();
+        ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+        
+        List shoppingListCategories = shoppingListCategoryDAO.getAllShoppingListCategories();
+        
+        //shoppingListCategories
+        ShoppingListCategory tmp = null;
+        String[][] shoppingListCategoriesMatrix = new String[shoppingListCategories.size()][2];
+
+        for(int i=0; i<shoppingListCategories.size(); i++){
+
+            tmp = (ShoppingListCategory)shoppingListCategories.get(i);
+
+            shoppingListCategoriesMatrix[i][0] = Integer.toString(tmp.getLCID());
+            shoppingListCategoriesMatrix[i][1] = tmp.getName();
+            
+        }
+        
+        session.setAttribute("shoppingListCategories", shoppingListCategoriesMatrix);
+    
+    }
+    
     /**
      * Metodo che crea degli attributi utilizzati per la customizzazzione della home page index.jsp
      * @param request 
@@ -708,6 +695,7 @@ public class Library {
     public void createListIndex(HttpServletRequest request){
     
         HttpSession session = request.getSession();
+        
         
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
         ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
@@ -727,31 +715,30 @@ public class Library {
         ShoppingList resultListRand = null;
         
         String email = null;
-        int cookieID;
+        int cookieID = 0;
+        
+        //rihuardare
         
         if(session.getAttribute("emailSession")!=null){
-            
             email = (String)session.getAttribute("emailSession");  
+        } 
             
-            resultSharingList = shoppingListDAO.getAllShoppingListEditable(email);
+        resultSharingList = shoppingListDAO.getAllShoppingListEditable(email);
         
-            if(session.getAttribute("cookieIDSession")!=null){
-                
-                cookieID = (int)session.getAttribute("cookieIDSession");
-                
-                //System.out.println(cookieID+"     "+email);
-                
-                resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
-                
-                if(resultListRand != null){
-                    AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
-                }
-                
-                resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
-            
-            }
+        if(session.getAttribute("cookieIDSession")!=null){
+            cookieID = (int)session.getAttribute("cookieIDSession");
+        }                              
         
+        resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
+                
+        if(resultListRand != null){
+             AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
+             session.setAttribute("resultListRandExist", true);
+        } else {
+            session.setAttribute("resultListRandExist", false);
         }
+                
+        resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
         
         List prodottiRandom = null;
         if(session.getAttribute("emailSession")!=null){
@@ -791,7 +778,6 @@ public class Library {
 
             for(int i=0; i<AllProductInListRand.size(); i++){
                 
-                //System.out.println(((ProductList)(AllProductInListRand.get(i))).getPID()+"   "+email);
 
                 tmp1 = productDAO.getProduct(((ProductList)(AllProductInListRand.get(i))).getPID(), email);
                 tmp2 = userDAO.getUser(tmp1.getEmail());

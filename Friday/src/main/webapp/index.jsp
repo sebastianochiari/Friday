@@ -14,7 +14,6 @@
 <%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>--%>
 <!DOCTYPE html>
 <html lang="it">
 
@@ -123,7 +122,7 @@
                 </div>
                 <!-- END: Carousel -->
 
-                <c:if test="${boolEmailSessionScriptlet eq true}">
+                <c:if test="${resultListRandExist eq true}">
                     <!-- START: personal shopping cart -->
                     <div class="mt-4" id="breadcrumb">
                         <h5 style="display: inline-block;">La mia lista</h5>
@@ -232,7 +231,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <c:if test="${listaAnonimo ne true}">
+                                    <c:if test="${resultListRandExist eq false}">
                                         
                                         <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList${prodottoRand[0]}" style="width: 100%;">
                                             <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi prodotto
@@ -256,7 +255,7 @@
                                         </div>
                                                     
                                     </c:if>
-                                    <c:if test="${listaAnonimo eq true}">
+                                    <c:if test="${resultListRandExist eq true}">
                                         <form action="insertProductServlet" method="POST">
                                             <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
                                             <input type="hidden" value="4" name="scelta">

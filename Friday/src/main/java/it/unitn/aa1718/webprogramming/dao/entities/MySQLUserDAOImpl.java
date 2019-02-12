@@ -355,7 +355,6 @@ public class MySQLUserDAOImpl implements UserDAO {
  
             if (result.next()) {
                 password = result.getString("Password");
-                System.out.println("IN GETPASSWORDBYUSEREMAIL, la password che ritorna dal database è : " + password);
             } 
         } catch (SQLException e) {
             e.printStackTrace();

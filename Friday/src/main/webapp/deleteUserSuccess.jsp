@@ -24,8 +24,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <meta http-equiv='refresh' content='5; login.jsp'>
+        
+        
+        <meta http-equiv='refresh' content='5; index.jsp'>
 
         <title>Friday</title>
 
@@ -63,15 +64,8 @@
             <div class="width-30 displayCenter">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="mt-2">Account attivato</h3>
-                        <p class="mt-4">
-                            <b>Conferma di registrazione ultimata!</b>
-                            <br>
-                            Effettua il <b>login</b> per accedere al magico mondo di <b>Friday</b>!
-                            <br>
-                            <br>
-                            Se entro pochi secondi non verrai ridirezionato, <a class="text-link" href="login.jsp">clicca qui</a>
-                        </p>
+                        <h3 class="mt-2">Account eliminato con successo!</h3>
+                        
                     </div>
                 </div>
             </div>
@@ -106,6 +100,15 @@
         });
         </script>
 
+        
+        <!-- script che non permette la funzione back del browser -->
+        <SCRIPT type="text/javascript">
+            window.history.forward();
+            function noBack() { window.history.forward(); }
+        </SCRIPT>
+        
+        
+        
     </body>
 
 </html>

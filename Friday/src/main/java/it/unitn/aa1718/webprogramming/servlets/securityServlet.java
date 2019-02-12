@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class securityServlet extends HttpServlet {
 
@@ -107,6 +108,19 @@ public class securityServlet extends HttpServlet {
                     
                     if (passHash.equals(dbpassword)) {
                         userDAO.deleteUser(new User(deletingEmail, request.getParameter("deletePassword"), name, surname, avatar, admin, list_owner, confirmed));
+                       
+                        request.getSession().removeAttribute("emailSession");
+                        request.getSession().removeAttribute("boolEmailSessionScriplet");
+                        request.getSession().removeAttribute("nameUserSession");
+                        request.getSession().removeAttribute("surnameUserSession");
+                        request.getSession().removeAttribute("avatarUserSession");
+                        request.getSession().removeAttribute("adminUserSession");
+                        request.getSession().removeAttribute("cookieIDSession");
+                       
+                        
+                        
+                        //VANNO ELIMINATI TUTTI GLI ATTRIBUTI DI SESSIONE QUI!!!!!!!!!!!!!!
+                        response.sendRedirect("deleteUserSuccess.jsp");
                     } else {
                         response.sendRedirect("error.jsp");
                     }

@@ -31,7 +31,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light section-grey">
         <div class="container">
             <div class="header-logo float-left">
-                <a href="index.jsp">
+                <a href="indexServlet">
                     <div class="logo-header">
                         <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
                     </div>

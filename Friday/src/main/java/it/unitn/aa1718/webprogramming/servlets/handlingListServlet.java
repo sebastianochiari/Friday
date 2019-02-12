@@ -6,10 +6,14 @@
 
 package it.unitn.aa1718.webprogramming.servlets;
 
+import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
@@ -76,10 +80,6 @@ public class handlingListServlet extends HttpServlet {
         
         //se lista selezionata, inoltro nella pagina della lista, altrimenti mostro la pagina di gestione delle liste
         
-        System.out.println(" request: "+request.getParameter("selectedList"));
-        System.out.println(" session: "+session.getAttribute("selectedList"));
-        System.out.println("sono passato anche da handlingListServlet");
-        
         if(request.getParameter("selectedList") == null){
             
             if(session.getAttribute("selectedList") != null){
@@ -103,6 +103,8 @@ public class handlingListServlet extends HttpServlet {
             User user = userDAO.getUser(shoppingList.getListOwner());
             SharingDAO sharingDAO = new MySQLSharingDAOImpl();
             List sharing = sharingDAO.getAllEmailsbyList(selectedList);
+            ProductDAO productDAO = new MySQLProductDAOImpl();
+            ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
 
             String [] listaCorrente = new String [5];
             String [] utenteProprietario = new String [5];
@@ -134,6 +136,10 @@ public class handlingListServlet extends HttpServlet {
                 utenteProprietario[3] = "";
                 utenteProprietario[4] = "";
             }
+            
+            //mi salvo i prodotti
+            List products = productDAO.getAllProducts((String)session.getAttribute("emailSession"));
+            session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
             
             session.setAttribute("listaCondivisa", listaCondivisa);            
             session.setAttribute("utenteProprietario", utenteProprietario);            

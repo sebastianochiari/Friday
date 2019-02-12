@@ -750,9 +750,14 @@ public class Library {
                 
                 cookieID = (int)session.getAttribute("cookieIDSession");
                 
+                System.out.println(cookieID+"     "+email);
+                
                 resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
-                AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
-                System.out.println("LID = "+resultListRand.getLID());
+                
+                if(resultListRand != null){
+                    AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
+                }
+                
                 resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
             
             }

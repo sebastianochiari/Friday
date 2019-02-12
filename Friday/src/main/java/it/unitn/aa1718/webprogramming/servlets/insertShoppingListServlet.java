@@ -26,6 +26,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.User;
 
 
@@ -86,6 +87,16 @@ public class insertShoppingListServlet extends HttpServlet {
         int LCID = Integer.parseInt(request.getParameter("LCID"));
         String list_owner = (String)session.getAttribute("emailSession");
         int cookieID = -1;
+        int changeProduct = 0;
+        
+        System.out.println(" sorgente: "+session.getAttribute("sorgente"));
+        System.out.println(" changeProduct1: "+session.getAttribute("changeProduct1"));
+        
+        if (session.getAttribute("sorgente") != null && session.getAttribute("sorgente").equals("creoListaEProdotto")) {
+            changeProduct = Integer.parseInt((String)session.getAttribute("changeProduct1"));
+        }
+        
+        System.out.println(" --------------- " + changeProduct);
         
         
         if(name.length()< 200 && note.length()< 200 && image.length()<500){ 
@@ -130,9 +141,15 @@ public class insertShoppingListServlet extends HttpServlet {
                 userDAO.updateUserByEmail(user);
             }
             
-            request.setAttribute("goodInsertShoppingList", "true");
-            session.setAttribute("selectedList", 0);
-            response.sendRedirect("handlingListServlet");
+            if (changeProduct > 0) {
+                ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+                productListDAO.createProductList(new ProductList(changeProduct, shoppingList.getLID(), 1));
+                response.sendRedirect("handlingListServlet?selectedList="+shoppingList.getLID());
+            } else {
+                request.setAttribute("goodInsertShoppingList", "true");
+                session.setAttribute("selectedList", 0);
+                response.sendRedirect("handlingListServlet");
+            }
             
        } else {
             response.sendRedirect("error.jsp");
@@ -164,7 +181,19 @@ public class insertShoppingListServlet extends HttpServlet {
                 boolean deleted = shoppingListDAO.deleteShoppingList(listToDelete);
         
                 if (deleted){
+                    
+                    if(session.getAttribute("emailSession") != null){
+                        
+                        if(shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession")).isEmpty()) {
+                            session.setAttribute("listaAnonimo", false);
+                            
+                        }
+                    } else {
+                        
+                        session.setAttribute("listaAnonimo", false);
+                    }
                     response.sendRedirect("handlingListServlet?selectedList=0");
+             
                 } else {
                     response.sendRedirect("faq.jsp");
                 };

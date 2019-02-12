@@ -940,8 +940,6 @@ public class Library {
             values.append('"').append(productVector[i]).append('"');
         }
         
-        System.out.println(values.toString());
-        
         session.setAttribute("Autocomplete", values);
     
     }

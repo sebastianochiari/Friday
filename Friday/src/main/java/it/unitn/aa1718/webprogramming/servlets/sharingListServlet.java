@@ -101,7 +101,7 @@ public class sharingListServlet extends HttpServlet {
                         sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
                     }
                 }
-                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+                response.sendRedirect("handlingListServlet?selectedList="+listaScelta);
                 break;
             case 3:
                 // questa parte va decisamente rivista, ora come ora dovrebbe essere la chat
@@ -165,13 +165,23 @@ public class sharingListServlet extends HttpServlet {
             case 4:
                 listaScelta = Integer.parseInt(request.getParameter("listToEliminate"));
                 shoppingListDAO.deleteShoppingList(listaScelta);
-                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+                if(session.getAttribute("emailSession") != null){
+                        
+                    if(shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession")).isEmpty()) {
+                        session.setAttribute("listaAnonimo", false);
+
+                    }
+                } else {
+
+                    session.setAttribute("listaAnonimo", false);
+                };
+                response.sendRedirect("handlingListServlet?selectedList=0");
                 break;
             case 5:
                 listaScelta = Integer.parseInt(request.getParameter("notToShareList"));
                 String emailSession = request.getParameter("emailUtenteLoggato");
                 sharingDAO.deleteSharing(new Sharing(emailSession, listaScelta, sharingDAO.getSharing(listaScelta, emailSession).getModify(), sharingDAO.getSharing(listaScelta, emailSession).getAdd(), sharingDAO.getSharing(listaScelta, emailSession).getDelete()));
-                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+                response.sendRedirect("handlingListServlet?selectedList=0");
                 break;
             default: 
                 response.sendRedirect("error.jsp"); 

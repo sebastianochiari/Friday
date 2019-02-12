@@ -166,7 +166,7 @@
                                                     </c:forEach>
                                                 </select>
                                                 <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList" style="width: 100%;">
-                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi prodotto
                                                 </button>
                                                 <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -178,6 +178,8 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
+                                                                <c:set scope="request" value="${prodotto[0]}" var="changeProduct"></c:set>
+                                                                <c:set scope="request" var="sorgente" value="creoListaEProdotto"></c:set>
                                                                 <jsp:include page="insertShoppingList.jsp" />
                                                             </div>
                                                         </div>

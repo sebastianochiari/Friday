@@ -234,10 +234,10 @@
                                     </div>
                                     <c:if test="${listaAnonimo ne true}">
                                         
-                                        <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList" style="width: 100%;">
-                                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi il prodotto
+                                        <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList${prodottoRand[0]}" style="width: 100%;">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi prodotto
                                         </button>
-                                        <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                        <div class="modal fade" id="addShoppingList${prodottoRand[0]}" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content shadow">
                                                     <div class="modal-header">
@@ -247,8 +247,10 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <c:set value="${prodottoRand[0]}" var="changeProduct"></c:set>
-                                                        <c:set value="4" var="scelta"></c:set>
+                                                        <c:out value="${prodottoRand[0]}"></c:out>
+                                                        <c:set scope="session" value="${prodottoRand[0]}" var="changeProduct1"></c:set>
+                                                        <c:out value="${changeProduct1}"></c:out>
+                                                        <c:set scope="session" var="sorgente" value="creoListaEProdotto"></c:set>
                                                         <jsp:include page="insertShoppingList.jsp" />
                                                     </div>
                                                 </div>

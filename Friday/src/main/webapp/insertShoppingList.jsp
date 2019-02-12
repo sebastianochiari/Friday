@@ -16,6 +16,8 @@
 <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM list_categories;">   
 </sql:query>
 
+<c:out value="${changeProduct1}"></c:out>
+
 <form method="GET" action="insertShoppingListServlet" enctype="multipart/form-data">
     <div class="row form-group">
         <div class="col">

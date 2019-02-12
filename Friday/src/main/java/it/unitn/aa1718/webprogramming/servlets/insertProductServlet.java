@@ -151,7 +151,7 @@ public class insertProductServlet extends HttpServlet {
             String keyListOwner = null;
             int keyCookieID = (int)session.getAttribute("cookieIDSession");
             ShoppingList shoppingList = new ShoppingList(keyLID, keyName, keyNote, keyImage, keyLCID, null, keyCookieID);
-            lista = Integer.parseInt(shoppingListDAO.createShoppingList(shoppingList));
+            lista = shoppingList.getLID();
         } else {
             lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
         }
@@ -184,25 +184,32 @@ public class insertProductServlet extends HttpServlet {
                 productListDAO.updateProductList(productList);
                 break;
             case 4:
-                boolean inList = false;
-                List listaProdotti = productListDAO.getPIDsByLID(lista);
-                if (listaProdotti.isEmpty()){
-                    productList = new ProductList(comando, lista, amount);
-                    productListDAO.createProductList(productList);
-                } else {
-                    for (int i=0; i<listaProdotti.size(); i++) {
-                        if (((ProductList)listaProdotti.get(i)).getPID() == comando){
-                            amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
-                            productList = new ProductList(comando, lista, amount);
-                            productListDAO.updateProductList(productList);
-                            inList = true;
-                        } 
-                    }
-                    if (!inList) {
+                
+                if(session.getAttribute("EmailSession")!=null){
+                    
+                    boolean inList = false;
+                    List listaProdotti = productListDAO.getPIDsByLID(lista);
+                    if (listaProdotti.isEmpty()){
                         productList = new ProductList(comando, lista, amount);
                         productListDAO.createProductList(productList);
-                    };
+                    } else {
+                        for (int i=0; i<listaProdotti.size(); i++) {
+                            if (((ProductList)listaProdotti.get(i)).getPID() == comando){
+                                amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
+                                productList = new ProductList(comando, lista, amount);
+                                productListDAO.updateProductList(productList);
+                                inList = true;
+                            } 
+                        }
+                        if (!inList) {
+                            productList = new ProductList(comando, lista, amount);
+                            productListDAO.createProductList(productList);
+                        }
+                    }
+
+                
                 };
+                
                 
                 break;
             default: 
@@ -210,13 +217,10 @@ public class insertProductServlet extends HttpServlet {
                 break;
         }
         
-        System.out.println(" prima di settare selectedList: ");
         request.setAttribute("goodInsertShoppingList", "true");
         session.setAttribute("selectedList", lista);
         
-        System.out.println(" prima di redirezionare: ");
         response.sendRedirect("handlingListServlet?selectedList="+lista);
-        System.out.println(" dopo di redirezionare: ");
     }
 
     /**

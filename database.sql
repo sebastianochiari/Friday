@@ -71,7 +71,7 @@ CREATE TABLE `list_categories` (
 
 LOCK TABLES `list_categories` WRITE;
 /*!40000 ALTER TABLE `list_categories` DISABLE KEYS */;
-INSERT INTO `list_categories` VALUES (1,'Spesa','La tua lista per la spesa della settimana','spesa.jpg',NULL),(2,'Fai da te','Quando si rompe qualcosa, qui troverai l\'occorrente da comprare','fai-da-te.jpg','qwer@tom.tom'),(3,'Party','La febbre del sabato sera colpisce ancora','party.jpg',NULL),(4,'Scuola','Non far mancare nulla ai tuoi bambini il primo giorno di scuola','scuola.jpg',NULL);
+INSERT INTO `list_categories` VALUES (1,'Spesa','La tua lista per la spesa della settimana','spesa.jpg','sebastianochiari8@gmail.com'),(2,'Fai da te','Quando si rompe qualcosa, qui troverai l\'occorrente da comprare','fai-da-te.jpg','sebastianochiari8@gmail.com'),(3,'Party','La febbre del sabato sera colpisce ancora','party.jpg','sebastianochiari8@gmail.com'),(4,'Scuola','Non far mancare nulla ai tuoi bambini il primo giorno di scuola','scuola.jpg','sebastianochiari8@gmail.com');
 /*!40000 ALTER TABLE `list_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +106,7 @@ CREATE TABLE `lists` (
 
 LOCK TABLES `lists` WRITE;
 /*!40000 ALTER TABLE `lists` DISABLE KEYS */;
-INSERT INTO `lists` VALUES (1,'Spesa','Spesa settimanale','spesa.jpg',1,'mario.rossi@gmail.com',NULL),(2,'Cameretta','Materiale per la stanza di Filippo','fai-da-te.jpg',2,'mario.rossi@gmail.com',NULL),(3,'Scuola','Lista per la scuola','scuola.jpg',4,'tommaso.bosetti@gmail.com',NULL),(4,'Party di compleanno','Lista per la festa a sorpresa di Leonardo','party.jpg',3,'marta.toniolli@gmail.com',NULL),(5,'Sanremo','Festival della canzone italiana','party.jpg',3,'pippo.baudo@rai.tv.it',NULL),(6,'Spesa','IMPORTANTE: comprare il latte','spesa.jpg',1,'giorgiosgl@gmail.com',NULL);
+INSERT INTO `lists` VALUES (1,'Spesa','Spesa settimanale','spesa.jpg',1,'sebastiano.chiari@gmail.com',NULL),(2,'Cameretta','Materiale per la stanza di Filippo','fai-da-te.jpg',2,'sebastiano.chiari@gmail.com',NULL),(3,'Scuola','Lista per la scuola','scuola.jpg',4,'tommaso.bosetti@gmail.com',NULL),(4,'Party di compleanno','Lista per la festa a sorpresa di Leonardo','party.jpg',3,'marta.toniolli@gmail.com',NULL),(5,'Sanremo','Festival della canzone italiana','party.jpg',3,'pippo.baudo@rai.tv.it',NULL),(6,'Spesa','IMPORTANTE: comprare il latte','spesa.jpg',1,'giorgiosgl@gmail.com',NULL);
 /*!40000 ALTER TABLE `lists` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +311,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('aaa@cercasi.cercasi','bad762b4162f40eae2c909cd2833bbc0309978561d1297edb2121185322132cb','Donne','DuDuDu',NULL,0,1,1),('britney.spears@hotmail.it','5d80e63deaaf1ade33b19e461ace5f834437f2facc730a5adc54993a84717c83','Britney','Spears','8.png',0,0,1),('gianni.morandi@alice.it','dd68750e8d21ae8969f915b91cef0c1270b9812ec73bbad42167f95478704952','Gianni','Morandi','4.png',0,0,1),('giorgiosgl@gmail.com','3da3992c261db7ad508953c4d7e2701b508938602c7783eaec9e0d59b492c827','Giorgio','Segalla','icon3.png',0,1,1),('giovanni.muciacia@gmail.com','9eb6d03c2edd963e630f47bd56ba59842bc4747e16c9a49aa7612551c919874f','Giovanni','Muciacia','icon0.png',0,0,1),('leonardoremondini@gmail.com','f7aa6cd779253cb7c2667ae445adff94d83f4a63afb936a53cacec54b723dee3','Leonardo','Remondini','1.png',0,0,1),('mario.rossi@gmail.com','78ebe632b71561489197ba9365c6538e6a289f65ac21a3abae62554893f515a1','Mario','Rossi','4.png',0,1,1),('marta.toniolli@gmail.com','2968ae57208de4b49068a417d520548eb9ecde4aca3bdfe08b6505c125ecbae2','Marta','Toniolli','10.png',0,1,1),('pippo.baudo@rai.tv.it','c82dd4d1b85f0c5f6fd107f5de65b4dd25d265812e504aca67d3356f9e0f40dd','Pippo','Baudo','5.png',0,1,1),('qwer@tom.tom','d0bb76a550b87bd9ec2e8aefbe838948b9d5c63915c01912cb5a3127577ce779','Ariana','Grande',NULL,0,0,1),('romeocarta@yahoo.it','458bf0271edb299f64beeb23e43232abcdc62dc8daaec0233931cea8d91ae9d9','Romeo','Carta','2.png',0,0,1),('sebastianochiari8@gmail.com','passw0rd','Sebastiano','Chiari',NULL,1,0,1),('tommaso.bosetti@gmail.com','fddffb3bb70a1961e98fa80f0a30158915db6387b6d23646662301dec5b5d3a1','Tommaso','Bosetti','3.png',1,1,1);
+INSERT INTO `users` VALUES ('aaa@cercasi.cercasi','bad762b4162f40eae2c909cd2833bbc0309978561d1297edb2121185322132cb','Donne','DuDuDu',NULL,0,1,1),('britney.spears@hotmail.it','5d80e63deaaf1ade33b19e461ace5f834437f2facc730a5adc54993a84717c83','Britney','Spears','8.png',0,0,1),('gianni.morandi@alice.it','dd68750e8d21ae8969f915b91cef0c1270b9812ec73bbad42167f95478704952','Gianni','Morandi','4.png',0,0,1),('giorgiosgl@gmail.com','3da3992c261db7ad508953c4d7e2701b508938602c7783eaec9e0d59b492c827','Giorgio','Segalla','icon3.png',0,1,1),('giovanni.muciacia@gmail.com','9eb6d03c2edd963e630f47bd56ba59842bc4747e16c9a49aa7612551c919874f','Giovanni','Muciacia','icon0.png',0,0,1),('leonardoremondini@gmail.com','f7aa6cd779253cb7c2667ae445adff94d83f4a63afb936a53cacec54b723dee3','Leonardo','Remondini','1.png',0,0,1),('marta.toniolli@gmail.com','2968ae57208de4b49068a417d520548eb9ecde4aca3bdfe08b6505c125ecbae2','Marta','Toniolli','10.png',0,1,1),('pippo.baudo@rai.tv.it','c82dd4d1b85f0c5f6fd107f5de65b4dd25d265812e504aca67d3356f9e0f40dd','Pippo','Baudo','5.png',0,1,1),('qwer@tom.tom','d0bb76a550b87bd9ec2e8aefbe838948b9d5c63915c01912cb5a3127577ce779','Ariana','Grande',NULL,0,0,1),('romeocarta@yahoo.it','458bf0271edb299f64beeb23e43232abcdc62dc8daaec0233931cea8d91ae9d9','Romeo','Carta','2.png',0,0,1),('sebastiano.chiari@gmail.com','d9ca43d142e06c25ae462892515b7d5787d3b71e582c92cc0286a75cc25b00ab','Sebastiano','Chiari','icon1.png',0,1,1),('sebastianochiari8@gmail.com','passw0rd','Sebastiano','Chiari',NULL,1,0,1),('tommaso.bosetti@gmail.com','fddffb3bb70a1961e98fa80f0a30158915db6387b6d23646662301dec5b5d3a1','Tommaso','Bosetti','3.png',1,1,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -324,4 +324,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-12 23:06:12
+-- Dump completed on 2019-02-12 23:41:40

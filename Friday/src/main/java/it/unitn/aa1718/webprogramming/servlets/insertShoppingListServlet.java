@@ -102,7 +102,7 @@ public class insertShoppingListServlet extends HttpServlet {
 
             } else {
 
-                cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+                cookieID = (int)session.getAttribute("cookieIDSession");
                 shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
                 shoppingListDAO.createShoppingList(shoppingList);
                 
@@ -128,7 +128,7 @@ public class insertShoppingListServlet extends HttpServlet {
             
             request.setAttribute("goodInsertShoppingList", "true");
             session.setAttribute("selectedList", 0);
-            request.getRequestDispatcher("handlingListServlet").forward(request, response);
+            response.sendRedirect("handlingListServlet");
             
        } else {
             response.sendRedirect("error.jsp");

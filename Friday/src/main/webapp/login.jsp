@@ -38,7 +38,7 @@
     <div class="container">
 
         <!-- LOGO Friday -->
-        <a href="index.jsp">
+        <a href="indexServlet">
             <div class="logo-header">
                 <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
             </div>

@@ -306,21 +306,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
             preparedStatement.setInt(5, shoppingList.getLCID());    
             
             preparedStatement.execute();
-            result = preparedStatement.getResultSet();
- 
-            if (result.next() && result != null) {
-                return result.getString("LID");
-            } else {
-                return null;
-            }
+           
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                result.close();
-            } catch (Exception rse) {
-                rse.printStackTrace();
-            }
             try {
                 preparedStatement.close();
             } catch (Exception sse) {

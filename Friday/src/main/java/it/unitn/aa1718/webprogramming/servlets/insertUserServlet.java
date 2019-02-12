@@ -92,11 +92,14 @@ public class insertUserServlet extends HttpServlet {
 
             if(!userDAO.checkEmail(email)){
 
-                response.sendRedirect("index.jsp");
+                String error = "emailError";
+                typeError = error;
+                request.setAttribute("errorEmail", typeError);
+                request.getRequestDispatcher(registerForm).forward(request, response);
 
             } else if (userDAO.checkUser(email)) {
 
-                String error = "emailError";
+                String error = "alreadyExistEmail";
                 typeError = error;
                 request.setAttribute("errorEmail", typeError);
                 request.getRequestDispatcher(registerForm).forward(request, response);

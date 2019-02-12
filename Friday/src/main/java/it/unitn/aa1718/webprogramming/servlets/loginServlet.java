@@ -184,7 +184,7 @@ public class loginServlet extends HttpServlet {
                         System.out.println("Bentornato amico! il tuo ID è "+ myCookie.getCookieID()+"\n");
                     }
 
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("indexServlet");
 
                 } else {
 

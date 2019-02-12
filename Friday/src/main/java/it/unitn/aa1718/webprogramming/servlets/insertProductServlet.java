@@ -149,7 +149,7 @@ public class insertProductServlet extends HttpServlet {
             // soluzione pessima, ma non avevo tempo di pensare a un altro modo complicato per ricavare un LCID valido
             int keyLCID = shoppingListCategoryDAO.getShoppingListCategory(1).getLCID();
             String keyListOwner = null;
-            int keyCookieID = Integer.parseInt((String) session.getAttribute("cookieIDSession"));
+            int keyCookieID = (int)session.getAttribute("cookieIDSession");
             ShoppingList shoppingList = new ShoppingList(keyLID, keyName, keyNote, keyImage, keyLCID, null, keyCookieID);
             lista = Integer.parseInt(shoppingListDAO.createShoppingList(shoppingList));
         } else {
@@ -215,7 +215,7 @@ public class insertProductServlet extends HttpServlet {
         session.setAttribute("selectedList", lista);
         
         System.out.println(" prima di redirezionare: ");
-        request.getRequestDispatcher("handlingListServlet").forward(request, response);
+        response.sendRedirect("handlingListServlet?selectedList="+lista);
         System.out.println(" dopo di redirezionare: ");
     }
 

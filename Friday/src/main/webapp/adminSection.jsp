@@ -1,3 +1,9 @@
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -40,6 +46,11 @@
 
     <body id="top">
 
+        <c:if test="${!boolEmailSessionScriptlet}">
+            <c:redirect url="/error.jsp"/>
+        </c:if>
+        
+        
         <!-- HEADER -->
         <jsp:include page="jsp/components/header.jsp" />
 
@@ -78,6 +89,7 @@
 
                                     <h4>Gestione database</h4>
                                     <c:if test="${adminUserSession}">
+                                        <c:set var="RedirectAfterProduct" value="${1}" scope="session"></c:set>
                                         <p>
                                             Tramite questa pagina, puoi esercitare i tuoi poteri da <b>admin</b> che Friday ti ha conferito.
                                             <br>

@@ -1,7 +1,7 @@
-<%--
-    Document   : error
-    Created on : 19-ott-2018, 9.28.16
-    Author     : sebastiano
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
@@ -38,7 +38,7 @@
     <div class="container">
 
         <!-- LOGO Friday -->
-        <a href="index.jsp">
+        <a href="indexServlet">
             <div class="logo-header">
                 <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
             </div>
@@ -51,7 +51,7 @@
                 <br>
                 Abbiamo sguinzagliato i nostri migliori segugi per scovare il problema.
             </p>
-            <p>Nel frattempo, per ritornare all'home page, <a href="index.jsp" class="text-link">clicca qui</a>.</p>
+            <p>Nel frattempo, per ritornare all'home page, <a href="indexServlet" class="text-link">clicca qui</a>.</p>
         </div>
     </div>
 

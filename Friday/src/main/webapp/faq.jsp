@@ -1,8 +1,9 @@
 <%-- 
-    Document   : faq.jsp
-    Created on : 23-nov-2018, 10.36.55
-    Author     : marta
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
+
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -63,7 +64,13 @@
                 <br>
                 Grazie a <b>Friday</b>, potrai gestire le tue liste della spesa e avere sempre a portata di mano tutto ciò che ti serve per districarti non solo nel labirinto del tuo supermercato preferito, ma anche tra gli scaffali di una ferramenta, o nelle fila di un vivaio. <b>Crea la tua lista personalizzata</b>, aggiungi gli elementi che necessitano di essere comprati, <b>condividi</b> le tue liste <b>con gli amici</b> per organizzare il party del secolo. <b>Con Friday, non mancherà più niente perché ti ricorderai sempre cosa ti serve e cosa no</b>.
                 <br>
-                Prova Friday, <a class="text-link" href="register.html"><b>crea il tuo account</b></a> <b>gratuitamente</b>
+                Prova Friday,
+                
+                    <c:if test="${!boolEmailSessionScriptlet}">
+                        <a class="text-link" href="login.jsp"><b>crea il tuo account</b></a> <b>gratuitamente</b>
+                    </c:if>
+            
+                    
             </p>
 
             <br>

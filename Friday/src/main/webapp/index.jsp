@@ -1,7 +1,7 @@
-<%--
-    Document   : index
-    Created on : 19-ott-2018, 10.35.28
-    Author     : marta & remo
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,9 +12,9 @@
 <%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.dao.friday.*"%>
+<%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>--%>
 <!DOCTYPE html>
 <html lang="it">
 
@@ -53,127 +53,6 @@
     </head>
 
     <body id="top">
-        
-<%
-
-            String DBUrl = MySQLDAOFactory.getDBUrl();
-            String DBUser = MySQLDAOFactory.getDBUser();
-            String DBPass = MySQLDAOFactory.getDBPass();
-            String DBDriver = MySQLDAOFactory.getDBDriver();
-
-            (request.getSession()).setAttribute("DBUrlSession", DBUrl);
-            (request.getSession()).setAttribute("DBUserSession", DBUser);
-            (request.getSession()).setAttribute("DBPassSession", DBPass);
-            (request.getSession()).setAttribute("DBDriverSession", DBDriver);
-
-            Cookie[] cookies = request.getCookies();
-            
-            DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-            UserDAO riverUserDAO = mySqlFactory.getUserDAO();
-            UserDAO userDAO = new MySQLUserDAOImpl();
-            
-            Connection connection = null;
-            PreparedStatement preparedStatement = null;
-            ResultSet result = null;
-            boolean boolEmailSession = false;
-
-            try {
-                connection = MySQLDAOFactory.createConnection();
-                preparedStatement = connection.prepareStatement("SELECT * FROM cookies;");
-                preparedStatement.execute();
-                result = preparedStatement.getResultSet();
-
-                if(cookies != null){
-
-                    while (result.next()) {
-
-                        for(int i=0; i<cookies.length; i++){
-
-                            System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
-                            if((cookies[i].getValue()).equals(result.getString("cookieID"))){
-
-                                String emailSession = result.getString("Email");
-                              
-                                if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
-                               
-                                    boolEmailSession = false;
-                                } else {
-                                    (request.getSession()).setAttribute("emailSession", emailSession);
-                                    (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
-                                    (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
-                                    (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
-                                    boolEmailSession = true;
-                                }
-
-                                (request.getSession()).setAttribute("boolEmailSessionScriptlet", boolEmailSession);
-
-                            }
-                        }
-                    }
-
-                    preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE Email = ?;");
-                    preparedStatement.setString(1, (String)(request.getSession()).getAttribute("emailSession"));
-                    preparedStatement.execute();
-                    result = preparedStatement.getResultSet();
-
-                    while (result.next()) {
-                        (request.getSession()).setAttribute("nameUserSession", result.getString("Name"));
-                        (request.getSession()).setAttribute("surnameUserSession", result.getString("Surname"));
-                        (request.getSession()).setAttribute("avatarUserSession", result.getString("Avatar"));
-                        (request.getSession()).setAttribute("adminUserSession", result.getBoolean("Admin"));
-                        (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
-                        (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
-                    }
-                    
-                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
-                    preparedStatement.execute();
-                    result = preparedStatement.getResultSet();
-                    
-                    result.last();
-                    
-                    String [][] prodottiRand = new String [result.getRow()][6];
-                    
-                    result.beforeFirst();
-                    
-                    int i = 0;
-                    
-                    while (result.next()) {
-                        prodottiRand [i][0] = result.getString("PID");
-                        prodottiRand [i][1] = result.getString("Name");
-                        prodottiRand [i][2] = result.getString("Note");
-                        prodottiRand [i][3] = result.getString("Logo");
-                        prodottiRand [i][4] = result.getString("Photo");
-                        prodottiRand [i][5] = result.getString("PCID");
-                        
-                        i++;
-                    }
-                    
-                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
-                    
-
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    result.close();
-                } catch (Exception rse) {
-                    rse.printStackTrace();
-                }
-                try {
-                    preparedStatement.close();
-                } catch (Exception sse) {
-                    sse.printStackTrace();
-                }
-                try {
-                    connection.close();
-                } catch (Exception cse) {
-                    cse.printStackTrace();
-                }
-            }
-
-        %>
 
         <!-- START: topHeader -->
         <nav id="breadcrumb" class="navbar">
@@ -190,7 +69,6 @@
                 </div>
                 <div class="float-right">
                     <ul class="header-top-links">
-                        <li><a href="#">Newsletter</a></li>
                         <li><a href="faq.jsp">FAQ</a></li>
                         <c:if test="${!boolEmailSession}">
                             <li><a href="login.jsp">Login</a></li>
@@ -220,7 +98,7 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <a href="insertUser.jsp">
-                            <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="Second slide">
+                            <img class="d-block w-100" src="images/crea-account-friday.jpg" alt="First slide">
                         </a>
                         </div>
                         <div class="carousel-item">
@@ -245,60 +123,155 @@
                 </div>
                 <!-- END: Carousel -->
 
-                <!-- START: personal shopping cart -->
-                <form action="insertProductServlet" method="POST">
-                    <div id="breadcrumb" class="mt-4">
-                    
+                <c:if test="${boolEmailSessionScriptlet eq true}">
+                    <!-- START: personal shopping cart -->
+                    <div class="mt-4" id="breadcrumb">
                         <h5 style="display: inline-block;">La mia lista</h5>
-                        <p style="display: inline-block;">
+                        <h5 style="display: inline-block;">
                             <i>
-                                <select name="selectedListToChangeProduct" class="form-group-sm">
-                                    <c:forEach items="${ListUserSession}" var="lista">
-                                        <option value="${lista[1]}">
-                                            ${lista[0]}
-                                        </option>
-                                    </c:forEach>
-                                    <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
-                                        <option value="${listaCondivisa[1]}">
-                                            ${listaCondivisa[0]}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                                <input type="hidden" value="4" name="scelta">
+                                <c:forEach items="${resultListRand}" var="lista">
+                                    <a href="handlingListServlet?selectedList=${lista[0]}">
+                                        ${lista[1]}
+                                    </a>
+                                    <c:set var="listaLID" value="${lista[0]}"></c:set>
+                                </c:forEach>
                             </i>
-                        </p>
+                        </h5>
                         <a class="cart-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
                         <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                <div class="cart-carousel">
-                                    <c:forEach items="${resultSearch}" var="prodotto">
-                                        <div>
-                                            <img class="cart-image" src="images/prodotti/${prodotto[4]}">
-                                            <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodotto[0]}" class="btn std-button displayCenter">
-                                                Aggiungi alla lista
-                                            </button>
+                            <div class="row">
+                                <c:forEach items="${AllProductInListRand}" var="Product">
+                                    <div class="col-md-3">
+                                        <div class="product product-single">
+                                            <div class="product-thumb">
+                                                <div class="product-label">
+                                                    <span>${Product[7]}</span>
+                                                </div>
+                                                <a href="#" data-toggle="modal" data-target="#infoProduct${Product[0]}">
+                                                    <img src="images/prodotti/${Product[4]}" style="padding: 1rem;" alt="">
+                                                </a>
+                                                <div class="modal fade" id="infoProduct${Product[0]}" tabindex="-1" role="dialog" aria-labelledby="infoProductLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content shadow">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">${Product[1]}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p><b>Descrizione: </b>
+                                                                    ${Product[2]}
+                                                                </p>
+                                                                <p><b>Creatore: </b>${Product[5]} ${Product[6]}</p>
+                                                                <p><b>Condiviso con:  </b>${Product[8]}</p>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <img src="images/prodotti/${Product[4]}" style="width: 100%">
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <img src="images/loghi/${Product[3]}" style="width: 100%">
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </c:forEach>
-                                </div>
+                                    </div>
+                                </c:forEach>
                             </div>
                         </div>
                     </div>
-                <!-- END: personal shopping cart -->
+                    <!-- END: personal shopping cart -->
+                </c:if>
+                
+                
+                <!-- START: prodotti scelti per te -->
+                <div class="mt-4">
+                    <h5>Prodotti scelti per te</h5>
+                    <div class="row">
+                        <c:forEach items="${prodottiRand}" var="prodottoRand">
+                            <div class="col-md-3">
+                                <div class="product product-single">
+                                    <div class="product-thumb">
+                                        <div class="product-label">
+                                            <span>${prodottoRand[5]}</span>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#infoProduct${prodottoRand[0]}">
+                                            <img src="images/prodotti/${prodottoRand[4]}" style="padding: 1rem;" alt="">
+                                        </a>
+                                        <div class="modal fade" id="infoProduct${prodottoRand[0]}" tabindex="-1" role="dialog" aria-labelledby="infoProductLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">${prodottoRand[1]}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p><b>Descrizione: </b>
+                                                            ${prodottoRand[2]}
+                                                        </p>
+                                                        <p><b>Creatore: </b>${prodottoRand[6]} ${prodottoRand[7]}</p>
+                                                        <p><b>Condiviso con:  </b>${prodottoRand[8]}</p>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <img src="images/prodotti/${prodottoRand[4]}" style="width: 100%">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <img src="images/loghi/${prodottoRand[3]}" style="width: 100%">
+                                                            </div>
+                                                        </div>
 
-                    <div class="mt-4">
-                        <h5>Prodotti scelti per te</h5>
-                        <div class="cart-carousel">
-                            <c:forEach items="${prodottiRand}" var="prodottoRand">
-                                <div>
-                                    <img class="cart-image" src="images/prodotti/${prodottoRand[4]}">
-                                    <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn std-button displayCenter">
-                                        Aggiungi alla lista
-                                    </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <c:if test="${listaAnonimo ne true}">
+                                        
+                                        <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList${prodottoRand[0]}" style="width: 100%;">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi prodotto
+                                        </button>
+                                        <div class="modal fade" id="addShoppingList${prodottoRand[0]}" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <c:set scope="session" value="${prodottoRand[0]}" var="changeProduct"></c:set>
+                                                        <c:set scope="session" var="sorgente" value="creoListaEProdotto"></c:set>
+                                                        <jsp:include page="insertShoppingList.jsp" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                    
+                                    </c:if>
+                                    <c:if test="${listaAnonimo eq true}">
+                                        <form action="insertProductServlet" method="POST">
+                                            <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
+                                            <input type="hidden" value="4" name="scelta">
+                                            <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn search-btn mt-1 displayCenter">
+                                                Aggiungi alla lista
+                                            </button>
+                                        </form>
+                                    </c:if>
                                 </div>
-                            </c:forEach>
-                        </div>
-                    </div> 
-                </form>
+                            </div>
+                        </c:forEach>
+                    </div>
+                
+                </div>
+                <!-- END: prodotti scelti per te -->
 
             </div>
 

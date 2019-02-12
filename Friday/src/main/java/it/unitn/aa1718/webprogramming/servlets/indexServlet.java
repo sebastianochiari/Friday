@@ -1,34 +1,30 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory;
-import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
-import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author leo97
- */
+
 public class indexServlet extends HttpServlet {
 
     /**
@@ -60,7 +56,7 @@ public class indexServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET che si occupa della gestione della home-page index.jsp
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -68,11 +64,7 @@ public class indexServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            
-            (request.getSession()).setAttribute("emailSession", null);
-            (request.getSession()).setAttribute("cookieIDSession", null);
-            (request.getSession()).setAttribute("nameUserSession", null);
-
+        
             String DBUrl = MySQLDAOFactory.getDBUrl();
             String DBUser = MySQLDAOFactory.getDBUser();
             String DBPass = MySQLDAOFactory.getDBPass();
@@ -84,6 +76,13 @@ public class indexServlet extends HttpServlet {
             (request.getSession()).setAttribute("DBDriverSession", DBDriver);
 
             Cookie[] cookies = request.getCookies();
+
+            DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+            UserDAO riverUserDAO = mySqlFactory.getUserDAO();
+            UserDAO userDAO = new MySQLUserDAOImpl();
+            ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+            Library library = new Library();
+
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             ResultSet result = null;
@@ -101,23 +100,25 @@ public class indexServlet extends HttpServlet {
 
                         for(int i=0; i<cookies.length; i++){
 
-                            System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
+                            //System.out.println("browser cookie = "+cookies[i].getValue()+"  db cookie = "+result.getString("cookieID"));
                             if((cookies[i].getValue()).equals(result.getString("cookieID"))){
 
                                 String emailSession = result.getString("Email");
-                                (request.getSession()).setAttribute("emailSession", emailSession);
-                                (request.getSession()).setAttribute("cookieIDSession", result.getString("cookieID"));
-                                (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
-                                (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
-                                System.out.println("zao sono dentro l'if e usersession = "+(String)(request.getSession()).getAttribute("emailSession")+" cookieID = "+(String)(request.getSession()).getAttribute("cookieIDSession"));
 
-                                if (emailSession.equals(null)){
+                                if (emailSession ==  null || !userDAO.getUser(emailSession).getConfirmed()){
+
+
                                     boolEmailSession = false;
                                 } else {
+                                    (request.getSession()).setAttribute("emailSession", emailSession);
+
                                     boolEmailSession = true;
                                 }
 
                                 (request.getSession()).setAttribute("boolEmailSessionScriptlet", boolEmailSession);
+                                (request.getSession()).setAttribute("cookieIDSession", result.getInt("cookieID"));
+                                (request.getSession()).setAttribute("deadlineSession", result.getString("Deadline"));
+                                (request.getSession()).setAttribute("LIDSession", result.getString("LID"));
 
                             }
                         }
@@ -136,33 +137,8 @@ public class indexServlet extends HttpServlet {
                         (request.getSession()).setAttribute("list_OwnerUserSession", result.getBoolean("List_Owner"));
                         (request.getSession()).setAttribute("confirmedUserSession", result.getBoolean("Confirmed"));
                     }
-                    
-                    preparedStatement = connection.prepareStatement("SELECT * FROM products order by RAND() LIMIT 5;");
-                    preparedStatement.execute();
-                    result = preparedStatement.getResultSet();
-                    
-                    result.last();
-                    
-                    String [][] prodottiRand = new String [result.getRow()][6];
-                    
-                    result.beforeFirst();
-                    
-                    int i = 0;
-                    
-                    while (result.next()) {
-                        prodottiRand [i][0] = result.getString("PID");
-                        prodottiRand [i][1] = result.getString("Name");
-                        prodottiRand [i][2] = result.getString("Note");
-                        prodottiRand [i][3] = result.getString("Logo");
-                        prodottiRand [i][4] = result.getString("Photo");
-                        prodottiRand [i][5] = result.getString("PCID");
-                        
-                        i++;
-                    }
-                    
-                    (request.getSession()).setAttribute("prodottiRand", prodottiRand);
-                    
 
+               
                 }
 
             } catch (SQLException e) {
@@ -184,13 +160,23 @@ public class indexServlet extends HttpServlet {
                     cse.printStackTrace();
                 }
             }
+            
+            //System.out.println((request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
+            
+            library.createListIndex(request);
+            
+            
+            library.createProductCategory(request);
+            library.createAutocomplete(request.getSession());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         
-        response.sendRedirect("index.jsp");
     }
+            
+            
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST non implementato
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

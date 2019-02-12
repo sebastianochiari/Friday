@@ -79,7 +79,7 @@ public class logoutServlet extends HttpServlet {
         MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
         
         MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
-        myCookieDAO.deleteCookieByCookieID(Integer.parseInt((String)session.getAttribute("cookieIDSession")));
+        myCookieDAO.deleteCookieByCookieID((int)session.getAttribute("cookieIDSession"));
         
         session.setAttribute("emailSession", null);
         session.setAttribute("cookieIDSession", null);
@@ -100,9 +100,7 @@ public class logoutServlet extends HttpServlet {
         (request.getSession()).setAttribute("DBPassSession", DBPass);
         (request.getSession()).setAttribute("DBDriverSession", DBDriver);
         
-        
-        
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("indexServlet");
         
     }
 

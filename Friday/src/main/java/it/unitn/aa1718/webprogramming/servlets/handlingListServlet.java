@@ -6,29 +6,21 @@
 
 package it.unitn.aa1718.webprogramming.servlets;
 
-import static it.unitn.aa1718.webprogramming.connection.MySQLDAOFactory.User;
 import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductDAO;
-import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.extra.Library;
-import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
 import it.unitn.aa1718.webprogramming.friday.ShoppingList;
-import it.unitn.aa1718.webprogramming.connection.DAOFactory;
-import it.unitn.aa1718.webprogramming.dao.MessageDAO;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLMessageDAOImpl;
-import it.unitn.aa1718.webprogramming.friday.Message;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -72,7 +64,7 @@ public class handlingListServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET che si occupa della gestione delle liste della spes selezionata
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -84,79 +76,96 @@ public class handlingListServlet extends HttpServlet {
         Library library = new Library();
         library.recuperoListeUtenteloggato(request, response);
         HttpSession session = request.getSession();
-        int listaSelezionata;
-        int selectedList;
+        int selectedList = 0;
         
-        //se lista selezionata, inoltro nella pagina della lista, altrimenti mostro la pagina
-        //di gestione delle liste
+        //se lista selezionata, inoltro nella pagina della lista, altrimenti mostro la pagina di gestione delle liste
         
         if(request.getParameter("selectedList") == null){
             
             if(session.getAttribute("selectedList") != null){
-                listaSelezionata = (int)session.getAttribute("selectedList");
+                selectedList = (int)session.getAttribute("selectedList");
             } else {
-                listaSelezionata = 0;
+                selectedList = 0;
             }
             
         } else { 
-            
-            listaSelezionata = Integer.parseInt(request.getParameter("selectedList"));
-            session.setAttribute("selectedList", listaSelezionata);
+            selectedList = Integer.parseInt(request.getParameter("selectedList"));
+        }
 
-            if (selectedList == 0) {
-                selectedList = Integer.parseInt(request.getParameter("selectedList"));
-                session.setAttribute("selectedList", selectedList);
-            } else {
-                ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-                ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);
-                ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
-                UserDAO userDAO = new MySQLUserDAOImpl();
-                User user = userDAO.getUser(shoppingList.getListOwner());
-                SharingDAO sharingDAO = new MySQLSharingDAOImpl();
-                List sharing = sharingDAO.getAllEmailsbyList(selectedList);
-                
-                String [] listaSelezionata = new String [5];
-                String [] utenteProprietario = new String [5];
-                String [][] listaCondivisa = new String [sharing.size()][4];
-                
+        if (selectedList == 0) {
+            session.setAttribute("listaAttiva", selectedList);
+            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+        } else {
+            ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+            System.out.println(" selectedList "+selectedList);
+            ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);
+            System.out.println(" shoppingList "+shoppingList);
+            ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+            UserDAO userDAO = new MySQLUserDAOImpl();
+            SharingDAO sharingDAO = new MySQLSharingDAOImpl();
+            List sharing = sharingDAO.getAllEmailsbyList(selectedList);
+            ProductDAO productDAO = new MySQLProductDAOImpl();
+            ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+
+            String [] listaCorrente = new String [7];
+            String [] utenteProprietario = new String [5];
+            String [][] listaCondivisa = new String [sharing.size()][6];
+            
+            User user = null;
+            if (session.getAttribute("emailSession") != null){
+                user = userDAO.getUser(shoppingList.getListOwner());
                 for (int i=0; i<sharing.size(); i++) {
                     listaCondivisa[i][0] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getName();
                     listaCondivisa[i][1] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getSurname();
                     listaCondivisa[i][2] = ((Sharing)sharing.get(i)).getEmail();
                     listaCondivisa[i][3] = Boolean.toString(((Sharing)sharing.get(i)).getDelete());
+                    listaCondivisa[i][4] = Boolean.toString(((Sharing)sharing.get(i)).getModify());
+                    listaCondivisa[i][5] = Boolean.toString(((Sharing)sharing.get(i)).getAdd());
                 }
-                
-                listaSelezionata[0] = Integer.toString(shoppingList.getLID());
-                listaSelezionata[1] = shoppingList.getName();
-                listaSelezionata[2] = shoppingList.getNote();
-                listaSelezionata[3] = shoppingList.getImage();
-                listaSelezionata[4] = shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID()).getName();
-                
+            } else {
+                listaCondivisa = new String [0][6];
+            }
+            
+            listaCorrente[0] = Integer.toString(selectedList);
+            listaCorrente[1] = shoppingList.getName();
+            listaCorrente[2] = shoppingList.getNote();
+            listaCorrente[3] = shoppingList.getImage();
+            listaCorrente[4] = shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID()).getName();
+            listaCorrente[5] = Integer.toString(shoppingList.getCookieID());
+            listaCorrente[6] = Integer.toString(shoppingList.getLCID());
+
+            if (session.getAttribute("emailSession") != null) {
                 utenteProprietario[0] = user.getName();
                 utenteProprietario[1] = user.getSurname();
                 utenteProprietario[2] = user.getEmail();
                 utenteProprietario[3] = user.getPassword();
                 utenteProprietario[4] = user.getAvatar();
-                
-                session.setAttribute("listaCondivisa", listaCondivisa);            
-                session.setAttribute("utenteProprietario", utenteProprietario);            
-                session.setAttribute("listaSelezionata", listaSelezionata);            
-                session.setAttribute("selectedList", selectedList);            
-                library.prodottiDellaLista(selectedList, request);
-                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            } else {
+                utenteProprietario[0] = "";
+                utenteProprietario[1] = "";
+                utenteProprietario[2] = "";
+                utenteProprietario[3] = "";
+                utenteProprietario[4] = "";
             }
+            
+            //mi salvo i prodotti
+            List products = productDAO.getAllProducts((String)session.getAttribute("emailSession"));
+            session.setAttribute("resultSearch", library.getSearchResults(products, productCategoryDAO));
+            
+            session.setAttribute("listaCondivisa", listaCondivisa);            
+            session.setAttribute("utenteProprietario", utenteProprietario);            
+            session.setAttribute("listaCorrente", listaCorrente);            
+            session.setAttribute("listaAttiva", selectedList);            
+            library.prodottiDellaLista(selectedList, request);
+            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            
         }
         
-        // DA TOGLIERE
-        if(listaSelezionata == 10){
-            listaSelezionata = 0;
-        }
-        //////////////
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST non implementato
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -165,27 +174,6 @@ public class handlingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         
-        int PIDProdotto = Integer.parseInt(request.getParameter("SelectedProduct"));
-        HttpSession session = request.getSession();
-        
-        ProductDAO productDAO = new MySQLProductDAOImpl();
-        Product product = productDAO.getProduct(PIDProdotto);
-        
-        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
-        ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
-        UserDAO userDAO = new MySQLUserDAOImpl();
-        
-        String [] prodotto = new String [7];
-        prodotto[0] = product.getName();
-        prodotto[1] = product.getNote();
-        prodotto[2] = product.getLogo();
-        prodotto[3] = product.getPhoto();
-        prodotto[4] = productCategoryDAO.getProductCategory(product.getPCID()).getName();
-        prodotto[5] = userDAO.getUser(product.getEmail()).getName();
-        prodotto[6] = Integer.toString(product.getPID());
-        
-        session.setAttribute("prodotto", prodotto);
-        request.getRequestDispatcher("showProduct.jsp").forward(request, response);
     }
 
     /**

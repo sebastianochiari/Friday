@@ -15,14 +15,15 @@ import java.util.List;
 public interface ProductDAO {
     
     /**
-     * Metodo che ritorna tutti i prodotti 
+     * Metodo che ritorna tutti i prodotti dell'utente
+     * @param Email email dell'utente
      * @return lsita con tutti i prodotti
      */
-    public List getAllProducts();
+    public List getAllProducts(String Email);
     
     /**
      * Metodo che ritorna i prodotti in base all'email 
-     * @param email stringa che rappresenta una delle email di un utente
+     * @param Email stringa che rappresenta una delle email di un utente
      * @return list di prodotti creati dall'email passata in input
      */
     public List getProductsByEmail(String Email);
@@ -32,7 +33,7 @@ public interface ProductDAO {
      * @param PCID intero che rappresenta la categoria di prodotto specificata
      * @return list di prodotti
      */
-    public List getProductsByPCID(int PCID);
+    public List getProductsByPCID(int PCID, String Email);
     
     /**
      * Metodo che ritorna i prodotti in base alla ricerca per nome
@@ -40,7 +41,7 @@ public interface ProductDAO {
      * @param perPCID booleano che specifica se la ricerca va fatta per PCID
      * @return list contenente i prodotti trovati
      */
-    public List getProductsByName(String name, boolean perPCID);
+    public List getProductsByName(String name, boolean perPCID, String Email);
     
     /**
      * Metodo che ritorna i prodotti in base al nome e PCID
@@ -48,19 +49,27 @@ public interface ProductDAO {
      * @param name stringa che rappresenta il nome del prodotto da cercare
      * @return lista contenente i risultati trovati tra i prodotti
      */
-    public List getProductsByNameAndPCID(int PCID, String name);
+    public List getProductsByNameAndPCID(int PCID, String name, String Email);
     
     /**
      * Metodo che ritorna un prodotto in base al suo ID univoco
      * @param PID intero che rappresenta il prodotto
+     * @param Email email dell'utente
      * @return oggetto che rappresenta il prodotto
      */
-    public Product getProduct(int PID);     
+    public Product getProduct(int PID, String Email); 
+
+    /**
+     * Metodo che permette la selezione randomica di una serie di prodotti da mostrare nella home page
+     * @param email id univoco per l'utente
+     * @return lista di prodotti selezionati per l'utente 
+     */
+    public List getRandomProduct(String email);
     
     /**
      * Metodo che crea un prodotto 
      * @param product oggetto passato per creare il prodotto
-     * @return stringa contenente l'ID del prodotto ????????
+     * @return stringa contenente l'ID del prodotto 
      */
     public String createProduct(Product product);
     

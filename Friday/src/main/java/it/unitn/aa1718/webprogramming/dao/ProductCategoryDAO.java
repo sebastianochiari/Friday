@@ -22,7 +22,7 @@ public interface ProductCategoryDAO {
     
     /**
      * Metodo che ritorna tutti i prodotti in base all'email del creatore
-     * @param email stringa contenente l'email dell'utente
+     * @param Email stringa contenente l'email dell'utente
      * @return lista di prodotti trovati
      */
     public List getProductCategoriesByEmail(String Email);

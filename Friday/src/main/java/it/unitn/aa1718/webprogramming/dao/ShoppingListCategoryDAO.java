@@ -21,11 +21,11 @@ public interface ShoppingListCategoryDAO {
     public List getAllShoppingListCategories();
     
     /**
-     * Metodo che ritorna le categorie di lista ???
-     * @param LCID
-     * @return 
+     * Metodo che ritorna le liste in base alle categorie di lista  
+     * @param LCID intero che rappresenta la categoria di lista 
+     * @return la lista in base alla categoria di lista della spesa
      */
-    public ShoppingListCategory getShoppingListCategory(int LID);  
+    public ShoppingListCategory getShoppingListCategory(int LCID);  
     
     /**
      * Metodo che ritorna le categorie di lista in base all'email passata come parametro
@@ -35,9 +35,9 @@ public interface ShoppingListCategoryDAO {
     public List getShoppingListCategoriesByEmail(String email);
     
     /**
-     * Metodo che crea la categoria di lista 
+     * Metodo che crea la categoria di lista della spesa
      * @param shoppingListCategory oggetto list category passato in input
-     * @return stringa che rappresenta ?????????
+     * @return stringa che rappresenta l'ID della categoria di lista della spesa 
      */
     public String createShoppingListCategory(ShoppingListCategory shoppingListCategory);
     

@@ -1,3 +1,9 @@
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -40,6 +46,11 @@
 
     <body id="top">
 
+        <c:if test="${!boolEmailSessionScriptlet}">
+            <c:redirect url="/error.jsp"/>
+        </c:if>
+        
+        
         <!-- Header -->
         <jsp:include page="jsp/components/header.jsp" />
 

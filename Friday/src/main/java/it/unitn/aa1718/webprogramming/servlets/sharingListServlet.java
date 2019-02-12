@@ -1,32 +1,48 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
+import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.MessageDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingProductDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMessageDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLShoppingListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.extra.Library;
+import it.unitn.aa1718.webprogramming.friday.Message;
+import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
+import it.unitn.aa1718.webprogramming.friday.SharingProduct;
+import it.unitn.aa1718.webprogramming.friday.ShoppingList;
+import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author tommi
- */
+
 public class sharingListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -52,7 +68,9 @@ public class sharingListServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET della Servlet che si occupa di condividere la lista con l'utente specificato. 
+     * Gestisce l'eliminazione, la condivisione,l'aggiunta di elementi e le informazioni di una lista.
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -65,83 +83,107 @@ public class sharingListServlet extends HttpServlet {
         int listaScelta = 0;
         SharingDAO sharingDAO = new MySQLSharingDAOImpl();
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+        ProductDAO productDAO = new MySQLProductDAOImpl();
+        List productList = null;
+        Library library = new Library();
+        HttpSession session = request.getSession();
         
         switch (azioneLista) {
             case 2: 
                 listaScelta = Integer.parseInt(request.getParameter("listToShare"));
                 String email = request.getParameter("invitationEmail");
-                sharingDAO.createSharing(new Sharing(email, listaScelta, shoppingListDAO.getShoppingList(listaScelta).getName(), true, true, false));
-                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+                 
+                sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
+                productList = productListDAO.getPIDsByLID(listaScelta);
+                for (int i=0; i<productList.size(); i++){
+                    if ((productDAO.getProduct((((ProductList)productList.get(i)).getPID()), (String)session.getAttribute("emailSession"))).getEmail().equals((String)session.getAttribute("emailSession"))){
+                        sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
+                    }
+                }
+                response.sendRedirect("handlingListServlet?selectedList="+listaScelta);
                 break;
+                
             case 3:
                 // questa parte va decisamente rivista, ora come ora dovrebbe essere la chat
-                {
-                    //inizializzo i DAO e sessione
-                    DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-                    SharingDAO sharingDAO = new MySQLSharingDAOImpl();
-                    MessageDAO messageDAO = new MySQLMessageDAOImpl();
-                    UserDAO userDAO = new MySQLUserDAOImpl();
-                    
-                    //aggiungo messaggi se kjdfauvhdavhb
-                    if(request.getParameter("newMessage") != null){
-                    
-                        Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
-                        messageDAO.createMessage(newMessage);
-                    
-                    
-                    }
+         
+                //inizializzo i DAO e sessione
+                DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+                //SharingDAO sharingDAO1 = new MySQLSharingDAOImpl();
+                MessageDAO messageDAO = new MySQLMessageDAOImpl();
+                UserDAO userDAO = new MySQLUserDAOImpl();
+                int listaSelezionata = Integer.parseInt(request.getParameter("messageToList"));
 
-                    //ottengo valori
-                    System.out.println(listaSelezionata);
-                    int LID = listaSelezionata;
-                    List partecipanti = sharingDAO.getAllEmailsbyList(LID);
-                    List messaggi = messageDAO.getMessagesByLID(LID);
-                    
-                    
+                //aggiungo messaggi
+                if(request.getParameter("newMessage") != null){
 
-                    //salvo i partecipanti in modo da poterli passare alla jsp
-                    String[][] PartecipantiResult = new String[partecipanti.size()][3];
+                    Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
+                    messageDAO.createMessage(newMessage);
 
-                    for(int i=0; i<partecipanti.size(); i++){
-
-                        User tmp = userDAO.getUser(((Sharing)partecipanti.get(i)).getEmail());
-                        
-                        PartecipantiResult[i][0] = tmp.getAvatar();
-                        PartecipantiResult[i][1] = tmp.getName();
-                        PartecipantiResult[i][2] = tmp.getSurname();
-                        System.out.println(PartecipantiResult[i][0]+" "+PartecipantiResult[i][1]+" "+PartecipantiResult[i][2]);
-                    }
-
-                    //salvo i messaggi in modo da poterli passare alla jsp
-                    String[][] MessaggiResult = new String[messaggi.size()][4];
-
-                    for(int i=0; i<messaggi.size(); i++){
-
-                        Message tmp = (Message)messaggi.get(i);
-
-                        MessaggiResult[i][0] = (userDAO.getUser(tmp.getSender())).getName();
-                        MessaggiResult[i][1] = (userDAO.getUser(tmp.getSender())).getSurname();
-                        MessaggiResult[i][2] = tmp.getText();
-                        MessaggiResult[i][3] = (userDAO.getUser(tmp.getSender())).getEmail();
-                        System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
-
-                    }
-
-                    session.setAttribute("partecipantiChat", PartecipantiResult);
-                    session.setAttribute("messaggiChat", MessaggiResult);
-                    response.sendRedirect("list.jsp");
                 }
+
+                //ottengo valori
+                System.out.println(listaSelezionata);
+                int LID = listaSelezionata;
+                List partecipanti = sharingDAO.getAllEmailsbyList(LID);
+                List messaggi = messageDAO.getMessagesByLID(LID);
+
+                //salvo i partecipanti in modo da poterli passare alla jsp
+                String[][] PartecipantiResult = new String[partecipanti.size()][3];
+
+                for(int i=0; i<partecipanti.size(); i++){
+
+                    User tmp = userDAO.getUser(((Sharing)partecipanti.get(i)).getEmail());
+
+                    PartecipantiResult[i][0] = tmp.getAvatar();
+                    PartecipantiResult[i][1] = tmp.getName();
+                    PartecipantiResult[i][2] = tmp.getSurname();
+                    //System.out.println(PartecipantiResult[i][0]+" "+PartecipantiResult[i][1]+" "+PartecipantiResult[i][2]);
+                }
+
+                //salvo i messaggi in modo da poterli passare alla jsp
+                String[][] MessaggiResult = new String[messaggi.size()][4];
+
+                for(int i=0; i<messaggi.size(); i++){
+
+                    Message tmp = (Message)messaggi.get(i);
+
+                    MessaggiResult[i][0] = (userDAO.getUser(tmp.getSender())).getName();
+                    MessaggiResult[i][1] = (userDAO.getUser(tmp.getSender())).getSurname();
+                    MessaggiResult[i][2] = tmp.getText();
+                    MessaggiResult[i][3] = (userDAO.getUser(tmp.getSender())).getEmail();
+                    //System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
+
+                }
+
+                session.setAttribute("partecipantiChat", PartecipantiResult);
+                session.setAttribute("messaggiChat", MessaggiResult);
+                session.setAttribute("selectedList", listaSelezionata);
+                request.getRequestDispatcher("chat.jsp").forward(request, response);
+
+             
                 break;
             case 4:
                 listaScelta = Integer.parseInt(request.getParameter("listToEliminate"));
                 shoppingListDAO.deleteShoppingList(listaScelta);
-                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+                if(session.getAttribute("emailSession") != null){
+                        
+                    if(shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession")).isEmpty()) {
+                        session.setAttribute("listaAnonimo", false);
+
+                    }
+                } else {
+
+                    session.setAttribute("listaAnonimo", false);
+                };
+                response.sendRedirect("handlingListServlet?selectedList=0");
                 break;
             case 5:
                 listaScelta = Integer.parseInt(request.getParameter("notToShareList"));
                 String emailSession = request.getParameter("emailUtenteLoggato");
-                sharingDAO.deleteSharing(new Sharing(emailSession, listaScelta, shoppingListDAO.getShoppingList(listaScelta).getName(), sharingDAO.getSharing(listaScelta, emailSession).getModify(), sharingDAO.getSharing(listaScelta, emailSession).getAdd(), sharingDAO.getSharing(listaScelta, emailSession).getDelete()));
-                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+                sharingDAO.deleteSharing(new Sharing(emailSession, listaScelta, sharingDAO.getSharing(listaScelta, emailSession).getModify(), sharingDAO.getSharing(listaScelta, emailSession).getAdd(), sharingDAO.getSharing(listaScelta, emailSession).getDelete()));
+                response.sendRedirect("handlingListServlet?selectedList=0");
                 break;
             default: 
                 response.sendRedirect("error.jsp"); 
@@ -153,7 +195,7 @@ public class sharingListServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST non implementato
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -161,6 +203,21 @@ public class sharingListServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+        Library library = new Library();
+        
+        ShoppingListDAO shoppingListDAO1 = new MySQLShoppingListDAOImpl();
+        String newName = request.getParameter("newName");
+        String newNote = request.getParameter("newNote");
+        String newPhoto = request.getParameter("newPhoto");
+        int LID = Integer.parseInt(request.getParameter("LID"));
+        int LCID = Integer.parseInt(request.getParameter("LCID"));
+        String ListOwner = request.getParameter("ListOwner");
+        int CookieID = Integer.parseInt(request.getParameter("CookieID"));
+        shoppingListDAO1.updateShoppingList(new ShoppingList(LID, newName, newNote, library.ImageControl(newPhoto), LCID, ListOwner, CookieID));
+        
+        response.sendRedirect("handlingListServlet?selectedList="+LID);
         
     }
 

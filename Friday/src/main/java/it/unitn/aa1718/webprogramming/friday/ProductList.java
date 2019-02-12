@@ -16,9 +16,9 @@ public class ProductList {
     
     /**
      * Costruttore
-     * @param PID intero che rappresenta 
-     * @param LID 
-     * @param quantity 
+     * @param PID intero che rappresenta l'ID del prodotto
+     * @param LID intero che rappresenta l'ID della lista
+     * @param quantity intero che rappresenta la quantità di prodotto presente nella lista
      */
     public ProductList(int PID, int LID, int quantity) {
         super();
@@ -27,23 +27,47 @@ public class ProductList {
         this.quantity = quantity;
     }
     
+    /**
+     * Metodo che ritorna il PID del prodotto specifico
+     * @return intero che rappresenta l'ID del prodotto
+     */
     public int getPID() {        
         return PID;    
     }    
+    
+    /**
+     * Metodo che setta l'ID del prodotto 
+     */
     public void setPID() {        
         this.PID = PID;    
     }
     
+    /**
+     * Metodo che ritorna l'ID della lista a cui si sta facendo riferimento
+     * @return intero che rappresenta l'ID della lista
+     */
     public int getLID() {        
         return LID;    
     }    
+    
+    /**
+     * Metodo che setta l'ID della lista
+     */
     public void setLID() {        
         this.LID = LID;    
     }
     
+    /**
+     * Metodo che ritorna la quantità di prodotto presente nella lista
+     * @return intero che rappresenta la quantità di prodotto presente
+     */
     public int getQuantity() {        
         return quantity;    
     }    
+    
+    /**
+     * Metodo che setta la quantità di prodotto presente nella lista
+     */
     public void setQuantity() {        
         this.quantity = quantity;    
     }

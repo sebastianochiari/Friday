@@ -38,7 +38,7 @@ public class MySQLUserDAOImpl implements UserDAO {
     
     /**
      * Metodo che effettua la query al database e ritorna tutti gli utenti presenti nella tabella user
-     * @return 
+     * @return lista contenente tutti gli utenti
      */
     @Override
     public List getAllUsers() {
@@ -129,7 +129,7 @@ public class MySQLUserDAOImpl implements UserDAO {
     /**
      * Metodo che permette la creazione dell'utente 
      * @param user oggetto di tipo user passato in input per la creazione di un utente con i parametri specifici
-     * @return una stringa che WTF??????????????''
+     * @return una stringa che rappresenta l'email dell'utente creato
      */
     @Override
     public String createUser(User user) {
@@ -384,7 +384,7 @@ public class MySQLUserDAOImpl implements UserDAO {
     /**
      * Metodo che permette il controllo del formato dell'email
      * @param email stringa email da controllare
-     * @return email corretta ???????????????????????????
+     * @return booleano che verifica la correttezza dell'email
      */
     public Boolean checkEmail (String email){
             //Bisogna capire come funziona 
@@ -395,8 +395,8 @@ public class MySQLUserDAOImpl implements UserDAO {
     }
 
     /**
-     * Metodo che verifica la verifica dell'utente ???????
-     * @param email 
+     * Metodo che verifica la conferma del profilo dell'utente
+     * @param email stringa che rappresenta l'email dell'utente specificato
      */
     @Override
     public void confirmedUser(String email) {

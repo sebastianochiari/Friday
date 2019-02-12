@@ -93,6 +93,10 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
         return myCookies;
     }
     
+    /**
+     * Metodo che ritorna un vettore di tutti i cookie
+     * @return vettore con una lista di cookie
+     */
     public Vector<MyCookie> getAllCookie(){
         
         Connection connection = null;
@@ -137,7 +141,7 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     }
 
     /**
-     * Metodo che ritorna IL cookie ! ???????????
+     * Metodo che ritorna IL cookie specifico
      * @param myCookies
      * @param myCookieID
      * @return 
@@ -181,8 +185,8 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     }
 
     /**
-     * Metodo che permette la creazione di un cookie ???
-     * @param myCookie 
+     * Metodo che permette la creazione di un cookie 
+     * @param myCookie istanza di cookie 
      */
     @Override
     public void createCookie(MyCookie myCookie){
@@ -217,8 +221,8 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     }
 
     /**
-     * Metodo che permette la modifica di un cookie associato all'utente ?? 
-     * @param myCookie  ??????
+     * Metodo che permette la modifica di un cookie associato all'utente 
+     * @param myCookie  istanza del cookie da modificare
      */
     @Override
     public void updateCookie(MyCookie myCookie){

@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class MySQLSharingDAOImpl implements SharingDAO{
     
-    private static final String Create_Query = "INSERT INTO sharing (email, LID, modify, addRemProd, deleteList) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String Create_Query = "INSERT INTO sharing (email, LID, modify, addRemProd, deleteList) VALUES (?, ?, ?, ?, ?)";
     
     private static final String Read_Query = "SELECT email, LID, modify, addRemProd, deleteList FROM sharing WHERE (email = ? and LID = ?)";
     
@@ -84,7 +84,7 @@ public class MySQLSharingDAOImpl implements SharingDAO{
     /**
      * Metodo che ritorna tutte le liste in base all'email passata
      * @param email stringa passata come parametro 
-     * @return list con tutte le liste condivise ???
+     * @return list con tutte le liste 
      */
     @Override
     public List getAllListByEmail(String email) {
@@ -179,9 +179,9 @@ public class MySQLSharingDAOImpl implements SharingDAO{
 
     /**
      * Metodo che ritorna tutte le persone con la quale è stata condivisa la lista con l'ID specifico
-     * @param LID
-     * @param email
-     * @return 
+     * @param LID intero che identifica una lista specifica
+     * @param email stringa che rappresenta l'email dell'utente
+     * @return istanza di tipo sharing 
      */
     @Override
     public Sharing getSharing(int LID, String email) {
@@ -226,9 +226,9 @@ public class MySQLSharingDAOImpl implements SharingDAO{
     }
 
     /**
-     * Metodo che ????
+     * Metodo che crea una lista condivisa
      * @param sharing
-     * @return 
+     * @return stringa che rappresenta l'email del creatore
      */
     @Override
     public String createSharing(Sharing sharing) {
@@ -277,9 +277,9 @@ public class MySQLSharingDAOImpl implements SharingDAO{
     }
 
     /**
-     * Mmetodo che ??????????
-     * @param sharing
-     * @return 
+     * Mmetodo che permette la modifica di una lista condivisa
+     * @param sharing istanza della lista da modificare
+     * @return booleano che rappresenta la modifica corretta o meno della modifica
      */
     @Override
     public boolean updateSharing(Sharing sharing) {
@@ -323,9 +323,9 @@ public class MySQLSharingDAOImpl implements SharingDAO{
     }
 
     /**
-     * Metodo che ????????
-     * @param sharing
-     * @return 
+     * Metodo che elimina una lista condivisa
+     * @param sharing istanza della lista di eliminare 
+     * @return booleano che verifica la corretta eliminazione della lista
      */
     @Override
     public boolean deleteSharing(Sharing sharing) {

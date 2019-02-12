@@ -17,15 +17,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.User;
-import java.sql.Timestamp;
-import javax.servlet.http.Cookie;
 
 
 public class insertShoppingListServlet extends HttpServlet {
@@ -33,7 +35,7 @@ public class insertShoppingListServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,7 +61,7 @@ public class insertShoppingListServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     * Metodo GET della servlet che si occupa della creazione di una lista della spesa. In caso di errore si redireziona alla default error page.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -85,7 +87,11 @@ public class insertShoppingListServlet extends HttpServlet {
         int LCID = Integer.parseInt(request.getParameter("LCID"));
         String list_owner = (String)session.getAttribute("emailSession");
         int cookieID = -1;
+        int changeProduct = 0;
         
+        if (request.getParameter("sorgente") != null && request.getParameter("sorgente").equals("creoListaEProdotto")) {
+            changeProduct = Integer.parseInt((String)request.getParameter("changeProduct"));
+        }        
         
         if(name.length()< 200 && note.length()< 200 && image.length()<500){ 
 
@@ -105,7 +111,7 @@ public class insertShoppingListServlet extends HttpServlet {
 
             } else {
 
-                cookieID = Integer.parseInt((String)session.getAttribute("cookieIDSession"));
+                cookieID = (int)session.getAttribute("cookieIDSession");
                 shoppingList = new ShoppingList(LID, name, note, library.ImageControl(image), LCID, list_owner, cookieID);
                 shoppingListDAO.createShoppingList(shoppingList);
                 
@@ -129,9 +135,16 @@ public class insertShoppingListServlet extends HttpServlet {
                 userDAO.updateUserByEmail(user);
             }
             
-            request.setAttribute("goodInsertShoppingList", "true");
-            session.setAttribute("selectedList", 0);
-            request.getRequestDispatcher("handlingListServlet").forward(request, response);
+            if (changeProduct > 0) {
+                ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+                productListDAO.createProductList(new ProductList(changeProduct, shoppingList.getLID(), 1));
+                session.setAttribute("changeProduct", 0);
+                response.sendRedirect("handlingListServlet?selectedList="+shoppingList.getLID());
+            } else {
+                request.setAttribute("goodInsertShoppingList", "true");
+                session.setAttribute("selectedList", 0);
+                response.sendRedirect("handlingListServlet");
+            }
             
        } else {
             response.sendRedirect("error.jsp");
@@ -142,7 +155,7 @@ public class insertShoppingListServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     * Metodo POST della servlet che si occupa della cancellazione di una shopping list. In caso di errore si redireziona alla default error page
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -151,17 +164,48 @@ public class insertShoppingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         
+        int proprietario = Integer.parseInt(request.getParameter("proprietario"));
         int listToDelete = Integer.parseInt(request.getParameter("deleteList"));
         HttpSession session = request.getSession();
         
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-        boolean deleted = shoppingListDAO.deleteShoppingList(listToDelete);
+        SharingDAO sharingDAO = new MySQLSharingDAOImpl();
         
-        if (deleted){
-            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("faq.jsp");
+        switch (proprietario) {
+            case 1:
+                boolean deleted = shoppingListDAO.deleteShoppingList(listToDelete);
+        
+                if (deleted){
+                    
+                    if(session.getAttribute("emailSession") != null){
+                        
+                        if(shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession")).isEmpty()) {
+                            session.setAttribute("listaAnonimo", false);
+                            
+                        }
+                    } else {
+                        
+                        session.setAttribute("listaAnonimo", false);
+                    }
+                    response.sendRedirect("handlingListServlet?selectedList=0");
+             
+                } else {
+                    response.sendRedirect("error.jsp");
+                };
+                break;
+            case 0:
+                boolean exit = sharingDAO.deleteSharing(sharingDAO.getSharing(listToDelete, (String)session.getAttribute("emailSession")));
+                
+                if (exit){
+                    response.sendRedirect("handlingListServlet?selectedList=0");
+                } else {
+                    response.sendRedirect("error.jsp");
+                };
+                break;
+            default:
+                response.sendRedirect("error.jsp");
         }
+        
     }
 
     /**

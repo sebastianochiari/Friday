@@ -1,8 +1,9 @@
-<%--
-    Document   : insertUser
-    Created on : 12-ott-2018, 10.40.00
-    Author     : tommi
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
+
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -52,7 +53,7 @@
         <div class="container">
 
         <!-- LOGO Friday -->
-        <a href="index.jsp">
+        <a href="indexServlet">
             <div class="logo-header">
                 <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
             </div>
@@ -93,11 +94,18 @@
                                     <label for="Email">Email <strong>*</strong> </label>
                                     <input name="email" type="text" class="form-control" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                                 </c:if>
-                                <c:if test="${errorEmail eq 'emailError'}">
+                                <c:if test="${errorEmail eq 'alreadyExistEmail'}">
                                     <label for="Email">Email <strong>*</strong></label>
-                                    <input name="email" type="text" class="form-control is-invalid security-form johnCena" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
+                                    <input name="email" type="text" class="form-control is-invalid security-form" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
                                     <div class="invalid-feedback">
                                         ATTENZIONE! L'email inserita è già utilizzata. Scegli un'altra email oppure esegui il login se sei già registrato.
+                                    </div>
+                                </c:if>
+                                <c:if test="${errorEmail eq 'emailError'}">
+                                    <label for="Email">Email <strong>*</strong></label>
+                                    <input name="email" type="text" class="form-control is-invalid security-form" id="email" placeholder="mario.rossi@esempio.it" required="true" aria-describedby="emailHelp" value="${requestScope.email}" required="true">
+                                    <div class="invalid-feedback">
+                                        ATTENZIONE! L'email inserita non è del formato corretto.
                                     </div>
                                 </c:if>
 

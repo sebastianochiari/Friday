@@ -53,7 +53,7 @@ public class insertProductServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * Metodo GET: inserisce un prodotto nuovo nel database, effettuando i relativi controlli
+     * Metodo GET: inserisce un prodotto nuovo nel database, effettuando i relativi controlli. In caso di errore si redireziona alla default error page.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,23 +63,22 @@ public class insertProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-        ProductDAO riverDAO = mySqlFactory.getProductDAO();
+        ProductDAO riverProductDAO = mySqlFactory.getProductDAO();
+        UserDAO riverUserDAO = mySqlFactory.getUserDAO();
+        HttpSession session = request.getSession();
+        
+        long RedirectAfterProduct = (long)session.getAttribute("RedirectAfterProduct");
         
         List products = null;
         Product product = null;
         
         ProductDAO productDAO = new MySQLProductDAOImpl();
+        UserDAO userDAO = new MySQLUserDAOImpl();
         
-//        // cancellazione di product memorizzati sul DB
-//        products = productDAO.getAllProducts();
-//        for (Object u : products) {
-//            productDAO.deleteProduct((Product) u);
-//        }
-
         // creazione di product
         Library library = new Library();
         int PID = library.LastEntryTable("PID", "products");
-        String email = (String) (request.getSession()).getAttribute("emailSession");
+        String email = (String) (request.getSession()).getAttribute("emailSession"); 
         String name = request.getParameter("name");
         String note = request.getParameter("note");
         String logo = request.getParameter("logo");
@@ -91,14 +90,25 @@ public class insertProductServlet extends HttpServlet {
             Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
 
             // memorizzazione del nuovo product nel DB
-            productDAO.createProduct(product1);
-
-            request.setAttribute("goodInsertProduct", "true");
-            response.sendRedirect("adminSection.jsp");
+            if(!userDAO.getUser(email).getAdmin()){
+ 
+                SharingProductDAO riverSharingProductDAO = mySqlFactory.getSharingProductDAO();
+                SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+                sharingProductDAO.createSharingProduct(new SharingProduct(email, PID));           
+            }
             
-       } else {
+            productDAO.createProduct(product1);
+            request.setAttribute("goodInsertProduct", "true");
+            
+            if(RedirectAfterProduct == 0){
+                response.sendRedirect("search.jsp");
+            } else {
+                response.sendRedirect("adminSection.jsp");
+            }
+            
+        } else {
             response.sendRedirect("error.jsp");
-       }
+        }
         
         
         
@@ -106,7 +116,7 @@ public class insertProductServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * Metodo POST della servlet:  COSA FA?
+     * Metodo POST della servlet che si occupa dell'eliminazione di un prodotto 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -115,16 +125,47 @@ public class insertProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
         
+        DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
+        ShoppingListDAO riverShoppingListDAO = mySqlFactory.getShoppingListDAO();
+        ProductDAO riverProductDAO = mySqlFactory.getProductDAO();
+        
+        ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+        ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
+        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        
+        
+        HttpSession session = request.getSession();
+        Library library = new Library();
         int comando = Integer.parseInt(request.getParameter("changeProduct"));
-        int lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+        int lista = 0;
         int scelta = Integer.parseInt(request.getParameter("scelta"));
         
-        ProductListDAO productListDAO = new MySQLProductListDAOImpl();
+        if (session.getAttribute("emailSession") == null){
+
+            int keyLID = library.LastEntryTable("LID", "lists");
+            String keyName = "Anonymous"+keyLID;
+            String keyNote = null;
+            String keyImage = null;
+            // soluzione pessima, ma non avevo tempo di pensare a un altro modo complicato per ricavare un LCID valido
+            int keyLCID = shoppingListCategoryDAO.getShoppingListCategory(1).getLCID();
+            String keyListOwner = null;
+            int keyCookieID = (int)session.getAttribute("cookieIDSession");
+            ShoppingList shoppingList = new ShoppingList(keyLID, keyName, keyNote, keyImage, keyLCID, null, keyCookieID);
+            if (!(boolean)session.getAttribute("listaAnonimo")){
+                shoppingListDAO.createShoppingList(shoppingList);
+                lista = shoppingList.getLID();
+            } else {
+                lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+            }
+        } else {
+            lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+        }
+
         ProductList productList = null;
+        
         int amount = 1;
         if (scelta != 4) {
             productList = productListDAO.getProductList(comando, lista);
-            System.out.println("------"+productList);
             amount = productList.getQuantity();
         }
         
@@ -148,15 +189,47 @@ public class insertProductServlet extends HttpServlet {
                 productListDAO.updateProductList(productList);
                 break;
             case 4:
-                productList = new ProductList(comando, lista, amount);
-                productListDAO.createProductList(productList);
+                List listaProdotti = null;
+                //if(session.getAttribute("emailSession")!=null){
+                    
+                    boolean inList = false;
+                    listaProdotti = productListDAO.getPIDsByLID(lista);
+                    
+                    if (listaProdotti.isEmpty()){
+                        productList = new ProductList(comando, lista, amount);
+                        productListDAO.createProductList(productList);
+                    } else {
+                        for (int i=0; i<listaProdotti.size(); i++) {
+                            if (((ProductList)listaProdotti.get(i)).getPID() == comando){
+                                amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
+                                productList = new ProductList(comando, lista, amount);
+                                productListDAO.updateProductList(productList);
+                                inList = true;
+                            } 
+                        }
+                        if (!inList) {
+                            productList = new ProductList(comando, lista, amount);
+                            productListDAO.createProductList(productList);
+                        }
+//                    }
+//
+//                
+//                } else {
+//                    productList = new ProductList(comando, lista, amount);
+//                    productListDAO.createProductList(productList);
+                };
+                
+                
                 break;
             default: 
-                response.sendRedirect("faq.jsp");
+                response.sendRedirect("error.jsp");
                 break;
         }
-            
-        response.sendRedirect("gestioneListe.jsp");
+        
+        request.setAttribute("goodInsertShoppingList", "true");
+        session.setAttribute("selectedList", lista);
+        
+        response.sendRedirect("handlingListServlet?selectedList="+lista);
     }
 
     /**

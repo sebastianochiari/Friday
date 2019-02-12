@@ -130,7 +130,7 @@ public class MySQLMessageDAOImpl implements MessageDAO{
 
     /**
      * Metodo che permette la creazione di un messaggio 
-     * @param message oggetto da creare????
+     * @param message istanza del messaggio
      */
     @Override
     public void createMessage(Message message) {

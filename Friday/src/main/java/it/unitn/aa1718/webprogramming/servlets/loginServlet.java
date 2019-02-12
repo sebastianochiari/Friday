@@ -172,7 +172,7 @@ public class loginServlet extends HttpServlet {
                         response.addCookie(cookie);
                         
                         session.setAttribute("cookieIDSession", myNewCookie.getCookieID());
-                        System.out.println("il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
+                        //System.out.println("il nuovo tuo cookie è stato inserito ed è "+cookie.getName()+", "+cookie.getValue()+"");
 
                         
                         (request.getSession()).setAttribute("emailSession", email);
@@ -181,10 +181,10 @@ public class loginServlet extends HttpServlet {
                         
                         
                     } else {
-                        System.out.println("Bentornato amico! il tuo ID è "+ myCookie.getCookieID()+"\n");
+                        //System.out.println("Bentornato amico! il tuo ID è "+ myCookie.getCookieID()+"\n");
                     }
 
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("indexServlet");
 
                 } else {
 
@@ -202,14 +202,14 @@ public class loginServlet extends HttpServlet {
             
        } 
         /*
-        
+        ----------------------------------------------------------------------------------------------------------------
         VOGLIAMO TENERE L'ERRORE SE DURANTE IL LOGIN INSERISCO UN NOME DA 300 CARATTERI (TENERE L'ELSE) 
         OPPURE TORNO SULLA PAGINA DI LOGIN DICENDO " QUESTO USER NON ESISTE " (SENZA ELSE) ?????
         
         else {
             response.sendRedirect("error.jsp");
        }
-        
+       ---------------------------------------------------------------------------------------------------------------- 
         */
 
 

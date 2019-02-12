@@ -1,7 +1,7 @@
 <%-- 
-    Document   : insertList
-    Created on : 17-ott-2018, 7.26.23
-    Author     : tommi
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,7 +16,20 @@
 <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM list_categories;">   
 </sql:query>
 
+<c:out value="${changeProduct1}"></c:out>
+
 <form method="GET" action="insertShoppingListServlet" enctype="multipart/form-data">
+    
+    <div class="form-group">
+        <label for="LCID">Scegli la categoria di appartenza del prodotto</label>
+        <select name="LCID" class="form-control" required="true">
+            <option disabled selected value>Seleziona un'opzione</option>
+            <c:forEach var="res" items="${result.rows}" >
+                <option value="${res.LCID}"> <c:out value="${res.Name}"/> </option>
+            </c:forEach>
+        </select>
+    </div>
+    
     <div class="row form-group">
         <div class="col">
             <label for="Email">Nome della lista <strong>*</strong> </label>
@@ -24,15 +37,7 @@
         </div>
 
     </div>
-    <div class="form-group">
-        <label for="LCID">Scegli la categoria di appartenza del prodotto</label>
-            <select name="LCID" class="form-control">
-                <option disabled selected value>Seleziona un'opzione</option>
-                <c:forEach var="res" items="${result.rows}" >
-                    <option value="${res.LCID}"> <c:out value="${res.Name}"/> </option>
-                </c:forEach>
-            </select>
-    </div>
+    
     <div>
         <div class="form-group">
             <label for="description">Note aggiuntive</label>
@@ -52,6 +57,8 @@
     <div>
         <br>
     </div>
+    <input type="hidden" value="${changeProduct}" name="changeProduct">
+    <input type="hidden" value="${sorgente}" name="sorgente">
     <div>
         <div class="col-sm">
             <button type="submit" class="btn displayCenter login-btn">Crea lista</button>

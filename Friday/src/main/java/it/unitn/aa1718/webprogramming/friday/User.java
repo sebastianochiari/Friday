@@ -30,7 +30,7 @@ public class User {
      * @param avatar nome immagine che l'utente ha scelto come avatar
      * @param admin booleano che se settato ad 1 identifica l'utente come admin
      * @param list_owner booleano che se settato ad 1 identifica l'utente come list owner
-     * @param confirmed ???????????'
+     * @param confirmed booleano che gestisce la conferma o no del profilo dell'utente in fase di registrazione. Se settato a 1 si ha la conferma.
      */
     public User(String email, String password, String name, String surname, String avatar, boolean admin, boolean list_owner, boolean confirmed) {
         super();
@@ -137,14 +137,14 @@ public class User {
         this.list_owner = list_owner;    
     }
     /**
-     * Metodo che ritorna un boolean: se ???? ha la conferma di registrazione ?
+     * Metodo che ritorna un boolean: se è 1 ha la conferma di registrazione da parte dell'utente
      * @return 
      */
     public Boolean getConfirmed() {        
         return confirmed;    
     }  
     /**
-     * ??????
+     * Metodo che setta la conferma o no della registrazione da parte di un utente
      */
     public void setConfirmed() {        
         this.confirmed = confirmed;    

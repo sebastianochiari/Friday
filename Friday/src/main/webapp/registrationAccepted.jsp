@@ -1,7 +1,7 @@
-<%--
-    Document   : registrationAccepted
-    Created on : 11-Nov-2018, 14:49:40
-    Author     : leo97
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
@@ -55,7 +55,7 @@
         <div class="container">
 
             <!-- LOGO Friday -->
-            <a href="index.jsp">
+            <a href="indexServlet">
                 <div class="logo-header">
                     <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
                 </div>
@@ -102,7 +102,7 @@
             console.log('location.href', window.location.href); // Returns full URL
             var x = window.location.href;
             var y = x.split("Friday")[0];
-            y += 'Friday/index.jsp';
+            y += 'Friday/indexServlet';
             console.log(y);
         });
         </script>

@@ -6,9 +6,7 @@
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
-import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
-import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
@@ -100,6 +98,23 @@ public class securityServlet extends HttpServlet {
             case "email": library.changeEmail(request, response, encrypt, library, userDAO, dbpassword, name, surname, avatar, admin, list_owner, confirmed); break;
             case "personal": library.changePersonal(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, admin, list_owner, confirmed); break;
             case "admin": library.changeAdmin(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, list_owner, confirmed); break;
+            case "deleteAccount":
+                String deletingEmail = request.getParameter("deleteEmail");
+                if (deletingEmail.equals(emailSession)){
+                    String deletingPassword = request.getParameter("deletePassword");
+                    
+                    String passHash = encrypt.setSecurePassword(deletingPassword, deletingEmail);
+                    
+                    if (passHash.equals(dbpassword)) {
+                        userDAO.deleteUser(new User(deletingEmail, request.getParameter("deletePassword"), name, surname, avatar, admin, list_owner, confirmed));
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    }
+                    
+                } else {
+                    response.sendRedirect("error.jsp");
+                };
+                break;
             default: response.sendRedirect("myaccount.jsp");
         }
         

@@ -8,11 +8,9 @@ package it.unitn.aa1718.webprogramming.connection;
 
 import it.unitn.aa1718.webprogramming.dao.*;
 import it.unitn.aa1718.webprogramming.dao.entities.*;
-import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Vector;
 
 /**
  * Classe DAO che permette la gestione dei DAO
@@ -47,7 +45,7 @@ public class MySQLDAOFactory extends DAOFactory {
     }
     
     /**
-     * 
+     * Metodo che ritorna il driver DB
      * @return 
      */
     public static String getDBDriver (){
@@ -157,5 +155,14 @@ public class MySQLDAOFactory extends DAOFactory {
     @Override
     public MessageDAO getMessageDAO() {
         return new MySQLMessageDAOImpl();
+    }
+
+    /**
+     * Metodo che ritorna i prodotti condivisi
+     * @return 
+     */
+    @Override
+    public SharingProductDAO getSharingProductDAO() {
+        return new MySQLSharingProductDAOImpl();
     }
 }

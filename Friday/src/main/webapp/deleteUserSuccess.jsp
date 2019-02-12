@@ -25,6 +25,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        
+        <meta http-equiv='refresh' content='5; index.jsp'>
 
         <title>Friday</title>
 
@@ -98,6 +101,15 @@
         });
         </script>
 
+        
+        <!-- script che non permette la funzione back del browser -->
+        <SCRIPT type="text/javascript">
+            window.history.forward();
+            function noBack() { window.history.forward(); }
+        </SCRIPT>
+        
+        
+        
     </body>
 
 </html>

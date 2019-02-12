@@ -752,6 +752,12 @@ public class Library {
                 
                 resultListRand = shoppingListDAO.getRandShoppingList(email, cookieID);
                 AllProductInListRand = productListDAO.getPIDsByLID(resultListRand.getLID());
+                
+                
+            System.out.println("in LIBRARY" + (request.getSession()).getAttribute("emailSession")+"   "+(request.getSession()).getAttribute("cookieIDSession"));
+            
+                
+                
                 System.out.println("LID = "+resultListRand.getLID());
                 resultList = shoppingListDAO.getShoppingListByUserIDOrCookieID(email, cookieID);
             
@@ -879,7 +885,7 @@ public class Library {
                
             tmp1 = (Product)prodottiRandom.get(i);
             tmp2 = userDAO.getUser(tmp1.getEmail());
-
+            
             prodottiRandomMatrix[i][0] = Integer.toString(tmp1.getPID());
             prodottiRandomMatrix[i][1] = tmp1.getName();
             prodottiRandomMatrix[i][2] = tmp1.getNote();

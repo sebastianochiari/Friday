@@ -94,6 +94,11 @@ public class sharingListServlet extends HttpServlet {
             case 2: 
                 listaScelta = Integer.parseInt(request.getParameter("listToShare"));
                 String email = request.getParameter("invitationEmail");
+                if(email.equals(request.getAttribute("emailSession"))){
+                    System.out.println("-------------------------------------------AAAAAAAAAAAAAAAAAAAAA");
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                break;
+                } else {
                 sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
                 productList = productListDAO.getPIDsByLID(listaScelta);
                 for (int i=0; i<productList.size(); i++){
@@ -103,6 +108,7 @@ public class sharingListServlet extends HttpServlet {
                 }
                 request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
                 break;
+                }
             case 3:
                 // questa parte va decisamente rivista, ora come ora dovrebbe essere la chat
          

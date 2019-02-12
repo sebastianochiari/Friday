@@ -11,7 +11,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
 <!-- DA CONTROLLRE COSA EFFETTIVAMENTE SERVA OPPURE NO -->
 <%@ page import="java.io.*"%>
@@ -50,13 +49,10 @@
                         </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 
-                            <sql:setDataSource var="snapshot" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
-                            <sql:query dataSource="${snapshot}" var="result" sql="SELECT * FROM product_categories;"></sql:query>
-
                             <form action="searchServlet" method ="GET">
-                                 <c:forEach var="res" items="${result.rows}" >
-                                       <button type="submit" value ="${res.PCID}" class="dropdown-item" name ="inputClick" id="inputClick">
-                                           ${res.Name}
+                                 <c:forEach var="res" items="${productsCategories}" >
+                                       <button type="submit" value ="${productsCategories[0]}" class="dropdown-item" name ="inputClick" id="inputClick">
+                                           ${productsCategories[1]}
                                        </button>
                                  </c:forEach>
                             </form>
@@ -88,35 +84,23 @@
                             <i class="fas fa-shopping-cart nav-link-icon"></i>
                             Le mie liste
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-
-                             <%--
-                            <sql:setDataSource var="snapshotList" driver="${DBDriverSession}" url="${DBUrlSession}" user="${DBUserSession}" password="${DBPassSession}"/>
-                            <c:set scope="session" var="snapshotList" value="${snapshotList}"></c:set>
-                            <sql:query dataSource="${snapshotList}" var="resultList" sql="SELECT * FROM lists WHERE (List_Owner = '${emailSession}' or CookieID = '${cookieIDSession}');"></sql:query>
-                            <sql:query dataSource="${snapshotList}" var="resultSharingList" sql="SELECT * FROM lists WHERE LID in (SELECT LID FROM sharing WHERE (email = '${emailSession}' && AddRemProd = '1'));"></sql:query>
-                            <sql:query dataSource="${snapshotList}" var="resultListRand" sql="SELECT * FROM lists WHERE (List_Owner = '${emailSession}' or CookieID = '${cookieIDSession}') ORDER BY RAND () LIMIT 1;"></sql:query>
-                            
-                            <c:set scope="session" var="resultListRand" value="${resultListRand}"></c:set>
-                            <c:set scope="session" var="resultList" value="${resultList}"></c:set>
-                            <c:set scope="session" var="resultSharingList" value="${resultSharingList}"></c:set>
-                             --%>          
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">       
                             <form action="handlingListServlet" method="GET">
                                 <button type="submit" value="0" class="dropdown-item" name="selectedList" >
                                     Gestione Liste
                                 </button>
                             </form>
                             <form action="handlingListServlet" method="GET">
-                                <c:forEach var="resList" items="${resultList}" >
-                                    <button type="submit" value="${resList[0]}" class="dropdown-item" name="selectedList" >
-                                        ${resList[1]}
+                                <c:forEach var="resList" items="${ListUserSession}" >
+                                    <button type="submit" value="${resList[1]}" class="dropdown-item" name="selectedList" >
+                                        ${resList[0]}
                                     </button>
                                 </c:forEach>
                             </form>
                             <form action="handlingListServlet" method="GET">
-                                <c:forEach var="resSharingList" items="${resultSharingList}" >
-                                    <button type="submit" value="${resSharingList[0]}" class="dropdown-item" name="selectedList" >
-                                        ${resSharingList[1]}
+                                <c:forEach var="resSharingList" items="${SharingListUserSession}" >
+                                    <button type="submit" value="${resSharingList[1]}" class="dropdown-item" name="selectedList" >
+                                        ${resSharingList[0]}
                                     </button>
                                 </c:forEach>
                             </form>

@@ -26,6 +26,7 @@ import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+import it.unitn.aa1718.webprogramming.friday.MyCookie;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.User;
 
@@ -108,6 +109,7 @@ public class insertShoppingListServlet extends HttpServlet {
 
                 //aggiungo LID al cookie anonimo
                 myCookieDAO.updateLIDCookie(cookieID, LID);
+                (request.getSession()).setAttribute("LIDSession", myCookieDAO.getLIDbyCookieID(cookieID));
 
             } else {
 

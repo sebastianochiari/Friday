@@ -290,7 +290,6 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
-        //System.out.println("LID = "+shoppingList.getLID()+" name = "+shoppingList.getName()+" note = "+shoppingList.getNote()+" list owner = "+shoppingList.getListOwner()+" LCID = "+shoppingList.getLCID()+" COOKIEID = "+shoppingList.getCookieID());
         try {      
             
             conn = MySQLDAOFactory.createConnection();

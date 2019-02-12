@@ -10,7 +10,6 @@
 <%@page import="java.util.*"%>
 <%@page import="javax.servlet.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -165,9 +164,12 @@
                                                         </option>
                                                     </c:forEach>
                                                 </select>
-                                                <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList" style="width: 100%;">
-                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi prodotto
-                                                </button>
+                                                <c:if test="${resultListRandExist eq false || boolEmailSessionScriptlet eq true}">  
+                                                    <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList" style="width: 100%;">
+                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi prodotto
+                                                    </button>
+                                                </c:if>                                                 
+                                                    
                                                 <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content shadow">

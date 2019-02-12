@@ -124,7 +124,6 @@ public class sharingListServlet extends HttpServlet {
                 }
 
                 //ottengo valori
-                System.out.println(listaSelezionata);
                 int LID = listaSelezionata;
                 List partecipanti = sharingDAO.getAllEmailsbyList(LID);
                 List messaggi = messageDAO.getMessagesByLID(LID);
@@ -181,7 +180,7 @@ public class sharingListServlet extends HttpServlet {
                 break;
             case 5:
                 listaScelta = Integer.parseInt(request.getParameter("notToShareList"));
-                String emailSession = request.getParameter("emailUtenteLoggato");
+                String emailSession = (String)session.getAttribute("emailSession");
                 sharingDAO.deleteSharing(new Sharing(emailSession, listaScelta, sharingDAO.getSharing(listaScelta, emailSession).getModify(), sharingDAO.getSharing(listaScelta, emailSession).getAdd(), sharingDAO.getSharing(listaScelta, emailSession).getDelete()));
                 response.sendRedirect("handlingListServlet?selectedList=0");
                 break;

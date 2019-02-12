@@ -24,7 +24,6 @@
 <%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
 <head>
     <meta charset="utf-8">
@@ -86,13 +85,13 @@
                             <h3 class="aside-title">Chat</h3>
                             <ul class="list-links">
                                 <!-- START: liste personali -->
-                                <form action="handlingListServlet" method="GET">
+                                <form action="sharingListServlet" method="GET">
                                     <c:forEach items="${ListUserSession}" var="lista">
                                         <input type="hidden" name="azioneLista" value="3">
                                         <c:set var="listaUser" value="${lista}"></c:set>
                                         <c:if test="${listaAttiva eq lista[1]}">
                                             <li>
-                                            <button type="submit" value="${lista[1]}" name="selectedList" class="dropdown-item">
+                                            <button type="submit" value="${lista[1]}" name="messageToList" class="dropdown-item">
                                                 ${lista[0]}
                                             </button>
                                             </li>
@@ -100,7 +99,7 @@
                                         </c:if>
                                         <c:if test="${listaAttiva ne lista[1]}">
                                             <li>
-                                            <button type="submit" value="${lista[1]}" name="selectedList" class="dropdown-item">
+                                            <button type="submit" value="${lista[1]}" name="messageToList" class="dropdown-item">
                                                 ${lista[0]}
                                             </button>
                                             </li>
@@ -112,11 +111,12 @@
                             </ul>                            
                             <ul class="list-links">
                                 <!-- START: liste condivise -->
-                                <form action="handlingListServlet" method="GET">
+                                <form action="sharingListServlet" method="GET">
                                     <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
+                                        <input type="hidden" name="azioneLista" value="3">
                                         <c:if test="${listaAttiva eq listaCondivisa[1]}">
                                             <li>
-                                            <button type="submit" value="${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
+                                            <button type="submit" value="${listaCondivisa[1]}" name="messageToList" class="dropdown-item">
                                                 ${listaCondivisa[0]}
                                             </button>
                                             </li>
@@ -124,7 +124,7 @@
                                         </c:if>
                                         <c:if test="${listaAttiva ne listaCondivisa[1]}">
                                             <li>
-                                            <button type="submit" value="${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
+                                            <button type="submit" value="${listaCondivisa[1]}" name="messageToList" class="dropdown-item">
                                                 ${listaCondivisa[0]}
                                             </button>
                                             </li>

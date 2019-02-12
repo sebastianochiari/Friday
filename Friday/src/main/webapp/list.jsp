@@ -34,7 +34,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <c:if test="${emailSession ne null}">
+                        <c:if test="${boolEmailSessionScriptlet eq true}">
                             <p><b>proprietario: </b>${utenteProprietario[0]} ${utenteProprietario[1]}</p>
                             <p>
                                 <b>condiviso con: </b>
@@ -91,7 +91,7 @@
         </c:if>
 
         <!-- ELIMINAZIONE LISTA -->
-        <c:if test="${utenteProprietario[2] eq emailSession}" var="uscitaLista">
+        <c:if test="${utenteProprietario[2] eq emailSession || boolEmailSessionScriptlet ne true}" var="uscitaLista">
             <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
                 <i class="fas fa-trash"></i>
             </a>
@@ -118,7 +118,7 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${utenteProprietario[2] ne emailSession}">
+        <c:if test="${utenteProprietario[2] ne emailSession && boolEmailSessionScriptlet eq true}">
             <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
                 <i class="fas fa-sign-out-alt shopping-icon"></i>
             </a>

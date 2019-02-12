@@ -108,7 +108,7 @@ public class sharingListServlet extends HttpServlet {
          
                 //inizializzo i DAO e sessione
                 DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
-                SharingDAO sharingDAO1 = new MySQLSharingDAOImpl();
+                //SharingDAO sharingDAO1 = new MySQLSharingDAOImpl();
                 MessageDAO messageDAO = new MySQLMessageDAOImpl();
                 UserDAO userDAO = new MySQLUserDAOImpl();
                 int listaSelezionata = Integer.parseInt(request.getParameter("messageToList"));

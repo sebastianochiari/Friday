@@ -83,6 +83,7 @@
                                 <!-- START: liste personali -->
                                 <form action="handlingListServlet" method="GET">
                                     <c:forEach items="${ListUserSession}" var="lista">
+                                        <input type="hidden" name="azioneLista" value="3">
                                         <c:set var="listaUser" value="${lista}"></c:set>
                                         <c:if test="${listaAttiva eq lista[1]}">
                                             <li>
@@ -141,7 +142,11 @@
                 
                 <div class="container">
                     <div class="messaging">
-                        <h4 class="float-right">${listaCorrente[1]}</h4>
+                        <h4 class="float-right">
+                            <a href="handlingListServlet?selectedList=${listaCorrente[0]}">
+                                ${listaCorrente[1]}
+                            </a> 
+                        </h4>
                           <div class="inbox_msg">
                             <!-- <div class="inbox_people">
                               <div class="headind_srch">

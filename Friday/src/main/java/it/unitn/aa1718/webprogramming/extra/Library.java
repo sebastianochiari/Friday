@@ -30,12 +30,10 @@ import it.unitn.aa1718.webprogramming.friday.Product;
 import it.unitn.aa1718.webprogramming.friday.ProductCategory;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
-import it.unitn.aa1718.webprogramming.friday.SharingProduct;
 import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import it.unitn.aa1718.webprogramming.friday.ShoppingListCategory;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
-import static java.lang.Math.random;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -875,7 +873,7 @@ public class Library {
         //prodottiRandom
         tmp1 = null;
         tmp2 = null;
-        String[][] prodottiRandomMatrix = new String[prodottiRandom.size()][7];
+        String[][] prodottiRandomMatrix = new String[prodottiRandom.size()][9];
         
         for(int i=0; i<prodottiRandom.size(); i++){
                
@@ -887,10 +885,21 @@ public class Library {
             prodottiRandomMatrix[i][2] = tmp1.getNote();
             prodottiRandomMatrix[i][3] = tmp1.getLogo();
             prodottiRandomMatrix[i][4] = tmp1.getPhoto();
-            prodottiRandomMatrix[i][5] = tmp2.getName();
-            prodottiRandomMatrix[i][6] = tmp2.getSurname();
+            prodottiRandomMatrix[i][5] = (productCategoryDAO.getProductCategory(tmp1.getPCID())).getName();
+            prodottiRandomMatrix[i][6] = tmp2.getName();
+            prodottiRandomMatrix[i][7] = tmp2.getSurname();
+            if (!(tmp2).getAdmin()) {
+                userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(prodottiRandomMatrix [i][0]));
+                if (userSharedProduct.isEmpty() || userSharedProduct.size()>1){
+                    prodottiRandomMatrix[i][8] = String.valueOf(userSharedProduct.size()) + " utenti";
+                } else {
+                    prodottiRandomMatrix[i][8] = String.valueOf(userSharedProduct.size()) + " utente";
+                }
+            } else {
+                prodottiRandomMatrix[i][8] = "Tutti gli utenti";
+            } 
 
-            }
+        }
         
         session.setAttribute("resultListRand", resultListRandMatrix);
         session.setAttribute("resultList", resultListMatrix);

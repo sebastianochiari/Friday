@@ -107,6 +107,9 @@ public class securityServlet extends HttpServlet {
                     
                     if (passHash.equals(dbpassword)) {
                         userDAO.deleteUser(new User(deletingEmail, request.getParameter("deletePassword"), name, surname, avatar, admin, list_owner, confirmed));
+                        request.getSession().removeAttribute("emailSession");
+                        //VANNO ELIMINATI TUTTI GLI ATTRIBUTI DI SESSIONE QUI!!!!!!!!!!!!!!
+                        response.sendRedirect("deleteUserSuccess.jsp");
                     } else {
                         response.sendRedirect("error.jsp");
                     }

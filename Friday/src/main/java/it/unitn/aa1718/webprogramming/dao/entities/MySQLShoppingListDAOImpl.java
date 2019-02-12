@@ -189,6 +189,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
     }
     
+    /**
+     * Metodo che ritorna la lista della spesa dell'utente anonimo
+     * @param CookieID intero che rappresenta il cookie dell'utente anonimo
+     * @return la shopping list specifica dell'utente anonimo
+     */
     @Override
     public ShoppingList getAnonymusShoppingList(int CookieID){
         
@@ -276,16 +281,16 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     }
     
     /**
-     * Metodo che crea una lista della spesa ???
-     * @param shoppingList
-     * @return 
+     * Metodo che crea una lista della spesa 
+     * @param shoppingList istanza della lista della spesa
+     * @return l'ID della lista della spesa
      */
     @Override
     public String createShoppingList(ShoppingList shoppingList) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet result = null;
-        System.out.println("LID = "+shoppingList.getLID()+" name = "+shoppingList.getName()+" note = "+shoppingList.getNote()+" list owner = "+shoppingList.getListOwner()+" LCID = "+shoppingList.getLCID()+" COOKIEID = "+shoppingList.getCookieID());
+        //System.out.println("LID = "+shoppingList.getLID()+" name = "+shoppingList.getName()+" note = "+shoppingList.getNote()+" list owner = "+shoppingList.getListOwner()+" LCID = "+shoppingList.getLCID()+" COOKIEID = "+shoppingList.getCookieID());
         try {      
             
             conn = MySQLDAOFactory.createConnection();
@@ -328,8 +333,8 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
 
     /**
      * Metodo che permette la modifica della lista della spesa
-     * @param shoppingList 
-     * @return 
+     * @param shoppingList istanza della lista della spesa da modificare
+     * @return lista della spesa modificata
      */
     @Override
     public boolean updateShoppingList(ShoppingList shoppingList) {
@@ -396,6 +401,10 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return false;
     }
     
+    /**
+     * Metodo che elimina la lista della spesa
+     * @return booleano che determina l'eliminazione della lista della spesa
+     */
     @Override
     public boolean deleteExpiredShoppingLists(){
         Connection conn = null;
@@ -424,9 +433,9 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     }
 
     /**
-     * Metodo che permette la modifica di una lista della spesa ????
-     * @param LID
-     * @param email 
+     * Metodo che permette la modifica dell'email di una lista della spesa 
+     * @param LID intero che rappresenta l'ID univoco della lista
+     * @param email stringa che rappresenta l'email da modificare
      */
     @Override
     public void updateEmailShoppingList(int LID, String email) {
@@ -457,6 +466,12 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         
     }
 
+    /**
+     * Metodo che ritorna la lista della spesa in base all'email dell'utente o cookie dell'utente
+     * @param email stringa che rappresenta l'email dell'utente
+     * @param cookieID intero che rappresenta il cookie dell'utente
+     * @return lista ritornata in base ai parametri passati in input
+     */
     @Override
     public List getShoppingListByUserIDOrCookieID(String email, int cookieID) {
         
@@ -501,6 +516,11 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
 
     }
 
+    /**
+     * Metodo che ritorna tutte le liste della spesa 
+     * @param email
+     * @return 
+     */
     @Override
     public List getAllShoppingListEditable(String email) {
         List shoppingLists = new ArrayList();
@@ -542,6 +562,12 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
         return shoppingLists;
     }
 
+    /**
+     * Metodo che ritorna le liste della spesa 
+     * @param email
+     * @param cookieID
+     * @return 
+     */
     @Override
     public ShoppingList getRandShoppingList(String email, int cookieID) {
         

@@ -127,9 +127,9 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
     }
   
     /**
-     * Metodo che ritorna le categorie di lista ???
-     * @param LCID
-     * @return 
+     * Metodo che ritorna le liste in base alle categorie di lista  
+     * @param LCID intero che rappresenta la categoria di lista 
+     * @return la lista in base alla categoria di lista della spesa
      */
     @Override
     public ShoppingListCategory getShoppingListCategory(int LCID){
@@ -172,9 +172,9 @@ public class MySQLShoppingListCategoryDAOImpl implements ShoppingListCategoryDAO
     }
     
     /**
-     * Metodo che crea la categoria di lista 
+     * Metodo che crea la categoria di lista della spesa
      * @param shoppingListCategory oggetto list category passato in input
-     * @return stringa che rappresenta ?????????
+     * @return stringa che rappresenta l'ID della categoria di lista della spesa 
      */
     @Override
     public String createShoppingListCategory(ShoppingListCategory shoppingListCategory) {

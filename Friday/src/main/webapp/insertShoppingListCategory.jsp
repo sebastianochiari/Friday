@@ -1,8 +1,9 @@
 <%-- 
-    Document   : insertShoppingListCategory
-    Created on : 18-Oct-2018, 13:44:07
-    Author     : leo97
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
+
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>

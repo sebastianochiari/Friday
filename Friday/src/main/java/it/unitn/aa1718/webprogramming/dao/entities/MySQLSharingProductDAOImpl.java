@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.dao.entities;
 
@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author leo97
+ * Classe DAO che permette la gestione di prodotti condivisi
  */
 public class MySQLSharingProductDAOImpl implements SharingProductDAO{
     
@@ -36,6 +35,10 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
 
     private static final String Delete_Query = "DELETE FROM sharing_products WHERE (email = ? and PID = ?)";
 
+    /**
+     * Metodo che ritorna tutti i prodotti condivisi
+     * @return lista di prodotti condivisi
+     */
     @Override
     public List getAllSharingProduct() {
         
@@ -77,6 +80,11 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         return sharingProducts;
     }
 
+    /**
+     * Metodo che ritorna tutti i prodotti condivisi dell'utente specifico
+     * @param email identificativo univoco dell'utente
+     * @return lista di prodotti che corrispondono ai criteri di ricerca
+     */
     @Override
     public List getAllProductByEmail(String email) {
         
@@ -121,6 +129,11 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
     
     }
 
+    /**
+     * Metodo che ritorna tutte le email in base all'ID del prodotto specificato in input
+     * @param PID id del prodotto
+     * @return lista di emails trovate
+     */
     @Override
     public List getAllEmailsbyPID(int PID) {
         
@@ -166,6 +179,12 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         
     }
 
+    /**
+     * Metodo che ritorna i prodotti condivisi in base all'ID del prodotto e l'email
+     * @param PID id univoco del prodotto
+     * @param email email dell'utente
+     * @return lista che corrisponde ai criteri di ricerca
+     */
     @Override
     public SharingProduct getSharingProduct(int PID, String email) {
         
@@ -208,6 +227,11 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         return sharingProduct;
     }
 
+    /**
+     * Metodo che permette la creazione di prodotti condivisi
+     * @param sharingProduct istanza per la creazione del prodotto
+     * @return stringa che rappresenta l'email dell'utente creatore
+     */
     @Override
     public String createSharingProduct(SharingProduct sharingProduct) {
         Connection connection = null;
@@ -247,8 +271,14 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
             }
         }
         
-        return null;    }
+        return null;    
+    }
 
+    /**
+     * Metodo che permette la modifica di un prodotto condiviso
+     * @param sharingProduct prodotto da modificare
+     * @return booleano che verifica la modifica effettuata o no del prodotto
+     */
     @Override
     public boolean updateSharingProduct(SharingProduct sharingProduct) {
         Connection connection = null;
@@ -286,6 +316,11 @@ public class MySQLSharingProductDAOImpl implements SharingProductDAO{
         return false;
     }
 
+    /**
+     * Metodo che permette l'eliminazione di un prodotto condiviso 
+     * @param sharingProduct prodotto da eliminare
+     * @return booleano che verifica l'eliminazione corretta o no del prodotto
+     */
     @Override
     public boolean deleteSharingProduct(SharingProduct sharingProduct) {
         Connection connection = null;

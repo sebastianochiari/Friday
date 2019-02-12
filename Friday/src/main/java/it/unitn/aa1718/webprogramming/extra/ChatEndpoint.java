@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.extra;
 
@@ -23,6 +23,9 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+/**
+ * Classe che permette la gestione della chat
+ */
 @ServerEndpoint(value = "/chat/{LID}/{userID}", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class ChatEndpoint {
     
@@ -38,6 +41,14 @@ public class ChatEndpoint {
     MessageDAO messageDAO = new MySQLMessageDAOImpl();
     Library library = new Library();
 
+    /**
+     * Metodo che permette l'inizializzazzione della chat e l'aggiunta di utenti 
+     * @param session
+     * @param LID
+     * @param userID
+     * @throws IOException
+     * @throws EncodeException 
+     */
     @OnOpen
     public void onOpen(Session session, @PathParam("LID") int LID, @PathParam("userID") String userID) throws IOException, EncodeException {
         
@@ -63,6 +74,14 @@ public class ChatEndpoint {
         //broadcast(LID, message);
     }
 
+    /**
+     * Metodo che permette l'invio di messaggi nella chat specifica
+     * @param session
+     * @param message
+     * @param LID
+     * @throws IOException
+     * @throws EncodeException 
+     */
     @OnMessage
     public void onMessage(Session session, Message message, @PathParam("LID") int LID) throws IOException, EncodeException {
         
@@ -78,6 +97,13 @@ public class ChatEndpoint {
         broadcast(LID, message);
     }
 
+    /**
+     * Metodo che permette l'eliminazione dell'utente da una chat specifica
+     * @param session
+     * @param LID
+     * @throws IOException
+     * @throws EncodeException 
+     */
     @OnClose
     public void onClose(Session session, @PathParam("LID") int LID) throws IOException, EncodeException {
         
@@ -97,9 +123,15 @@ public class ChatEndpoint {
      
     }
 
+    /**
+     * Metodo che permette l'invio di messaggi a tutti i partecipanti della chat della lista
+     * @param LID
+     * @param message
+     * @throws IOException
+     * @throws EncodeException 
+     */
     private static void broadcast(int LID, Message message) throws IOException, EncodeException {
         
-        //manda il messaggio a tutti i componenti della lista
         Set<ChatEndpoint> chatEndpoints = chats.get(Integer.toString(LID));
         
         for(ChatEndpoint endpoint : chatEndpoints){

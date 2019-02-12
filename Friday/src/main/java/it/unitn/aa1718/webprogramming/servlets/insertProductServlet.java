@@ -53,7 +53,7 @@ public class insertProductServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * Metodo GET: inserisce un prodotto nuovo nel database, effettuando i relativi controlli
+     * Metodo GET: inserisce un prodotto nuovo nel database, effettuando i relativi controlli. In caso di errore si redireziona alla default error page.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -116,7 +116,7 @@ public class insertProductServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * Metodo POST della servlet:  COSA FA?
+     * Metodo POST della servlet che si occupa dell'eliminazione di un prodotto 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -222,7 +222,7 @@ public class insertProductServlet extends HttpServlet {
                 
                 break;
             default: 
-                response.sendRedirect("faq.jsp");
+                response.sendRedirect("error.jsp");
                 break;
         }
         

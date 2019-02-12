@@ -82,11 +82,11 @@ public class searchServlet extends HttpServlet {
         String ordine = null;
         int PCID = -1;
 
-        System.out.println("PCID: " + request.getParameter("inputCategory"));
-        System.out.println("inputClick: " + request.getParameter("inputClick"));
-        System.out.println("inputSearch: " + request.getParameter("inputSearch"));
-        System.out.println("CategoryLeft: " + request.getParameter("CategoryLeft"));
-        System.out.println("order: " + request.getParameter("order"));
+        //System.out.println("PCID: " + request.getParameter("inputCategory"));
+        //System.out.println("inputClick: " + request.getParameter("inputClick"));
+        //System.out.println("inputSearch: " + request.getParameter("inputSearch"));
+        //System.out.println("CategoryLeft: " + request.getParameter("CategoryLeft"));
+        //System.out.println("order: " + request.getParameter("order"));
 
         if(request.getParameter("inputCategory") != null){
             PCID = Integer.parseInt(request.getParameter("inputCategory"));
@@ -138,10 +138,10 @@ public class searchServlet extends HttpServlet {
         }
 
         //controllo input
-        System.out.println("PCID: " + PCID);
-        System.out.println("inputClick: " + inputClick);
-        System.out.println("inputSearch: " + input);
-        System.out.println("order: " + ordine);
+        //System.out.println("PCID: " + PCID);
+        //System.out.println("inputClick: " + inputClick);
+        //System.out.println("inputSearch: " + input);
+        //System.out.println("order: " + ordine);
 
         List<Product> products = null;
         String [] temp = new String [2];

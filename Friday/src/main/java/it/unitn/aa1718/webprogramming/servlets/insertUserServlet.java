@@ -138,7 +138,7 @@ public class insertUserServlet extends HttpServlet {
 
                     int cookieID = (int)session.getAttribute("cookieIDSession");
                     int cookieLID =  myCookieDAO.getLIDbyCookieID(cookieID);
-                    System.out.println("cookie LID = "+cookieLID);
+                    //System.out.println("cookie LID = "+cookieLID);
                     shoppingListDAO.updateEmailShoppingList(cookieLID, email);
                     myCookieDAO.updateEmailCookie(cookieID, email);
 

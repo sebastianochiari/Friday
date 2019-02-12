@@ -35,7 +35,7 @@ public class insertShoppingListServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -61,7 +61,7 @@ public class insertShoppingListServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     * Metodo GET della servlet che si occupa della creazione di una lista della spesa. In caso di errore si redireziona alla default error page.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -155,7 +155,7 @@ public class insertShoppingListServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     * Metodo POST della servlet che si occupa della cancellazione di una shopping list. In caso di errore si redireziona alla default error page
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -190,7 +190,7 @@ public class insertShoppingListServlet extends HttpServlet {
                     response.sendRedirect("handlingListServlet?selectedList=0");
              
                 } else {
-                    response.sendRedirect("faq.jsp");
+                    response.sendRedirect("error.jsp");
                 };
                 break;
             case 0:
@@ -199,7 +199,7 @@ public class insertShoppingListServlet extends HttpServlet {
                 if (exit){
                     response.sendRedirect("handlingListServlet?selectedList=0");
                 } else {
-                    response.sendRedirect("faq.jsp");
+                    response.sendRedirect("error.jsp");
                 };
                 break;
             default:

@@ -1,8 +1,9 @@
 <%-- 
-    Document   : faq.jsp
-    Created on : 23-nov-2018, 10.36.55
-    Author     : marta
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
+
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.PreparedStatement"%>

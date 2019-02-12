@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * WebProgramming Project - Shopping List 
+ * 2017-2018
+ * Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
  */
 package it.unitn.aa1718.webprogramming.servlets;
 
@@ -36,16 +36,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author tommi
- */
+
 public class sharingListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -71,7 +68,9 @@ public class sharingListServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * Metodo GET della Servlet che si occupa di condividere la lista con l'utente specificato. 
+     * Gestisce l'eliminazione, la condivisione,l'aggiunta di elementi e le informazioni di una lista.
+     * 
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -140,7 +139,7 @@ public class sharingListServlet extends HttpServlet {
                     PartecipantiResult[i][0] = tmp.getAvatar();
                     PartecipantiResult[i][1] = tmp.getName();
                     PartecipantiResult[i][2] = tmp.getSurname();
-                    System.out.println(PartecipantiResult[i][0]+" "+PartecipantiResult[i][1]+" "+PartecipantiResult[i][2]);
+                    //System.out.println(PartecipantiResult[i][0]+" "+PartecipantiResult[i][1]+" "+PartecipantiResult[i][2]);
                 }
 
                 //salvo i messaggi in modo da poterli passare alla jsp
@@ -154,7 +153,7 @@ public class sharingListServlet extends HttpServlet {
                     MessaggiResult[i][1] = (userDAO.getUser(tmp.getSender())).getSurname();
                     MessaggiResult[i][2] = tmp.getText();
                     MessaggiResult[i][3] = (userDAO.getUser(tmp.getSender())).getEmail();
-                    System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
+                    //System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
 
                 }
 
@@ -196,7 +195,7 @@ public class sharingListServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Metodo POST non implementato
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

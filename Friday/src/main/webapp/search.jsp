@@ -1,7 +1,7 @@
-<%--
-    Document   : search
-    Created on : 7-nov-2018, 16.04.34
-    Author     : marta & remo & tommi
+<%-- 
+    WebProgramming Project - Shopping List 
+    2017-2018
+    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

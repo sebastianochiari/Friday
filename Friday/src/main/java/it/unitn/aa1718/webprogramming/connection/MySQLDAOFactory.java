@@ -45,7 +45,7 @@ public class MySQLDAOFactory extends DAOFactory {
     }
     
     /**
-     * 
+     * Metodo che ritorna il driver DB
      * @return 
      */
     public static String getDBDriver (){
@@ -157,6 +157,10 @@ public class MySQLDAOFactory extends DAOFactory {
         return new MySQLMessageDAOImpl();
     }
 
+    /**
+     * Metodo che ritorna i prodotti condivisi
+     * @return 
+     */
     @Override
     public SharingProductDAO getSharingProductDAO() {
         return new MySQLSharingProductDAOImpl();

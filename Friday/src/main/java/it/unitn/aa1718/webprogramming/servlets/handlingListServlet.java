@@ -97,31 +97,42 @@ public class handlingListServlet extends HttpServlet {
             request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
         } else {
             ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
+            System.out.println(" selectedList "+selectedList);
             ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);
+            System.out.println(" shoppingList "+shoppingList);
             ShoppingListCategoryDAO shoppingListCategoryDAO = new MySQLShoppingListCategoryDAOImpl();
             UserDAO userDAO = new MySQLUserDAOImpl();
-            User user = userDAO.getUser(shoppingList.getListOwner());
             SharingDAO sharingDAO = new MySQLSharingDAOImpl();
             List sharing = sharingDAO.getAllEmailsbyList(selectedList);
             ProductDAO productDAO = new MySQLProductDAOImpl();
             ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
 
-            String [] listaCorrente = new String [5];
+            String [] listaCorrente = new String [7];
             String [] utenteProprietario = new String [5];
-            String [][] listaCondivisa = new String [sharing.size()][4];
-
-            for (int i=0; i<sharing.size(); i++) {
-                listaCondivisa[i][0] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getName();
-                listaCondivisa[i][1] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getSurname();
-                listaCondivisa[i][2] = ((Sharing)sharing.get(i)).getEmail();
-                listaCondivisa[i][3] = Boolean.toString(((Sharing)sharing.get(i)).getDelete());
+            String [][] listaCondivisa = new String [sharing.size()][6];
+            
+            User user = null;
+            if (session.getAttribute("emailSession") != null){
+                user = userDAO.getUser(shoppingList.getListOwner());
+                for (int i=0; i<sharing.size(); i++) {
+                    listaCondivisa[i][0] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getName();
+                    listaCondivisa[i][1] = userDAO.getUser(((Sharing)sharing.get(i)).getEmail()).getSurname();
+                    listaCondivisa[i][2] = ((Sharing)sharing.get(i)).getEmail();
+                    listaCondivisa[i][3] = Boolean.toString(((Sharing)sharing.get(i)).getDelete());
+                    listaCondivisa[i][4] = Boolean.toString(((Sharing)sharing.get(i)).getModify());
+                    listaCondivisa[i][5] = Boolean.toString(((Sharing)sharing.get(i)).getAdd());
+                }
+            } else {
+                listaCondivisa = new String [0][6];
             }
-
-            listaCorrente[0] = Integer.toString(shoppingList.getLID());
+            
+            listaCorrente[0] = Integer.toString(selectedList);
             listaCorrente[1] = shoppingList.getName();
             listaCorrente[2] = shoppingList.getNote();
             listaCorrente[3] = shoppingList.getImage();
             listaCorrente[4] = shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID()).getName();
+            listaCorrente[5] = Integer.toString(shoppingList.getCookieID());
+            listaCorrente[6] = Integer.toString(shoppingList.getLCID());
 
             if (session.getAttribute("emailSession") != null) {
                 utenteProprietario[0] = user.getName();

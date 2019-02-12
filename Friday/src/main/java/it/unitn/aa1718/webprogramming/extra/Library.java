@@ -411,29 +411,36 @@ public class Library {
         
         for(int i=0; i<products.size(); i++){
 
-                searchProductResult[i][0] = Integer.toString(((Product)(products.get(i))).getPID());
-                searchProductResult[i][1] = ((Product)(products.get(i))).getName();
-                searchProductResult[i][2] = ((Product)(products.get(i))).getNote();
-                searchProductResult[i][3] = ((Product)(products.get(i))).getLogo();
-                searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
-                searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
-                searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
-                searchProductResult[i][7] = userDAO.getUser(((Product)(products.get(i))).getEmail()).getName();
-                searchProductResult[i][8] = userDAO.getUser(((Product)(products.get(i))).getEmail()).getSurname();
-                
-                if (!userDAO.getUser(((Product)(products.get(i))).getEmail()).getAdmin()) {
-                    userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(searchProductResult[i][0]));
-                    if (userSharedProduct.isEmpty() || userSharedProduct.size()>1){
-                        searchProductResult[i][9] = String.valueOf(userSharedProduct.size()) + " utenti";
-                    } else {
-                        searchProductResult[i][9] = String.valueOf(userSharedProduct.size()) + " utente";
-                    }
-                } else {
-                    searchProductResult[i][9] = "Tutti gli utenti";
-                }
+            searchProductResult[i][0] = Integer.toString(((Product)(products.get(i))).getPID());
+            searchProductResult[i][1] = ((Product)(products.get(i))).getName();
+            searchProductResult[i][2] = ((Product)(products.get(i))).getNote();
+            searchProductResult[i][3] = ((Product)(products.get(i))).getLogo();
+            searchProductResult[i][4] = ((Product)(products.get(i))).getPhoto();
+            searchProductResult[i][5] = (productCategoryDAO.getProductCategory(((Product)(products.get(i))).getPCID())).getName();
+            searchProductResult[i][6] = ((Product)(products.get(i))).getEmail();
+            searchProductResult[i][7] = userDAO.getUser(((Product)(products.get(i))).getEmail()).getName();
+            searchProductResult[i][8] = userDAO.getUser(((Product)(products.get(i))).getEmail()).getSurname();
 
+            if (!userDAO.getUser(((Product)(products.get(i))).getEmail()).getAdmin()) {
+                userSharedProduct = sharingProductDAO.getAllEmailsbyPID(Integer.parseInt(searchProductResult[i][0]));
+                if (userSharedProduct.isEmpty() || userSharedProduct.size()>1){
+                    searchProductResult[i][9] = String.valueOf(userSharedProduct.size()) + " utenti";
+                } else {
+                    searchProductResult[i][9] = String.valueOf(userSharedProduct.size()) + " utente";
+                }
+            } else {
+                searchProductResult[i][9] = "Tutti gli utenti";
             }
-        return searchProductResult;
+
+        }
+        
+        if (products.size() > 0){
+            return searchProductResult;
+        } else {
+            return null;
+        }
+        
+        
     }
 
     /**
@@ -552,28 +559,30 @@ public class Library {
     
             if(session.getAttribute("cookieIDSession") == null){
 
-            MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
-            MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+                MyCookieDAO riverCookieDAO = mySqlFactory.getMyCookieDAO();
+                MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
 
-            //cancello eventuali cookie scaduti
-            myCookieDAO.deleteDBExpiredCookies();
+                //cancello eventuali cookie scaduti
+                myCookieDAO.deleteDBExpiredCookies();
 
-            //Creo cookie
-            Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(LastEntryTable("cookieID", "cookies")));
-            cookie.setMaxAge(-1);
-            cookieID = Integer.parseInt((String)cookie.getValue());
+                //Creo cookie
+                Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(LastEntryTable("cookieID", "cookies")));
+                cookie.setMaxAge(-1);
+                cookieID = Integer.parseInt((String)cookie.getValue());
 
-            Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
+                Long Deadline = (new Timestamp(System.currentTimeMillis())).getTime();
 
-            myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
-            session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
-            response.addCookie(cookie);
+                myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
+                session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));
+                response.addCookie(cookie);
             
             } else {
                 cookieID = (int)session.getAttribute("cookieIDSession");
             }
     
             ShoppingList shoppingList = shoppingListDAO.getAnonymusShoppingList(cookieID);
+            System.out.println(" cookieID "+cookieID);
+            System.out.println(" shoppingList "+shoppingList);
             String[][] ListResult;
 
             if(shoppingList != null){

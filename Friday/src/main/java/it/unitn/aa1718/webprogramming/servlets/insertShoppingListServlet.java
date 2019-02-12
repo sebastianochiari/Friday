@@ -89,15 +89,9 @@ public class insertShoppingListServlet extends HttpServlet {
         int cookieID = -1;
         int changeProduct = 0;
         
-        System.out.println(" sorgente: "+session.getAttribute("sorgente"));
-        System.out.println(" changeProduct1: "+session.getAttribute("changeProduct1"));
-        
-        if (session.getAttribute("sorgente") != null && session.getAttribute("sorgente").equals("creoListaEProdotto")) {
-            changeProduct = Integer.parseInt((String)session.getAttribute("changeProduct1"));
-        }
-        
-        System.out.println(" --------------- " + changeProduct);
-        
+        if (request.getParameter("sorgente") != null && request.getParameter("sorgente").equals("creoListaEProdotto")) {
+            changeProduct = Integer.parseInt((String)request.getParameter("changeProduct"));
+        }        
         
         if(name.length()< 200 && note.length()< 200 && image.length()<500){ 
 
@@ -144,6 +138,7 @@ public class insertShoppingListServlet extends HttpServlet {
             if (changeProduct > 0) {
                 ProductListDAO productListDAO = new MySQLProductListDAOImpl();
                 productListDAO.createProductList(new ProductList(changeProduct, shoppingList.getLID(), 1));
+                session.setAttribute("changeProduct", 0);
                 response.sendRedirect("handlingListServlet?selectedList="+shoppingList.getLID());
             } else {
                 request.setAttribute("goodInsertShoppingList", "true");

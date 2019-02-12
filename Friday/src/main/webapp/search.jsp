@@ -197,25 +197,27 @@
 
                             <br>
 
-                            <div class="clearfix">
-                                <nav class="float-right" aria-label="Page navigation example">
-                                    <ul class="pagination" id="pagin">
-                                        <li class="page-item">
-                                          <a class="page-link" href="#" id="previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">0</span>
-                                          </a>
-                                        </li>
-                                        <li class="page-item">
-                                          <a class="page-link" href="#" id="next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">2</span>
-                                          </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-
+                            <c:if test="${resultSearch ne null}">
+                                <div class="clearfix">
+                                    <nav class="float-right" aria-label="Page navigation example">
+                                        <ul class="pagination" id="pagin">
+                                            <li class="page-item">
+                                              <a class="page-link" href="#" id="previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">0</span>
+                                              </a>
+                                            </li>
+                                            <li class="page-item">
+                                              <a class="page-link" href="#" id="next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">2</span>
+                                              </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </c:if>
+                            
                             <br>
 
                             <div>

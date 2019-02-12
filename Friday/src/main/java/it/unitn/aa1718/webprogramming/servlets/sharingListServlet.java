@@ -25,6 +25,7 @@ import it.unitn.aa1718.webprogramming.friday.Message;
 import it.unitn.aa1718.webprogramming.friday.ProductList;
 import it.unitn.aa1718.webprogramming.friday.Sharing;
 import it.unitn.aa1718.webprogramming.friday.SharingProduct;
+import it.unitn.aa1718.webprogramming.friday.ShoppingList;
 import it.unitn.aa1718.webprogramming.friday.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -203,6 +204,21 @@ public class sharingListServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+        Library library = new Library();
+        
+        ShoppingListDAO shoppingListDAO1 = new MySQLShoppingListDAOImpl();
+        String newName = request.getParameter("newName");
+        String newNote = request.getParameter("newNote");
+        String newPhoto = request.getParameter("newPhoto");
+        int LID = Integer.parseInt(request.getParameter("LID"));
+        int LCID = Integer.parseInt(request.getParameter("LCID"));
+        String ListOwner = request.getParameter("ListOwner");
+        int CookieID = Integer.parseInt(request.getParameter("CookieID"));
+        shoppingListDAO1.updateShoppingList(new ShoppingList(LID, newName, newNote, library.ImageControl(newPhoto), LCID, ListOwner, CookieID));
+        
+        response.sendRedirect("handlingListServlet?selectedList="+LID);
         
     }
 

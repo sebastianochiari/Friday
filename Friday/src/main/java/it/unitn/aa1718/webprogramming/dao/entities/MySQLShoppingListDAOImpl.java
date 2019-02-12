@@ -35,7 +35,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
     
     private static final String Read_All_Query = "SELECT LID, name, note, image, LCID, list_owner, cookieID FROM lists";
     
-    private static final String Update_Query = "UPDATE lists SET LID=?, name=?, note=?, image=?, LCID=?, list_owner=?, cookieID=? WHERE LID = ?";
+    private static final String Update_Query = "UPDATE lists SET LID=?, name=?, note=?, image=? WHERE LID = ?";
     
     private static final String Update_Email_Query = "UPDATE lists SET list_owner = ? WHERE LID = ?";
     
@@ -343,9 +343,7 @@ public class MySQLShoppingListDAOImpl implements ShoppingListDAO{
             preparedStatement.setString(2, shoppingList.getName());
             preparedStatement.setString(3, shoppingList.getNote());
             preparedStatement.setString(4, shoppingList.getImage());
-            preparedStatement.setInt(5, shoppingList.getLCID());
-            preparedStatement.setString(6, shoppingList.getListOwner());
-            preparedStatement.setInt(7, shoppingList.getCookieID());
+            preparedStatement.setInt(5, shoppingList.getLID());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

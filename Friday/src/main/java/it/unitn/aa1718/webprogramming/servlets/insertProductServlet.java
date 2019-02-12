@@ -151,7 +151,12 @@ public class insertProductServlet extends HttpServlet {
             String keyListOwner = null;
             int keyCookieID = (int)session.getAttribute("cookieIDSession");
             ShoppingList shoppingList = new ShoppingList(keyLID, keyName, keyNote, keyImage, keyLCID, null, keyCookieID);
-            lista = shoppingList.getLID();
+            if (!(boolean)session.getAttribute("listaAnonimo")){
+                shoppingListDAO.createShoppingList(shoppingList);
+                lista = shoppingList.getLID();
+            } else {
+                lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
+            }
         } else {
             lista = Integer.parseInt(request.getParameter("selectedListToChangeProduct"));
         }
@@ -184,11 +189,12 @@ public class insertProductServlet extends HttpServlet {
                 productListDAO.updateProductList(productList);
                 break;
             case 4:
-                
-                if(session.getAttribute("EmailSession")!=null){
+                List listaProdotti = null;
+                //if(session.getAttribute("emailSession")!=null){
                     
                     boolean inList = false;
-                    List listaProdotti = productListDAO.getPIDsByLID(lista);
+                    listaProdotti = productListDAO.getPIDsByLID(lista);
+                    
                     if (listaProdotti.isEmpty()){
                         productList = new ProductList(comando, lista, amount);
                         productListDAO.createProductList(productList);
@@ -205,9 +211,12 @@ public class insertProductServlet extends HttpServlet {
                             productList = new ProductList(comando, lista, amount);
                             productListDAO.createProductList(productList);
                         }
-                    }
-
-                
+//                    }
+//
+//                
+//                } else {
+//                    productList = new ProductList(comando, lista, amount);
+//                    productListDAO.createProductList(productList);
                 };
                 
                 

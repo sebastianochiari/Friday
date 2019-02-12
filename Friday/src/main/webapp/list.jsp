@@ -6,10 +6,11 @@
 <c:set var="utenteProprietario" value="${utenteProprietario}"></c:set>
 <c:set var="listaCondivisa" value="${listaCondivisa}"></c:set>
 
+    <%--
 <c:if test="${!boolEmailSessionScriptlet}">
     <c:redirect url="/handlingListServlet?selectedList=0"/>
 </c:if>
-        
+        --%>
 
 <div class="clearfix">
     <div class="float-right">
@@ -21,19 +22,21 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content shadow">
                     <div class="modal-header">
-                        <h5 class="modal-title">Info sulla lista</h5>
+                        <h5 class="modal-title">Lista ${listaCorrente[1]}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p><b>proprietario: </b>${utenteProprietario[0]} ${utenteProprietario[1]}</p>
-                        <p>
-                            <b>condiviso con: </b>
-                            <c:forEach items="${listaCondivisa}" var="ListaCondivisa">
-                                ${ListaCondivisa[0]} ${ListaCondivisa[1]},
-                            </c:forEach>
-                        </p>
+                        <c:if test="${emailSession ne null}">
+                            <p><b>proprietario: </b>${utenteProprietario[0]} ${utenteProprietario[1]}</p>
+                            <p>
+                                <b>condiviso con: </b>
+                                <c:forEach items="${listaCondivisa}" var="ListaCondivisa">
+                                    ${ListaCondivisa[0]} ${ListaCondivisa[1]},
+                                </c:forEach>
+                            </p>
+                        </c:if>
                         <p><b>immagine lista:</b></p>
                         <img src="images/list-category/${listaCorrente[3]}" style="width: 100%">
                     </div>
@@ -229,3 +232,47 @@
         </div>
     </div>
 </div>
+                    
+                        
+<c:forEach items="${listaCondivisa}" var="ListaCondivisa">
+    <c:if test="${ListaCondivisa[4] eq true}">
+        <!-- START: modifica delle informazioni lista -->
+
+        <div id="breadcrumb" class="mt-4">
+            <div class="mt-4" id="infoList">
+                    <h5 class="mb-0" style="display: inline-block;">Modifica informazione della lista</h5>
+            </div>
+                <div class="card-body">
+                    <p>Qui puoi modificare informazioni della lista</p>
+
+                    <form method="POST" action="sharingListServlet" enctype="application/x-www-form-urlencoded">
+                        <div class="form-group">
+                            <div class="row">
+                                <input type="hidden" name="LID" value="${listaCorrente[0]}">
+                                <input type="hidden" name="LCID" value="${listaCorrente[6]}">
+                                <input type="hidden" name="ListOwner" value="${utenteProprietario[2]}">
+                                <input type="hidden" name="CookieID" value="${listaCorrente[5]}">
+                                <div class="col">
+                                    <label for="newName">Nome</label>
+                                    <input name="newName" type="text" class="form-control" id="newName" placeholder="${listaCorrente[1]}" required="true">
+                                </div>
+                                <div class="col">
+                                    <label for="newNote">Note</label>
+                                    <input name="newNote" type="text" class="form-control" id="newNote" placeholder="${listaCorrente[2]}" required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPhoto">Aggiorna l'immagine della lista</label>
+                            <input type="file" name ="newPhoto" accept=".jpg, .jpeg, .png" id="newPhoto">
+                        </div>
+                        <button type="submit" class="btn std-button">Conferma</button>
+                    </form>
+                </div>
+        </div>
+
+        <!-- END: modifica delle informazioni lista -->
+    </c:if>
+</c:forEach>
+
+    

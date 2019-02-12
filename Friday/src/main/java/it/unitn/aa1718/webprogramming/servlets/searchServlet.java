@@ -185,7 +185,9 @@ public class searchServlet extends HttpServlet {
 
         }
 
-        session.setAttribute("elementi", library.getSearchResults(products, productCategoryDAO).length);
+        if (products.size() > 0){
+            session.setAttribute("elementi", library.getSearchResults(products, productCategoryDAO).length);
+        }
 
         //ridireziono alla pagina di ricerca
         response.sendRedirect("search.jsp");

@@ -152,23 +152,28 @@
                                 <h4>Gestione Liste</h4>
                                 <p>
                                     Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti.
-                                    Se vuoi creare una nuova lista clicca qui: <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Crea nuova lista</a>
                                 </p>
-                                <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content shadow">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Crea una nuova lista della spesa</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <jsp:include page="insertShoppingList.jsp" />
+                                <p>
+                                    <c:if test="${emailSession ne null || listaAnonimo eq false}">
+                                        Se vuoi creare una nuova lista clicca qui: <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Crea nuova lista</a>
+                                        </p>
+                                        <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <jsp:include page="insertShoppingList.jsp" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </c:if>
+                                    
 
                                 <h5>
                                     Liste personali

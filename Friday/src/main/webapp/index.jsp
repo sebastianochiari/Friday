@@ -247,9 +247,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <c:out value="${prodottoRand[0]}"></c:out>
-                                                        <c:set scope="session" value="${prodottoRand[0]}" var="changeProduct1"></c:set>
-                                                        <c:out value="${changeProduct1}"></c:out>
+                                                        <c:set scope="session" value="${prodottoRand[0]}" var="changeProduct"></c:set>
                                                         <c:set scope="session" var="sorgente" value="creoListaEProdotto"></c:set>
                                                         <jsp:include page="insertShoppingList.jsp" />
                                                     </div>

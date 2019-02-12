@@ -773,6 +773,7 @@ public class Library {
         if(resultListRand != null){
         
             resultListRandMatrix = new String[1][2];
+            session.setAttribute("listaAnonimo", true);
         
             resultListRandMatrix[0][0] = Integer.toString(resultListRand.getLID());
             resultListRandMatrix[0][1] = resultListRand.getName();

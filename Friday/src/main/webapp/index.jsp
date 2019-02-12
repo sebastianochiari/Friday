@@ -232,13 +232,39 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form action="insertProductServlet" method="POST">
-                                        <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
-                                        <input type="hidden" value="4" name="scelta">
-                                        <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn search-btn mt-1 displayCenter">
-                                            Aggiungi alla lista
+                                    <c:if test="${listaAnonimo ne true}">
+                                        
+                                        <button class="btn search-btn mt-2" data-toggle="modal" data-target="#addShoppingList" style="width: 100%;">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Crea Lista e aggiungi il prodotto
                                         </button>
-                                    </form>
+                                        <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <c:set value="${prodottoRand[0]}" var="changeProduct"></c:set>
+                                                        <c:set value="4" var="scelta"></c:set>
+                                                        <jsp:include page="insertShoppingList.jsp" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                    
+                                    </c:if>
+                                    <c:if test="${listaAnonimo eq true}">
+                                        <form action="insertProductServlet" method="POST">
+                                            <input type="hidden" name="selectedListToChangeProduct" value="${listaLID}">
+                                            <input type="hidden" value="4" name="scelta">
+                                            <button type="submit" title="Aggiungi Prodotto" name="changeProduct" value="${prodottoRand[0]}" class="btn search-btn mt-1 displayCenter">
+                                                Aggiungi alla lista
+                                            </button>
+                                        </form>
+                                    </c:if>
                                 </div>
                             </div>
                         </c:forEach>

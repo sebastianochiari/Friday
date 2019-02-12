@@ -19,8 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
+import it.unitn.aa1718.webprogramming.dao.ProductListDAO;
+import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductListDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.friday.User;
 
@@ -148,17 +152,36 @@ public class insertShoppingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         
+        int proprietario = Integer.parseInt(request.getParameter("proprietario"));
         int listToDelete = Integer.parseInt(request.getParameter("deleteList"));
         HttpSession session = request.getSession();
         
         ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
-        boolean deleted = shoppingListDAO.deleteShoppingList(listToDelete);
+        SharingDAO sharingDAO = new MySQLSharingDAOImpl();
         
-        if (deleted){
-            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("faq.jsp");
+        switch (proprietario) {
+            case 1:
+                boolean deleted = shoppingListDAO.deleteShoppingList(listToDelete);
+        
+                if (deleted){
+                    response.sendRedirect("handlingListServlet?selectedList=0");
+                } else {
+                    response.sendRedirect("faq.jsp");
+                };
+                break;
+            case 0:
+                boolean exit = sharingDAO.deleteSharing(sharingDAO.getSharing(listToDelete, (String)session.getAttribute("emailSession")));
+                
+                if (exit){
+                    response.sendRedirect("handlingListServlet?selectedList=0");
+                } else {
+                    response.sendRedirect("faq.jsp");
+                };
+                break;
+            default:
+                response.sendRedirect("error.jsp");
         }
+        
     }
 
     /**

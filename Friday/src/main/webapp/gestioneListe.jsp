@@ -205,9 +205,13 @@
                                                 </td>
                                                 <td style="text-align: center;">
                                                     <form id="insertShoppingListServlet${counterPL}" action="insertShoppingListServlet" method="POST">
+                                                        <input type="hidden" name="proprietario" value="1">
                                                         <input type="hidden" name="deleteList" value="${lista1[1]}">
+                                                        <button type="submit"><i class="fas fa-trash"></i></button>
                                                     </form>
-                                                    <a href="#" onclick="submit('insertShoppingListServlet${counterPL}')"><i class="fas fa-trash"></i></a>
+                                                        <%--
+                                                    <a href="#" onclick="submit('insertShoppingListServlet')"><i class="fas fa-trash"></i></a>
+                                                        --%>
                                                 </td>
                                             </tr>
                                             <c:set var="counterPL" value="${counterPL+1}"></c:set>
@@ -240,9 +244,13 @@
                                                 </td>
                                                 <td>${listaCondivisa1[2]}</td>
                                                 <td style="text-align: center;">
-                                                    <a href="#">
-                                                    <i class="fas fa-sign-out-alt"></i>
-                                                </a>
+                                                    
+                                                    <form id="insertShoppingListServlet${counterPL}" action="insertShoppingListServlet" method="POST">
+                                                        <input type="hidden" name="proprietario" value="0">
+                                                        <input type="hidden" name="deleteList" value="${listaCondivisa1[1]}">
+                                                        <button type="submit"><i class="fas fa-sign-out-alt"></i></i></button>
+                                                    </form>
+                                                
                                                 </td>
                                             </tr>
                                             <c:set var="counterSL" value="${counterSL + 1}"></c:set>

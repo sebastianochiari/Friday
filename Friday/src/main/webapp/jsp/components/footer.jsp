@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
     <!-- Google font -->
@@ -30,9 +31,18 @@
                         <h6 class="footer-header">IL MIO ACCOUNT</h6>
                         <ul class="list-links">
 
-                            <!-- se l'utente non è ancora loggato, questa rimanda alla pagina di login, altrimenti ai rispettivi link -->
-                            <li><a href="myaccount.jsp">Il mio account</a></li>
-
+                            
+                            
+                           <!-- se l'utente non è ancora loggato, questa rimanda alla pagina di login, altrimenti ai rispettivi link -->
+                            <c:if test="${emailSession eq null}">
+                                <li><a href="login.jsp">Il mio account</a></li>
+                            </c:if>    
+                            
+                            <c:if test="${emailSession ne null}">
+                                <li><a href="myaccount.jsp">Il mio account</a></li>
+                            </c:if> 
+                                
+                                
                             <li>
                                 <%--
                                 <form action="handlingListServlet" method="GET">

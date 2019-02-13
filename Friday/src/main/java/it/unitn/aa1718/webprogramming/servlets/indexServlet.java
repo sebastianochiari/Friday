@@ -79,8 +79,15 @@ public class indexServlet extends HttpServlet {
             boolean boolEmailSession = false;
             
             MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+
+            // setto banner cookie
+            if((request.getSession()).getAttribute("cookieIDSession") == null) {
+                (request.getSession()).setAttribute("bannerCookie", true);
+            } else {
+                (request.getSession()).setAttribute("bannerCookie", false);
+            }
             
-            //elinimo cookie scaduti
+            //elimino cookie scaduti
             List<MyCookie> cookieScaduti = myCookieDAO.deleteDBExpiredCookies();
                 for(int i=0; i<cookieScaduti.size(); i++){
                     myCookieDAO.deleteCookieByCookieID(cookieScaduti.get(i).getCookieID());

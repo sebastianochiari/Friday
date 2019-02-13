@@ -561,7 +561,7 @@ public class Library {
                 cookie.setMaxAge(-1);
                 cookieID = Integer.parseInt((String)cookie.getValue());
 
-                Long Deadline = new Timestamp(System.currentTimeMillis()).getTime();
+                Long Deadline = new Timestamp(System.currentTimeMillis()).getTime()+1800*1000;
 
                 myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
                 session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));

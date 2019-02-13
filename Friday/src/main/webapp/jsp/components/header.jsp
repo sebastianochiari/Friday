@@ -54,9 +54,7 @@
                             <c:if test="${boolEmailSession}">
                                 <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                                 <a class="dropdown-item" href="security.jsp">Impostazioni di sicurezza</a>
-                                <c:if test="${adminUserSession}">
-                                    <a class="dropdown-item" href="adminSection.jsp">Sezione admin</a>
-                                </c:if>
+                                <a class="dropdown-item" href="adminSection.jsp">Sezione admin</a>
                             </c:if>
                         </div>
                     </li>

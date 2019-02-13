@@ -95,9 +95,9 @@ public class indexServlet extends HttpServlet {
             
             List<MyCookie> myCookie = myCookieDAO.getAllCookie();
             
-            System.out.println("cookie DB  size = -"+myCookie.size()+"-");
+            //System.out.println("cookie DB  size = -"+myCookie.size()+"-");
             for(int i=0; i<myCookie.size(); i++){
-                System.out.println("cookie DB  VALUE = -"+myCookie.get(i).getCookieID()+"-");
+                //System.out.println("cookie DB  VALUE = -"+myCookie.get(i).getCookieID()+"-");
             }
             
 
@@ -105,15 +105,15 @@ public class indexServlet extends HttpServlet {
 
                for(int j=0; j<myCookie.size(); j++) {
                    
-                   System.out.println("cookie DB  VALUE = -"+myCookie.get(j).getCookieID()+"-");
+                   //System.out.println("cookie DB  VALUE = -"+myCookie.get(j).getCookieID()+"-");
 
                     for(int i=0; i<cookies.length; i++){
                         
-                        System.out.println("cookie BROWSER  VALUE = -"+cookies[i].getValue()+"- NAME = "+cookies[i].getName());
+                        //System.out.println("cookie BROWSER  VALUE = -"+cookies[i].getValue()+"- NAME = "+cookies[i].getName());
                         
                         if((cookies[i].getValue()).compareTo(Integer.toString(myCookie.get(j).getCookieID())) == 0){
                             
-                           System.out.println("SCELTO QUESTOOOOO = "+cookies[i].getValue());
+                           //System.out.println("SCELTO QUESTOOOOO = "+cookies[i].getValue());
 
 
                             String emailSession = myCookie.get(j).getEmail();

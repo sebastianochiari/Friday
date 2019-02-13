@@ -163,31 +163,8 @@
 
         <br>
 
-        <div class="footer">
-            <!-- Informativa sulla Privacy - Informativa sui Cookie -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm">
-                    </div>
-                    <div class="col-sm">
-                        <a href="#" class="text-link">
-                            <p class="displayCenter">Informativa sulla Privacy</p>
-                        </a>
-                    </div>
-                    <div class="col-sm">
-                        <a href="#" class="text-link">
-                            <p class="displayCenter">Informativa sui Cookie</p>
-                        </a>
-                    </div>
-                    <div class="col-sm">
-                    </div>
-                </div>
-                <div class="displayCenter">
-                    <p class="footer-info mt-2">© 2018, Friday.com, Inc o società affiliate</p>
-                </div>
-                <br>
-            </div>
-        </div>
+        <!-- footer -->
+        <jsp:include page="jsp/components/secondary-footer.jsp" />
 
         <!-- JS Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

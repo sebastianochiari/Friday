@@ -3,6 +3,8 @@
     Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
 -->
 
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 

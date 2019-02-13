@@ -243,10 +243,8 @@
         </main>
         <!-- END: parte principale -->
 
-        <!-- Footer -->
+        <!-- footer -->
         <jsp:include page="jsp/components/footer.jsp" />
-
-
 
         <!-- JS Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -256,76 +254,10 @@
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>
 
+        <script type="text/javascript" src="js/chat.js"></script>
+
         <script>
             onEnter("newMessage", "sendMessage");
-        </script>
-        
-        <script>
-            var objDiv = document.getElementById("chat");
-
-            $(document).ready(function(){
-                objDiv.scrollTop = objDiv.scrollHeight;
-            });
-
-            var ws;
-            
-            var LID = document.getElementById("messageToList").value;
-            var username = document.getElementById("userToList").value;
-
-            var host = document.location.host;
-            var pathname = document.location.pathname;
-
-            console.log(username);
-            console.log(host);
-
-            ws = new WebSocket ("ws://" + document.location.host+"/Friday/chat/"+LID+"/"+username);
-            
-            ws.onmessage = function(event) {
-
-                var message = JSON.parse(event.data);
-
-                if((message.sender === username)){
-
-                    var div = document.createElement("div");
-                    div.classList.add("outgoing_msg");
-                    div.innerHTML = "<div class=\"sent_msg\"> <p>"+ message.text +"</p> <span class=\"time_date\"> Io </span> </div> </div>";
-
-                } else {
-
-                    var div = document.createElement("div");
-                    div.classList.add("incoming_msg");
-                    div.innerHTML = "<div class=\"received_msg\"> <div class=\"received_withd_msg\"><p>"+message.text+"</p><span class=\"time_date\">"+message.sender+"</span></div></div>"
-
-                }
-
-                $('#input_message').find("input, textarea").val("");
-
-                document.getElementById("chat").appendChild(div);
-
-                objDiv.scrollTop = objDiv.scrollHeight;
-            };
-
-            ws.onopen = function (event) {
-
-            };
-
-            ws.onclose = function (event) {
-
-            };
-
-            ws.onerror = function (event) {
-
-            };
-
-            function send(id) {
-                var content = document.getElementById(id).value;
-                console.log(content);
-                var json = JSON.stringify({
-                    "text":content
-                });
-
-                ws.send(json);
-            }
         </script>
 
     </body>

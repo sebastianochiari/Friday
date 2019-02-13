@@ -257,7 +257,7 @@
         </main>
         <!-- END: parte principale -->
 
-        <!-- Footer -->
+        <!-- footer -->
         <jsp:include page="jsp/components/footer.jsp" />
 
         <!-- JS Bootstrap -->

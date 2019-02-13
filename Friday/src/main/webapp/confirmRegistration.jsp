@@ -2,6 +2,7 @@
     Friday - Shopping List Manager
     Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
 -->
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ page import="java.io.*"%>
 <%@ page import="java.sql.*"%>
@@ -70,6 +71,7 @@
 
         </div>
 
+        <!-- footer -->
         <jsp:include page="jsp/components/secondary-footer.jsp" />
 
         <!-- JS Bootstrap -->

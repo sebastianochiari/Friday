@@ -94,17 +94,24 @@ public class sharingListServlet extends HttpServlet {
             case 2: 
                 listaScelta = Integer.parseInt(request.getParameter("listToShare"));
                 String email = request.getParameter("invitationEmail");
-                 
-                sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
-                productList = productListDAO.getPIDsByLID(listaScelta);
-                for (int i=0; i<productList.size(); i++){
-                    if ((productDAO.getProduct((((ProductList)productList.get(i)).getPID()), (String)session.getAttribute("emailSession"))).getEmail().equals((String)session.getAttribute("emailSession"))){
-                        sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
-                    }
-                }
-                response.sendRedirect("handlingListServlet?selectedList="+listaScelta);
-                break;
                 
+                if(email.equals(session.getAttribute("emailSession"))){
+                   
+                   response.sendRedirect("handlingListServlet");
+                  
+                   break;
+                } else {
+                
+                    sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
+                    productList = productListDAO.getPIDsByLID(listaScelta);
+                    for (int i=0; i<productList.size(); i++){
+                        if ((productDAO.getProduct((((ProductList)productList.get(i)).getPID()), (String)session.getAttribute("emailSession"))).getEmail().equals((String)session.getAttribute("emailSession"))){
+                            sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
+                        }
+                    }
+                    response.sendRedirect("handlingListServlet?selectedList="+listaScelta);
+                    break;
+                }
             case 3:
                 // questa parte va decisamente rivista, ora come ora dovrebbe essere la chat
          

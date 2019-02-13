@@ -1,10 +1,10 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:set var="prodotto" value="${Prodotto}"></c:set>
@@ -19,6 +19,7 @@
         --%>
 
 <div class="clearfix">
+
     <div class="float-right">
         <!-- INFORMAZIONI LISTA -->
         <a href="#" class="shopping-link list-icon" title="Info" data-toggle="modal" data-target="#infoModal">
@@ -168,6 +169,7 @@
             </c:if>
         
     </div>
+    
 </div>
 
 <!-- MOSTRA LA PARTE PRINCIPALE DELLA PAGINA -->

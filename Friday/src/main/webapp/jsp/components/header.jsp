@@ -1,26 +1,7 @@
-<!--
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
-    Friday - Shopping List Manager
-    Copyright (C) 2018 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
-
-    Questa è la componente JSP per l'HEADER
-    author: @sebastianochiari
-
--->
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<!-- DA CONTROLLRE COSA EFFETTIVAMENTE SERVA OPPURE NO -->
-<%@ page import="java.io.*"%>
-<%@ page import="java.sql.*"%>
-<%@ page import="java.util.*"%>
-<%@ page import="javax.servlet.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="pageCurrent" value="${requestScope.pageCurrent}" />

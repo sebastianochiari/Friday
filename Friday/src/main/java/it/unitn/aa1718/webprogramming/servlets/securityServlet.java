@@ -6,7 +6,9 @@
 package it.unitn.aa1718.webprogramming.servlets;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
+import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.encrypt.DBSecurity;
 import it.unitn.aa1718.webprogramming.extra.Library;
@@ -109,17 +111,22 @@ public class securityServlet extends HttpServlet {
                     if (passHash.equals(dbpassword)) {
                         userDAO.deleteUser(new User(deletingEmail, request.getParameter("deletePassword"), name, surname, avatar, admin, list_owner, confirmed));
                        
-                        request.getSession().removeAttribute("emailSession");
-                        request.getSession().removeAttribute("boolEmailSessionScriplet");
-                        request.getSession().removeAttribute("nameUserSession");
-                        request.getSession().removeAttribute("surnameUserSession");
-                        request.getSession().removeAttribute("avatarUserSession");
-                        request.getSession().removeAttribute("adminUserSession");
-                        request.getSession().removeAttribute("cookieIDSession");
-                       
+                        
+                        HttpSession session = request.getSession();
                         
                         
-                        //VANNO ELIMINATI TUTTI GLI ATTRIBUTI DI SESSIONE QUI!!!!!!!!!!!!!!
+                        MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+                        myCookieDAO.deleteCookieByCookieID((int)session.getAttribute("cookieIDSession"));
+        
+                     
+                        session.setAttribute("emailSession", null);
+                        session.setAttribute("cookieIDSession", null);
+                        String boolEmailSession = request.getParameter("boolEmailSession");
+                        if ("false".equals(boolEmailSession)){
+                            request.setAttribute("boolEmailSession", false);
+                        }
+                        session.invalidate();
+                        
                         response.sendRedirect("deleteUserSuccess.jsp");
                     } else {
                         response.sendRedirect("error.jsp");

@@ -162,10 +162,12 @@ public class sharingListServlet extends HttpServlet {
                     //System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
 
                 }
-
+                
+                
                 session.setAttribute("partecipantiChat", PartecipantiResult);
                 session.setAttribute("messaggiChat", MessaggiResult);
                 session.setAttribute("selectedList", listaSelezionata);
+                System.out.println("---------------------- LISTA SELEZIONATA è: " + session.getAttribute("selectedList"));
                 request.getRequestDispatcher("chat.jsp").forward(request, response);
 
              

@@ -118,12 +118,6 @@
                     </a>
                     </c:if>
                     
-                    <c:if test="${emailSession eq null}">
-                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
-                        <i class="fas fa-envelope shopping-icon"></i>
-                        
-                    </a>
-                    </c:if>
                     
                     
                     <a href="handlingListServlet?selectedList=0" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">

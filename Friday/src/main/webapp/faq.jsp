@@ -36,16 +36,26 @@
     </head>
 
     <body id="top">
+        
+        <div class="container">
+            
+            <!-- LOGO Friday -->
+            <a href="indexServlet">
+                <div class="logo-header">
+                    <img class="displayCenter auto-size" src="images/friday_icon_colored.png" alt="logo">
+                </div>
+            </a>
 
-        <!-- header -->
-        <jsp:include page="jsp/components/header.jsp" />
+        </div>
 
         <!-- START: main -->
         <main>
 
             <div id="breadcrumb">
-                <div class="container pt-4 pb-1">
-                    <h4>FAQ - Frequently Asked Questions</h4>
+                <div class="container-fluid pt-4 pb-1" style="background-color: #F8694A;">
+                    <div class="container">
+                        <h4 style="color: #f5f5f5">FAQ - Frequently Asked Questions</h4>
+                    </div>
                 </div>
             </div>
 
@@ -53,11 +63,11 @@
 
                 <br>
 
-                <h5>Q: Che cos'Ë Friday?</h5>
+                <h5>Q: Che cos'√® Friday?</h5>
                 <p>
-                    <b>A: </b>Friday Ë un innovativo <b>gestore di liste della spesa</b>. Stanco/a di riempirti di foglietti di carta di vario genere che poi perderai proprio davanti al banco frigo? Stanco/a di arrivare al supermercato e perdere ore davanti agli scaffali perchÈ non ti ricordi che cosa manca nella tua dispensa?
+                    <b>A: </b>Friday √® un innovativo <b>gestore di liste della spesa</b>. Stanco/a di riempirti di foglietti di carta di vario genere che poi perderai proprio davanti al banco frigo? Stanco/a di arrivare al supermercato e perdere ore davanti agli scaffali perch√® non ti ricordi che cosa manca nella tua dispensa?
                     <br>
-                    Grazie a <b>Friday</b>, potrai gestire le tue liste della spesa e avere sempre a portata di mano tutto ciÚ che ti serve per districarti non solo nel labirinto del tuo supermercato preferito, ma anche tra gli scaffali di una ferramenta, o nelle fila di un vivaio. <b>Crea la tua lista personalizzata</b>, aggiungi gli elementi che necessitano di essere comprati, <b>condividi</b> le tue liste <b>con gli amici</b> per organizzare il party del secolo. <b>Con Friday, non mancher‡ pi˘ niente perchÈ ti ricorderai sempre cosa ti serve e cosa no</b>.
+                    Grazie a <b>Friday</b>, potrai gestire le tue liste della spesa e avere sempre a portata di mano tutto ci√≤ che ti serve per districarti non solo nel labirinto del tuo supermercato preferito, ma anche tra gli scaffali di una ferramenta, o nelle fila di un vivaio. <b>Crea la tua lista personalizzata</b>, aggiungi gli elementi che necessitano di essere comprati, <b>condividi</b> le tue liste <b>con gli amici</b> per organizzare il party del secolo. <b>Con Friday, non mancher√† pi√π niente perch√® ti ricorderai sempre cosa ti serve e cosa no</b>.
                     <br>
                     Prova Friday,
                     
@@ -71,30 +81,30 @@
 
                 <h5>Q: Quante liste posso creare?</h5>
                 <p>
-                    <b>A: </b> Tutte quelle di cui hai bisogno. Friday Ë un servizio completamente gratuito che non prevede limitazioni in base a un abbonamento. Lascia spazio ai tuoi bisogni. Noi siamo qui per aiutarti.
+                    <b>A: </b> Tutte quelle di cui hai bisogno. Friday √® un servizio completamente gratuito che non prevede limitazioni in base a un abbonamento. Lascia spazio ai tuoi bisogni. Noi siamo qui per aiutarti.
                 </p>
 
                 <br>
 
                 <h5>Q: E se non trovo un prodotto?</h5>
                 <p>
-                    <b>A: </b>Nessun problema. Nel caso la tua ricerca non abbia prodotto nessun risultato, puoi comodamente aggiungere il prodotto che desideri tramite una funzione specifica da barra di ricerca, oppure cliccando qui. Ricordati perÚ che tutti i prodotti che aggiungerai saranno visualizzabili e utilizzabili solo da te e dalle persone con cui deciderai di condividere una lista contenente quel prodotto.
+                    <b>A: </b>Nessun problema. Nel caso la tua ricerca non abbia prodotto nessun risultato, puoi comodamente aggiungere il prodotto che desideri tramite una funzione specifica da barra di ricerca, oppure cliccando qui. Ricordati per√≤ che tutti i prodotti che aggiungerai saranno visualizzabili e utilizzabili solo da te e dalle persone con cui deciderai di condividere una lista contenente quel prodotto.
                     <br>
-                    Per una questione di sicurezza e di controllo dei servizi, ci riserviamo di non rendere pubblici tutti i prodotti inseriti dall'utente. Stiamo comunque lavorando per aggiornare e ampliare la scelta di possibilit‡ che Friday offre ai suoi utenti. Grazie per contribuire a rendere questo posto migliore
+                    Per una questione di sicurezza e di controllo dei servizi, ci riserviamo di non rendere pubblici tutti i prodotti inseriti dall'utente. Stiamo comunque lavorando per aggiornare e ampliare la scelta di possibilit√† che Friday offre ai suoi utenti. Grazie per contribuire a rendere questo posto migliore
                 </p>
 
                 <br>
 
                 <h5>Q: Posso modificare l'email e/o la password?</h5>
                 <p>
-                    <b>A: </b>Certamente. Una volta effettuato l'accesso, recati nella sezione privata e all'interno di "gestisci account" potrai effettuare tutti i cambiamenti che desideri. Pi˘ semplice di cosÏ, si muore.
+                    <b>A: </b>Certamente. Una volta effettuato l'accesso, recati nella sezione privata e all'interno di "gestisci account" potrai effettuare tutti i cambiamenti che desideri. Pi√π semplice di cos√¨, si muore.
                 </p>
 
                 <br>
 
                 <h5>Q: Come verranno trattati i miei dati?</h5>
                 <p>
-                    <b>A: </b> BOH
+                    <b>A: </b> Boh, questo lo dobbiamo ancora decidere. Probabilmente li venderemo al migliore offerente, tanto alla fine anche Facebook ha fatto cos√¨. 
                     <br>
                     Per maggiori informazioni, ti invitiamo a leggere la nostra <b>Informativa sulla privacy</b>.
                 </p>

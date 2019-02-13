@@ -87,7 +87,7 @@ public class insertProductServlet extends HttpServlet {
         
         //un utente anonimo non può creare un prodotto
         if(email == null){
-            response.sendRedirect("register.jsp");
+            response.sendRedirect("insertUser.jsp");
         } else if(email != null) {
                     if(email.length()<200 && name.length()< 200 && note.length()<500){ 
 

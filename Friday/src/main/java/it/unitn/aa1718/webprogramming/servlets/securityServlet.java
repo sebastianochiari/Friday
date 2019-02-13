@@ -96,12 +96,30 @@ public class securityServlet extends HttpServlet {
         boolean list_owner = (boolean) (request.getSession()).getAttribute("list_OwnerUserSession");
         boolean confirmed = (boolean) (request.getSession()).getAttribute("confirmedUserSession");
         
+        
+         
+        
         switch (typeChange) {
             case "password": library.changePassword(request, response, encrypt, library, userDAO, emailSession, name, surname, avatar, admin, list_owner, confirmed); break;
             case "email": library.changeEmail(request, response, encrypt, library, userDAO, dbpassword, name, surname, avatar, admin, list_owner, confirmed); break;
             case "personal": library.changePersonal(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, admin, list_owner, confirmed); break;
-            case "admin": library.changeAdmin(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, list_owner, confirmed); break;
-            case "deleteAccount":
+            case "admin": 
+                
+                
+                String psw = (String) request.getParameter("passwordforAdmin");
+                
+                String encryptPsw = encrypt.setSecurePassword(psw, emailSession);
+                if(encryptPsw.equals(dbpassword)){
+                    library.changeAdmin(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, list_owner, confirmed); 
+                    break;
+                } else {
+                    //Redirezionamento ad admin.jsp se la password è sbagliata. Altrimenti lasciamo error.jsp :)
+                    response.sendRedirect("error.jsp");
+                    break;
+                }
+                
+                
+                 case "deleteAccount":
                 String deletingEmail = request.getParameter("deleteEmail");
                 if (deletingEmail.equals(emailSession)){
                     String deletingPassword = request.getParameter("deletePassword");

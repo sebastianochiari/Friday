@@ -182,14 +182,39 @@
                                                 <div class="modal-content shadow">
                                                      <div class="modal-header">
                                                          <h5 class="modal-title">Diventa Admin</h5>
+                                                         
+                                                         
                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                              <span aria-hidden="true">&times;</span>
                                                          </button>
                                                     </div>
                                                     
                                                     <div class="modal-body">
+                                                        
+                                                        
                                                         <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
                                                             <div class="form-group">
+                                                                
+                                                                <c:if test="${errorPassword eq null}">
+                                                                    <input type="password" class="form-control security-form johnCena" id="passwordforAdmin" name="passwordforAdmin"  required="true">
+                                                                    <label class="form-check-label" for="showInput">Mostra password</label>
+                                                                
+                                                                </c:if>
+                                                                
+                                                                
+
+                            <c:if test="${errorPassword eq 'errorPassword'}">
+                                <input type="password" class="form-control security-form johnCena" id="passwordforAdmin" name="passwordforAdmin"  required="true">
+                                    ATTENZIONE! La password è errata.
+                                </div>
+                            </c:if>
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
                                                                 <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
                                                                 <label class="form-check-label" for="exampleCheck1">
                                                                     <strong>*</strong> <small> Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br><br> <strong> I campi contrassegnati con * sono obbligatori. </strong></small>
@@ -238,6 +263,14 @@
         <script type="text/javascript" src="js/jquery.zoom.min.js"></script>
         <script type="text/javascript" src="slick/slick.min.js"></script>
 
+        <c:if test="${errorPassword eq 'errorPassword'}">
+        <script type="text/javascript">
+            $(window).on('load',function(){
+                $('#newAdmin').modal('show');
+            });
+        </script>
+        </c:if>
+        
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>
 

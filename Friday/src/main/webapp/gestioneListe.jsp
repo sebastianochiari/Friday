@@ -113,7 +113,8 @@
                                 <!-- END: liste personali -->
                             </ul>
 
-                            <h3 class="aside-title">Liste condivise:</h3>
+                <c:if test="${emailSession ne null}">
+                    <h3 class="aside-title">Liste condivise:</h3>
                             <c:if test="${SharingListUserSessionSize eq 0}">
                                 <p>Non hai nessuna lista condivisa</p>
                             </c:if>
@@ -139,6 +140,7 @@
                                         </c:if>
                                     </c:forEach>
                                 </form>
+                </c:if>
                                 <!-- END: liste condivise -->
                             </ul>
 
@@ -178,7 +180,7 @@
                                     </c:if>
                                     <c:if test="${resultListRandExist eq true && boolEmailSessionScriptlet eq false}">
                                         <p>
-                                            Hai raggiunto il numero massimo di liste creabili come utente anonimo, clicca qui per registrarti: <a class="text-link" href="insertUser.jsp">Registrati</a>
+                                            Hai raggiunto il numero massimo di liste creabili come utente anonimo, se vuoi creare o condividere le tue liste clicca qui per registrarti: <a class="text-link" href="insertUser.jsp">Registrati</a>
                                         </p>
                                     </c:if>
 
@@ -230,7 +232,9 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>
-
+                    
+                <c:if test="${emailSession ne null}">
+                    
                                 <h5 class="mt-4">
                                     Liste condivise
                                 </h5>
@@ -271,6 +275,7 @@
                                     </tbody>
                                 </table>
                             </c:if>
+                </c:if>
                             <c:if test="${GestioneListe ne 0}">
                                 <jsp:include page="list.jsp"></jsp:include>
                             </c:if>

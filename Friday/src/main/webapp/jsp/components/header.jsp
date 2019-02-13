@@ -110,9 +110,16 @@
                 </ul>
 
                 <div style="display: inline;">
-                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
+                    
+                    <c:if test="${emailSession ne null}">
+                    <a href="chat.jsp" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-envelope shopping-icon"></i>
+                        
                     </a>
+                    </c:if>
+                    
+                    
+                    
                     <a href="handlingListServlet?selectedList=0" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-shopping-cart shopping-icon"></i>
                     </a>

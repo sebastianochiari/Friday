@@ -94,15 +94,25 @@ public class sharingListServlet extends HttpServlet {
             case 2: 
                 listaScelta = Integer.parseInt(request.getParameter("listToShare"));
                 String email = request.getParameter("invitationEmail");
+                boolean modify = false;
+                boolean addRemProd = false;
+                boolean listDelete = false;
                 
                 if(email.equals(session.getAttribute("emailSession"))){
-                   
                    response.sendRedirect("handlingListServlet");
-                  
                    break;
                 } else {
                 
-                    sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
+                    if (request.getParameter("modify") != null && Integer.parseInt(request.getParameter("modify")) == 1){
+                        modify = true;
+                    }
+                    if (request.getParameter("addRemProd") != null && Integer.parseInt(request.getParameter("addRemProd")) == 1){
+                        addRemProd = true;
+                    }
+                    if (request.getParameter("listDelete") != null && Integer.parseInt(request.getParameter("listDelete")) == 1){
+                        listDelete = true;
+                    }
+                    sharingDAO.createSharing(new Sharing(email, listaScelta, modify, addRemProd, listDelete));
                     productList = productListDAO.getPIDsByLID(listaScelta);
                     for (int i=0; i<productList.size(); i++){
                         if ((productDAO.getProduct((((ProductList)productList.get(i)).getPID()), (String)session.getAttribute("emailSession"))).getEmail().equals((String)session.getAttribute("emailSession"))){

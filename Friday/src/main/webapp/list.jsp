@@ -41,9 +41,11 @@
                                 <c:forEach items="${listaCondivisa}" var="ListaCondivisa">
                                     ${ListaCondivisa[0]} ${ListaCondivisa[1]} 
                                 </c:forEach>
+                                <%--
                                 <c:if test="${listaCondivisa eq 0}">
                                     Nessuno
                                 </c:if>
+                                --%>
                             </p>
                         </c:if>
                         <img src="images/list-category/${listaCorrente[3]}" style="width: 100%">
@@ -77,6 +79,15 @@
                             <div class="modal-body">
                                 <label for="exampleFormControlInput1">Persone</label>
                                 <input type="email" class="form-control" id="invitationEmail" placeholder="name@example.com" name="invitationEmail">
+                                <div>
+                                    <input type="checkbox" name="modify" value="1"> Permetti all'utente di modificare le informazioni della lista
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="addRemProd" value="1"> Permetti all'utente di aggiungere e rimuovere prodotti nella lista
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="listDelete" value="1"> Permetti all'utente di eliminare la lista
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn std-button" value="${listaCorrente[0]}" name="listToShare">Invita</button>

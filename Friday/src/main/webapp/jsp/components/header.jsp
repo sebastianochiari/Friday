@@ -50,9 +50,9 @@
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 
                             <form action="searchServlet" method ="GET">
-                                 <c:forEach var="res" items="${productsCategories}" >
-                                       <button type="submit" value ="${productsCategories[0]}" class="dropdown-item" name ="inputClick" id="inputClick">
-                                           ${productsCategories[1]}
+                                 <c:forEach var="res" items="${productCategories}" >
+                                       <button type="submit" value ="${res[0]}" class="dropdown-item" name ="inputClick" id="inputClick">
+                                           ${res[1]}
                                        </button>
                                  </c:forEach>
                             </form>

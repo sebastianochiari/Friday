@@ -551,14 +551,17 @@ public class Library {
                 MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
 
                 //cancello eventuali cookie scaduti
-                myCookieDAO.deleteDBExpiredCookies();
+                List<MyCookie> cookieScaduti = myCookieDAO.deleteDBExpiredCookies();
+                for(int i=0; i<cookieScaduti.size(); i++){
+                    myCookieDAO.deleteCookieByCookieID(cookieScaduti.get(i).getCookieID());
+                }
 
                 //Creo cookie
                 Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(LastEntryTable("cookieID", "cookies")));
                 cookie.setMaxAge(-1);
                 cookieID = Integer.parseInt((String)cookie.getValue());
 
-                Long Deadline = (long)0;
+                Long Deadline = new Timestamp(System.currentTimeMillis()).getTime();
 
                 myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
                 session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));

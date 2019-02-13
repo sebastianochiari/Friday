@@ -90,16 +90,6 @@ public class logoutServlet extends HttpServlet {
         }
         session.invalidate();
         
-        String DBUrl = MySQLDAOFactory.getDBUrl();
-        String DBUser = MySQLDAOFactory.getDBUser();
-        String DBPass = MySQLDAOFactory.getDBPass();
-        String DBDriver = MySQLDAOFactory.getDBDriver();
-
-        (request.getSession()).setAttribute("DBUrlSession", DBUrl);
-        (request.getSession()).setAttribute("DBUserSession", DBUser);
-        (request.getSession()).setAttribute("DBPassSession", DBPass);
-        (request.getSession()).setAttribute("DBDriverSession", DBDriver);
-        
         response.sendRedirect("indexServlet");
         
     }

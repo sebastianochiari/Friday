@@ -9,8 +9,6 @@
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:out value="${changeProduct1}"></c:out>
-
 <form method="GET" action="insertShoppingListServlet" enctype="multipart/form-data">
     
     <div class="form-group">
@@ -50,11 +48,10 @@
     <div>
         <br>
     </div>
-    <input type="hidden" value="${changeProduct}" name="changeProduct">
     <input type="hidden" value="${sorgente}" name="sorgente">
     <div>
         <div class="col-sm">
-            <button type="submit" class="btn displayCenter login-btn">Crea lista</button>
+            <button type="submit" value ="${changeProduct}" name="ProdottoDaInserire" class="btn displayCenter login-btn">Crea lista</button>
         </div>
     </div>
 </form>

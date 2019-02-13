@@ -44,7 +44,7 @@
             </a>
 
             <div class="displayCenter">
-                <h4 class="mt-5">Ops! Qualcosa Ã¨ andato storto.</h4>
+                <h4 class="mt-5">Ops! Qualcosa è andato storto.</h4>
                 <p>
                     Sembra che qualcosa durante l'esecuzione non sia andato a buon fine.
                     <br>

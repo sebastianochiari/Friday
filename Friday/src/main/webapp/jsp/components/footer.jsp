@@ -1,4 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     <!-- START: footer -->
     <footer id="footer" class="section section-grey mt-4" style="padding-top: 0rem;">

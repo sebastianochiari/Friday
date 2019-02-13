@@ -148,8 +148,15 @@
                 <div class="container">
                     <div class="messaging">
                         <h4 class="float-right">
-                            <a href="handlingListServlet?selectedList=${listaCorrente[0]}">
+                          <!-- <a href="handlingListServlet?selectedList=
+                        --> 
+                        <%--${listaCorrente[0]}">
                                 ${listaCorrente[1]}
+                        --%>
+                        
+                             <a href="handlingListServlet?selectedList= ${listaCorrente[0]}">
+                                ${listaCorrente[1]}
+                        
                             </a> 
                         </h4>
                           <div class="inbox_msg">

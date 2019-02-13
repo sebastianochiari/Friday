@@ -85,13 +85,32 @@ public class insertProductServlet extends HttpServlet {
         String photo = request.getParameter("photo");
         int PCID = Integer.parseInt(request.getParameter("PCID"));
         
-        if(email.length()<200 && name.length()< 200 && logo.length()< 200 && note.length()<500 && photo.length()<200){ 
+        //un utente anonimo non può creare un prodotto
+        if(email == null){
+            response.sendRedirect("error.jsp");
+        } else if(email != null) {
+                    if(email.length()<200 && name.length()< 200 && note.length()<500){ 
 
+                        if((photo != null) ) {
+                            if( photo.length()<200){
+                            } else {
+                                response.sendRedirect("error.jsp");
+                            }
+                        } 
+
+                        if((logo != null) ) {
+                            if( logo.length()<200){
+                            } else {
+                                response.sendRedirect("error.jsp");
+                            }
+                        } 
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    } 
             Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
 
             // memorizzazione del nuovo product nel DB
             if(!userDAO.getUser(email).getAdmin()){
- 
                 SharingProductDAO riverSharingProductDAO = mySqlFactory.getSharingProductDAO();
                 SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
                 sharingProductDAO.createSharingProduct(new SharingProduct(email, PID));           
@@ -106,12 +125,9 @@ public class insertProductServlet extends HttpServlet {
                 response.sendRedirect("adminSection.jsp");
             }
             
-        } else {
-            response.sendRedirect("error.jsp");
         }
         
-        
-        
+      
     }
 
     /**

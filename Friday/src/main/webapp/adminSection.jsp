@@ -94,14 +94,13 @@
                                         <c:if test="${goodInsertProduct}">
                                             <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true" style="display: block">
                                         </c:if>
-
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content shadow">
-                                                     <div class="modal-header">
-                                                         <h5 class="modal-title">Crea un nuovo prodotto</h5>
-                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                             <span aria-hidden="true">&times;</span>
-                                                         </button>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crea un nuovo prodotto</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <jsp:include page="insertProduct.jsp" />
@@ -161,64 +160,56 @@
                                         </div>
 
                                     </c:if>
-                                    <c:if test="${!adminUserSession}">                              
+                                    <c:if test="${!adminUserSession}">
                                         <p>
-                                            <a class="text-link" href="#" data-toggle="modal" data-target="#newAdmin">Diventa Admin</a>
+                                            <a class="text-link mt-4" href="#" data-toggle="modal" data-target="#newAdmin">Diventa Admin</a>
                                         </p>
                                         <div class="modal fade" id="newAdmin" tabindex="-1" role="dialog" aria-labelledby="newAdmin" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content shadow">
-                                                     <div class="modal-header">
-                                                         <h5 class="modal-title">Diventa Admin</h5>
-                                                         
-                                                         
-                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                             <span aria-hidden="true">&times;</span>
-                                                         </button>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Diventa Admin
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
-                                                    
                                                     <div class="modal-body">
-                                                        
-                                                        
                                                         <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
                                                             <div class="form-group">
-                                                                
                                                                 <c:if test="${errorPassword eq null}">
-                                                                    <input type="password" class="form-control security-form johnCena" id="passwordforAdmin" name="passwordforAdmin"  required="true">
-                                                                    <label class="form-check-label" for="showInput">Mostra password</label>
-                                                                
+                                                                    <label for="password">Password <strong>*</strong></label>
+                                                                    <input name="password" type="password" class="form-control security-form johnCena" id="passwordAdmin" required="true" aria-describedby="passwordHelpInline"  required="true">
                                                                 </c:if>
-                                                                
-                                                                
-
-                            <c:if test="${errorPassword eq 'errorPassword'}">
-                                <input type="password" class="form-control security-form johnCena" id="passwordforAdmin" name="passwordforAdmin"  required="true">
-                                    ATTENZIONE! La password è errata.
-                                </div>
-                            </c:if>
-                                                                
-                                                                
-                                                                
-                                                                
-                                                                
-                                                                
-                                                                
-                                                                <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
-                                                                <label class="form-check-label" for="exampleCheck1">
-                                                                    <strong>*</strong> <small> Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br><br> <strong> I campi contrassegnati con * sono obbligatori. </strong></small>
-                                                                </label>
+                                                                <c:if test="${errorPassword eq 'errorPassword'}">
+                                                                    <input type="password" class="form-control is-invalid security-form johnCena" id="passwordforAdmin" name="passwordforAdmin" required="true">
+                                                                    <div class="invalid-feedback">
+                                                                        ATTENZIONE! La password è errata.
+                                                                    </div>
+                                                                </c:if>
+                                                            </div>
+                                                            <div class="form-group form-check">
+                                                                <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInput">
+                                                                <label class="form-check-label" for="showInput">Mostra password</label>
                                                             </div>
                                                             <div class="form-group">
-                                                                <button type="submit" class="btn std-button">Diventa Admin</button>
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <div class="form-group form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
+                                                                    <label class="form-check-label" for="exampleCheck1">
+                                                                        <small>
+                                                                            Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="text-link">informativa sulla privacy</a> <strong>*</strong>
+                                                                        </small>
+                                                                    </label>
+                                                                </div>
+                                                                <small><strong> I campi contrassegnati con * sono obbligatori. </strong></small>
                                                             </div>
                                                             <div class="form-group">
                                                                 <input type="hidden" name="typeChange" value="admin">
+                                                                <button type="submit" class="btn std-button">Diventa Admin</button>
                                                             </div>
                                                         </form>
                                                     </div>
-                                                        
-                                                    
                                                 </div>
                                             </div>
                                         </div>

@@ -79,7 +79,7 @@
                 </div>
 
             </div>
-            <hr>
+            <br>
         </div>
 
         <!-- COPYRIGHT INFO -->

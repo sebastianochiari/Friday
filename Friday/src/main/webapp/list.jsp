@@ -12,12 +12,6 @@
 <c:set var="utenteProprietario" value="${utenteProprietario}"></c:set>
 <c:set var="listaCondivisa" value="${listaCondivisa}"></c:set>
 
-    <%--
-<c:if test="${!boolEmailSessionScriptlet}">
-    <c:redirect url="/handlingListServlet?selectedList=0"/>
-</c:if>
-        --%>
-
 <div class="clearfix">
 
     <div class="float-right">
@@ -141,7 +135,7 @@
             <!-- USCITA LISTA -->
             <c:if test="${(utenteProprietario[2] ne emailSession) && (boolEmailSessionScriptlet eq true) && (listaCorrente[9] ne true)}">
                 <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
-                    <i class="fas fa-sign-out-alt shopping-icon"></i>
+                    <i class="fas fa-sign-out-alt"></i>
                 </a>
                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">

@@ -54,14 +54,14 @@
                         <span>Benvenuto su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
                     </c:if>
                     <c:if test="${boolEmailSession}">
-                        <span>Bentornato su <b>Friday</b> <c:out value="${nameUserSession}"></c:out>, l'innovativo gestore di <b>liste della spesa</b></span>
+                        <span>Ciao <c:out value="${nameUserSession}"></c:out>, bentornato su <b>Friday</b></span>
                     </c:if>
 
                 </div>
                 <div class="float-right">
                     <ul class="header-top-links">
-                        <li><a href="faq.jsp">FAQ</a></li>
                         <c:if test="${!boolEmailSession}">
+                            <li><a href="faq.jsp">FAQ</a></li>
                             <li><a href="login.jsp">Login</a></li>
                             <li><a href="insertUser.jsp">Registrati</a></li>
                         </c:if>

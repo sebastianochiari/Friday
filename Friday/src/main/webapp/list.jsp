@@ -240,7 +240,7 @@
 </c:forEach>
 
 <c:if test="${(utenteProprietario[2] eq emailSession) || (listaCorrente[8] eq true)}">
-    <div id="breadcrumb" class="list-element">
+    <div class="list-element">
         <div class="row">
             <a class="text-link" href="#" data-toggle="modal" data-target="#addProductToList">
                 <i class="fa fa-plus-circle"></i> Aggiungi prodotto alla lista

@@ -58,23 +58,15 @@
                             <div class="aside">
 
                                 <c:set var="listaAttiva" value="${listaAttiva}"></c:set>
-
+                                <!-- START: liste personali -->
                                 <h3 class="aside-title">Le mie liste:</h3>
                                 <ul class="list-links">
-                                    <!-- START: liste personali -->
                                     <form action="handlingListServlet" method="GET">
-                                        <c:if test="${listaAttiva eq 0}">
-                                            <li><button type="submit" value="0" name="selectedList" class="dropdown-item">
+                                        <li>
+                                            <button type="submit" value="0" name="selectedList" class="dropdown-item">
                                                 Gestione Liste
-                                            </button></li>
-                                            <c:set var="attiva0" value="active <- attiva0"></c:set>
-                                        </c:if>
-                                        <c:if test="${listaAttiva ne 0}">
-                                            <li><button type="submit" value="0" name="selectedList" class="dropdown-item">
-                                                Gestione Liste
-                                            </button></li>
-                                            <c:set var="attiva0" value="notActive <- attiva0"></c:set>
-                                        </c:if>
+                                            </button>
+                                        </li>
                                         <c:forEach items="${ListUserSession}" var="lista">
                                             <c:set var="listaUser" value="${lista}"></c:set>
                                             <c:if test="${listaAttiva eq lista[1]}">
@@ -95,9 +87,10 @@
                                             </c:if>
                                         </c:forEach>
                                     </form>
-                                    <!-- END: liste personali -->
-                                </ul>
+                                </ul>                                
+                                <!-- END: liste personali -->
 
+                                <!-- START: liste condivise -->
                                 <c:if test="${emailSession ne null}">
                                     <h3 class="aside-title">Liste condivise:</h3>
                                     <c:if test="${SharingListUserSessionSize eq 0}">
@@ -107,20 +100,12 @@
                                         <!-- START: liste condivise -->
                                         <form action="handlingListServlet" method="GET">
                                             <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
-                                                <c:if test="${listaAttiva eq listaCondivisa[1]}">
-                                                    <li>
+                                                <li>
                                                     <button type="submit" value="${listaCondivisa[1]}" name="selectedList" class="dropdown-item">
                                                         ${listaCondivisa[0]}
                                                     </button>
-                                                    </li>
-                                                    <c:set var="attiva" value="active"></c:set>
-                                                </c:if>
-                                                <c:if test="${listaAttiva ne 0}">
-                                                    <li><button type="submit" value="0" name="selectedList" class="dropdown-item">
-                                                        Gestione Liste
-                                                    </button></li>
-                                                    <c:set var="attiva0" value="notActive <- attiva0"></c:set>
-                                                </c:if>
+                                                </li>
+                                                <c:set var="attiva" value="active"></c:set>
                                             </c:forEach>
                                         </form>
                                     </ul>
@@ -136,34 +121,34 @@
                                 <c:set var="GestioneListe" value="${listaAttiva}"></c:set>
                                 <c:if test="${GestioneListe eq 0}">
                                     <h4>Gestione Liste</h4>
+                                    <p>
+                                        Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti.
+                                    </p>
+                                    <c:if test="${resultListRandExist eq false || boolEmailSessionScriptlet eq true}">
                                         <p>
-                                            Tramite questa pagina, potrai gestire comodamente tutte le tue liste, sia quelle personali che quelle condivise con altri utenti.
+                                            Se vuoi creare una nuova lista clicca qui: <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Crea nuova lista</a>
                                         </p>
-                                        <c:if test="${resultListRandExist eq false || boolEmailSessionScriptlet eq true}">
-                                            <p>
-                                                Se vuoi creare una nuova lista clicca qui: <a class="text-link" href="#" data-toggle="modal" data-target="#addShoppingList">Crea nuova lista</a>
-                                            </p>
-                                            <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content shadow">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Crea una nuova lista della spesa</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <jsp:include page="insertShoppingList.jsp" />
-                                                        </div>
+                                        <div class="modal fade" id="addShoppingList" tabindex="-1" role="dialog" aria-labelledby="addShoppingListLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crea una nuova lista della spesa</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <jsp:include page="insertShoppingList.jsp" />
                                                     </div>
                                                 </div>
                                             </div>
-                                        </c:if>
-                                        <c:if test="${resultListRandExist eq true && boolEmailSessionScriptlet eq false}">
-                                            <p>
-                                                Hai raggiunto il numero massimo di liste creabili come utente anonimo, clicca qui per registrarti: <a class="text-link" href="insertUser.jsp">Registrati</a>
-                                            </p>
-                                        </c:if>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${resultListRandExist eq true && boolEmailSessionScriptlet eq false}">
+                                        <p>
+                                            Hai raggiunto il numero massimo di liste creabili come utente anonimo, clicca qui per registrarti: <a class="text-link" href="insertUser.jsp">Registrati</a>
+                                        </p>
+                                    </c:if>
 
                                     <h5>
                                         Liste personali

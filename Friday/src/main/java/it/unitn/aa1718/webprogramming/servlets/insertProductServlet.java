@@ -87,26 +87,26 @@ public class insertProductServlet extends HttpServlet {
         
         //un utente anonimo non può creare un prodotto
         if(email == null){
-            response.sendRedirect("register.jsp");
+            response.sendRedirect("insertUser.jsp");
         } else if(email != null) {
-                    if(email.length()<200 && name.length()< 200 && note.length()<500){ 
+            if(email.length()<200 && name.length()< 200 && note.length()<500){ 
 
-                        if((photo != null) ) {
-                            if( photo.length()<200){
-                            } else {
-                                response.sendRedirect("error.jsp");
-                            }
-                        } 
-
-                        if((logo != null) ) {
-                            if( logo.length()<200){
-                            } else {
-                                response.sendRedirect("error.jsp");
-                            }
-                        } 
+                if((photo != null) ) {
+                    if( photo.length()<200){
                     } else {
                         response.sendRedirect("error.jsp");
-                    } 
+                    }
+                } 
+
+                if((logo != null) ) {
+                    if( logo.length()<200){
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    }
+                } 
+            } else {
+                response.sendRedirect("error.jsp");
+            } 
             Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
 
             // memorizzazione del nuovo product nel DB
@@ -206,36 +206,26 @@ public class insertProductServlet extends HttpServlet {
                 break;
             case 4:
                 List listaProdotti = null;
-                //if(session.getAttribute("emailSession")!=null){
-                    
-                    boolean inList = false;
-                    listaProdotti = productListDAO.getPIDsByLID(lista);
-                    
-                    if (listaProdotti.isEmpty()){
+                boolean inList = false;
+                listaProdotti = productListDAO.getPIDsByLID(lista);
+                
+                if (listaProdotti.isEmpty()){
+                    productList = new ProductList(comando, lista, amount);
+                    productListDAO.createProductList(productList);
+                } else {
+                    for (int i=0; i<listaProdotti.size(); i++) {
+                        if (((ProductList)listaProdotti.get(i)).getPID() == comando){
+                            amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
+                            productList = new ProductList(comando, lista, amount);
+                            productListDAO.updateProductList(productList);
+                            inList = true;
+                        } 
+                    }
+                    if (!inList) {
                         productList = new ProductList(comando, lista, amount);
                         productListDAO.createProductList(productList);
-                    } else {
-                        for (int i=0; i<listaProdotti.size(); i++) {
-                            if (((ProductList)listaProdotti.get(i)).getPID() == comando){
-                                amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
-                                productList = new ProductList(comando, lista, amount);
-                                productListDAO.updateProductList(productList);
-                                inList = true;
-                            } 
-                        }
-                        if (!inList) {
-                            productList = new ProductList(comando, lista, amount);
-                            productListDAO.createProductList(productList);
-                        }
-//                    }
-//
-//                
-//                } else {
-//                    productList = new ProductList(comando, lista, amount);
-//                    productListDAO.createProductList(productList);
+                    }
                 };
-                
-                
                 break;
             default: 
                 response.sendRedirect("error.jsp");

@@ -1,23 +1,15 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="it">
 
-<!--
-    Friday - Shopping List Manager
-    Copyright (C) 2018 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
--->
-
-<!-- @author: Sebastiano Chiari -->
-
     <head>
+        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,10 +27,6 @@
         <!-- Font Awesome Icon -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-        <!-- Slick -->
-        <link rel="stylesheet" type="text/css" href="slick/slick.css" />
-        <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
-
         <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css" />
 
@@ -49,7 +37,6 @@
         <c:if test="${!boolEmailSessionScriptlet}">
             <c:redirect url="/error.jsp"/>
         </c:if>
-        
         
         <!-- Header -->
         <jsp:include page="jsp/components/header.jsp" />
@@ -307,23 +294,23 @@
                                                         <c:if test="${errorPreviousPassword eq 'errorPreviousPassword'}">
                                                             <input name="previousPassword" type="password" class="form-control is-invalid security-form johnCena" id="previousPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <div class="invalid-feedback">
-                                                                ATTENZIONE! La password inserita non è quella attualmente in uso. Riprovare con la password corretta. 
+                                                                ATTENZIONE! La password inserita non è quella attualmente in uso. Riprovare con la password corretta.
                                                             </div>
                                                         </c:if>
                                                     </div>
                                                     <div class="form-group">
 
                                                         <c:if test="${errorInputPassword eq null}">
-                                                            <label for="inputNewPassword">Inserisci la tua precendente password</label>
+                                                            <label for="inputNewPassword">Inserisci la tua nuova password</label>
                                                             <input name="inputNewPassword" type="password" class="form-control security-form johnCena" id="inputNewPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <p class="footer-info"><small>La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</small></p>
                                                         </c:if>
 
                                                         <c:if test="${errorInputPassword eq 'errorInputPassword'}">
-                                                            <label for="inputNewPassword">Inserisci la tua precendente password</label>
+                                                            <label for="inputNewPassword">Inserisci la tua nuova password</label>
                                                             <input name="inputNewPassword" type="password" class="form-control is-invalid security-form johnCena" id="inputNewPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <div class="invalid-feedback">
-                                                                ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
+                                                                ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettera maiuscola e almeno un numero o un carattere speciale. 
                                                             </div>
                                                         </c:if>
 
@@ -331,15 +318,15 @@
                                                     <div class="form-group">
 
                                                         <c:if test="${errorConfirmPassword eq null}">
-                                                            <label for="confirmPassword">Inserisci nuovamente la password</label>
+                                                            <label for="confirmPassword">Conferma la nuova password</label>
                                                             <input name="confirmPassword" type="password" class="form-control security-form johnCena" id="confirmPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                         </c:if>
 
                                                         <c:if test="${errorConfirmPassword eq 'errorConfirmPassword'}">
-                                                            <label for="confirmPassword">Inserisci nuovamente la password</label>
+                                                            <label for="confirmPassword">Conferma la nuova password</label>
                                                             <input name="confirmPassword" type="password" class="form-control is-invalid security-form johnCena" id="confirmPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <div class="invalid-feedback">
-                                                                ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.
+                                                                ATTENZIONE! Le due password non coincidono.
                                                             </div>
                                                         </c:if>
                                                     </div>
@@ -381,18 +368,13 @@
         </main>
         <!-- END: parte principale -->
 
-        <!-- Footer -->
+        <!-- footer -->
         <jsp:include page="jsp/components/footer.jsp" />
 
         <!-- JS Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-        <!-- slick JS -->
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jquery.zoom.min.js"></script>
-        <script type="text/javascript" src="slick/slick.min.js"></script>
 
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>

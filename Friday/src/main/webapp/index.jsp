@@ -1,10 +1,8 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
 
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
@@ -13,7 +11,9 @@
 <%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="it">
 

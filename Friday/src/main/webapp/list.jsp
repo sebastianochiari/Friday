@@ -1,10 +1,10 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:set var="prodotto" value="${Prodotto}"></c:set>
@@ -19,6 +19,7 @@
         --%>
 
 <div class="clearfix">
+
     <div class="float-right">
         <!-- INFORMAZIONI LISTA -->
         <a href="#" class="shopping-link list-icon" title="Info" data-toggle="modal" data-target="#infoModal">
@@ -147,6 +148,7 @@
             </div>
         </c:if>
     </div>
+    
 </div>
 
 <!-- MOSTRA LA PARTE PRINCIPALE DELLA PAGINA -->
@@ -217,6 +219,7 @@
 </c:forEach>
 
 <div id="breadcrumb" class="list-element">
+
     <div class="row">
         <a class="text-link" href="#" data-toggle="modal" data-target="#addProductToList">
             <i class="fa fa-plus-circle"></i> Aggiungi prodotto alla lista
@@ -237,14 +240,15 @@
             </div>
         </div>
     </div>
+
 </div>                        
         
 <c:if test="${utenteProprietario[2] eq emailSession}">
+    
     <!-- START: modifica delle informazioni lista -->
-
     <jsp:include page="/jsp/components/modifyInfoList.jsp"></jsp:include>
-
     <!-- END: modifica delle informazioni lista -->
+
 </c:if>
     
 <c:forEach items="${listaCondivisa}" var="ListaCondivisa">
@@ -256,6 +260,7 @@
 
         <!-- END: modifica delle informazioni lista -->
     </c:if>
+
 </c:forEach>
 
     

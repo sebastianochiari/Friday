@@ -1,7 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-    <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
     <!-- START: footer -->
     <footer id="footer" class="section section-grey mt-4" style="padding-top: 0rem;">
@@ -84,13 +81,6 @@
 
             <p class="footer-copyright">
                 Friday.com, Inc o società affiliate
-<!--
-                <br>
-                Telefono: +39 0123 456789
-                Indirizzo: Via Sommarive, 9, Povo (TN)
-                <br>
-                Partita IVA: 01234561001 - C.F. 01234561001
--->
             </p>
             <p class="footer-copyright">
                 COPYRIGHT ©2018 | ALL RIGHTS RESERVED

@@ -42,7 +42,7 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     
     private static final String Delete_Query_By_CookieID = "DELETE FROM cookies WHERE cookieID = ?";
     
-    private static final String Delete_Query_DB_Expired_Cookies = "DELETE FROM cookies WHERE deadline < ?";
+    private static final String Read_Query_DB_Expired_Cookies = "SELECT * FROM cookies WHERE deadline < ?";
 
     /**
      * Metodo che ritorna tutti i cookie in base all'email
@@ -319,34 +319,52 @@ public class MySQLMyCookieDAOImpl implements MyCookieDAO{
     }
 
     /**
-     * Metodo che permette l'eliminazione del cookie se non è più valido
+     * Metodo che ritorna un vettore contenente tutti i cookie scaduti
      */
     @Override
-    public void deleteDBExpiredCookies(){
+    public Vector<MyCookie> deleteDBExpiredCookies(){
         
-        Connection conn = null;
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Vector<MyCookie> myCookies = new Vector();
+        ResultSet result = null;
+                
         try {
-            conn = MySQLDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(Delete_Query_DB_Expired_Cookies);
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = connection.prepareStatement(Read_Query_DB_Expired_Cookies);
             preparedStatement.setLong(1, timestamp.getTime());
             preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while(result.next()){
+                if(result.getString("cookieID") != null){
+                    MyCookie myCookie = new MyCookie(result.getInt(1), result.getInt(2), result.getString(3), result.getLong(4));
+                    myCookies.add(myCookie);
+                }
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
             try {
                 preparedStatement.close();
             } catch (Exception sse) {
                 sse.printStackTrace();
             }
             try {
-                conn.close();
+                connection.close();
             } catch (Exception cse) {
                 cse.printStackTrace();
             }
         }
+        
+        return myCookies;
     }
 
     /**

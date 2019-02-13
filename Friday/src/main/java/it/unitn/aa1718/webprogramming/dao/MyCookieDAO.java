@@ -76,7 +76,7 @@ public interface MyCookieDAO {
     /**
      * Metodo che permette l'eliminazione del cookie se non è più valido
      */
-    public void deleteDBExpiredCookies();
+    public Vector<MyCookie> deleteDBExpiredCookies();
     
     /**
      * Metodo che permette la modifica di un cookie in base all'ID della lista

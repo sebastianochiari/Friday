@@ -59,10 +59,6 @@
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.sharingListServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>listServlet</servlet-name>
-        <servlet-class>it.unitn.aa1718.webprogramming.servlets.listServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>indexServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.indexServlet</servlet-class>
     </servlet>
@@ -113,10 +109,6 @@
     <servlet-mapping>
         <servlet-name>sharingListServlet</servlet-name>
         <url-pattern>/sharingListServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>listServlet</servlet-name>
-        <url-pattern>/listServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>indexServlet</servlet-name>

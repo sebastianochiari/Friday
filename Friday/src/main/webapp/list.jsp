@@ -39,12 +39,19 @@
                             <p>
                                 <b>condiviso con: </b>
                                 <c:forEach items="${listaCondivisa}" var="ListaCondivisa">
-                                    ${ListaCondivisa[0]} ${ListaCondivisa[1]},
+                                    ${ListaCondivisa[0]} ${ListaCondivisa[1]} 
                                 </c:forEach>
+                                <c:if test="${listaCondivisa eq 0}">
+                                    Nessuno
+                                </c:if>
                             </p>
                         </c:if>
-                        <p><b>immagine lista:</b></p>
                         <img src="images/list-category/${listaCorrente[3]}" style="width: 100%">
+                        <c:if test="${(utenteProprietario[2] eq emailSession) || (listaCorrente[7] eq true)}">
+                            <!-- START: modifica delle informazioni lista -->
+                            <jsp:include page="/jsp/components/modifyInfoList.jsp"></jsp:include>
+                            <!-- END: modifica delle informazioni lista -->
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -90,62 +97,65 @@
             </a>
         </c:if>
 
-        <!-- ELIMINAZIONE LISTA -->
-        <c:if test="${utenteProprietario[2] eq emailSession || boolEmailSessionScriptlet ne true}" var="uscitaLista">
-            <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
-                <i class="fas fa-trash"></i>
-            </a>
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content shadow">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Elimina questa lista</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Vuoi veramente eliminare questa lista della spesa?</p>
-                        </div>
-                        <form method="GET" action="sharingListServlet">
-                            <div class="modal-footer">
-                                <input type="hidden" name="azioneLista" value="4">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                                <button type="submit" class="btn std-button" name="listToEliminate" value="${listaCorrente[0]}">Elimina Lista</button>
+        
+            <!-- ELIMINAZIONE LISTA -->
+            <c:if test="${(utenteProprietario[2] eq emailSession) || (boolEmailSessionScriptlet ne true) || (listaCorrente[9] eq true)}">
+                <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
+                    <i class="fas fa-trash"></i>
+                </a>
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content shadow">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Elimina questa lista</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </form>
+                            <div class="modal-body">
+                                <p>Vuoi veramente eliminare questa lista della spesa?</p>
+                            </div>
+                            <form method="GET" action="sharingListServlet">
+                                <div class="modal-footer">
+                                    <input type="hidden" name="azioneLista" value="4">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                                    <button type="submit" class="btn std-button" name="listToEliminate" value="${listaCorrente[0]}">Elimina Lista</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </c:if>
-        <c:if test="${utenteProprietario[2] ne emailSession && boolEmailSessionScriptlet eq true}">
-            <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
-                <i class="fas fa-sign-out-alt shopping-icon"></i>
-            </a>
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content shadow">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Esci dalla lista</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Vuoi veramente eliminare questa lista della spesa?</p>
-                        </div>
-                        <form method="GET" action="sharingListServlet">
-                            <div class="modal-footer">
-                                <input type="hidden" name="azioneLista" value="5">
-                                <input type="hidden" name="emailUtenteLoggato" value="${emailSession}">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                                <button type="submit" class="btn std-button" name="notToShareList" value="${listaCorrente[0]}">Esci dalla lista</button>
+            </c:if>
+            <!-- USCITA LISTA -->
+            <c:if test="${(utenteProprietario[2] ne emailSession) && (boolEmailSessionScriptlet eq true) && (listaCorrente[9] ne true)}">
+                <a href="#" class="shopping-link list-icon" title="Rimuovi" data-toggle="modal" data-target="#deleteModal">
+                    <i class="fas fa-sign-out-alt shopping-icon"></i>
+                </a>
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content shadow">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Esci dalla lista</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </form>
+                            <div class="modal-body">
+                                <p>Vuoi veramente uscire da questa lista della spesa?</p>
+                            </div>
+                            <form method="GET" action="sharingListServlet">
+                                <div class="modal-footer">
+                                    <input type="hidden" name="azioneLista" value="5">
+                                    <input type="hidden" name="emailUtenteLoggato" value="${emailSession}">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                                    <button type="submit" class="btn std-button" name="notToShareList" value="${listaCorrente[0]}">Esci dalla lista</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </c:if>
+            </c:if>
+        
     </div>
 </div>
 
@@ -216,46 +226,27 @@
     </div>
 </c:forEach>
 
-<div id="breadcrumb" class="list-element">
-    <div class="row">
-        <a class="text-link" href="#" data-toggle="modal" data-target="#addProductToList">
-            <i class="fa fa-plus-circle"></i> Aggiungi prodotto alla lista
-        </a>
-        <div class="modal fade" id="addProductToList" tabindex="-1" role="dialog" aria-labelledby="addProductToListLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content shadow">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Aggiungi prodotto alla lista</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <jsp:include page="showProducts.jsp" />
+<c:if test="${(utenteProprietario[2] eq emailSession) || (listaCorrente[8] eq true)}">
+    <div id="breadcrumb" class="list-element">
+        <div class="row">
+            <a class="text-link" href="#" data-toggle="modal" data-target="#addProductToList">
+                <i class="fa fa-plus-circle"></i> Aggiungi prodotto alla lista
+            </a>
+            <div class="modal fade" id="addProductToList" tabindex="-1" role="dialog" aria-labelledby="addProductToListLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content shadow">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Aggiungi prodotto alla lista</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <jsp:include page="showProducts.jsp" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>                        
-        
-<c:if test="${utenteProprietario[2] eq emailSession}">
-    <!-- START: modifica delle informazioni lista -->
-
-    <jsp:include page="/jsp/components/modifyInfoList.jsp"></jsp:include>
-
-    <!-- END: modifica delle informazioni lista -->
 </c:if>
-    
-<c:forEach items="${listaCondivisa}" var="ListaCondivisa">
-    
-    <c:if test="${ListaCondivisa[4] eq true}">
-        <!-- START: modifica delle informazioni lista -->
-
-        <jsp:include page="/jsp/components/modifyInfoList.jsp"></jsp:include>
-
-        <!-- END: modifica delle informazioni lista -->
-    </c:if>
-</c:forEach>
-
-    

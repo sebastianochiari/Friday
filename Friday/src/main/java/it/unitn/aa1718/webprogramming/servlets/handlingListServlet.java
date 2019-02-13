@@ -110,7 +110,7 @@ public class handlingListServlet extends HttpServlet {
             ProductDAO productDAO = new MySQLProductDAOImpl();
             ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
 
-            String [] listaCorrente = new String [7];
+            String [] listaCorrente = new String [10];
             String [] utenteProprietario = new String [5];
             String [][] listaCondivisa = new String [sharing.size()][6];
             
@@ -136,6 +136,9 @@ public class handlingListServlet extends HttpServlet {
             listaCorrente[4] = shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID()).getName();
             listaCorrente[5] = Integer.toString(shoppingList.getCookieID());
             listaCorrente[6] = Integer.toString(shoppingList.getLCID());
+            listaCorrente[7] = Boolean.toString(true);
+            listaCorrente[8] = Boolean.toString(true);
+            listaCorrente[9] = Boolean.toString(true);
 
             if (session.getAttribute("emailSession") != null) {
                 utenteProprietario[0] = user.getName();
@@ -143,12 +146,19 @@ public class handlingListServlet extends HttpServlet {
                 utenteProprietario[2] = user.getEmail();
                 utenteProprietario[3] = user.getPassword();
                 utenteProprietario[4] = user.getAvatar();
+                if (!session.getAttribute("emailSession").equals(utenteProprietario[2])){
+                    listaCorrente[7] = Boolean.toString(sharingDAO.getSharing(Integer.parseInt(listaCorrente[0]), (String)session.getAttribute("emailSession")).getModify());
+                    listaCorrente[8] = Boolean.toString(sharingDAO.getSharing(Integer.parseInt(listaCorrente[0]), (String)session.getAttribute("emailSession")).getAdd());
+                    listaCorrente[9] = Boolean.toString(sharingDAO.getSharing(Integer.parseInt(listaCorrente[0]), (String)session.getAttribute("emailSession")).getDelete());
+                }
+                
             } else {
                 utenteProprietario[0] = "";
                 utenteProprietario[1] = "";
                 utenteProprietario[2] = "";
                 utenteProprietario[3] = "";
                 utenteProprietario[4] = "";
+                
             }
             
             //mi salvo i prodotti

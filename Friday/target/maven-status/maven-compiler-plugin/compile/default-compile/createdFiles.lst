@@ -40,7 +40,6 @@ it\unitn\aa1718\webprogramming\dao\ShoppingListCategoryDAO.class
 it\unitn\aa1718\webprogramming\friday\ProductList.class
 it\unitn\aa1718\webprogramming\servlets\insertUserServlet.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLSharingProductDAOImpl.class
-it\unitn\aa1718\webprogramming\servlets\listServlet.class
 it\unitn\aa1718\webprogramming\servlets\sharingListServlet.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLSharingDAOImpl.class
 it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.class

@@ -120,7 +120,7 @@ public class Library {
                 tmp = image;
         } else {
             int num = (new Random()).nextInt(4);
-            tmp = "icon"+num;
+            tmp = "icon"+num+".png";
         }
         
         return tmp;

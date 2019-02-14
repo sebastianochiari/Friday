@@ -99,7 +99,7 @@ public class handlingListServlet extends HttpServlet {
 
         if (selectedList == 0) {
             session.setAttribute("listaAttiva", selectedList);
-            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            response.sendRedirect("gestioneListe.jsp");
         } else {
             ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
             ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);

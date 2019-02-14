@@ -308,6 +308,7 @@
             });
         </script>
 
+        <c:set var="passaggioServlet" scope="session" value="false"></c:set>
     </body>
 
 </html>

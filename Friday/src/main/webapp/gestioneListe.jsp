@@ -51,7 +51,7 @@
 
         <!-- header -->
         <jsp:include page="jsp/components/header.jsp" />
-
+         
         <!-- START: parte principale -->
         <main>
 
@@ -288,6 +288,7 @@
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>
 
+        <c:set var="passaggioServlet" scope="session" value="false"></c:set>
     </body>
 
 </html>

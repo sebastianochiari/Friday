@@ -172,7 +172,8 @@ public class handlingListServlet extends HttpServlet {
             session.setAttribute("listaCondivisa", listaCondivisa);            
             session.setAttribute("utenteProprietario", utenteProprietario);            
             session.setAttribute("listaCorrente", listaCorrente);            
-            session.setAttribute("listaAttiva", selectedList);            
+            session.setAttribute("listaAttiva", selectedList);  
+            session.setAttribute("passaggioServlet", true);
             library.prodottiDellaLista(selectedList, request);
             if (((session.getAttribute("emailSession") != null) && ((shoppingListDAO.getShoppingList(selectedList).getListOwner()).equals((String)session.getAttribute("emailSession")))) || ((shoppingListDAO.getShoppingList(selectedList).getCookieID()) == ((int)session.getAttribute("cookieIDSession")))) {
                 request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);

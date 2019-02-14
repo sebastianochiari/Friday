@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /Users/sebastianochiari/Desktop/friday/Friday/src/main/java/it/unitn/aa1718/webprogramming/friday/ProductList.java
 /Users/sebastianochiari/Desktop/friday/Friday/src/main/java/it/unitn/aa1718/webprogramming/encrypt/DBSecurity.java
 /Users/sebastianochiari/Desktop/friday/Friday/src/main/java/it/unitn/aa1718/webprogramming/servlets/insertShoppingListCategoryServlet.java
@@ -103,3 +104,56 @@ C:\Users\marta\Desktop\fridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\w
 C:\Users\marta\Desktop\fridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\securityServlet.java
 C:\Users\marta\Desktop\fridayFinal\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\SharingDAO.java
 >>>>>>> marta
+=======
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\Sharing.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\UserDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLSharingProductDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ProductDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ProductCategoryDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\extra\MessageEncoder.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLMyCookieDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ShoppingListDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLProductCategoryDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ProductListDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\logoutServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\MyCookieDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLMessageDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\connection\DAOFactory.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLSharingDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\ShoppingListCategoryDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\extra\Library.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductCategoryServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertProductServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\SharingDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\MyCookie.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLUserDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\extra\MessageDecoder.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListCategoryDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertShoppingListCategoryServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\ShoppingListCategory.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\loginServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertShoppingListServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\searchServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\SharingProduct.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\MessageDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLProductDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\encrypt\DBSecurity.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\confirmRegistrationServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\services\MapGroupGenerator.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\ProductCategory.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\Product.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\insertUserServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\connection\MySQLDAOFactory.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLProductListDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\Message.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\ShoppingList.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\indexServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\ProductList.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\sharingListServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\securityServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\extra\ChatEndpoint.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\servlets\handlingListServlet.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\dao\SharingProductDAO.java
+C:\varie\UNI\progettoWeb\Friday\friday\friday\Friday\src\main\java\it\unitn\aa1718\webprogramming\friday\User.java
+>>>>>>> tommaso

@@ -89,6 +89,8 @@ public class sharingListServlet extends HttpServlet {
         List productList = null;
         Library library = new Library();
         HttpSession session = request.getSession();
+          
+            session.setAttribute("passaggioServlet", true);
         
         switch (azioneLista) {
             case 2: 
@@ -184,6 +186,7 @@ public class sharingListServlet extends HttpServlet {
                 session.setAttribute("selectedList", listaSelezionata);
                 session.setAttribute("listaChat", listaChat);
                 //System.out.println("---------------------- LISTA SELEZIONATA è: " + session.getAttribute("selectedList"));
+                session.setAttribute("passaggioServlet", true);
                 request.getRequestDispatcher("chat.jsp").forward(request, response);
                 break;
             case 4:

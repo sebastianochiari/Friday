@@ -165,7 +165,7 @@ public class sharingListServlet extends HttpServlet {
                 }
 
                 //salvo i messaggi in modo da poterli passare alla jsp
-                String[][] MessaggiResult = new String[messaggi.size()][4];
+                String[][] MessaggiResult = new String[messaggi.size()][5];
 
                 for(int i=0; i<messaggi.size(); i++){
                     Message tmp = (Message)messaggi.get(i);
@@ -174,6 +174,7 @@ public class sharingListServlet extends HttpServlet {
                     MessaggiResult[i][1] = (userDAO.getUser(tmp.getSender())).getSurname();
                     MessaggiResult[i][2] = tmp.getText();
                     MessaggiResult[i][3] = (userDAO.getUser(tmp.getSender())).getEmail();
+                    MessaggiResult[i][4] = (userDAO.getUser(tmp.getSender())).getAvatar();
                     //System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
                 }
                 

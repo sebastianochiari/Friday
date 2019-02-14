@@ -107,10 +107,20 @@ public class securityServlet extends HttpServlet {
                 
                 
                 String psw = (String) request.getParameter("passwordforAdmin");
-                
+                System.out.println("--------------pswwwwwwwwwwwwwwwwwwwwwwwwwwww   " + psw);
                 String encryptPsw = encrypt.setSecurePassword(psw, emailSession);
+                
+                System.out.println("--------------enctypsw   " + encryptPsw);
+                System.out.println("--------------dbpswwww   " + dbpassword);
+                System.out.println("--------------EMAILsESSION" + emailSession);
+                
+                
                 if(encryptPsw.equals(dbpassword)){
                     library.changeAdmin(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, list_owner, confirmed); 
+                    
+        
+                    System.out.println("---------------------------AAAAAAAA");
+                    
                     break;
                 } else {
                     //Redirezionamento ad admin.jsp se la password è sbagliata. Altrimenti lasciamo error.jsp :)

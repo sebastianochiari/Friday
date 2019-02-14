@@ -136,7 +136,7 @@
                                           <c:if test="${emailSession ne messaggio[3]}">
                                               
                                               <div class="incoming_msg">
-                                                <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                                                <div class="incoming_msg_img"> <img src="images/users/${messaggio[4]}" alt="sunil"> </div>
                                                 <div class="received_msg">
                                                   <div class="received_withd_msg">
                                                     <p>${messaggio[2]}</p>

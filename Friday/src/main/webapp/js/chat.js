@@ -28,7 +28,8 @@ ws.onmessage = function(event) {
     } else {
         var div = document.createElement("div");
         div.classList.add("incoming_msg");
-        div.innerHTML = "<div class=\"received_msg\"> <div class=\"received_withd_msg\"><p>"+message.text+"</p><span class=\"time_date\">"+message.sender+"</span></div></div>"
+        console.log(message.avatar)
+        div.innerHTML = "<div class=\"incoming_msg_img\"> <img src=\"images/users/"+message.avatar+"\" alt=\"sunil\"> </div> <div class=\"received_msg\"> <div class=\"received_withd_msg\"><p>"+message.text+"</p><span class=\"time_date\">"+message.name_sender+" "+message.surname_sender+"</span></div></div>"
     }
 
     $('#input_message').find("input, textarea").val("");

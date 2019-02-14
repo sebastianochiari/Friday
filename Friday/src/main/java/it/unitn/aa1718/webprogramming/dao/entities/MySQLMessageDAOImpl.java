@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -31,7 +33,9 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         
     private static final String Delete_Query_By_LID = "DELETE FROM messages WHERE LID = ?";
                 
-    private static final String Delete_Query_By_MessageID = "DELETE FROM cookies WHERE messageID = ?";
+    private static final String Delete_Query_By_MessageID = "DELETE FROM messages WHERE messageID = ?";
+    
+     private static final String Select_Old_Messages = "SELECT tmp.MessageID, tmp.LID, tmp.sender, tmp.text FROM (SELECT @riga:= @riga + 1 AS rownumber, messages.* FROM messages ,(SELECT @riga:=0) r WHERE @riga < (SELECT count(messageID) FROM messages WHERE LID = ?) -20) tmp";
 
     /**
      * Metodo che ritorna i messaggi in base all'ID della lista alla quale sono associati
@@ -80,6 +84,50 @@ public class MySQLMessageDAOImpl implements MessageDAO{
             }
         }
         return messages;
+    }
+    
+    public List<Message> getOldMessagesByLID(int LID){
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet result = null;
+        List messages = new ArrayList();
+        
+        try {
+            connection = MySQLDAOFactory.createConnection();
+            preparedStatement = null;
+            preparedStatement = connection.prepareStatement(Select_Old_Messages);
+            preparedStatement.setInt(1, LID);
+
+            preparedStatement.execute();
+            result = preparedStatement.getResultSet();
+            
+            while(result.next()){
+                    Message message = new Message(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4));
+                    messages.add(message);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                result.close();
+            } catch (Exception rse) {
+                rse.printStackTrace();
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception sse) {
+                sse.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (Exception cse) {
+                cse.printStackTrace();
+            }
+        }
+        return messages;
+    
     }
 
     /**
@@ -227,11 +275,6 @@ public class MySQLMessageDAOImpl implements MessageDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                result.close();
-            } catch (Exception rse) {
-                rse.printStackTrace();
-            }
             try {
                 preparedStatement.close();
             } catch (Exception sse) {

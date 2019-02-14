@@ -5,13 +5,21 @@
  */
 package it.unitn.aa1718.webprogramming.friday;
 
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
+
 /**
  * Classe che permette la gestione della messaggistica
  */
 public class Message {
     
+    UserDAO userDAO = new MySQLUserDAOImpl();
+    
     int messageID;
     String sender = null;
+    String name_sender = null;
+    String surname_sender = null;
+    String avatar = null;
     int LID;
     String text = null;
     
@@ -29,6 +37,10 @@ public class Message {
         this.sender = sender;
         this.LID = LID;
         this.text = text;
+        this.surname_sender = userDAO.getUser(sender).getSurname();
+        this.name_sender = userDAO.getUser(sender).getName();
+        this.avatar = userDAO.getUser(sender).getAvatar();
+        
     }
     /**
      * Metodo che ritorna il mittente del messaggio
@@ -82,5 +94,44 @@ public class Message {
     public void setMessageID(int messageID) {        
         this.messageID = messageID;    
     }
+    
+    /**
+     * Metodo che ritorna il mittente del messaggio
+     * @return stringa che rappresenta il nome del mittente
+     */
+    public String getSenderName() {        
+        return name_sender;    
+    }    
+    /**
+     * Metodo per settare il mittente del messaggio
+     */
+    public void setSenderName(String name) {        
+        this.name_sender = name;    
+    }
+    
+       /**
+     * Metodo che ritorna il mittente del messaggio
+     * @return stringa che rappresenta il nome del mittente
+     */
+    public String getSenderSurnmae() {        
+        return surname_sender;    
+    }    
+    /**
+     * Metodo per settare il mittente del messaggio
+     */
+    public void setSenderSurname(String surname) {        
+        this.surname_sender = surname;    
+    }
+    
+    public String getAvatar() {        
+        return surname_sender;    
+    }    
+    /**
+     * Metodo per settare il mittente del messaggio
+     */
+    public void setAvatar(String avatar) {        
+        this.avatar = avatar;    
+    }
+    
     
 }

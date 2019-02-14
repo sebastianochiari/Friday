@@ -346,11 +346,6 @@ public class MySQLSharingDAOImpl implements SharingDAO{
             e.printStackTrace();
         } finally {
             try {
-                result.close();
-            } catch (Exception rse) {
-                rse.printStackTrace();
-            }
-            try {
                 preparedStatement.close();
             } catch (Exception sse) {
                 sse.printStackTrace();

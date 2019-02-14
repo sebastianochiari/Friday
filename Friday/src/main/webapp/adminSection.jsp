@@ -1,21 +1,13 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="it">
-
-<!--
-    Friday - Shopping List Manager
-    Copyright (C) 2018 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
--->
-
-<!-- @author: Sebastiano Chiari -->
 
     <head>
         <meta charset="utf-8">
@@ -34,10 +26,6 @@
 
         <!-- Font Awesome Icon -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
-        <!-- Slick -->
-        <link rel="stylesheet" type="text/css" href="slick/slick.css" />
-        <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
 
         <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css" />
@@ -106,14 +94,13 @@
                                         <c:if test="${goodInsertProduct}">
                                             <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProductLabel" aria-hidden="true" style="display: block">
                                         </c:if>
-
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content shadow">
-                                                     <div class="modal-header">
-                                                         <h5 class="modal-title">Crea un nuovo prodotto</h5>
-                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                             <span aria-hidden="true">&times;</span>
-                                                         </button>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crea un nuovo prodotto</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <jsp:include page="insertProduct.jsp" />
@@ -173,39 +160,56 @@
                                         </div>
 
                                     </c:if>
-                                    <c:if test="${!adminUserSession}">                              
+                                    <c:if test="${!adminUserSession}">
                                         <p>
-                                            <a class="text-link" href="#" data-toggle="modal" data-target="#newAdmin">Diventa Admin</a>
+                                            <a class="text-link mt-4" href="#" data-toggle="modal" data-target="#newAdmin">Diventa Admin</a>
                                         </p>
                                         <div class="modal fade" id="newAdmin" tabindex="-1" role="dialog" aria-labelledby="newAdmin" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content shadow">
-                                                     <div class="modal-header">
-                                                         <h5 class="modal-title">Diventa Admin</h5>
-                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                             <span aria-hidden="true">&times;</span>
-                                                         </button>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Diventa Admin
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
-                                                    
                                                     <div class="modal-body">
                                                         <form method="POST" action="securityServlet" enctype="application/x-www-form-urlencoded">
                                                             <div class="form-group">
-                                                                <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
-                                                                <label class="form-check-label" for="exampleCheck1">
-                                                                    <strong>*</strong> <small> Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="">informativa sulla privacy</a>. <br><br> <strong> I campi contrassegnati con * sono obbligatori. </strong></small>
-                                                                </label>
+                                                                <c:if test="${errorPassword eq null}">
+                                                                    <label for="password">Password <strong>*</strong></label>
+                                                                    <input type="password" class="form-control security-form johnCena" id="passwordAdmin" name="passwordforAdmin" required="true" aria-describedby="passwordHelpInline"  required="true">
+                                                                </c:if>
+                                                                <c:if test="${errorPassword eq 'errorPassword'}">
+                                                                    <input type="password" class="form-control is-invalid security-form johnCena" id="passwordforAdmin" name="passwordforAdmin" required="true">
+                                                                    <div class="invalid-feedback">
+                                                                        ATTENZIONE! La password è errata.
+                                                                    </div>
+                                                                </c:if>
+                                                            </div>
+                                                            <div class="form-group form-check">
+                                                                <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInput">
+                                                                <label class="form-check-label" for="showInput">Mostra password</label>
                                                             </div>
                                                             <div class="form-group">
-                                                                <button type="submit" class="btn std-button">Diventa Admin</button>
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <div class="form-group form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" required="true">
+                                                                    <label class="form-check-label" for="exampleCheck1">
+                                                                        <small>
+                                                                            Dichiaro di aver preso visione e di accettare integralmente la nostra <a href="#" class="text-link">informativa sulla privacy</a> <strong>*</strong>
+                                                                        </small>
+                                                                    </label>
+                                                                </div>
+                                                                <small><strong> I campi contrassegnati con * sono obbligatori. </strong></small>
                                                             </div>
                                                             <div class="form-group">
                                                                 <input type="hidden" name="typeChange" value="admin">
+                                                                <button type="submit" class="btn std-button">Diventa Admin</button>
                                                             </div>
                                                         </form>
                                                     </div>
-                                                        
-                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -225,18 +229,13 @@
         </main>
         <!-- END: parte principale -->
 
-        <!-- FOOTER -->
+        <!-- footer -->
         <jsp:include page="jsp/components/footer.jsp" />
         
         <!-- JS Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-        <!-- slick JS -->
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jquery.zoom.min.js"></script>
-        <script type="text/javascript" src="slick/slick.min.js"></script>
 
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>

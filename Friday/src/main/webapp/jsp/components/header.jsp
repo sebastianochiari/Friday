@@ -1,26 +1,7 @@
-<!--
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
-    Friday - Shopping List Manager
-    Copyright (C) 2018 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
-
-    Questa è la componente JSP per l'HEADER
-    author: @sebastianochiari
-
--->
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<!-- DA CONTROLLRE COSA EFFETTIVAMENTE SERVA OPPURE NO -->
-<%@ page import="java.io.*"%>
-<%@ page import="java.sql.*"%>
-<%@ page import="java.util.*"%>
-<%@ page import="javax.servlet.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.connection.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
-<%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="pageCurrent" value="${requestScope.pageCurrent}" />
@@ -50,9 +31,9 @@
                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 
                             <form action="searchServlet" method ="GET">
-                                 <c:forEach var="res" items="${productsCategories}" >
-                                       <button type="submit" value ="${productsCategories[0]}" class="dropdown-item" name ="inputClick" id="inputClick">
-                                           ${productsCategories[1]}
+                                 <c:forEach var="res" items="${productCategories}" >
+                                       <button type="submit" value ="${res[0]}" class="dropdown-item" name ="inputClick" id="inputClick">
+                                           ${res[1]}
                                        </button>
                                  </c:forEach>
                             </form>
@@ -73,9 +54,7 @@
                             <c:if test="${boolEmailSession}">
                                 <a class="dropdown-item" href="myaccount.jsp">Il mio account</a>
                                 <a class="dropdown-item" href="security.jsp">Impostazioni di sicurezza</a>
-                                <c:if test="${adminUserSession}">
-                                    <a class="dropdown-item" href="adminSection.jsp">Sezione admin</a>
-                                </c:if>
+                                <a class="dropdown-item" href="adminSection.jsp">Sezione admin</a>
                             </c:if>
                         </div>
                     </li>
@@ -110,9 +89,16 @@
                 </ul>
 
                 <div style="display: inline;">
-                    <a href="#" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
+                    
+                    <c:if test="${emailSession ne null}">
+                    <a href="chat.jsp" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-envelope shopping-icon"></i>
+                        
                     </a>
+                    </c:if>
+                    
+                    
+                    
                     <a href="handlingListServlet?selectedList=0" class="shopping-link" style="margin-right: 5px; vertical-align: middle;">
                         <i class="fas fa-shopping-cart shopping-icon"></i>
                     </a>

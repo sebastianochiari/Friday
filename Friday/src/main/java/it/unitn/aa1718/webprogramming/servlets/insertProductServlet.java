@@ -85,33 +85,58 @@ public class insertProductServlet extends HttpServlet {
         String photo = request.getParameter("photo");
         int PCID = Integer.parseInt(request.getParameter("PCID"));
         
-        if(email.length()<200 && name.length()< 200 && logo.length()< 200 && note.length()<500 && photo.length()<200){ 
-
-            Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
-
-            // memorizzazione del nuovo product nel DB
-            if(!userDAO.getUser(email).getAdmin()){
- 
-                SharingProductDAO riverSharingProductDAO = mySqlFactory.getSharingProductDAO();
-                SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
-                sharingProductDAO.createSharingProduct(new SharingProduct(email, PID));           
-            }
-            
-            productDAO.createProduct(product1);
-            request.setAttribute("goodInsertProduct", "true");
-            
-            if(RedirectAfterProduct == 0){
-                response.sendRedirect("search.jsp");
-            } else {
-                response.sendRedirect("adminSection.jsp");
-            }
-            
+        //un utente anonimo non può creare un prodotto
+        if(email == null){
+            response.sendRedirect("insertUser.jsp");
         } else {
-            response.sendRedirect("error.jsp");
+            if(email.length()<200 && name.length()< 200 && note.length()<500){ 
+
+                if((photo != null) ) {
+                    if( photo.length()<200){
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    }
+                } 
+
+                if((logo != null) ) {
+                    if( logo.length()<200){
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    }
+                }
+                
+                Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
+
+                // memorizzazione del nuovo product nel DB
+                if(!userDAO.getUser(email).getAdmin()){
+                    SharingProductDAO riverSharingProductDAO = mySqlFactory.getSharingProductDAO();
+                    SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+                    sharingProductDAO.createSharingProduct(new SharingProduct(email, PID));           
+                }
+
+                productDAO.createProduct(product1);
+                request.setAttribute("goodInsertProduct", "true");
+
+                if(RedirectAfterProduct == 0){
+                    response.sendRedirect("search.jsp");
+                } else {
+                    response.sendRedirect("adminSection.jsp");
+                }
+                
+                
+                
+                
+            } else {
+                response.sendRedirect("error.jsp");
+            } 
+            
+            
+            
+            
+            
         }
         
-        
-        
+      
     }
 
     /**
@@ -190,36 +215,26 @@ public class insertProductServlet extends HttpServlet {
                 break;
             case 4:
                 List listaProdotti = null;
-                //if(session.getAttribute("emailSession")!=null){
-                    
-                    boolean inList = false;
-                    listaProdotti = productListDAO.getPIDsByLID(lista);
-                    
-                    if (listaProdotti.isEmpty()){
+                boolean inList = false;
+                listaProdotti = productListDAO.getPIDsByLID(lista);
+                
+                if (listaProdotti.isEmpty()){
+                    productList = new ProductList(comando, lista, amount);
+                    productListDAO.createProductList(productList);
+                } else {
+                    for (int i=0; i<listaProdotti.size(); i++) {
+                        if (((ProductList)listaProdotti.get(i)).getPID() == comando){
+                            amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
+                            productList = new ProductList(comando, lista, amount);
+                            productListDAO.updateProductList(productList);
+                            inList = true;
+                        } 
+                    }
+                    if (!inList) {
                         productList = new ProductList(comando, lista, amount);
                         productListDAO.createProductList(productList);
-                    } else {
-                        for (int i=0; i<listaProdotti.size(); i++) {
-                            if (((ProductList)listaProdotti.get(i)).getPID() == comando){
-                                amount = ((ProductList)listaProdotti.get(i)).getQuantity() + 1;
-                                productList = new ProductList(comando, lista, amount);
-                                productListDAO.updateProductList(productList);
-                                inList = true;
-                            } 
-                        }
-                        if (!inList) {
-                            productList = new ProductList(comando, lista, amount);
-                            productListDAO.createProductList(productList);
-                        }
-//                    }
-//
-//                
-//                } else {
-//                    productList = new ProductList(comando, lista, amount);
-//                    productListDAO.createProductList(productList);
+                    }
                 };
-                
-                
                 break;
             default: 
                 response.sendRedirect("error.jsp");

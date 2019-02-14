@@ -119,7 +119,7 @@ public class Library {
                 tmp = image;
         } else {
             int num = (new Random()).nextInt(4);
-            tmp = "icon"+num;
+            tmp = "icon"+num+".png";
         }
         
         return tmp;
@@ -150,48 +150,53 @@ public class Library {
         String typeError = request.getParameter("typeError");
         String changePassword = request.getParameter("changePassword");
         
-        String inputNewPasswordEncrypted = encrypt.setSecurePassword(inputNewPassword, email);
-        String previousPasswordEncrypted = encrypt.setSecurePassword(previousPassword, email);
-        
-        boolean isOkay = encrypt.checkString(inputNewPassword);
-               
-        String errorPresentPassword = "errorPresentPassword";
-        request.setAttribute("errorPresentPassword", errorPresentPassword);
-        
-        if (!userDAO.getPasswordByUserEmail(email).equals(previousPasswordEncrypted)) {
-            
-            String error = "errorPreviousPassword";
-            typeError = error;
-            request.setAttribute("errorPreviousPassword", typeError);                
-            request.getRequestDispatcher(changePassword).forward(request, response);
-            
-        } else if (!isOkay) {   
+        if(inputNewPassword.length()<200 && previousPassword.length() < 200){
 
-            String error = "errorInputPassword";
-            typeError = error;
-            request.setAttribute("errorInputPassword", typeError);                
-            request.getRequestDispatcher(changePassword).forward(request, response);
+            String inputNewPasswordEncrypted = encrypt.setSecurePassword(inputNewPassword, email);
+            String previousPasswordEncrypted = encrypt.setSecurePassword(previousPassword, email);
 
-        } else if (!inputNewPassword.equals(confirmPassword)) {       
+            boolean isOkay = encrypt.checkString(inputNewPassword);
 
-            String error = "errorConfirmPassword";
-            typeError = error;
-            request.setAttribute("errorConfirmPassword", typeError);
-            
-            request.getRequestDispatcher(changePassword).forward(request, response);
+            String errorPresentPassword = "errorPresentPassword";
+            request.setAttribute("errorPresentPassword", errorPresentPassword);
 
+            if (!userDAO.getPasswordByUserEmail(email).equals(previousPasswordEncrypted)) {
+
+                String error = "errorPreviousPassword";
+                typeError = error;
+                request.setAttribute("errorPreviousPassword", typeError);                
+                request.getRequestDispatcher(changePassword).forward(request, response);
+
+            } else if (!isOkay) {   
+
+                String error = "errorInputPassword";
+                typeError = error;
+                request.setAttribute("errorInputPassword", typeError);                
+                request.getRequestDispatcher(changePassword).forward(request, response);
+
+            } else if (!inputNewPassword.equals(confirmPassword)) {       
+
+                String error = "errorConfirmPassword";
+                typeError = error;
+                request.setAttribute("errorConfirmPassword", typeError);
+
+                request.getRequestDispatcher(changePassword).forward(request, response);
+
+            } else {
+
+                request.setAttribute("errorPresentPassword", null);
+
+                User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
+                userDAO.updateUserByEmail(user1);
+
+
+                response.sendRedirect("myaccount.jsp");
+            }
         } else {
-            
-            request.setAttribute("errorPresentPassword", null);
-            
-            User user1 = new User(email, inputNewPasswordEncrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
-            userDAO.updateUserByEmail(user1);
-            
-            
-            response.sendRedirect("myaccount.jsp");
-            
-            
+            response.sendRedirect("error.jsp");
         }
+
+
     }
     
     /**
@@ -220,80 +225,87 @@ public class Library {
         String changeEmail = request.getParameter("changeEmail");
         String password = request.getParameter("password");
         dbpassword = userDAO.getPasswordByUserEmail(oldEmail);
-        request.setAttribute("inputEmail", inputNewEmail);
-        MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
         
-        String errorPresentEmail = "errorPresentEmail";        
-        request.setAttribute("errorPresentEmail", errorPresentEmail);
-        String errorInputEmailFormat = "noErrorInputEmailFormat";        
-        request.setAttribute("errorInputEmailFormat", errorInputEmailFormat);
-        String errorInputEmail = "errorInputEmail";
-        request.setAttribute("errorInputEmail", null);
         
-        if (!userDAO.checkUser(oldEmail)) {
-            
-            String error = "errorOldEmail";
-            typeError = error;
-            request.setAttribute("errorOldEmail", typeError);
-            request.getRequestDispatcher(changeEmail).forward(request, response);
-            
-        } else if(!userDAO.checkEmail(inputNewEmail)) {
-            
-            errorInputEmailFormat = "errorInputEmailFormat";
-            typeError = errorInputEmailFormat;
-            request.setAttribute("errorInputEmail", errorInputEmail);
-            request.setAttribute("errorInputEmailFormat", typeError);
-            request.getRequestDispatcher(changeEmail).forward(request, response);
-            
-        } else if (userDAO.checkUser(inputNewEmail)) {
-            
-            request.setAttribute("errorInputEmail", errorInputEmail);
+         
+        if(oldEmail.length()<200 && inputNewEmail.length()< 200){
+                        
             request.setAttribute("inputEmail", inputNewEmail);
-            
-            request.getRequestDispatcher(changeEmail).forward(request, response);
-            
-        } else if (!inputNewEmail.equals(confirmEmail)) {   
-            
-            String error = "errorConfirmEmail";
-            typeError = error;
-            request.setAttribute("errorConfirmEmail", typeError);
-            
-            request.getRequestDispatcher(changeEmail).forward(request, response);
+            MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
+            String errorPresentEmail = "errorPresentEmail";        
+            request.setAttribute("errorPresentEmail", errorPresentEmail);
+            String errorInputEmailFormat = "noErrorInputEmailFormat";        
+            request.setAttribute("errorInputEmailFormat", errorInputEmailFormat);
+            String errorInputEmail = "errorInputEmail";
+            request.setAttribute("errorInputEmail", null);
 
-        } else {
-            
-            String pswencrypted = encrypt.setSecurePassword(password, oldEmail);
-            
-            if (pswencrypted.equals(dbpassword)) {
-                
-                
-                request.setAttribute("errorPresentEmail", null);
-                
-                String newpswencrypted = encrypt.setSecurePassword(password, inputNewEmail);
+            if (!userDAO.checkUser(oldEmail)) {
 
-                (request.getSession()).setAttribute("emailSession", inputNewEmail);
-
-                User userPassword = new User(inputNewEmail, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner, true);
-                userDAO.updateUserByPassword(userPassword);
-                User userEmail = new User(inputNewEmail, newpswencrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
-                userDAO.updateUserByEmail(userEmail);
-
-                //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
-
-                
-                response.sendRedirect("myaccount.jsp");
-            
-            } else {
-            
-                String error = "errorPassword";
+                String error = "errorOldEmail";
                 typeError = error;
-                request.setAttribute("errorPassword", typeError);
+                request.setAttribute("errorOldEmail", typeError);
                 request.getRequestDispatcher(changeEmail).forward(request, response);
-            
-            }
-            
+
+            } else if(!userDAO.checkEmail(inputNewEmail)) {
+
+                errorInputEmailFormat = "errorInputEmailFormat";
+                typeError = errorInputEmailFormat;
+                request.setAttribute("errorInputEmail", errorInputEmail);
+                request.setAttribute("errorInputEmailFormat", typeError);
+                request.getRequestDispatcher(changeEmail).forward(request, response);
+
+            } else if (userDAO.checkUser(inputNewEmail)) {
+
+                request.setAttribute("errorInputEmail", errorInputEmail);
+                request.setAttribute("inputEmail", inputNewEmail);
+
+                request.getRequestDispatcher(changeEmail).forward(request, response);
+
+            } else if (!inputNewEmail.equals(confirmEmail)) {   
+
+                String error = "errorConfirmEmail";
+                typeError = error;
+                request.setAttribute("errorConfirmEmail", typeError);
+
+                request.getRequestDispatcher(changeEmail).forward(request, response);
+
+            } else {
+
+                String pswencrypted = encrypt.setSecurePassword(password, oldEmail);
+
+                if (pswencrypted.equals(dbpassword)) {
+
+
+                    request.setAttribute("errorPresentEmail", null);
+
+                    String newpswencrypted = encrypt.setSecurePassword(password, inputNewEmail);
+
+                    (request.getSession()).setAttribute("emailSession", inputNewEmail);
+
+                    User userPassword = new User(inputNewEmail, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner, true);
+                    userDAO.updateUserByPassword(userPassword);
+                    User userEmail = new User(inputNewEmail, newpswencrypted, name, surname, library.ImageControl(avatar), admin, list_owner, true);
+                    userDAO.updateUserByEmail(userEmail);
+
+                    //bisogna sistemare anche la tabella cookie e quindi forse aggiornarla?
+
+
+                    response.sendRedirect("myaccount.jsp");
+
+                } else {
+
+                    String error = "errorPassword";
+                    typeError = error;
+                    request.setAttribute("errorPassword", typeError);
+                    request.getRequestDispatcher(changeEmail).forward(request, response);
+
+                }
+
+               }
+        } else {
+            response.sendRedirect("error.jsp");
         }
-        
+
     }
     
     /**
@@ -323,30 +335,35 @@ public class Library {
         String changePersonal = request.getParameter("changePersonal");
         
         String errorPresentPersonal = "errorPresentPersonal";
-        request.setAttribute("errorPresentPersonal", errorPresentPersonal);
         
-        if (newName.isEmpty()) {
-            String error = "nameError";
-            typeError = error;
-            request.setAttribute("nameError", typeError);
-            request.getRequestDispatcher(changePersonal).forward(request, response);
-        } else if (newSurname.isEmpty()) {
-            String error = "surnameError";
-            typeError = error;
-            request.setAttribute("surnameError", typeError);
-            request.getRequestDispatcher(changePersonal).forward(request, response);
+        if(newName.length()<200 && newSurname.length()< 200 && newAvatar.length()<200){
+                request.setAttribute("errorPresentPersonal", errorPresentPersonal);
+        
+                if (newName.isEmpty()) {
+                    String error = "nameError";
+                    typeError = error;
+                    request.setAttribute("nameError", typeError);
+                    request.getRequestDispatcher(changePersonal).forward(request, response);
+                } else if (newSurname.isEmpty()) {
+                    String error = "surnameError";
+                    typeError = error;
+                    request.setAttribute("surnameError", typeError);
+                    request.getRequestDispatcher(changePersonal).forward(request, response);
+                } else {
+                    // se avatar è null che si fa? bisogna per forza sceglierne uno oppure si può anche lasciarlo vuoto?
+                    (request.getSession()).setAttribute("nameUserSession", newName);
+                    (request.getSession()).setAttribute("surnameUserSession", newSurname);
+                    (request.getSession()).setAttribute("avatarUserSession", newAvatar);
+                    request.setAttribute("errorPresentPersonal", null);
+
+                    User user1 = new User(email, dbpassword, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner, true);
+                    userDAO.updateUserByEmail(user1);
+
+
+                    response.sendRedirect("myaccount.jsp");
+                }
         } else {
-            // se avatar è null che si fa? bisogna per forza sceglierne uno oppure si può anche lasciarlo vuoto?
-            (request.getSession()).setAttribute("nameUserSession", newName);
-            (request.getSession()).setAttribute("surnameUserSession", newSurname);
-            (request.getSession()).setAttribute("avatarUserSession", newAvatar);
-            request.setAttribute("errorPresentPersonal", null);
-            
-            User user1 = new User(email, dbpassword, newName, newSurname, library.ImageControl(newAvatar), admin, list_owner, true);
-            userDAO.updateUserByEmail(user1);
-            
-            
-            response.sendRedirect("myaccount.jsp");
+            response.sendRedirect("error.jsp");
         }
         
     }
@@ -376,8 +393,7 @@ public class Library {
         
         User user1 = new User(email, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner, confirmed);
         userDAO.updateUserByEmail(user1);
-
-
+        
         response.sendRedirect("adminSection.jsp");
         
     }
@@ -550,14 +566,17 @@ public class Library {
                 MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
 
                 //cancello eventuali cookie scaduti
-                myCookieDAO.deleteDBExpiredCookies();
+                List<MyCookie> cookieScaduti = myCookieDAO.deleteDBExpiredCookies();
+                for(int i=0; i<cookieScaduti.size(); i++){
+                    myCookieDAO.deleteCookieByCookieID(cookieScaduti.get(i).getCookieID());
+                }
 
                 //Creo cookie
                 Cookie cookie = new Cookie("FridayAnonymous", Integer.toString(LastEntryTable("cookieID", "cookies")));
                 cookie.setMaxAge(-1);
                 cookieID = Integer.parseInt((String)cookie.getValue());
 
-                Long Deadline = (long)0;
+                Long Deadline = new Timestamp(System.currentTimeMillis()).getTime()+1800*1000;
 
                 myCookieDAO.createCookie(new MyCookie(LastEntryTable("cookieID", "cookies"), 0, null, Deadline));
                 session.setAttribute("cookieIDSession", Integer.parseInt(cookie.getValue()));

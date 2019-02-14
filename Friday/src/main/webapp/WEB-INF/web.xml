@@ -59,10 +59,6 @@
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.sharingListServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>listServlet</servlet-name>
-        <servlet-class>it.unitn.aa1718.webprogramming.servlets.listServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>indexServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.servlets.indexServlet</servlet-class>
     </servlet>
@@ -115,10 +111,6 @@
         <url-pattern>/sharingListServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>listServlet</servlet-name>
-        <url-pattern>/listServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>indexServlet</servlet-name>
         <url-pattern>/indexServlet</url-pattern>
     </servlet-mapping>
@@ -130,9 +122,15 @@
     <welcome-file-list>
         <welcome-file>indexServlet</welcome-file>
     </welcome-file-list>
-    
     <error-page>
         <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
         <location>/error.jsp</location>
     </error-page>
     

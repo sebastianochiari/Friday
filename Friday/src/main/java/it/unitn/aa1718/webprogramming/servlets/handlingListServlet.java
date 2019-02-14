@@ -6,12 +6,14 @@
 
 package it.unitn.aa1718.webprogramming.servlets;
 
+import it.unitn.aa1718.webprogramming.dao.MyCookieDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ProductDAO;
 import it.unitn.aa1718.webprogramming.dao.SharingDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListCategoryDAO;
 import it.unitn.aa1718.webprogramming.dao.ShoppingListDAO;
 import it.unitn.aa1718.webprogramming.dao.UserDAO;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLMyCookieDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductCategoryDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLProductDAOImpl;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLSharingDAOImpl;
@@ -99,7 +101,7 @@ public class handlingListServlet extends HttpServlet {
 
         if (selectedList == 0) {
             session.setAttribute("listaAttiva", selectedList);
-            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            response.sendRedirect("gestioneListe.jsp");
         } else {
             ShoppingListDAO shoppingListDAO = new MySQLShoppingListDAOImpl();
             ShoppingList shoppingList = shoppingListDAO.getShoppingList(selectedList);
@@ -109,8 +111,9 @@ public class handlingListServlet extends HttpServlet {
             List sharing = sharingDAO.getAllEmailsbyList(selectedList);
             ProductDAO productDAO = new MySQLProductDAOImpl();
             ProductCategoryDAO productCategoryDAO = new MySQLProductCategoryDAOImpl();
+            MyCookieDAO myCookieDAO = new MySQLMyCookieDAOImpl();
 
-            String [] listaCorrente = new String [7];
+            String [] listaCorrente = new String [11];
             String [] utenteProprietario = new String [5];
             String [][] listaCondivisa = new String [sharing.size()][6];
             
@@ -136,6 +139,10 @@ public class handlingListServlet extends HttpServlet {
             listaCorrente[4] = shoppingListCategoryDAO.getShoppingListCategory(shoppingList.getLCID()).getName();
             listaCorrente[5] = Integer.toString(shoppingList.getCookieID());
             listaCorrente[6] = Integer.toString(shoppingList.getLCID());
+            listaCorrente[7] = Boolean.toString(true);
+            listaCorrente[8] = Boolean.toString(true);
+            listaCorrente[9] = Boolean.toString(true);
+            listaCorrente[10] = Integer.toString(myCookieDAO.getLIDbyCookieID((int)session.getAttribute("cookieIDSession")));
 
             if (session.getAttribute("emailSession") != null) {
                 utenteProprietario[0] = user.getName();
@@ -143,12 +150,19 @@ public class handlingListServlet extends HttpServlet {
                 utenteProprietario[2] = user.getEmail();
                 utenteProprietario[3] = user.getPassword();
                 utenteProprietario[4] = user.getAvatar();
+                if ((!session.getAttribute("emailSession").equals(utenteProprietario[2])) && (sharingDAO.getSharing(selectedList, (String)session.getAttribute("emailSession"))) != null){
+                    listaCorrente[7] = Boolean.toString(sharingDAO.getSharing(Integer.parseInt(listaCorrente[0]), (String)session.getAttribute("emailSession")).getModify());
+                    listaCorrente[8] = Boolean.toString(sharingDAO.getSharing(Integer.parseInt(listaCorrente[0]), (String)session.getAttribute("emailSession")).getAdd());
+                    listaCorrente[9] = Boolean.toString(sharingDAO.getSharing(Integer.parseInt(listaCorrente[0]), (String)session.getAttribute("emailSession")).getDelete());
+                }
+                
             } else {
                 utenteProprietario[0] = "";
                 utenteProprietario[1] = "";
                 utenteProprietario[2] = "";
                 utenteProprietario[3] = "";
                 utenteProprietario[4] = "";
+                
             }
             
             //mi salvo i prodotti
@@ -158,9 +172,20 @@ public class handlingListServlet extends HttpServlet {
             session.setAttribute("listaCondivisa", listaCondivisa);            
             session.setAttribute("utenteProprietario", utenteProprietario);            
             session.setAttribute("listaCorrente", listaCorrente);            
-            session.setAttribute("listaAttiva", selectedList);            
+            session.setAttribute("listaAttiva", selectedList);  
+            session.setAttribute("passaggioServlet", true);
             library.prodottiDellaLista(selectedList, request);
-            request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            if (((session.getAttribute("emailSession") != null) && ((shoppingListDAO.getShoppingList(selectedList).getListOwner()).equals((String)session.getAttribute("emailSession")))) || ((shoppingListDAO.getShoppingList(selectedList).getCookieID()) == ((int)session.getAttribute("cookieIDSession")))) {
+                request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+            } else {
+                for (int i=0; i<listaCondivisa.length; i++){
+                    if ((listaCondivisa[i][2].equals((String)session.getAttribute("emailSession")))){
+                        request.getRequestDispatcher("gestioneListe.jsp").forward(request, response);
+                    }
+                }
+                response.sendRedirect("error.jsp");
+            }
+            
             
         }
         

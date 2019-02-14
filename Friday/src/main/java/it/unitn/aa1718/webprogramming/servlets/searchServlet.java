@@ -75,6 +75,7 @@ public class searchServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Library library = new Library();
         library.createProductCategory(request);
+        library.createAutocomplete(session);
 
         //recupero inputs
         String input = null;

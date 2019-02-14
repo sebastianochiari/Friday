@@ -6,6 +6,7 @@
 package it.unitn.aa1718.webprogramming.dao;
 
 import it.unitn.aa1718.webprogramming.friday.Message;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -27,6 +28,8 @@ public interface MessageDAO {
      * @return oggetto di tipo messaggio 
      */
     public Message getMessagesByID(int messageID);
+    
+    public List<Message> getOldMessagesByLID(int LID);
     
     /**
      * Metodo che permette la creazione di un messaggio 

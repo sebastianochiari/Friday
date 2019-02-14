@@ -89,22 +89,41 @@ public class sharingListServlet extends HttpServlet {
         List productList = null;
         Library library = new Library();
         HttpSession session = request.getSession();
+          
+            session.setAttribute("passaggioServlet", true);
         
         switch (azioneLista) {
             case 2: 
                 listaScelta = Integer.parseInt(request.getParameter("listToShare"));
                 String email = request.getParameter("invitationEmail");
-                 
-                sharingDAO.createSharing(new Sharing(email, listaScelta, true, true, false));
-                productList = productListDAO.getPIDsByLID(listaScelta);
-                for (int i=0; i<productList.size(); i++){
-                    if ((productDAO.getProduct((((ProductList)productList.get(i)).getPID()), (String)session.getAttribute("emailSession"))).getEmail().equals((String)session.getAttribute("emailSession"))){
-                        sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
-                    }
-                }
-                response.sendRedirect("handlingListServlet?selectedList="+listaScelta);
-                break;
+                boolean modify = false;
+                boolean addRemProd = false;
+                boolean listDelete = false;
                 
+                if(email.equals(session.getAttribute("emailSession"))){
+                   response.sendRedirect("handlingListServlet");
+                   break;
+                } else {
+                
+                    if (request.getParameter("modify") != null && Integer.parseInt(request.getParameter("modify")) == 1){
+                        modify = true;
+                    }
+                    if (request.getParameter("addRemProd") != null && Integer.parseInt(request.getParameter("addRemProd")) == 1){
+                        addRemProd = true;
+                    }
+                    if (request.getParameter("listDelete") != null && Integer.parseInt(request.getParameter("listDelete")) == 1){
+                        listDelete = true;
+                    }
+                    sharingDAO.createSharing(new Sharing(email, listaScelta, modify, addRemProd, listDelete));
+                    productList = productListDAO.getPIDsByLID(listaScelta);
+                    for (int i=0; i<productList.size(); i++){
+                        if ((productDAO.getProduct((((ProductList)productList.get(i)).getPID()), (String)session.getAttribute("emailSession"))).getEmail().equals((String)session.getAttribute("emailSession"))){
+                            sharingProductDAO.createSharingProduct(new SharingProduct(email, ((ProductList)productList.get(i)).getPID()));
+                        }
+                    }
+                    response.sendRedirect("handlingListServlet?selectedList="+listaScelta);
+                    break;
+                }
             case 3:
                 // questa parte va decisamente rivista, ora come ora dovrebbe essere la chat
          
@@ -117,11 +136,16 @@ public class sharingListServlet extends HttpServlet {
 
                 //aggiungo messaggi
                 if(request.getParameter("newMessage") != null){
-
-                    Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
-                    messageDAO.createMessage(newMessage);
-
-                }
+                    
+                    if(request.getParameter("mewMessage").length() < 500){
+                        Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
+                        messageDAO.createMessage(newMessage);
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    }
+                       
+                } 
+                
 
                 //ottengo valori
                 int LID = listaSelezionata;
@@ -132,7 +156,6 @@ public class sharingListServlet extends HttpServlet {
                 String[][] PartecipantiResult = new String[partecipanti.size()][3];
 
                 for(int i=0; i<partecipanti.size(); i++){
-
                     User tmp = userDAO.getUser(((Sharing)partecipanti.get(i)).getEmail());
 
                     PartecipantiResult[i][0] = tmp.getAvatar();
@@ -142,38 +165,39 @@ public class sharingListServlet extends HttpServlet {
                 }
 
                 //salvo i messaggi in modo da poterli passare alla jsp
-                String[][] MessaggiResult = new String[messaggi.size()][4];
+                String[][] MessaggiResult = new String[messaggi.size()][5];
 
                 for(int i=0; i<messaggi.size(); i++){
-
                     Message tmp = (Message)messaggi.get(i);
 
                     MessaggiResult[i][0] = (userDAO.getUser(tmp.getSender())).getName();
                     MessaggiResult[i][1] = (userDAO.getUser(tmp.getSender())).getSurname();
                     MessaggiResult[i][2] = tmp.getText();
                     MessaggiResult[i][3] = (userDAO.getUser(tmp.getSender())).getEmail();
+                    MessaggiResult[i][4] = (userDAO.getUser(tmp.getSender())).getAvatar();
                     //System.out.println(MessaggiResult[i][0]+" "+MessaggiResult[i][1]+" "+MessaggiResult[i][2]+" "+MessaggiResult[i][3]);
-
                 }
-
+                
+                String [] listaChat = new String [2];
+                listaChat[0] = shoppingListDAO.getShoppingList(listaSelezionata).getName();
+                listaChat[1] = Integer.toString(shoppingListDAO.getShoppingList(listaSelezionata).getLID());
+                
                 session.setAttribute("partecipantiChat", PartecipantiResult);
                 session.setAttribute("messaggiChat", MessaggiResult);
                 session.setAttribute("selectedList", listaSelezionata);
+                session.setAttribute("listaChat", listaChat);
+                //System.out.println("---------------------- LISTA SELEZIONATA è: " + session.getAttribute("selectedList"));
+                session.setAttribute("passaggioServlet", true);
                 request.getRequestDispatcher("chat.jsp").forward(request, response);
-
-             
                 break;
             case 4:
                 listaScelta = Integer.parseInt(request.getParameter("listToEliminate"));
                 shoppingListDAO.deleteShoppingList(listaScelta);
                 if(session.getAttribute("emailSession") != null){
-                        
                     if(shoppingListDAO.getShoppingListsByOwner((String)session.getAttribute("emailSession")).isEmpty()) {
                         session.setAttribute("listaAnonimo", false);
-
                     }
                 } else {
-
                     session.setAttribute("listaAnonimo", false);
                 };
                 response.sendRedirect("handlingListServlet?selectedList=0");
@@ -188,8 +212,6 @@ public class sharingListServlet extends HttpServlet {
                 response.sendRedirect("error.jsp"); 
                 break;
         }
-        
-        
     }
 
     /**
@@ -203,7 +225,6 @@ public class sharingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
         Library library = new Library();
         
         ShoppingListDAO shoppingListDAO1 = new MySQLShoppingListDAOImpl();
@@ -217,7 +238,6 @@ public class sharingListServlet extends HttpServlet {
         shoppingListDAO1.updateShoppingList(new ShoppingList(LID, newName, newNote, library.ImageControl(newPhoto), LCID, ListOwner, CookieID));
         
         response.sendRedirect("handlingListServlet?selectedList="+LID);
-        
     }
 
     /**

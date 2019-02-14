@@ -7,10 +7,13 @@ package it.unitn.aa1718.webprogramming.extra;
 
 import it.unitn.aa1718.webprogramming.connection.DAOFactory;
 import it.unitn.aa1718.webprogramming.dao.MessageDAO;
+import it.unitn.aa1718.webprogramming.dao.UserDAO;
 import it.unitn.aa1718.webprogramming.dao.entities.MySQLMessageDAOImpl;
+import it.unitn.aa1718.webprogramming.dao.entities.MySQLUserDAOImpl;
 import it.unitn.aa1718.webprogramming.friday.Message;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -39,6 +42,7 @@ public class ChatEndpoint {
     DAOFactory mySqlFactory = DAOFactory.getDAOFactory();
     MessageDAO riverMessageDAO = mySqlFactory.getMessageDAO();
     MessageDAO messageDAO = new MySQLMessageDAOImpl();
+    UserDAO userDAO = new MySQLUserDAOImpl();
     Library library = new Library();
 
     /**
@@ -85,8 +89,20 @@ public class ChatEndpoint {
     @OnMessage
     public void onMessage(Session session, Message message, @PathParam("LID") int LID) throws IOException, EncodeException {
         
+        //cancello vecchi messaggi
+        List <Message> oldMessages = messageDAO.getOldMessagesByLID(LID);
+        for(int i=0; i<oldMessages.size(); i++){
+            messageDAO.deleteMessageByID(oldMessages.get(i));
+        }
+        
         //setto valori mancanti
-        message.setSender(users.get(session.getId()));
+        
+        String sender = users.get(session.getId());
+        
+        message.setSender(sender);
+        message.setSenderName(userDAO.getUser(sender).getName());
+        message.setSenderSurname(userDAO.getUser(sender).getSurname());
+        message.setAvatar(userDAO.getUser(sender).getAvatar());
         message.setLID(LID);
         message.setMessageID(library.LastEntryTable("messageID", "messages"));
         

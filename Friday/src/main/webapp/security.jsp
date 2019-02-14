@@ -1,23 +1,17 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="it">
 
-<!--
-    Friday - Shopping List Manager
-    Copyright (C) 2018 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
--->
-
-<!-- @author: Sebastiano Chiari -->
-
     <head>
+        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,10 +29,6 @@
         <!-- Font Awesome Icon -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-        <!-- Slick -->
-        <link rel="stylesheet" type="text/css" href="slick/slick.css" />
-        <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
-
         <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css" />
 
@@ -49,7 +39,6 @@
         <c:if test="${!boolEmailSessionScriptlet}">
             <c:redirect url="/error.jsp"/>
         </c:if>
-        
         
         <!-- Header -->
         <jsp:include page="jsp/components/header.jsp" />
@@ -87,15 +76,12 @@
                             <div id="store">
 
                                 <h4>Impostazioni di sicurezza</h4>
-
                                 <p>
                                     Attraverso questa pagina, potrai gestire il tuo account nei minimi dettagli
                                 </p>
-
                                 <div class="mt-4" id="accordion">
 
                                     <!-- START: modifica delle informazioni personali -->
-
                                     <div id="breadcrumb" class="mt-4">
                                         <div class="mt-4" id="personalArea">
                                             <a class="cart-toggle" data-toggle="collapse" href="#collapsePersonalInfo" role="button" data-target="#collapsePersonalInfo" aria-expanded="true" aria-controls="collapsePersonalInfo">
@@ -150,17 +136,14 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- END: modifica delle informazioni personali -->
 
                                     <!-- START: modifica dell'email -->
-
                                     <div id="breadcrumb" class="mt-4">
                                         <div class="mt-4" id="emailArea">
                                             <a class="cart-toggle" data-toggle="collapse" href="#collapseEmail" role="button" data-target="#collapseEmail" aria-expanded="true" aria-controls="collapseEmail">
                                                 <h5 class="mb-0" style="display: inline-block;">Modifica e-mail</h5>
                                             </a>
-
                                         </div>
 
                                         <c:set var="errorPresentEmail" value="${requestScope.errorPresentEmail}"></c:set>
@@ -196,7 +179,6 @@
                                                                 ATTENZIONE! L'email inserita non è quella attualmente in uso. Riprovare con l'email corretta. 
                                                             </div>
                                                         </c:if>
-
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputNewEmail">Inserisci la nuova e-mail</label>
@@ -206,14 +188,14 @@
                                                         <c:if test="${errorInputEmail eq 'errorInputEmail'}">
                                                             <input name="inputNewEmail" id="inputNewEmail" class="form-control is-invalid security-form" aria-describedby="passwordHelpInline" value="${inputEmail}" required="true">
                                                         </c:if>
-                                                            <div class="invalid-feedback">
-                                                                <c:if test="${errorInputEmailFormat eq 'noErrorInputEmailFormat'}">
-                                                                    ATTENZIONE! L'email inserita è attualmente in uso. Riprovare con un'altra email. 
-                                                                </c:if>
-                                                                <c:if test="${errorInputEmailFormat eq 'errorInputEmailFormat'}">
-                                                                    ATTENZIONE! Formato email non valido. Inserire un'email valida.  
-                                                                </c:if>
-                                                            </div>
+                                                        <div class="invalid-feedback">
+                                                            <c:if test="${errorInputEmailFormat eq 'noErrorInputEmailFormat'}">
+                                                                ATTENZIONE! L'email inserita è attualmente in uso. Riprovare con un'altra email. 
+                                                            </c:if>
+                                                            <c:if test="${errorInputEmailFormat eq 'errorInputEmailFormat'}">
+                                                                ATTENZIONE! Formato email non valido. Inserire un'email valida.  
+                                                            </c:if>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group">   
                                                         <label for="confirmEmail">Conferma la nuova e-mail</label>
@@ -229,7 +211,6 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="password">Inserisci la tua password</label>
-
                                                         <a href="#" class="text-link">
                                                             <p class="footer-info"><small>Hai dimenticato la password?</small></p>
                                                         </a>
@@ -242,8 +223,6 @@
                                                                 ATTENZIONE! La password inserita non è quella attualmente in uso. Riprovare con la password corretta. 
                                                             </div>
                                                         </c:if>
-
-
                                                     </div>
                                                     <div class="form-check mb-3">
                                                         <input class="form-check-input" type="checkbox" onclick="revealPsw()" id="showInputEmail">
@@ -263,18 +242,14 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- END: modifica dell'email -->
 
                                     <!-- START: modifica della password -->
-
                                     <div id="breadcrumb" class="mt-4">
                                         <div class="mt-4" id="passwordArea">
-
                                             <a  class="cart-toggle" data-toggle="collapse" href="#collapsePsw" data-target="#collapsePsw" aria-expanded="true" aria-controls="collapsePsw">
                                                 <h5 class="mb-0" style="display: inline-block;">Modifica password</h5>
                                             </a>
-
                                         </div>
 
                                         <c:set var="errorPresentPassword" value="${requestScope.errorPresentPassword}"></c:set>
@@ -297,7 +272,6 @@
 
                                                     <div class="form-group">
                                                         <label for="previousPassword">Inserisci la tua password attuale</label>
-
                                                         <a href="#" class="text-link">
                                                             <p class="footer-info"><small>Hai dimenticato la password?</small></p>
                                                         </a>
@@ -307,39 +281,34 @@
                                                         <c:if test="${errorPreviousPassword eq 'errorPreviousPassword'}">
                                                             <input name="previousPassword" type="password" class="form-control is-invalid security-form johnCena" id="previousPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <div class="invalid-feedback">
-                                                                ATTENZIONE! La password inserita non è quella attualmente in uso. Riprovare con la password corretta. 
+                                                                ATTENZIONE! La password inserita non è quella attualmente in uso. Riprovare con la password corretta.
                                                             </div>
                                                         </c:if>
                                                     </div>
                                                     <div class="form-group">
-
                                                         <c:if test="${errorInputPassword eq null}">
-                                                            <label for="inputNewPassword">Inserisci la tua precendente password</label>
+                                                            <label for="inputNewPassword">Inserisci la tua nuova password</label>
                                                             <input name="inputNewPassword" type="password" class="form-control security-form johnCena" id="inputNewPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <p class="footer-info"><small>La password deve essere composta da almeno 6 caratteri, di cui almeno una maiuscola e da un numero o un carattere speciale</small></p>
                                                         </c:if>
-
                                                         <c:if test="${errorInputPassword eq 'errorInputPassword'}">
-                                                            <label for="inputNewPassword">Inserisci la tua precendente password</label>
+                                                            <label for="inputNewPassword">Inserisci la tua nuova password</label>
                                                             <input name="inputNewPassword" type="password" class="form-control is-invalid security-form johnCena" id="inputNewPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <div class="invalid-feedback">
-                                                                ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettere maiuscola e almeno un numero o un carattere speciale. 
+                                                                ATTENZIONE! La password non rispetta i parametri richiesti. Ricordati di inserire almeno 6 caratteri, di cui almeno una lettera maiuscola e almeno un numero o un carattere speciale. 
                                                             </div>
                                                         </c:if>
-
                                                     </div>
                                                     <div class="form-group">
-
                                                         <c:if test="${errorConfirmPassword eq null}">
-                                                            <label for="confirmPassword">Inserisci nuovamente la password</label>
+                                                            <label for="confirmPassword">Conferma la nuova password</label>
                                                             <input name="confirmPassword" type="password" class="form-control security-form johnCena" id="confirmPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                         </c:if>
-
                                                         <c:if test="${errorConfirmPassword eq 'errorConfirmPassword'}">
-                                                            <label for="confirmPassword">Inserisci nuovamente la password</label>
+                                                            <label for="confirmPassword">Conferma la nuova password</label>
                                                             <input name="confirmPassword" type="password" class="form-control is-invalid security-form johnCena" id="confirmPassword" required="true" aria-describedby="passwordHelpInline" required="true">
                                                             <div class="invalid-feedback">
-                                                                ATTENZIONE! Le password non coincidono. Perfavore, inserisci nuovamente la tua password e fai attenzione nel riscriverla uguale la seconda volta.
+                                                                ATTENZIONE! Le due password non coincidono.
                                                             </div>
                                                         </c:if>
                                                     </div>
@@ -361,7 +330,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- END: modifica della password -->
 
                                 </div>
@@ -381,18 +349,13 @@
         </main>
         <!-- END: parte principale -->
 
-        <!-- Footer -->
+        <!-- footer -->
         <jsp:include page="jsp/components/footer.jsp" />
 
         <!-- JS Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-        <!-- slick JS -->
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jquery.zoom.min.js"></script>
-        <script type="text/javascript" src="slick/slick.min.js"></script>
 
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>

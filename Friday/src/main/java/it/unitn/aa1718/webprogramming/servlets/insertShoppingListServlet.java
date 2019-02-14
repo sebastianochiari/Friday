@@ -90,8 +90,8 @@ public class insertShoppingListServlet extends HttpServlet {
         int cookieID = -1;
         int changeProduct = 0;
         
-        if (request.getParameter("sorgente") != null && request.getParameter("sorgente").equals("creoListaEProdotto")) {
-            changeProduct = Integer.parseInt((String)request.getParameter("changeProduct"));
+        if (request.getParameter("ProdottoDaInserire")!= null && request.getParameter("sorgente") != null && request.getParameter("sorgente").equals("creoListaEProdotto")) {
+            changeProduct = Integer.parseInt((String)request.getParameter("ProdottoDaInserire"));
         }        
         
         if(name.length()< 200 && note.length()< 200 && image.length()<500){ 

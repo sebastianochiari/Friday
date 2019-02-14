@@ -4,8 +4,9 @@
     Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -34,10 +35,6 @@
 
         <!-- Font Awesome Icon -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
-        <!-- Slick -->
-        <link rel="stylesheet" type="text/css" href="slick/slick.css" />
-        <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
 
         <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css" />
@@ -137,7 +134,7 @@
                                                             <div class="modal-body">
                                                                 <input type="hidden" name="typeChange" value="deleteAccount">
                                                                 <input type="email" class="form-control" id="deleteEmail" placeholder="mario.rossi@email.com" name="deleteEmail">
-                                                                <input type="password" class="form-control" id="deletePassword" placeholder="AAAaaa1" name="deletePassword">
+                                                                <input type="password" class="form-control mt-3" id="deletePassword" placeholder="AAAaaa1" name="deletePassword">
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn std-button" name="deleteUser"> Elimina account </button>
@@ -166,18 +163,13 @@
         </main>
         <!-- END: parte principale -->
 
-        <!-- FOOTER -->
+        <!-- footer -->
         <jsp:include page="jsp/components/footer.jsp" />
 
         <!-- JS Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-        <!-- slick JS -->
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jquery.zoom.min.js"></script>
-        <script type="text/javascript" src="slick/slick.min.js"></script>
 
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>

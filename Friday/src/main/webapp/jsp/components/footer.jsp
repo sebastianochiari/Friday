@@ -1,7 +1,5 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-    <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     <!-- START: footer -->
     <footer id="footer" class="section section-grey mt-4" style="padding-top: 0rem;">
@@ -30,9 +28,15 @@
                         <h6 class="footer-header">IL MIO ACCOUNT</h6>
                         <ul class="list-links">
 
-                            <!-- se l'utente non è ancora loggato, questa rimanda alla pagina di login, altrimenti ai rispettivi link -->
-                            <li><a href="myaccount.jsp">Il mio account</a></li>
-
+                           <!-- se l'utente non è ancora loggato, questa rimanda alla pagina di login, altrimenti ai rispettivi link -->
+                            <c:if test="${emailSession eq null}">
+                                <li><a href="login.jsp">Il mio account</a></li>
+                            </c:if>    
+                            
+                            <c:if test="${emailSession ne null}">
+                                <li><a href="myaccount.jsp">Il mio account</a></li>
+                            </c:if> 
+                                
                             <li>
                                 <%--
                                 <form action="handlingListServlet" method="GET">
@@ -44,7 +48,6 @@
                                 <!-- diciamo che questa soluzione non è proprio elegante -->
                                 <a href="handlingListServlet?selectedList=0">Le mie liste</a>
                             </li>
-
 
                         </ul>
                     </div>
@@ -76,7 +79,7 @@
                 </div>
 
             </div>
-            <hr>
+            <br>
         </div>
 
         <!-- COPYRIGHT INFO -->
@@ -84,13 +87,6 @@
 
             <p class="footer-copyright">
                 Friday.com, Inc o società affiliate
-<!--
-                <br>
-                Telefono: +39 0123 456789
-                Indirizzo: Via Sommarive, 9, Povo (TN)
-                <br>
-                Partita IVA: 01234561001 - C.F. 01234561001
--->
             </p>
             <p class="footer-copyright">
                 COPYRIGHT ©2018 | ALL RIGHTS RESERVED

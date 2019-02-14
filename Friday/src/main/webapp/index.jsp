@@ -1,10 +1,10 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ page import="java.io.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
@@ -13,18 +13,14 @@
 <%@ page import="it.unitn.aa1718.webprogramming.dao.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.dao.entities.*"%>
 <%@ page import="it.unitn.aa1718.webprogramming.friday.*"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="it">
 
-<!--
-    Friday - Shopping List Manager
-    Copyright (C) 2018 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
--->
-
-<!-- @author: Sebastiano Chiari -->
-
     <head>
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,17 +38,13 @@
         <!-- Font Awesome Icon -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-        <!-- Slick -->
-        <link rel="stylesheet" type="text/css" href="slick/slick.css" />
-        <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
-
         <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css" />
 
     </head>
 
     <body id="top">
-
+        
         <!-- START: topHeader -->
         <nav id="breadcrumb" class="navbar">
             <div class="container">
@@ -62,14 +54,14 @@
                         <span>Benvenuto su <b>Friday</b>, l'innovativo gestore di <b>liste della spesa</b></span>
                     </c:if>
                     <c:if test="${boolEmailSession}">
-                        <span>Bentornato su <b>Friday</b> <c:out value="${nameUserSession}"></c:out>, l'innovativo gestore di <b>liste della spesa</b></span>
+                        <span>Ciao <c:out value="${nameUserSession}"></c:out>, bentornato su <b>Friday</b></span>
                     </c:if>
 
                 </div>
                 <div class="float-right">
                     <ul class="header-top-links">
-                        <li><a href="faq.jsp">FAQ</a></li>
                         <c:if test="${!boolEmailSession}">
+                            <li><a href="faq.jsp">FAQ</a></li>
                             <li><a href="login.jsp">Login</a></li>
                             <li><a href="insertUser.jsp">Registrati</a></li>
                         </c:if>
@@ -79,10 +71,10 @@
         </nav>
         <!-- END: topHeader -->
 
-        <!-- Header -->
+        <!-- START: header -->
         <jsp:include page="jsp/components/header.jsp" />
+        <!-- END: header -->
 
-        <!-- START: main carousel -->
         <main>
 
             <div class="container mt-4">
@@ -274,8 +266,30 @@
 
             </div>
 
+            <c:if test="${bannerCookie eq true}">
+                <!-- START: cookie modal -->
+                <div class="modal hide fade" id="myModal">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Cookie su <b style="color: #F8694A">Friday</b></h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    Utilizziamo i cookie per una serie di motivi, come mantenere affidabili e sicuri i siti Friday,
+                                    personalizzare i contenuti e garantire la migliore esperienza possibile per l'utente. 
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Accetto e continua</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: cookie modal -->
+            </c:if>
+
         </main>
-        <!-- END: main carousel -->
 
         <!-- Footer -->
         <jsp:include page="jsp/components/footer.jsp" />
@@ -285,14 +299,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-        <!-- slick JS -->
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jquery.zoom.min.js"></script>
-        <script type="text/javascript" src="slick/slick.min.js"></script>
-
         <!-- personal JS -->
         <script type="text/javascript" src="js/main.js"></script>
 
+        <script type="text/javascript">
+            $(window).on('load',function(){
+                $('#myModal').modal('show');
+            });
+        </script>
+
+        <c:set var="passaggioServlet" scope="session" value="false"></c:set>
     </body>
 
 </html>

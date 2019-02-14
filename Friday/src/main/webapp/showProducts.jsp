@@ -1,12 +1,13 @@
-<%-- 
-    WebProgramming Project - Shopping List 
-    2017-2018
-    Tommaso Bosetti - Sebastiano Chiari - Leonardo Remondini - Marta Toniolli
---%>
+<!--
+    Friday - Shopping List Manager
+    Copyright (C) 2018-2019 Tommaso Bosetti, Sebastiano Chiari, Leonardo Remondini, Marta Toniolli
+-->
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
    
 <c:set var="listaCorrente" value="${listaCorrente}"></c:set>
@@ -25,7 +26,7 @@
                     <div class="product-body">
                         <h2 class="product-name">${prodotto[1]}</h2>
                         <p class="product-description">${prodotto[2]}</p>
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <div class="btn-group displayCenter" role="group">
                             <form action="insertProductServlet" method="POST">
                                 <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
                                 <input type="hidden" value="4" name="scelta">
@@ -33,7 +34,6 @@
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i> Aggiungi alla lista
                                 </button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -62,6 +62,5 @@
     </div>
 
 </div>
-
 
 <script type="text/javascript" src="js/pagination.js"></script>

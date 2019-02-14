@@ -142,11 +142,15 @@ public class loginServlet extends HttpServlet {
 
                     //System.out.println("LE PASSWORD SONO CORRETTE!! SETTO I COOKIE E REDIREZIONO A INDEX.JSP");
                     //elimina cookie scaduti
-                    myCookieDAO.deleteDBExpiredCookies();
+                    
+                    List<MyCookie> cookieScaduti = myCookieDAO.deleteDBExpiredCookies();
+                    for(int i=0; i<cookieScaduti.size(); i++){
+                        myCookieDAO.deleteCookieByCookieID(cookieScaduti.get(i).getCookieID());
+                    }
 
                     //associa cookie se esistente
                     myCookie = myCookieDAO.getCookie(request, email);
-                    Long Deadline = (long)0;
+                    Long Deadline;
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
                     if (myCookie == null) {
@@ -157,16 +161,16 @@ public class loginServlet extends HttpServlet {
                         if(ricordami != null && ricordami.equals("on")) {
 
                             cookie.setMaxAge(3600); //se ricordami selezionato, vale per un'ora
-                            Deadline = timestamp.getTime()+ 60*60*1000;
+                            Deadline = timestamp.getTime()+ 124*60*60*1000;
 
                         } else {
-
-                            cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione
+                            
+                            Deadline = timestamp.getTime()+ 30*60*1000;
+                            cookie.setMaxAge(-1); //se ricordami non selezionato, vale per la sessione (30 minuti)
                            
                         }
 
                         int LID = -1;
-                        //System.out.println("COOKIE ID = "+library.LastEntryTable("cookieID", "cookies")+"+ LID = "+LID+" EMAIL = "+email+" DEADLINE = "+Deadline);
                         MyCookie myNewCookie = new MyCookie(library.LastEntryTable("cookieID", "cookies"), LID, email, Deadline); 
                         myCookieDAO.createCookie(myNewCookie);
                         response.addCookie(cookie);

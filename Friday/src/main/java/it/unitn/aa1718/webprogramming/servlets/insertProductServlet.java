@@ -88,7 +88,7 @@ public class insertProductServlet extends HttpServlet {
         //un utente anonimo non può creare un prodotto
         if(email == null){
             response.sendRedirect("insertUser.jsp");
-        } else if(email != null) {
+        } else {
             if(email.length()<200 && name.length()< 200 && note.length()<500){ 
 
                 if((photo != null) ) {
@@ -103,27 +103,36 @@ public class insertProductServlet extends HttpServlet {
                     } else {
                         response.sendRedirect("error.jsp");
                     }
-                } 
+                }
+                
+                Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
+
+                // memorizzazione del nuovo product nel DB
+                if(!userDAO.getUser(email).getAdmin()){
+                    SharingProductDAO riverSharingProductDAO = mySqlFactory.getSharingProductDAO();
+                    SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
+                    sharingProductDAO.createSharingProduct(new SharingProduct(email, PID));           
+                }
+
+                productDAO.createProduct(product1);
+                request.setAttribute("goodInsertProduct", "true");
+
+                if(RedirectAfterProduct == 0){
+                    response.sendRedirect("search.jsp");
+                } else {
+                    response.sendRedirect("adminSection.jsp");
+                }
+                
+                
+                
+                
             } else {
                 response.sendRedirect("error.jsp");
             } 
-            Product product1 = new Product(PID, name, note, library.ImageControl(logo), library.ImageControl(photo), PCID, email);
-
-            // memorizzazione del nuovo product nel DB
-            if(!userDAO.getUser(email).getAdmin()){
-                SharingProductDAO riverSharingProductDAO = mySqlFactory.getSharingProductDAO();
-                SharingProductDAO sharingProductDAO = new MySQLSharingProductDAOImpl();
-                sharingProductDAO.createSharingProduct(new SharingProduct(email, PID));           
-            }
             
-            productDAO.createProduct(product1);
-            request.setAttribute("goodInsertProduct", "true");
             
-            if(RedirectAfterProduct == 0){
-                response.sendRedirect("search.jsp");
-            } else {
-                response.sendRedirect("adminSection.jsp");
-            }
+            
+            
             
         }
         

@@ -105,21 +105,13 @@ public class securityServlet extends HttpServlet {
             case "personal": library.changePersonal(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, admin, list_owner, confirmed); break;
             case "admin": 
                 
-                
                 String psw = (String) request.getParameter("passwordforAdmin");
-                System.out.println("--------------pswwwwwwwwwwwwwwwwwwwwwwwwwwww   " + psw);
                 String encryptPsw = encrypt.setSecurePassword(psw, emailSession);
-                
-                System.out.println("--------------enctypsw   " + encryptPsw);
-                System.out.println("--------------dbpswwww   " + dbpassword);
-                System.out.println("--------------EMAILsESSION" + emailSession);
                 
                 
                 if(encryptPsw.equals(dbpassword)){
                     library.changeAdmin(request, response, encrypt, library, userDAO, emailSession, dbpassword, name, surname, avatar, list_owner, confirmed); 
                     
-        
-                    System.out.println("---------------------------AAAAAAAA");
                     
                     break;
                 } else {

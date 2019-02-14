@@ -17,7 +17,6 @@ it\unitn\aa1718\webprogramming\friday\ShoppingListCategory.class
 it\unitn\aa1718\webprogramming\encrypt\DBSecurity.class
 it\unitn\aa1718\webprogramming\connection\DAOFactory.class
 it\unitn\aa1718\webprogramming\dao\entities\MySQLShoppingListDAOImpl.class
-it\unitn\aa1718\webprogramming\extra\GeoEndpoint.class
 it\unitn\aa1718\webprogramming\dao\ProductListDAO.class
 it\unitn\aa1718\webprogramming\friday\MyCookie.class
 it\unitn\aa1718\webprogramming\servlets\indexServlet.class

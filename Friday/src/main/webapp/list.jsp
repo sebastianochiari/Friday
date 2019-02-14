@@ -255,171 +255,33 @@
 </c:forEach>
 
 <c:if test="${(utenteProprietario[2] eq emailSession) || (listaCorrente[8] eq true)}">
-    <div class="list-element">
-        <div class="row">
-            <a class="text-link" href="#" data-toggle="modal" data-target="#addProductToList">
-                <i class="fa fa-plus-circle"></i> Aggiungi prodotto alla lista
-            </a>
-            <div class="modal fade" id="addProductToList" tabindex="-1" role="dialog" aria-labelledby="addProductToListLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content shadow">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Aggiungi prodotto alla lista</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <jsp:include page="showProducts.jsp" />
-                        </div>
+    <div class="mt-4">
+        <a class="text-link" href="#" data-toggle="modal" data-target="#addProductToList">
+            <i class="fa fa-plus-circle"></i> Aggiungi prodotto alla lista
+        </a>
+        <div class="modal fade" id="addProductToList" tabindex="-1" role="dialog" aria-labelledby="addProductToListLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content shadow">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Aggiungi prodotto alla lista</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <jsp:include page="showProducts.jsp" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </c:if>
-    
 
 <input type="hidden" name="PICIAIDI" value="${listaCorrente[4]}" id="PICIAIDI"/>
-<c:out value="${listaCorrente[4]}"></c:out>
-<script>
-    var platform = new H.service.Platform({
-        'app_id': 'teSpEFeKPAje4MJeqpJZ',
-        'app_code': 'oUjGgZQJpfqiEFR-Ji5FGA'
-        });
 
-    var PCID = String(document.getElementById("PICIAIDI").value);
-    CosaCercare(PCID)
-    console.log(PCID)
-    var lat;
-    var lng;
-    var posizione;
+<script type="text/javascript" src="js/map.js"></script>
 
-    function getLocation(){
-
-        if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition( function(position) {
-                    lat = position.coords.latitude;
-                    lng = position.coords.longitude;
-                    console.log("Latitudine: "+ lat);
-                    console.log("Longitudine: "+ lng);
-                    posizione = lat+','+lng;
-                    console.log(lat+','+lng);
-
-                    searchSomething();
-            });
-        }
-    }
-
-    async function searchSomething(){
-
-        params = {
-                'q': PCID, //categoria
-                'at': posizione //dove
-                }
-
-              // Obtain an Explore object through which to submit search requests:
-              var search = new H.places.Search(platform.getPlacesService());
-
-              // Define result and error holder
-              var placeDetails, error;
-
-              // Run a search request with parameters, headers (empty), and callback
-              // functions:
-              search.request(params, {}, onResult, onError);
-
-              // Success handler - fetch the first set of detailed place data from
-              // the response:
-              function onResult(data) {
-                console.log(data)
-                for(var i=0; i<data.results.items.length && i<3; i++){
-                    data.results.items[i].follow(onFetchPlaceDetails, onError);
-                }
-               }
-
-              // Define a callback to process a successful response to the
-              // request for place details:
-              function onFetchPlaceDetails(data) {
-                  console.log(data)
-                placeDetails = data;
-                addElement(data);
-               }
-
-              // Define a callback to handle errors:
-              function onError(data) {
-                error = data;
-                console.log(error);
-              }
-
-    }
-
-    async function searchCategory(){
-
-
-        params = {
-                'cat': 'eat-drink', //categoria
-                'at': '46.0664228,11.1257601' //dove
-            }
-
-        // Obtain an Explore object through which to submit search requests:
-        var explore = new H.places.Explore(platform.getPlacesService());
-
-        // Define result and error holder
-        var placeDetails, error;
-
-        // Run a search request with parameters, headers (empty), and callback
-        // functions:
-        explore.request(params, {}, onResult, onError);
-
-        // Success handler - fetch the first set of detailed place data from
-        // the response:
-        function onResult(data) {
-                for(var i=0; i<data.results.items.length; i++){
-                    data.results.items[i].follow(onFetchPlaceDetails, onError);
-                }
-               }
-
-              // Define a callback to process a successful response to the
-              // request for place details:
-              function onFetchPlaceDetails(data) {
-                placeDetails = data;
-
-                //console.log(placeDetails)
-               }
-
-              // Define a callback to handle errors:
-              function onError(data) {
-                error = data;
-                console.log(error);
-              }
-
-    }
-
-
-    function addElement(data){
-        var div = document.createElement("div");
-        div.classList.add("row");
-        div.innerHTML = "<div class=\"col-2\"> <img class=\"displayCenter\" src=\""+data.icon+"\"></div> <div class=\"col\"><h5>"+data.name+"</h5><p class=\"mt-2 list-product-description\">"+data.location.address.text+"</p><a class=\"\" href=\"https://www.google.com/maps/place/"+data.location.position[0]+","+data.location.position[1]+"\" target=\"_blank\">Link</a></div>";
-        document.getElementById("modalmap").appendChild(div);
-    }
-
-    function CosaCercare(input){
-        switch(input){
-            case 'Fai da te' :
-                PCID = 'Fai da te'
-                break;
-            case 'Spesa' :
-                PCID = 'supermercato'
-                break;
-            case 'Party' :
-                PCID = 'centro commerciale'
-                break;
-            case 'Scuola' :
-                PCID = 'cartoleria'
-                break;
-        }   
-    }
-
+<script type="text/javascript">
     getLocation();
 </script>
     

@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group mb-4">
-        <label for="logo">Carica il logo della categoria di prodotti</label>
+        <label for="logo">Carica un'immagine per la lista</label>
         <input type="file" name ="image" accept=".jpg, .jpeg, .png" id="logo">
     </div>
 

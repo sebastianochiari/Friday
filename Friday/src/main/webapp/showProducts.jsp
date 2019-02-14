@@ -26,7 +26,7 @@
                     <div class="product-body">
                         <h2 class="product-name">${prodotto[1]}</h2>
                         <p class="product-description">${prodotto[2]}</p>
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <div class="btn-group displayCenter" role="group">
                             <form action="insertProductServlet" method="POST">
                                 <input type="hidden" value="${listaCorrente[0]}" name="selectedListToChangeProduct">
                                 <input type="hidden" value="4" name="scelta">
@@ -34,7 +34,6 @@
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i> Aggiungi alla lista
                                 </button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -63,6 +62,5 @@
     </div>
 
 </div>
-
 
 <script type="text/javascript" src="js/pagination.js"></script>

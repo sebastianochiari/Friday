@@ -281,7 +281,6 @@
     
 
 <input type="hidden" name="PICIAIDI" value="${listaCorrente[4]}" id="PICIAIDI"/>
-<c:out value="${listaCorrente[4]}"></c:out>
 <script>
     var platform = new H.service.Platform({
         'app_id': 'teSpEFeKPAje4MJeqpJZ',
@@ -290,7 +289,6 @@
 
     var PCID = String(document.getElementById("PICIAIDI").value);
     CosaCercare(PCID)
-    console.log(PCID)
     var lat;
     var lng;
     var posizione;
@@ -307,7 +305,31 @@
                     console.log(lat+','+lng);
 
                     searchSomething();
-            });
+            }, showError);
+        }
+    }
+    
+    function showError(error) {
+        
+        var div = document.createElement("div");
+        
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+              div.innerHTML = "<p>Condividi la tua posizione per scoprire i negozi più vicini a te!</p>"
+              document.getElementById("modalmap").appendChild(div);
+              break;
+            case error.POSITION_UNAVAILABLE:
+              div.innerHTML = "<p>È stato rilevato un errore durante il calcolo della tua posizione, Riprova a caricare la pagina per scoprire i negozi più vicini a te!</p>"
+              document.getElementById("modalmap").appendChild(div);
+              break;
+            case error.TIMEOUT:
+              div.innerHTML = "<p>Condividi la tua posizione per scoprire i negozi più vicini a te!.</p>"
+              document.getElementById("modalmap").appendChild(div);
+              break;
+            case error.UNKNOWN_ERROR:
+              div.innerHTML = "<p>È stato rilevato un errore sconosciuto durante il calcolo della tua posizione, Riprova a caricare la pagina per scoprire i negozi più vicini a te!</p>"
+              document.getElementById("modalmap").appendChild(div);
+              break;
         }
     }
 
@@ -352,49 +374,6 @@
               }
 
     }
-
-    async function searchCategory(){
-
-
-        params = {
-                'cat': 'eat-drink', //categoria
-                'at': '46.0664228,11.1257601' //dove
-            }
-
-        // Obtain an Explore object through which to submit search requests:
-        var explore = new H.places.Explore(platform.getPlacesService());
-
-        // Define result and error holder
-        var placeDetails, error;
-
-        // Run a search request with parameters, headers (empty), and callback
-        // functions:
-        explore.request(params, {}, onResult, onError);
-
-        // Success handler - fetch the first set of detailed place data from
-        // the response:
-        function onResult(data) {
-                for(var i=0; i<data.results.items.length; i++){
-                    data.results.items[i].follow(onFetchPlaceDetails, onError);
-                }
-               }
-
-              // Define a callback to process a successful response to the
-              // request for place details:
-              function onFetchPlaceDetails(data) {
-                placeDetails = data;
-
-                //console.log(placeDetails)
-               }
-
-              // Define a callback to handle errors:
-              function onError(data) {
-                error = data;
-                console.log(error);
-              }
-
-    }
-
 
     function addElement(data){
         var div = document.createElement("div");

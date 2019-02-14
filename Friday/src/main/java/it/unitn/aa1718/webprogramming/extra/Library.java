@@ -395,8 +395,6 @@ public class Library {
         User user1 = new User(email, dbpassword, name, surname, library.ImageControl(avatar), admin, list_owner, confirmed);
         userDAO.updateUserByEmail(user1);
         
-        
-
         response.sendRedirect("adminSection.jsp");
         
     }

@@ -37,7 +37,9 @@ public class DBSecurity {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             
             md.update(salt.getBytes(StandardCharsets.UTF_8));
+            
             passwordToHash = " " + passwordToHash + salt;
+            
             byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
              for(int i=0; i< bytes.length ;i++){

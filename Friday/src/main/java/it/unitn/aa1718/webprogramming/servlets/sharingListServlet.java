@@ -134,9 +134,16 @@ public class sharingListServlet extends HttpServlet {
 
                 //aggiungo messaggi
                 if(request.getParameter("newMessage") != null){
-                    Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
-                    messageDAO.createMessage(newMessage);
-                }
+                    
+                    if(request.getParameter("mewMessage").length() < 500){
+                        Message newMessage = new Message(library.LastEntryTable("messageID", "messages"), (int)session.getAttribute("selectedList"), (String)session.getAttribute("emailSession"), request.getParameter("newMessage"));
+                        messageDAO.createMessage(newMessage);
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    }
+                       
+                } 
+                
 
                 //ottengo valori
                 int LID = listaSelezionata;

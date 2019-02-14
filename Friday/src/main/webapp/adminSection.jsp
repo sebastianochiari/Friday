@@ -180,7 +180,7 @@
                                                             <div class="form-group">
                                                                 <c:if test="${errorPassword eq null}">
                                                                     <label for="password">Password <strong>*</strong></label>
-                                                                    <input name="password" type="password" class="form-control security-form johnCena" id="passwordAdmin" required="true" aria-describedby="passwordHelpInline"  required="true">
+                                                                    <input type="password" class="form-control security-form johnCena" id="passwordAdmin" name="passwordforAdmin" required="true" aria-describedby="passwordHelpInline"  required="true">
                                                                 </c:if>
                                                                 <c:if test="${errorPassword eq 'errorPassword'}">
                                                                     <input type="password" class="form-control is-invalid security-form johnCena" id="passwordforAdmin" name="passwordforAdmin" required="true">

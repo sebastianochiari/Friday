@@ -134,7 +134,7 @@
                                                             <div class="modal-body">
                                                                 <input type="hidden" name="typeChange" value="deleteAccount">
                                                                 <input type="email" class="form-control" id="deleteEmail" placeholder="mario.rossi@email.com" name="deleteEmail">
-                                                                <input type="password" class="form-control" id="deletePassword" placeholder="AAAaaa1" name="deletePassword">
+                                                                <input type="password" class="form-control mt-3" id="deletePassword" placeholder="AAAaaa1" name="deletePassword">
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn std-button" name="deleteUser"> Elimina account </button>

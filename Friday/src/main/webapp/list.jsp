@@ -96,13 +96,13 @@
                                 <div class="modal-body">
                                     <label for="exampleFormControlInput1">Persone</label>
                                     <input type="email" class="form-control" id="invitationEmail" placeholder="name@example.com" name="invitationEmail">
-                                    <div>
+                                    <div class="mt-2">
                                         <input type="checkbox" name="modify" value="1"> Permetti all'utente di modificare le informazioni della lista
                                     </div>
-                                    <div>
+                                    <div class="mt-2">
                                         <input type="checkbox" name="addRemProd" value="1"> Permetti all'utente di aggiungere e rimuovere prodotti nella lista
                                     </div>
-                                    <div>
+                                    <div class="mt-2">
                                         <input type="checkbox" name="listDelete" value="1"> Permetti all'utente di eliminare la lista
                                     </div>
                                 </div>

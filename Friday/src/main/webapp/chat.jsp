@@ -45,15 +45,10 @@
         <c:if test="${!boolEmailSessionScriptlet}">
                 <c:redirect url="/error.jsp"/>
         </c:if>
-            
-        
-        
         
         <!-- HEADER -->
         <jsp:include page="jsp/components/header.jsp" />
         
-        
-
         <!-- START: parte principale -->
         <main>
 
@@ -68,31 +63,17 @@
                             <!-- aside widget -->
                             <div class="aside">
 
-                                <c:set var="listaAttiva" value="${listaAttiva}"></c:set>
-
                                 <h3 class="aside-title">Chat</h3>
                                 <ul class="list-links">
                                     <!-- START: liste personali -->
                                     <form action="sharingListServlet" method="GET">
                                         <c:forEach items="${ListUserSession}" var="lista">
                                             <input type="hidden" name="azioneLista" value="3">
-                                            <c:set var="listaUser" value="${lista}"></c:set>
-                                            <c:if test="${listaAttiva eq lista[1]}">
                                                 <li>
-                                                <button type="submit" value="${lista[1]}" name="messageToList" class="dropdown-item">
-                                                    ${lista[0]}
-                                                </button>
+                                                    <button type="submit" value="${lista[1]}" name="messageToList" class="dropdown-item">
+                                                        ${lista[0]}
+                                                    </button>
                                                 </li>
-                                                <c:set var="attiva" value="active"></c:set>
-                                            </c:if>
-                                            <c:if test="${listaAttiva ne lista[1]}">
-                                                <li>
-                                                <button type="submit" value="${lista[1]}" name="messageToList" class="dropdown-item">
-                                                    ${lista[0]}
-                                                </button>
-                                                </li>
-                                                <c:set var="attiva" value="notActive"></c:set>
-                                            </c:if> 
                                         </c:forEach>
                                     </form>
                                     <!-- END: liste personali -->
@@ -102,22 +83,11 @@
                                     <form action="sharingListServlet" method="GET">
                                         <c:forEach items="${SharingListUserSession}" var="listaCondivisa">
                                             <input type="hidden" name="azioneLista" value="3">
-                                            <c:if test="${listaAttiva eq listaCondivisa[1]}">
                                                 <li>
-                                                <button type="submit" value="${listaCondivisa[1]}" name="messageToList" class="dropdown-item">
-                                                    ${listaCondivisa[0]}
-                                                </button>
+                                                    <button type="submit" value="${listaCondivisa[1]}" name="messageToList" class="dropdown-item">
+                                                        ${listaCondivisa[0]}
+                                                    </button>
                                                 </li>
-                                                <c:set var="attiva" value="active"></c:set>
-                                            </c:if>
-                                            <c:if test="${listaAttiva ne listaCondivisa[1]}">
-                                                <li>
-                                                <button type="submit" value="${listaCondivisa[1]}" name="messageToList" class="dropdown-item">
-                                                    ${listaCondivisa[0]}
-                                                </button>
-                                                </li>
-                                                <c:set var="attiva" value="notActive"></c:set>
-                                            </c:if> 
                                         </c:forEach>
                                     </form>
                                     <!-- END: liste condivise -->
@@ -142,9 +112,8 @@
                                     ${listaCorrente[1]}
                             --%>
                             
-                                 <a href="handlingListServlet?selectedList= ${listaCorrente[0]}">
-                                    ${listaCorrente[1]}
-                            
+                                 <a href="handlingListServlet?selectedList=${listaChat[1]}">
+                                    ${listaChat[0]}
                                 </a> 
                             </h4>
                               <div class="inbox_msg">

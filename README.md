@@ -5,12 +5,14 @@ Teacher: **Gino Perna**
 
 Teacher Assistant: **Stefano Chirico**
 
-## ATTENZIONE - IMPORTANTE
+# ATTENZIONE - IMPORTANTE - ERRORE IN FASE DI REGISTRAZIONE
 Purtroppo (come emerso durante la presentazione del progetto in data 14/02/2019), Google ha deciso di eliminare l'account Gmail attraverso il quale gestivamo la procedura di invio dell'email di conferma della registrazione e di attivazione dell'account Friday. Dunque, attualmente (fino a ulteriori sviluppi), non è possibile registrarsi all'interno della nostra applicazione tramite la procedura delineata. Verrà notificato infatti un errore da NetBeans, di tipo 
 ```
 javax.mail.AuthenticationFailedException
 ```
-in seguito all'invio della richiesta di registrazione dell'impossibilità di autenticazione alla mail da parte di Google. 
+in seguito all'invio della richiesta di registrazione dell'impossibilità di autenticazione alla mail da parte di Google.
+
+## Project
 
 The **goal of the project** was to design a system to **manage and share shopping lists** to display via WEB, both for desktop and mobile devices in responsive mode. The application must be developed with Servlet / JSP / JSTL technology and where it is convenient to your choice web-service, CSS, JavaScript.
 

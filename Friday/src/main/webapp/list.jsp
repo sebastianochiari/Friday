@@ -12,7 +12,8 @@
 <c:set var="utenteProprietario" value="${utenteProprietario}"></c:set>
 <c:set var="listaCondivisa" value="${listaCondivisa}"></c:set>
 
-<div class="clearfix">
+
+    <div class="clearfix">
 
     <div class="float-right">
         <!-- INFORMAZIONI LISTA -->
@@ -422,4 +423,7 @@
 
     getLocation();
 </script>
+
+
+
     

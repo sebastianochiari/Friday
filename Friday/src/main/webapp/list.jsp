@@ -282,7 +282,7 @@
 
     <input type="hidden" name="PICIAIDI" value="${listaCorrente[4]}" id="PICIAIDI"/>
 
-    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/map.js" charset="UTF-8"></script>
 
     <script type="text/javascript">
         getLocation();
